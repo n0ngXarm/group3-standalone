@@ -1,0 +1,1043 @@
+/* Targeted UI refresh: preserve content and routes while simplifying the visual layer. */
+
+:root[data-experience="group3-reading"] {
+  --g3-radius-control: 0.85rem;
+  --g3-radius-panel: 1.5rem;
+}
+
+.g3-header {
+  min-height: 68px;
+  padding: 0.55rem clamp(0.75rem, 2.8vw, 2rem);
+  border-bottom-color: var(--g3-line);
+  background: color-mix(in srgb, var(--g3-bg) 82%, transparent);
+  box-shadow: none;
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+.g3-header-actions > button,
+.g3-header-actions > .g3-language-control {
+  border-radius: var(--g3-radius-control);
+  background: color-mix(in srgb, var(--g3-bg-soft) 68%, transparent);
+}
+
+.g3-header-actions > button:active,
+.g3-language-control > button:active,
+.g3-primary-action:active,
+.g3-text-action:active {
+  transform: scale(0.98);
+}
+
+.g3-language-control {
+  gap: 0.2rem !important;
+  padding: 0.25rem !important;
+}
+
+.g3-language-control > button {
+  display: inline-flex;
+  min-width: 2.7rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.55rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.65rem;
+  color: var(--g3-muted);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 900;
+  white-space: nowrap;
+  transition: color 180ms ease, background 180ms ease, transform 120ms ease;
+}
+
+.g3-language-control > button.is-active {
+  color: #fff8e8;
+  background: var(--g3-red);
+}
+
+.g3-home-hero {
+  width: min(calc(100% - 2rem), 1320px);
+  min-height: calc(100dvh - 68px);
+  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 4rem) 0 1.4rem;
+  column-gap: clamp(2rem, 4vw, 4.5rem);
+}
+
+.g3-home-hero::before,
+.g3-hero-copy::before {
+  display: none;
+}
+
+.g3-hero-copy {
+  padding: 1rem 0;
+}
+
+.g3-hero-copy h1 {
+  max-width: 11ch;
+  margin: 0.85rem 0 1rem;
+  font-size: clamp(3.15rem, min(5vw, 7.5vh), 4.8rem);
+  letter-spacing: -0.045em;
+  line-height: 1.14;
+}
+
+.g3-hero-body {
+  max-width: 34rem;
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  line-height: 1.75;
+}
+
+.g3-hero-actions {
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+
+.g3-primary-action,
+.g3-text-action {
+  position: relative;
+  overflow: hidden;
+  min-height: 3.2rem;
+  border-radius: var(--g3-radius-control);
+  transition: transform 160ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.g3-primary-action {
+  min-width: 12.5rem;
+  box-shadow: none;
+}
+
+.g3-text-action {
+  border: 1px solid var(--g3-line);
+  background: color-mix(in srgb, var(--g3-bg-soft) 52%, transparent);
+}
+
+.g3-primary-action:hover,
+.g3-text-action:hover {
+  transform: translateY(-2px);
+}
+
+.g3-primary-action::after {
+  position: absolute;
+  inset: -50% auto -50% -35%;
+  width: 22%;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 249, 229, 0.48), transparent);
+  pointer-events: none;
+  transform: skewX(-20deg);
+}
+
+.g3-primary-action:hover::after {
+  left: 116%;
+  transition: left 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.g3-primary-action > i,
+.g3-text-action > i {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.g3-primary-action:hover > i,
+.g3-text-action:hover > i {
+  transform: translate3d(0.22rem, -0.14rem, 0) rotate(8deg);
+}
+
+.g3-market-art {
+  height: clamp(27rem, 60vh, 36rem);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--g3-gold) 34%, var(--g3-line));
+  border-radius: var(--g3-radius-panel);
+  background: #111b1b;
+  box-shadow:
+    0 1.5rem 4rem rgba(0, 0, 0, 0.28),
+    0.7rem 0.7rem 0 color-mix(in srgb, var(--g3-red) 78%, transparent);
+  contain: paint;
+}
+
+.g3-market-insert,
+.g3-market-image-shade {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--g3-radius-panel);
+}
+
+.g3-anime-hero-art .g3-market-insert {
+  object-position: 50% 50%;
+  filter: saturate(1.06) contrast(1.02) brightness(0.9);
+  box-shadow: none;
+  transform: scale(1.035);
+  transform-origin: 58% 48%;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.g3-character-stage {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  isolation: isolate;
+}
+
+.g3-character-stage .g3-market-insert {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.g3-character-stage .g3-market-insert {
+  z-index: 0;
+}
+
+.g3-stage-actor {
+  position: absolute;
+  z-index: 2;
+  bottom: -1.5%;
+  left: 0;
+  height: 95%;
+  aspect-ratio: 3 / 4;
+  filter: drop-shadow(0 1.2rem 0.85rem rgba(7, 12, 12, 0.34));
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.g3-stage-actor.is-seller {
+  left: -8%;
+  height: 94%;
+}
+
+.g3-stage-actor.is-student-male {
+  z-index: 3;
+  left: 15%;
+  height: 96%;
+}
+
+.g3-stage-actor.is-student-female {
+  z-index: 4;
+  left: 48%;
+  height: 92%;
+}
+
+.g3-actor-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+}
+
+.g3-actor-frame.is-action {
+  opacity: 0;
+  visibility: hidden;
+}
+
+:root[data-theme="light"] .g3-anime-hero-art .g3-market-insert {
+  filter: saturate(1.02) contrast(1.01) brightness(0.98);
+  box-shadow: none;
+}
+
+.g3-anime-hero-art .g3-market-image-shade {
+  z-index: 6;
+  background:
+    linear-gradient(180deg, rgba(5, 10, 10, 0.08) 40%, rgba(5, 10, 10, 0.68) 100%),
+    linear-gradient(90deg, rgba(5, 10, 10, 0.28), transparent 38%, transparent 76%, rgba(5, 10, 10, 0.14)),
+    linear-gradient(112deg, transparent 36%, rgba(255, 232, 175, 0.2) 48%, transparent 60%);
+  background-size: 100% 100%, 100% 100%, 230% 100%;
+  pointer-events: none;
+}
+
+.g3-anime-hero-art::after {
+  position: absolute;
+  z-index: 11;
+  top: 0;
+  right: 8%;
+  width: 38%;
+  height: 4px;
+  content: "";
+  background: linear-gradient(90deg, transparent, #ffd47e 28%, var(--g3-red));
+  transform: skewX(-28deg);
+}
+
+.g3-anime-scene-mark {
+  position: absolute;
+  z-index: 9;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.75rem 0.55rem 0.55rem;
+  border: 1px solid rgba(255, 245, 218, 0.24);
+  border-radius: 0.8rem;
+  color: #fff8e8;
+  background: rgba(9, 17, 17, 0.76);
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+.g3-anime-scene-mark > b {
+  display: grid;
+  width: 2.25rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 0.55rem;
+  color: #fff8e8;
+  background: var(--g3-red);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+}
+
+.g3-anime-scene-mark > span,
+.g3-anime-scene-mark small,
+.g3-anime-scene-mark strong {
+  display: block;
+}
+
+.g3-anime-scene-mark small {
+  color: #ffd47e;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.g3-anime-scene-mark strong {
+  margin-top: 0.08rem;
+  font-family: var(--font-reading);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.g3-anime-dialogue {
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0.52rem 1rem 0.58rem;
+  border: 0;
+  border-top: 1px solid rgba(255, 245, 218, 0.2);
+  border-radius: 0;
+  color: #fff9ea;
+  background: rgba(8, 15, 15, 0.82);
+  box-shadow: 0 -0.65rem 1.6rem rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px) saturate(115%);
+  text-align: center;
+}
+
+.g3-anime-dialogue > span {
+  display: block;
+}
+
+.g3-anime-dialogue .g3-dialogue-label {
+  margin-bottom: 0.08rem;
+  color: #ffd47e;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.g3-anime-dialogue .g3-dialogue-main {
+  font-family: var(--font-reading);
+  font-size: clamp(0.88rem, 1.15vw, 1.02rem);
+  font-weight: 900;
+  line-height: 1.28;
+}
+
+.g3-anime-dialogue .g3-dialogue-sub {
+  margin-top: 0.08rem;
+  color: rgba(255, 249, 234, 0.72);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.g3-hero-copy h1 span {
+  position: relative;
+  width: fit-content;
+}
+
+.g3-hero-copy h1 span:last-child::after {
+  position: absolute;
+  z-index: -1;
+  right: -0.08em;
+  bottom: 0.05em;
+  left: -0.08em;
+  height: 0.18em;
+  border-radius: 99px 22px 99px 18px;
+  content: "";
+  background: color-mix(in srgb, var(--g3-red) 62%, transparent);
+  transform: rotate(-1.5deg) skewX(-14deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .g3-hero-copy > .g3-kicker,
+  .g3-hero-copy > h1 span,
+  .g3-hero-copy > .g3-hero-body,
+  .g3-hero-copy > .g3-hero-actions,
+  .g3-hero-copy > .g3-privacy-note {
+    opacity: 0;
+    animation: g3-anime-copy-enter 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .g3-hero-copy > h1 span {
+    animation-delay: calc(90ms + var(--g3-title-line) * 90ms);
+  }
+
+  .g3-hero-copy > .g3-hero-body { animation-delay: 280ms; }
+  .g3-hero-copy > .g3-hero-actions { animation-delay: 360ms; }
+  .g3-hero-copy > .g3-privacy-note { animation-delay: 430ms; }
+
+  .g3-anime-hero-art {
+    opacity: 0;
+    animation: g3-anime-frame-enter 900ms 120ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .g3-stage-actor.is-seller {
+    animation: g3-seller-performance 12s 1.25s ease-in-out infinite;
+  }
+
+  .g3-stage-actor.is-student-male {
+    animation: g3-male-performance 12s 1.25s ease-in-out infinite;
+  }
+
+  .g3-stage-actor.is-student-female {
+    animation: g3-female-performance 12s 1.25s ease-in-out infinite;
+  }
+
+  .g3-stage-actor.is-seller .g3-actor-frame.is-idle {
+    animation: g3-seller-idle-frame 12s 1.25s linear infinite;
+  }
+
+  .g3-stage-actor.is-seller .g3-actor-frame.is-action {
+    animation: g3-seller-action-frame 12s 1.25s linear infinite;
+  }
+
+  .g3-stage-actor.is-student-male .g3-actor-frame.is-idle {
+    animation: g3-male-idle-frame 12s 1.25s linear infinite;
+  }
+
+  .g3-stage-actor.is-student-male .g3-actor-frame.is-action {
+    animation: g3-male-action-frame 12s 1.25s linear infinite;
+  }
+
+  .g3-stage-actor.is-student-female .g3-actor-frame.is-idle {
+    animation: g3-female-idle-frame 12s 1.25s linear infinite;
+  }
+
+  .g3-stage-actor.is-student-female .g3-actor-frame.is-action {
+    animation: g3-female-action-frame 12s 1.25s linear infinite;
+  }
+
+  .g3-anime-scene-mark,
+  .g3-anime-dialogue {
+    opacity: 0;
+    animation: g3-anime-panel-enter 620ms 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .g3-anime-dialogue { animation-delay: 820ms; }
+
+  .g3-anime-dialogue > span {
+    opacity: 0;
+    animation: g3-anime-dialogue-line 420ms calc(1s + var(--g3-line-index) * 90ms) ease-out forwards;
+  }
+
+  .g3-method-rail article {
+    opacity: 0;
+    animation: g3-anime-copy-enter 600ms calc(520ms + var(--g3-method-index, 0) * 80ms) ease-out forwards;
+  }
+}
+
+@keyframes g3-anime-copy-enter {
+  from { opacity: 0; transform: translate3d(0, 1rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes g3-anime-frame-enter {
+  from { opacity: 0; transform: translate3d(1.4rem, 0.7rem, 0) rotate(1deg) scale(0.98); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) rotate(0) scale(1); }
+}
+
+@keyframes g3-seller-performance {
+  0%, 12%, 40%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+  5%, 45%, 76% { transform: translate3d(0, -0.22rem, 0) rotate(-0.25deg); }
+  18%, 34% { transform: translate3d(0.16rem, -0.3rem, 0) rotate(0.7deg); }
+}
+
+@keyframes g3-male-performance {
+  0%, 38%, 66%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+  8%, 30%, 72% { transform: translate3d(0, -0.2rem, 0) rotate(0.18deg); }
+  44%, 61% { transform: translate3d(-0.12rem, -0.28rem, 0) rotate(-0.65deg); }
+}
+
+@keyframes g3-female-performance {
+  0%, 64%, 91%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+  10%, 42%, 96% { transform: translate3d(0, -0.18rem, 0) rotate(-0.16deg); }
+  70%, 86% { transform: translate3d(-0.1rem, -0.32rem, 0) rotate(-0.75deg); }
+}
+
+@keyframes g3-seller-idle-frame {
+  0%, 16.99%, 36%, 100% { opacity: 1; visibility: visible; }
+  17%, 35.99% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes g3-seller-action-frame {
+  0%, 16.99%, 36%, 100% { opacity: 0; visibility: hidden; }
+  17%, 35.99% { opacity: 1; visibility: visible; }
+}
+
+@keyframes g3-male-idle-frame {
+  0%, 41.99%, 62%, 100% { opacity: 1; visibility: visible; }
+  42%, 61.99% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes g3-male-action-frame {
+  0%, 41.99%, 62%, 100% { opacity: 0; visibility: hidden; }
+  42%, 61.99% { opacity: 1; visibility: visible; }
+}
+
+@keyframes g3-female-idle-frame {
+  0%, 66.99%, 87%, 100% { opacity: 1; visibility: visible; }
+  67%, 86.99% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes g3-female-action-frame {
+  0%, 66.99%, 87%, 100% { opacity: 0; visibility: hidden; }
+  67%, 86.99% { opacity: 1; visibility: visible; }
+}
+
+@keyframes g3-anime-panel-enter {
+  from { opacity: 0; transform: translate3d(0, 0.7rem, 0) scale(0.97); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes g3-anime-dialogue-line {
+  from { opacity: 0; transform: translate3d(0, 0.35rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.g3-method-rail {
+  margin-top: 1.4rem;
+  border-bottom: 1px solid var(--g3-line);
+}
+
+.g3-method-rail article {
+  min-height: 6.4rem;
+  padding: 1.1rem clamp(1rem, 2vw, 1.6rem);
+  border-radius: 0;
+  background: transparent;
+}
+
+.g3-method-rail article:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.g3-level-gate {
+  width: min(calc(100% - 2rem), 1200px);
+  margin: 0 auto;
+  padding: clamp(4.5rem, 8vw, 7rem) 0;
+}
+
+.g3-level-gate-heading {
+  max-width: 42rem;
+  margin-bottom: 1.5rem;
+}
+
+.g3-level-gate-heading h2 {
+  max-width: 16ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.g3-level-gate-heading p {
+  max-width: 56ch;
+  margin: 0.65rem 0 0;
+  color: var(--g3-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.g3-level-options {
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.34fr);
+  grid-template-rows: repeat(2, minmax(17rem, 1fr));
+  gap: 1.15rem;
+  min-height: 39rem;
+}
+
+.g3-story-shell .g3-level-option {
+  --g3-level-accent: var(--g3-gold);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--g3-level-accent) 38%, var(--g3-line));
+  border-top: 3px solid var(--g3-level-accent);
+  border-radius: var(--g3-radius-panel);
+  color: var(--g3-ink);
+  text-align: left;
+  background: var(--g3-bg-soft);
+  cursor: pointer;
+  box-shadow: 0 1.2rem 3.2rem color-mix(in srgb, var(--g3-bg) 28%, transparent);
+  transition: border-color 220ms ease, transform 200ms ease, box-shadow 220ms ease;
+}
+
+.g3-level-option.is-hsk1 {
+  grid-row: 1 / 3;
+  grid-template-areas: "visual" "copy";
+  grid-template-rows: minmax(20rem, 1.14fr) minmax(17rem, 0.86fr);
+}
+
+.g3-level-option.is-hsk2 {
+  --g3-level-accent: var(--g3-jade);
+  grid-template-areas: "copy visual";
+  grid-template-columns: minmax(17rem, 1.08fr) minmax(15rem, 0.92fr);
+}
+
+.g3-level-option.is-hsk3 {
+  --g3-level-accent: var(--g3-red);
+  grid-template-areas: "visual copy";
+  grid-template-columns: minmax(15rem, 0.92fr) minmax(17rem, 1.08fr);
+}
+
+.g3-story-shell .g3-level-option:hover {
+  border-color: color-mix(in srgb, var(--g3-level-accent) 76%, var(--g3-line));
+  box-shadow: 0 1.5rem 3.8rem color-mix(in srgb, var(--g3-bg) 36%, transparent);
+  transform: translateY(-0.18rem);
+}
+
+.g3-story-shell .g3-level-option:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.g3-story-shell .g3-level-option:focus-visible {
+  outline: 3px solid var(--g3-gold);
+  outline-offset: 3px;
+}
+
+.g3-level-visual {
+  grid-area: visual;
+  position: relative;
+  min-width: 0;
+  min-height: 100%;
+  overflow: hidden;
+  display: block;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--g3-jade) 45%, #172020), #172020);
+}
+
+.g3-level-visual::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(180deg, transparent 72%, rgba(8, 14, 14, 0.2)),
+    linear-gradient(135deg, color-mix(in srgb, var(--g3-level-accent) 10%, transparent), transparent 42%);
+  pointer-events: none;
+}
+
+.g3-level-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.94) contrast(1.03) brightness(0.94);
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), filter 220ms ease;
+}
+
+.g3-level-option:hover .g3-level-visual img {
+  filter: saturate(1) contrast(1.02) brightness(0.98);
+  transform: scale(1.025);
+}
+
+.g3-level-copy {
+  grid-area: copy;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  padding: clamp(1.25rem, 2.1vw, 1.85rem);
+  color: var(--g3-ink);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--g3-level-accent) 9%, transparent), transparent 48%),
+    var(--g3-bg-soft);
+}
+
+.g3-level-copy > :not(.g3-level-glyph) {
+  position: relative;
+  z-index: 1;
+}
+
+.g3-level-glyph {
+  position: absolute;
+  z-index: 0;
+  top: -0.2em;
+  right: -0.04em;
+  color: color-mix(in srgb, var(--g3-level-accent) 12%, transparent);
+  font-family: "Noto Serif SC", var(--font-display);
+  font-size: clamp(7rem, 12vw, 11rem);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.g3-level-copy > small {
+  color: var(--g3-level-accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.g3-level-copy > strong {
+  margin-top: 0.14rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 3.6vw, 3.7rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.g3-level-option:not(.is-hsk1) .g3-level-copy > strong {
+  font-size: clamp(2rem, 2.7vw, 2.65rem);
+}
+
+.g3-level-outcome {
+  max-width: 27ch;
+  margin-top: 0.6rem;
+  color: var(--g3-ink);
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.g3-level-signals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.05rem;
+}
+
+.g3-level-signals > span {
+  display: grid;
+  gap: 0.18rem;
+  padding-left: 0.7rem;
+  border-left: 2px solid color-mix(in srgb, var(--g3-level-accent) 76%, var(--g3-line));
+}
+
+.g3-level-signals small {
+  color: var(--g3-muted);
+  font-size: 0.67rem;
+  font-weight: 700;
+}
+
+.g3-level-signals b {
+  color: var(--g3-ink);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.g3-level-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 1.05rem;
+  color: color-mix(in srgb, var(--g3-ink) 82%, transparent);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.g3-level-difficulty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.g3-level-difficulty-steps {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.16rem;
+  height: 0.72rem;
+}
+
+.g3-level-difficulty-steps > i {
+  display: block;
+  width: 0.18rem;
+  height: 45%;
+  border-radius: 0.15rem;
+  background: color-mix(in srgb, var(--g3-ink) 22%, transparent);
+}
+
+.g3-level-difficulty-steps > i:nth-child(2) { height: 70%; }
+.g3-level-difficulty-steps > i:nth-child(3) { height: 100%; }
+.g3-level-difficulty-steps > i.is-active { background: var(--g3-level-accent); }
+
+.g3-level-action {
+  display: flex;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--g3-line);
+  color: var(--g3-level-accent);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.g3-level-action b {
+  font-size: 1.1rem;
+  transition: transform 180ms ease;
+}
+
+.g3-level-option:hover .g3-level-action b {
+  transform: translateX(0.2rem);
+}
+
+@media (max-width: 900px) {
+  .g3-home-hero {
+    width: min(calc(100% - 2rem), 46rem);
+    padding-top: 2.5rem;
+  }
+
+  .g3-hero-copy {
+    padding-right: 0;
+  }
+
+  .g3-market-art {
+    height: clamp(22rem, 58vw, 30rem);
+  }
+
+  .g3-level-options {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    min-height: 0;
+  }
+
+  .g3-level-option,
+  .g3-level-option.is-hsk1,
+  .g3-level-option:not(.is-hsk1) {
+    grid-template-columns: minmax(15rem, 0.94fr) minmax(0, 1.06fr);
+    grid-template-rows: minmax(18rem, auto);
+  }
+
+  .g3-level-option.is-hsk1 {
+    grid-row: auto;
+    grid-template-areas: "visual copy";
+    min-height: 18rem;
+  }
+
+  .g3-level-option:not(.is-hsk1) {
+    min-height: 18rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .g3-header {
+    min-height: calc(64px + env(safe-area-inset-top));
+    padding: calc(0.45rem + env(safe-area-inset-top)) max(0.65rem, env(safe-area-inset-right)) 0.45rem max(0.65rem, env(safe-area-inset-left));
+  }
+
+  .g3-brand > span:first-child {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .g3-header-actions > button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .g3-header-actions > .g3-language-control {
+    min-width: 0;
+    height: 40px;
+  }
+
+  .g3-language-control > button {
+    min-width: 2.45rem;
+    min-height: 1.8rem;
+    padding-inline: 0.4rem;
+  }
+
+  .g3-home-hero {
+    width: min(calc(100% - 1.4rem), 40rem);
+    min-height: auto;
+    padding: 1.8rem 0 1rem;
+  }
+
+  .g3-hero-copy {
+    padding: 0;
+  }
+
+  .g3-hero-copy h1 {
+    max-width: 10ch;
+    font-size: clamp(2.6rem, 12vw, 3.2rem);
+    line-height: 1.18;
+  }
+
+  .g3-market-art {
+    height: 20rem;
+    margin-top: 1.2rem;
+    box-shadow: 0 1.1rem 2.8rem rgba(0, 0, 0, 0.24), 0.4rem 0.4rem 0 color-mix(in srgb, var(--g3-red) 72%, transparent);
+  }
+
+  .g3-market-insert,
+  .g3-market-image-shade {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.15rem;
+  }
+
+  .g3-stage-actor.is-seller {
+    left: -18%;
+    height: 92%;
+  }
+
+  .g3-stage-actor.is-student-male {
+    left: 17%;
+    height: 95%;
+  }
+
+  .g3-stage-actor.is-student-female {
+    left: 51%;
+    height: 90%;
+  }
+
+  .g3-anime-scene-mark {
+    top: 0.7rem;
+    left: 0.7rem;
+  }
+
+  .g3-anime-scene-mark > span {
+    display: none;
+  }
+
+  .g3-anime-dialogue {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    max-width: none;
+    padding: 0.46rem 0.75rem 0.5rem;
+  }
+
+  .g3-method-rail {
+    margin-top: 1.1rem;
+  }
+
+  .g3-method-rail article {
+    padding: 1rem 0.35rem;
+  }
+
+  .g3-level-gate {
+    width: min(calc(100% - 1.4rem), 40rem);
+    padding-block: 4rem;
+  }
+
+  .g3-level-gate-heading {
+    margin-bottom: 1.2rem;
+  }
+
+  .g3-level-gate-heading h2 {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+  }
+
+  .g3-level-option.is-hsk1 {
+    min-height: 0;
+  }
+
+  .g3-level-option:not(.is-hsk1) {
+    min-height: 0;
+  }
+
+  .g3-level-option,
+  .g3-level-option.is-hsk1,
+  .g3-level-option:not(.is-hsk1) {
+    grid-template-areas: "visual" "copy";
+    grid-template-columns: 1fr;
+    grid-template-rows: 12rem auto;
+  }
+
+  .g3-level-option.is-hsk1 {
+    grid-template-rows: 14rem auto;
+  }
+
+  .g3-level-copy {
+    padding: 1.15rem 1rem 1.1rem;
+  }
+
+  .g3-level-copy > strong,
+  .g3-level-option:not(.is-hsk1) .g3-level-copy > strong {
+    font-size: clamp(1.45rem, 6vw, 1.95rem);
+  }
+
+  .g3-level-outcome {
+    font-size: 0.92rem;
+  }
+
+  .g3-level-glyph {
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .g3-header-actions {
+    gap: 0.25rem;
+  }
+
+  .g3-header-actions > button:last-child {
+    display: none;
+  }
+
+  .g3-language-control > button {
+    min-width: 2.25rem;
+    padding-inline: 0.3rem;
+    font-size: 0.68rem;
+  }
+
+  .g3-level-signals {
+    gap: 0.55rem;
+  }
+
+  .g3-level-signals b {
+    font-size: 0.78rem;
+  }
+
+  .g3-hero-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .g3-hero-actions .g3-primary-action,
+  .g3-hero-actions .g3-text-action {
+    width: 100%;
+    min-width: 0;
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g3-primary-action,
+  .g3-text-action,
+  .g3-header-actions > button,
+  .g3-language-control > button,
+  .g3-level-option,
+  .g3-level-visual img,
+  .g3-level-action b {
+    transition: none;
+  }
+
+  .g3-story-shell .g3-level-option:hover,
+  .g3-level-option:hover .g3-level-visual img,
+  .g3-level-option:hover .g3-level-action b {
+    transform: none;
+  }
+}

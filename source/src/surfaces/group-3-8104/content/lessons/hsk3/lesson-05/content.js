@@ -1,0 +1,110 @@
+import { group3AssetPath } from "../../../../config.js";
+
+const SOURCE_FILE = "docs/references/hsk/sources/hsk3.pdf";
+export const lessonHsk3L5SourceRef = (printedPages, pdfPages) => `${SOURCE_FILE}#printed-pages=${printedPages}&pdf-pages=${pdfPages}`;
+const sourceRef = lessonHsk3L5SourceRef("38-45", "50-57");
+const art = (scene) => ({ image: group3AssetPath(`/assets/group3/lesson-hsk3-l5-${scene}-v1.webp`), imageSrcSet: `${group3AssetPath(`/assets/group3/lesson-hsk3-l5-${scene}-720w-v1.webp`)} 720w, ${group3AssetPath(`/assets/group3/lesson-hsk3-l5-${scene}-v1.webp`)} 1400w` });
+const line = (source, value) => ({ ...value, reading: value.reading || value.pinyin, sourceRef: source });
+
+const characters = {
+  bai: { hanzi: "白家月", pinyin: "Bái Jiāyuè", nameTh: "ไป๋เจียเยว่", nameEn: "Bai Jiayue", ...art("walk"), imageFocus: "34% center" },
+  liWen: { hanzi: "李文", pinyin: "Lǐ Wén", nameTh: "หลี่เหวิน", nameEn: "Li Wen", ...art("walk"), imageFocus: "66% center" },
+  wang: { hanzi: "王一雪", pinyin: "Wáng Yīxuě", nameTh: "หวังอี้เสวี่ย", nameEn: "Wang Yixue", ...art("photos"), imageFocus: "66% center" },
+};
+
+const vocabularyPages = [
+  [1, "总是", "zǒngshì", "adv.", "always", "เสมอ", 39, 51], [2, "终于", "zhōngyú", "adv.", "finally", "ในที่สุด", 39, 51], [3, "爬", "pá", "v.", "climb", "ปีน", 39, 51],
+  [4, "山", "shān", "n.", "mountain; hill", "ภูเขา", 39, 51], [5, "锻炼", "duànliàn", "v.", "exercise", "ออกกำลังกาย", 39, 51], [6, "照", "zhào", "v.", "take a picture", "ถ่ายรูป", 39, 51],
+  [7, "鞋", "xié", "n.", "shoe", "รองเท้า", 39, 51], [8, "大衣", "dàyī", "n.", "overcoat", "เสื้อโค้ต", 39, 51], [9, "拍照", "pāizhào", "v.", "take a picture", "ถ่ายภาพ", 41, 53],
+  [10, "感兴趣", "gǎn xìngqù", "v.", "be interested in", "สนใจ", 41, 53], [11, "照相", "zhàoxiàng", "v.", "take a picture", "ถ่ายรูป", 41, 53], [12, "难看", "nánkàn", "adj.", "bad-looking; ugly", "ดูไม่สวย", 41, 53],
+  [13, "比较", "bǐjiào", "v./adv.", "compare; relatively", "เปรียบเทียบ / ค่อนข้าง", 41, 53], [14, "水平", "shuǐpíng", "n.", "level", "ระดับ / ฝีมือ", 41, 53], [15, "太阳", "tàiyáng", "n.", "sun", "ดวงอาทิตย์", 42, 54],
+  [16, "树", "shù", "n.", "tree", "ต้นไม้", 42, 54], [17, "干", "gàn", "v.", "do", "ทำ", 42, 54], [18, "电", "diàn", "n.", "electricity", "ไฟฟ้า / แบตเตอรี่", 42, 54],
+  [19, "收到", "shōudào", "v.", "receive", "ได้รับ", 44, 56], [20, "封", "fēng", "m.", "measure word for mail", "ฉบับ (ลักษณนามจดหมาย)", 44, 56], [21, "邮件", "yóujiàn", "n.", "email; mail", "อีเมล / จดหมาย", 44, 56],
+  [22, "难过", "nánguò", "adj.", "sad", "เสียใจ", 44, 56], [23, "哈哈", "hāhā", "interj.", "ha-ha", "ฮ่า ๆ", 44, 56], [24, "音乐", "yīnyuè", "n.", "music", "ดนตรี", 44, 56],
+  [25, "兴趣", "xìngqù", "n.", "interest", "ความสนใจ", 44, 56], [26, "会", "huì", "n.", "gathering; event", "งาน / การชุมนุม", 44, 56], [27, "结束", "jiéshù", "v.", "finish; end", "สิ้นสุด", 44, 56],
+];
+const vocabulary = vocabularyPages.map(([index, hanzi, pinyin, type, en, thAid, page, pdfPage]) => ({ index, hanzi, pinyin, type, en, th: thAid, thAid, page, translationKind: "editorial-aid", sourceRef: lessonHsk3L5SourceRef(String(page), String(pdfPage)) }));
+const walkRef = lessonHsk3L5SourceRef("39", "51");
+const photosRef = lessonHsk3L5SourceRef("40-41", "52-53");
+const mountainRef = lessonHsk3L5SourceRef("42", "54");
+
+const scenes = [
+  {
+    id: "h3l5-walk", number: "01", glyph: "山", title: "商量去爬山", titleTh: "ชวนกันไปปีนเขา", titleEn: "Planning a hike", place: "街上", placeTh: "ถนน", ...art("walk"),
+    imageAlt: { th: "ไป๋เจียเยว่กับหลี่เหวินเดินคุยกัน", zh: "街上散步场景", en: "Walking and chatting" }, source: "Text 1 · หน้าเล่ม 39 · PDF หน้า 51", sourcePage: "39", sourceRef: walkRef,
+    context: "在街上，白家月和李文边散步边聊天儿。", contextTh: "บนถนน ไป๋เจียเยว่กับหลี่เหวินเดินเล่นไปคุยไป", contextEn: "On the street, Bai Jiayue and Li Wen were chatting while walking.",
+    characters: [{ role: "A", profile: "bai", noteTh: "ผู้เสนอข้อดีของการปีนเขาและเตรียมรองเท้า", noteZh: "说明爬山好处并准备运动鞋的人", noteEn: "The person preparing shoes and explaining the hike’s benefits" }, { role: "B", profile: "liWen", noteTh: "ผู้ชวนไปปีนเขาและเตรียมน้ำกับอาหาร", noteZh: "提议爬山并准备水和食物的人", noteEn: "The person suggesting the hike and bringing supplies" }],
+    lines: [
+      line(walkRef, { role: "A", speaker: "白家月", hanzi: "这个星期总是阴天，今天终于晴了。", pinyin: "Zhè ge xīngqī zǒngshì yīntiān, jīntiān zhōngyú qíng le.", en: "It has been cloudy all week, and today it is finally sunny.", th: "สัปดาห์นี้ฟ้าครึ้มตลอด วันนี้ในที่สุดก็แจ่มใส", visual: { zh: "终于晴了", th: "ในที่สุดก็แจ่มใส", focus: "34% center" } }),
+      line(walkRef, { role: "B", speaker: "李文", hanzi: "现在天气好得很！我们去爬山怎么样？", pinyin: "Xiànzài tiānqì hǎo de hěn! Wǒmen qù páshān zěnmeyàng?", en: "The weather is really good now! How about hiking?", th: "ตอนนี้อากาศดีมาก! เราไปปีนเขากันไหม?", visual: { zh: "天气好得很", th: "อากาศดีมาก", focus: "66% center" } }),
+      line(walkRef, { role: "A", speaker: "白家月", hanzi: "好啊！又能锻炼身体，又能照好看的照片。", pinyin: "Hǎo a! Yòu néng duànliàn shēntǐ, yòu néng zhào hǎokàn de zhàopiàn.", en: "Great! We can exercise and take beautiful photos.", th: "ดี! ทั้งได้ออกกำลังกาย ทั้งได้ถ่ายรูปสวย ๆ", visual: { zh: "又能锻炼又能照相", th: "ทั้งออกกำลังทั้งถ่ายรูป", focus: "36% center" } }),
+      line(walkRef, { role: "B", speaker: "李文", hanzi: "那我带点儿水和吃的，咱们现在就去？", pinyin: "Nà wǒ dài diǎnr shuǐ hé chī de, zánmen xiànzài jiù qù?", en: "Then I’ll bring some water and food. Shall we go now?", th: "งั้นฉันเอาน้ำกับของกินไปหน่อย เราไปตอนนี้เลยไหม?", visual: { zh: "带点儿水和吃的", th: "เอาน้ำกับของกิน", focus: "64% center" } }),
+      line(walkRef, { role: "A", speaker: "白家月", hanzi: "我回去穿上运动鞋，拿上大衣。要不要叫一雪姐一起去？", pinyin: "Wǒ huíqu chuānshang yùndòngxié, náshang dàyī. Yào bu yào jiào Yīxuě jiě yìqǐ qù?", en: "I’ll go back for sneakers and a coat. Shall we invite Sister Yixue?", th: "ฉันจะกลับไปใส่รองเท้ากีฬาและหยิบเสื้อโค้ต ชวนพี่อี้เสวี่ยไปด้วยไหม?", visual: { zh: "穿上运动鞋", th: "ใส่รองเท้ากีฬา", focus: "38% center" } }),
+      line(walkRef, { role: "B", speaker: "李文", hanzi: "好主意。给她打个电话吧。", pinyin: "Hǎo zhǔyi. Gěi tā dǎ ge diànhuà ba.", en: "Good idea. Let’s call her.", th: "ความคิดดี โทรหาเธอกัน", visual: { zh: "给她打个电话", th: "โทรหาเธอ", focus: "62% center" } }),
+    ],
+    qte: { after: 2, prompt: { th: "การปีนเขามีข้อดีอะไรตามที่ไป๋เจียเยว่พูด?", zh: "白家月说爬山有什么好处？", en: "What benefits of hiking does Bai Jiayue mention?" }, options: [{ value: "锻炼和照相", zh: "锻炼和照相", pinyin: "duànliàn hé zhàoxiàng", th: "ออกกำลังและถ่ายรูป" }, { value: "吃饭和睡觉", zh: "吃饭和睡觉", pinyin: "chīfàn hé shuìjiào", th: "กินข้าวและนอน" }, { value: "买鞋和大衣", zh: "买鞋和大衣", pinyin: "mǎi xié hé dàyī", th: "ซื้อรองเท้าและเสื้อโค้ต" }], correct: "锻炼和照相", evidence: "白家月：又能锻炼身体，又能照好看的照片。", evidenceTh: "ไป๋เจียเยว่: ทั้งได้ออกกำลังกายและถ่ายรูปสวย ๆ", sourceRef: walkRef },
+    builder: { prompt: { th: "เรียงประโยคบอกว่าอากาศดีมาก", zh: "重组“得很”句", en: "Rebuild the 得很 sentence" }, answer: ["现在", "天气", "好", "得很"], tiles: ["得很", "天气", "现在", "好"], gloss: { 现在: "ตอนนี้", 天气: "อากาศ", 好: "ดี", 得很: "มาก" }, translationTh: "ตอนนี้อากาศดีมาก", translationEn: "The weather is really good now.", evidence: "Text 1 · หน้าเล่ม 39", sourceRef: walkRef },
+  },
+  {
+    id: "h3l5-photos", number: "02", glyph: "照", title: "在出租车上看照片", titleTh: "ดูรูปบนรถแท็กซี่", titleEn: "Looking at photos in a taxi", place: "出租车上", placeTh: "บนรถแท็กซี่", ...art("photos"),
+    imageAlt: { th: "หวังอี้เสวี่ยกับไป๋เจียเยว่ดูรูปถ่าย", zh: "出租车上看照片场景", en: "Looking at photos in a taxi" }, source: "Text 2 · หน้าเล่ม 40–41 · PDF หน้า 52–53", sourcePage: "40–41", sourceRef: photosRef,
+    context: "在出租车上，王一雪和白家月在聊天儿。", contextTh: "บนรถแท็กซี่ หวังอี้เสวี่ยกับไป๋เจียเยว่กำลังคุยและดูรูป", contextEn: "In a taxi, Wang Yixue and Bai Jiayue were looking at photos and chatting.",
+    characters: [{ role: "A", profile: "bai", noteTh: "ผู้ชมรูปและเสนอถ่ายรูปให้ตอนปีนเขา", noteZh: "看照片并主动提出拍照的人", noteEn: "The person admiring the photos and offering to take some" }, { role: "B", profile: "wang", noteTh: "ผู้เล่าว่าหวังอี้เฟยเป็นคนถ่ายรูป", noteZh: "说明照片由王一飞拍摄的人", noteEn: "The person explaining Wang Yifei took the photos" }],
+    lines: [
+      line(photosRef, { role: "A", speaker: "白家月", hanzi: "这些照片是谁给您照的？张张都非常好看。", pinyin: "Zhèxiē zhàopiàn shì shéi gěi nín zhào de? Zhāngzhāng dōu fēicháng hǎokàn.", en: "Who took these photos for you? Every one is beautiful.", th: "ใครถ่ายรูปเหล่านี้ให้คุณ? ทุกใบสวยมาก", visual: { zh: "张张都非常好看", th: "ทุกใบสวยมาก", focus: "34% center" } }),
+      line(photosRef, { role: "B", speaker: "王一雪", hanzi: "一飞。她对拍照一直很感兴趣，经常给我照相。", pinyin: "Yīfēi. Tā duì pāizhào yìzhí hěn gǎn xìngqù, jīngcháng gěi wǒ zhàoxiàng.", en: "Yifei. She has always been interested in photography and often takes my picture.", th: "อี้เฟย เธอสนใจการถ่ายภาพมาตลอดและถ่ายรูปให้ฉันบ่อย ๆ", visual: { zh: "对拍照很感兴趣", th: "สนใจการถ่ายภาพ", focus: "66% center" } }),
+      line(photosRef, { role: "A", speaker: "白家月", hanzi: "我喜欢您大笑的这张，看起来很漂亮。", pinyin: "Wǒ xǐhuan nín dàxiào de zhè zhāng, kàn qǐlai hěn piàoliang.", en: "I like this one where you’re laughing—it looks beautiful.", th: "ฉันชอบใบที่คุณหัวเราะ รูปนี้ดูสวยมาก", visual: { zh: "大笑的这张", th: "ใบที่กำลังหัวเราะ", focus: "36% center" } }),
+      line(photosRef, { role: "B", speaker: "王一雪", hanzi: "我觉得这张有点儿难看，那时候我不知道她在给我照相。", pinyin: "Wǒ juéde zhè zhāng yǒudiǎnr nánkàn, nà shíhou wǒ bù zhīdào tā zài gěi wǒ zhàoxiàng.", en: "I think this one is a little unflattering. I didn’t know she was photographing me then.", th: "ฉันว่ารูปนี้ดูไม่สวยนิดหน่อย ตอนนั้นไม่รู้ว่าเธอกำลังถ่ายฉัน", visual: { zh: "有点儿难看", th: "ดูไม่สวยนิดหน่อย", focus: "64% center" } }),
+      line(photosRef, { role: "A", speaker: "白家月", hanzi: "这样的照片才好看。我也喜欢拍照，爬山的时候我给您照几张照片吧。", pinyin: "Zhèyàng de zhàopiàn cái hǎokàn. Wǒ yě xǐhuan pāizhào, páshān de shíhou wǒ gěi nín zhào jǐ zhāng zhàopiàn ba.", en: "Photos like this are the best. I like photography too; I’ll take a few for you when we hike.", th: "รูปแบบนี้แหละถึงสวย ฉันก็ชอบถ่ายภาพ ตอนปีนเขาจะถ่ายให้คุณสักหลายรูป", visual: { zh: "这样的照片才好看", th: "รูปแบบนี้แหละถึงสวย", focus: "38% center" } }),
+      line(photosRef, { role: "B", speaker: "王一雪", hanzi: "好，我可以比较一下你们两个谁的水平高。", pinyin: "Hǎo, wǒ kěyǐ bǐjiào yíxià nǐmen liǎng ge shéi de shuǐpíng gāo.", en: "Good. Then I can compare which of you two is more skilled.", th: "ดี ฉันจะได้เปรียบเทียบว่าฝีมือใครสูงกว่ากัน", visual: { zh: "谁的水平高", th: "ฝีมือใครสูงกว่า", focus: "62% center" } }),
+    ],
+    qte: { after: 1, prompt: { th: "ใครเป็นคนถ่ายรูปให้หวังอี้เสวี่ย?", zh: "谁给王一雪照相？", en: "Who took photos of Wang Yixue?" }, options: [{ value: "王一飞", zh: "王一飞", pinyin: "Wáng Yīfēi", th: "หวังอี้เฟย" }, { value: "白家月", zh: "白家月", pinyin: "Bái Jiāyuè", th: "ไป๋เจียเยว่" }, { value: "李文", zh: "李文", pinyin: "Lǐ Wén", th: "หลี่เหวิน" }], correct: "王一飞", evidence: "王一雪：一飞。她经常给我照相。", evidenceTh: "หวังอี้เสวี่ย: อี้เฟย เธอถ่ายรูปให้ฉันบ่อย ๆ", sourceRef: photosRef },
+    builder: { prompt: { th: "เรียงประโยคบอกว่าทุกรูปสวย", zh: "重组量词重叠句", en: "Rebuild the reduplicated-measure-word sentence" }, answer: ["这些照片", "张张", "都", "非常", "好看"], tiles: ["好看", "都", "这些照片", "非常", "张张"], gloss: { 这些照片: "รูปเหล่านี้", 张张: "ทุกใบ", 都: "ล้วน", 非常: "มาก", 好看: "สวย" }, translationTh: "รูปเหล่านี้ทุกใบสวยมาก", translationEn: "Every one of these photos is beautiful.", evidence: "Text 2 · หน้าเล่ม 41", sourceRef: photosRef },
+  },
+  {
+    id: "h3l5-mountain", number: "03", glyph: "树", title: "在山上拍照", titleTh: "ถ่ายรูปบนเขา", titleEn: "Taking photos on the hill", place: "山上", placeTh: "บนเขา", ...art("mountain"),
+    imageAlt: { th: "หวังอี้เสวี่ยกับไป๋เจียเยว่ถ่ายรูปบนเขา", zh: "山上拍照场景", en: "Taking photos on the hill" }, source: "Text 3 · หน้าเล่ม 42 · PDF หน้า 54", sourcePage: "42", sourceRef: mountainRef,
+    context: "在山上，王一雪和白家月边走边聊。", contextTh: "บนเขา หวังอี้เสวี่ยกับไป๋เจียเยว่เดินไปคุยไป", contextEn: "On the hill, Wang Yixue and Bai Jiayue were chatting while walking.",
+    characters: [{ role: "A", profile: "wang", noteTh: "ผู้เลือกจุดยืนและเตรียมเป็นแบบ", noteZh: "选择位置并准备当模特的人", noteEn: "The person choosing where to pose" }, { role: "B", profile: "bai", noteTh: "ช่างภาพที่รอคนเดินผ่านและพบว่าโทรศัพท์แบตหมด", noteZh: "等路人走过后拍照但手机没电的人", noteEn: "The photographer whose phone battery dies" }],
+    lines: [
+      line(mountainRef, { role: "A", speaker: "王一雪", hanzi: "家月，这里挺漂亮的，咱们在这里拍照吧。", pinyin: "Jiāyuè, zhèli tǐng piàoliang de, zánmen zài zhèli pāizhào ba.", en: "Jiayue, it’s quite beautiful here. Let’s take photos here.", th: "เจียเยว่ ที่นี่สวยทีเดียว เราถ่ายรูปตรงนี้กัน", visual: { zh: "这里挺漂亮的", th: "ที่นี่สวยทีเดียว", focus: "66% center" } }),
+      line(mountainRef, { role: "B", speaker: "白家月", hanzi: "这边没有太阳，咱们去那边吧。", pinyin: "Zhèbiān méiyǒu tàiyáng, zánmen qù nàbiān ba.", en: "There’s no sunlight here. Let’s go over there.", th: "ด้านนี้ไม่มีแดด เราไปด้านนั้นกัน", visual: { zh: "这边没有太阳", th: "ด้านนี้ไม่มีแดด", focus: "34% center" } }),
+      line(mountainRef, { role: "A", speaker: "王一雪", hanzi: "好。你觉得我站在这些树中间怎么样？", pinyin: "Hǎo. Nǐ juéde wǒ zhàn zài zhèxiē shù zhōngjiān zěnmeyàng?", en: "Okay. How about me standing among these trees?", th: "ได้ เธอว่าฉันยืนกลางต้นไม้เหล่านี้เป็นอย่างไร?", visual: { zh: "站在树中间", th: "ยืนกลางต้นไม้", focus: "64% center" } }),
+      line(mountainRef, { role: "B", speaker: "白家月", hanzi: "挺好的。等一下，后边走过去两个人。", pinyin: "Tǐng hǎo de. Děng yíxià, hòubian zǒu guòqu liǎng ge rén.", en: "Quite good. Wait—two people are walking past behind you.", th: "ดีทีเดียว รอก่อน ข้างหลังมีคนสองคนเดินผ่านไป", visual: { zh: "走过去两个人", th: "มีคนสองคนเดินผ่าน", focus: "36% center" } }),
+      line(mountainRef, { role: "A", speaker: "王一雪", hanzi: "我准备好了，你照的时候告诉我。", pinyin: "Wǒ zhǔnbèi hǎo le, nǐ zhào de shíhou gàosu wǒ.", en: "I’m ready. Tell me when you take it.", th: "ฉันพร้อมแล้ว ตอนถ่ายบอกฉันด้วย", visual: { zh: "我准备好了", th: "ฉันพร้อมแล้ว", focus: "62% center" } }),
+      line(mountainRef, { role: "B", speaker: "白家月", hanzi: "你不用看着我，想干什么都可以。", pinyin: "Nǐ búyòng kànzhe wǒ, xiǎng gàn shénme dōu kěyǐ.", en: "You don’t need to look at me. Do whatever you like.", th: "ไม่ต้องมองฉัน อยากทำอะไรก็ได้", visual: { zh: "想干什么都可以", th: "อยากทำอะไรก็ได้", focus: "38% center" } }),
+      line(mountainRef, { role: "A", speaker: "王一雪", hanzi: "树上飞来了几只鸟，我就看它们吧。", pinyin: "Shù shang fēilái le jǐ zhī niǎo, wǒ jiù kàn tāmen ba.", en: "A few birds have flown into the tree. I’ll look at them.", th: "มีนกหลายตัวบินมาบนต้นไม้ ฉันจะมองพวกมัน", visual: { zh: "飞来了几只鸟", th: "มีนกหลายตัวบินมา", focus: "60% center" } }),
+      line(mountainRef, { role: "B", speaker: "白家月", hanzi: "啊，手机没电了。", pinyin: "A, shǒujī méi diàn le.", en: "Oh, my phone battery is dead.", th: "อ๊ะ โทรศัพท์แบตหมดแล้ว", visual: { zh: "手机没电了", th: "โทรศัพท์แบตหมด", focus: "40% center" } }),
+    ],
+    qte: { after: 3, prompt: { th: "ทำไมไป๋เจียเยว่ให้รอก่อนถ่าย?", zh: "白家月为什么让王一雪等一下？", en: "Why does Bai Jiayue ask Wang Yixue to wait?" }, options: [{ value: "后边有人走过", zh: "后边有人走过", pinyin: "hòubian yǒurén zǒuguò", th: "มีคนเดินผ่านด้านหลัง" }, { value: "没有相机", zh: "没有相机", pinyin: "méiyǒu xiàngjī", th: "ไม่มีกล้อง" }, { value: "太阳太大", zh: "太阳太大", pinyin: "tàiyáng tài dà", th: "แดดแรงเกินไป" }], correct: "后边有人走过", evidence: "白家月：等一下，后边走过去两个人。", evidenceTh: "ไป๋เจียเยว่: รอก่อน ข้างหลังมีคนสองคนเดินผ่าน", sourceRef: mountainRef },
+    builder: { prompt: { th: "เรียงประโยคปรากฏการณ์นกบินมา", zh: "重组存现句", en: "Rebuild the existential sentence" }, answer: ["树上", "飞来", "了", "几只", "鸟"], tiles: ["鸟", "几只", "树上", "了", "飞来"], gloss: { 树上: "บนต้นไม้", 飞来: "บินมา", 了: "แล้ว", 几只: "หลายตัว", 鸟: "นก" }, translationTh: "มีนกหลายตัวบินมาบนต้นไม้", translationEn: "A few birds have flown into the tree.", evidence: "Text 3 · หน้าเล่ม 42", sourceRef: mountainRef },
+  },
+];
+
+export const LESSON_HSK3_L5 = {
+  id: "hsk3-l5", slug: "lesson-5", level: "hsk3", number: 5, featured: false, sourceRef,
+  source: { title: "新HSK教程 3 · New HSK Course 3", lesson: "Lesson 5 · 这样的照片才好看", printedPages: "38–45", pdfPages: "50–57", file: "hsk3.pdf", sourceRef },
+  title: { zh: "这样的照片才好看", pinyin: "Zhèyàng de zhàopiàn cái hǎokàn", en: "Photos like these are the best", thAid: "รูปแบบนี้แหละถึงสวย" },
+  summary: { zh: "商量爬山、欣赏照片并练习拍照，学习程度补语、量词重叠、存现句和动作衔接。", en: "Plan a hike, appreciate photos, and practise photography while learning degree complements, measure-word reduplication, existential sentences, and consecutive actions.", thAid: "ชวนกันปีนเขา ชมรูป และฝึกถ่ายภาพ พร้อมเรียนบทเสริมระดับ การซ้ำลักษณนาม ประโยคปรากฏการณ์ และการกระทำต่อเนื่อง" },
+  translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  objectives: [
+    { zh: "能听懂并介绍自己喜爱的休闲生活。", en: "Understand and describe favorite leisure activities.", thAid: "ฟังเข้าใจและแนะนำกิจกรรมยามว่างที่ชอบ", sourceRef: lessonHsk3L5SourceRef("38", "50") },
+    { zh: "能听懂并表达两个动作行为接连发生。", en: "Understand and describe two actions occurring consecutively.", thAid: "ฟังเข้าใจและบอกการกระทำสองอย่างที่เกิดติดต่อกัน", sourceRef: lessonHsk3L5SourceRef("38", "50") },
+    { zh: "掌握存现句（3）的用法，能表达人或事物的出现或消失。", en: "Use existential sentences to express the appearance or disappearance of people or things.", thAid: "ใช้ประโยคปรากฏการณ์บอกการปรากฏหรือหายไปของคนและสิ่งของ", sourceRef: lessonHsk3L5SourceRef("38", "50") },
+  ],
+  contents: [
+    { number: "00", title: "目标与热身", titleTh: "เป้าหมายและการเตรียมบท", detail: "Objectives · Warm-Up", pages: "38", route: "/home/hsk3/lesson-5/preface/", sourceRef: lessonHsk3L5SourceRef("38", "50") },
+    { number: "01", title: "商量去爬山", titleTh: "ชวนกันไปปีนเขา", detail: "Text 1 · New Words 1–8", pages: "39–40", scene: 1, sourceRef: lessonHsk3L5SourceRef("39-40", "51-52") },
+    { number: "02", title: "在出租车上看照片", titleTh: "ดูรูปบนรถแท็กซี่", detail: "Text 2 · New Words 9–14", pages: "40–41", scene: 2, sourceRef: lessonHsk3L5SourceRef("40-41", "52-53") },
+    { number: "03", title: "在山上拍照", titleTh: "ถ่ายรูปบนเขา", detail: "Text 3 · New Words 15–18", pages: "42–43", scene: 3, sourceRef: lessonHsk3L5SourceRef("42-43", "54-55") },
+    { number: "04", title: "短信、练习与活动", titleTh: "ข้อความ แบบฝึก และกิจกรรม", detail: "Text 4 · Exercises · Activity", pages: "43–45", sourceRef: lessonHsk3L5SourceRef("43-45", "55-57") },
+  ],
+  vocabulary,
+  grammarFocus: [
+    { title: "程度补语“得很”", titleEn: "Complement of Degree 得很", explanationZh: "“得很”用在形容词后面表示程度高，常用于口语。", explanationEn: "得很 follows an adjective to indicate a high degree and is common in speech.", thAid: "得很 ตามหลังคุณศัพท์เพื่อเน้นว่ามาก ใช้บ่อยในภาษาพูด", examples: ["现在天气好得很。", "房间里面热得很。", "我觉得爬山累得很。"], sourceRef: lessonHsk3L5SourceRef("40", "52") },
+    { title: "量词重叠", titleEn: "Reduplication of Measure Words", explanationZh: "量词可以重叠，强调某个范围内的每个成员都有某种特征，后面一般用“都”。", explanationEn: "A reduplicated measure word emphasizes that every member of a group has a characteristic, usually followed by 都.", thAid: "ซ้ำลักษณนามเพื่อเน้นสมาชิกทุกหน่วยในกลุ่ม โดยมักตามด้วย 都", examples: ["这些照片张张都非常好看。", "这些苹果个个都很大。", "我想出去拍照，但是天天下雨。"], sourceRef: lessonHsk3L5SourceRef("41", "53") },
+    { title: "存现句（3）与“……了……就……”", titleEn: "Existential Sentences and Consecutive Actions", explanationZh: "存现句表示某处出现或消失人或物；“……了……就……”表示两个动作紧接着发生。", explanationEn: "Existential sentences present an appearance or disappearance at a place; ……了……就…… links two immediately consecutive actions.", thAid: "ประโยคปรากฏการณ์บอกสิ่งที่ปรากฏ/หาย ณ สถานที่ และ ……了……就…… เชื่อมการกระทำที่เกิดติดกัน", examples: ["树上飞来了几只鸟。", "后边走过去两个人。", "你听完了音乐会就来我家吃饭。"], sourceRef: lessonHsk3L5SourceRef("43-44", "55-56") },
+  ],
+  characters,
+  scenes,
+};

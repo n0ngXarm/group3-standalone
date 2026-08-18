@@ -1,0 +1,21 @@
+@import "./styles/tokens-shell.css";
+@import "./styles/home.css";
+@import "./styles/catalog.css";
+@import "./styles/reader.css";
+@import "./styles/challenges.css";
+@import "./styles/responsive.css";
+@import "./styles/playback.css";
+@import "./styles/compatibility.css";
+@import "./styles/roleplay.css";
+@import "./styles/role-picker-responsive.css";
+@import "./styles/ui-polish.css";
+
+/* Compatibility entrypoint: keep this file because the surface registry loads it. */
+
+/* Uncommitted pinyin draft retained outside the architecture commit. */
+.g3-word-pinyin {
+  font-size: 0.75rem;
+  color: var(--g3-jade);
+  font-family: monospace;
+  margin-bottom: 2px;
+}

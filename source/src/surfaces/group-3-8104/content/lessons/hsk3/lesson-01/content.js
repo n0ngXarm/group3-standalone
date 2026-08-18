@@ -1,0 +1,111 @@
+import { group3AssetPath } from "../../../../config.js";
+
+const SOURCE_FILE = "docs/references/hsk/sources/hsk3.pdf";
+export const lessonHsk3L1SourceRef = (printedPages, pdfPages) => `${SOURCE_FILE}#printed-pages=${printedPages}&pdf-pages=${pdfPages}`;
+const sourceRef = lessonHsk3L1SourceRef("1-9", "13-21");
+const art = (scene) => ({ image: group3AssetPath(`/assets/group3/lesson-hsk3-l1-${scene}-v1.webp`), imageSrcSet: `${group3AssetPath(`/assets/group3/lesson-hsk3-l1-${scene}-720w-v1.webp`)} 720w, ${group3AssetPath(`/assets/group3/lesson-hsk3-l1-${scene}-v1.webp`)} 1400w` });
+const line = (source, value) => ({ ...value, reading: value.reading || value.pinyin, sourceRef: source });
+
+const characters = {
+  liu: { hanzi: "刘明", pinyin: "Liú Míng", nameTh: "หลิวหมิง", nameEn: "Liu Ming", ...art("home"), imageFocus: "34% center" },
+  wang: { hanzi: "王一雪", pinyin: "Wáng Yīxuě", nameTh: "หวังอี้เสวี่ย", nameEn: "Wang Yixue", ...art("home"), imageFocus: "68% center" },
+  bai: { hanzi: "白家月", pinyin: "Bái Jiāyuè", nameTh: "ไป๋เจียเยว่", nameEn: "Bai Jiayue", ...art("baggage"), imageFocus: "35% center" },
+  liWen: { hanzi: "李文", pinyin: "Lǐ Wén", nameTh: "หลี่เหวิน", nameEn: "Li Wen", ...art("arrival"), imageFocus: "68% center" },
+};
+
+const vocabularyPages = [
+  [1, "以为", "yǐwéi", "v.", "think; consider", "คิดว่า (แต่ความจริงอาจไม่ใช่)", 2, 14], [2, "像", "xiàng", "v.", "be like; resemble", "เหมือน", 2, 14],
+  [3, "长", "zhǎng", "v.", "grow; develop", "เติบโต / มีรูปร่างหน้าตา", 2, 14], [4, "身高", "shēngāo", "n.", "height", "ส่วนสูง", 2, 14],
+  [5, "米", "mǐ", "m.", "meter", "เมตร", 2, 14], [6, "瘦", "shòu", "adj.", "thin", "ผอม", 2, 14], [7, "接", "jiē", "v.", "meet; pick up", "ไปรับ", 2, 14],
+  [8, "行李", "xíngli", "n.", "luggage", "สัมภาระ", 4, 16], [9, "丢", "diū", "v.", "lose", "ทำหาย", 4, 16], [10, "箱子", "xiāngzi", "n.", "case; trunk", "กล่อง / กระเป๋าเดินทาง", 4, 16],
+  [11, "号码", "hàomǎ", "n.", "number", "หมายเลข", 4, 16], [12, "好像", "hǎoxiàng", "adv.", "seemingly", "ดูเหมือนว่า", 4, 16], [13, "重要", "zhòngyào", "adj.", "important", "สำคัญ", 4, 16],
+  [14, "着急", "zháojí", "adj.", "worried; anxious", "ร้อนใจ / กังวล", 4, 16], [15, "护照", "hùzhào", "n.", "passport", "หนังสือเดินทาง", 4, 16], [16, "服务台", "fúwùtái", "n.", "service desk", "เคาน์เตอร์บริการ", 4, 16],
+  [17, "应该", "yīnggāi", "mod.", "should", "ควร / น่าจะ", 6, 18], [18, "站", "zhàn", "v.", "stand", "ยืน", 6, 18], [19, "中间", "zhōngjiān", "n.", "middle", "ตรงกลาง", 6, 18],
+  [20, "短", "duǎn", "adj.", "short", "สั้น", 6, 18], [21, "头发", "tóufa", "n.", "hair", "ผม", 6, 18], [22, "年轻", "niánqīng", "adj.", "young", "อายุน้อย", 6, 18],
+  [23, "发现", "fāxiàn", "v.", "discover; find", "พบ / สังเกตพบ", 8, 20], [24, "帮助", "bāngzhù", "v.", "help", "ช่วยเหลือ", 8, 20], [25, "不见", "bújiàn", "v.", "be missing", "หายไป / ไม่พบ", 8, 20], [26, "照片", "zhàopiàn", "n.", "photo", "รูปถ่าย", 8, 20],
+];
+const vocabulary = vocabularyPages.map(([index, hanzi, pinyin, type, en, thAid, page, pdfPage]) => ({ index, hanzi, pinyin, type, en, th: thAid, thAid, page, translationKind: "editorial-aid", sourceRef: lessonHsk3L1SourceRef(String(page), String(pdfPage)) }));
+
+const homeRef = lessonHsk3L1SourceRef("2", "14");
+const baggageRef = lessonHsk3L1SourceRef("3-4", "15-16");
+const arrivalRef = lessonHsk3L1SourceRef("5-6", "17-18");
+
+const scenes = [
+  {
+    id: "h3l1-home", number: "01", glyph: "接", title: "在家里聊天儿", titleTh: "คุยกันที่บ้าน", titleEn: "Chatting at home", place: "家里", placeTh: "บ้าน", ...art("home"),
+    imageAlt: { th: "หลิวหมิงกับหวังอี้เสวี่ยคุยกันที่บ้าน", zh: "家里聊天场景", en: "At-home conversation" }, source: "Text 1 · หน้าเล่ม 2 · PDF หน้า 14", sourcePage: "2", sourceRef: homeRef,
+    context: "在家里，刘明和王一雪在沙发上聊天儿。", contextTh: "ที่บ้าน หลิวหมิงกับหวังอี้เสวี่ยกำลังคุยกันบนโซฟา", contextEn: "At home, Liu Ming and Wang Yixue were chatting on the sofa.",
+    characters: [{ role: "A", profile: "liu", noteTh: "ผู้ที่เข้าใจผิดว่าหลี่เหวินคือหยางถงเล่อ", noteZh: "把李文认成杨同乐的人", noteEn: "The person who mistakes Li Wen for Yang Tongle" }, { role: "B", profile: "wang", noteTh: "ผู้บอกลักษณะของหลี่เหวินและแผนไปรับที่สนามบิน", noteZh: "介绍李文并计划接机的人", noteEn: "The person describing Li Wen and the airport plan" }],
+    lines: [
+      line(homeRef, { role: "A", speaker: "刘明", hanzi: "这是杨同乐吗？他怎么跟白家月在一起？", pinyin: "Zhè shì Yáng Tónglè ma? Tā zěnme gēn Bái Jiāyuè zài yìqǐ?", en: "Is this Yang Tongle? Why is he with Bai Jiayue?", th: "นี่คือหยางถงเล่อหรือ? ทำไมเขาอยู่กับไป๋เจียเยว่?", visual: { zh: "这是杨同乐吗", th: "นี่คือหยางถงเล่อหรือ", focus: "34% center" } }),
+      line(homeRef, { role: "B", speaker: "王一雪", hanzi: "他不是杨同乐，他叫李文，是白家月的好朋友。", pinyin: "Tā bú shì Yáng Tónglè, tā jiào Lǐ Wén, shì Bái Jiāyuè de hǎo péngyou.", en: "He is not Yang Tongle. His name is Li Wen, and he is Bai Jiayue’s good friend.", th: "เขาไม่ใช่หยางถงเล่อ เขาชื่อหลี่เหวิน เป็นเพื่อนสนิทของไป๋เจียเยว่", visual: { zh: "他叫李文", th: "เขาชื่อหลี่เหวิน", focus: "68% center" } }),
+      line(homeRef, { role: "A", speaker: "刘明", hanzi: "我还以为是同乐呢，他们看上去有点儿像。", pinyin: "Wǒ hái yǐwéi shì Tónglè ne, tāmen kàn shàngqu yǒudiǎnr xiàng.", en: "I thought it was Tongle. They look a little alike.", th: "ฉันนึกว่าคือถงเล่อเสียอีก พวกเขาดูคล้ายกันนิดหน่อย", visual: { zh: "看上去有点儿像", th: "ดูคล้ายกันนิดหน่อย", focus: "36% center" } }),
+      line(homeRef, { role: "B", speaker: "王一雪", hanzi: "是长得有点儿像，但是他比同乐高，身高有一米八。", pinyin: "Shì zhǎng de yǒudiǎnr xiàng, dànshì tā bǐ Tónglè gāo, shēngāo yǒu yì mǐ bā.", en: "They do look a little alike, but he is taller than Tongle—about 1.8 meters.", th: "หน้าตาคล้ายกันนิดหน่อยจริง แต่เขาสูงกว่าถงเล่อ สูงหนึ่งเมตรแปด", visual: { zh: "身高有一米八", th: "สูงหนึ่งเมตรแปด", focus: "66% center" } }),
+      line(homeRef, { role: "A", speaker: "刘明", hanzi: "看起来也比同乐瘦一点儿。", pinyin: "Kàn qǐlai yě bǐ Tónglè shòu yìdiǎnr.", en: "He also looks a little thinner than Tongle.", th: "ดูแล้วก็ผอมกว่าถงเล่อนิดหน่อย", visual: { zh: "瘦一点儿", th: "ผอมกว่านิดหน่อย", focus: "38% center" } }),
+      line(homeRef, { role: "B", speaker: "王一雪", hanzi: "下个星期家月和李文要来北京，我去机场接他们。", pinyin: "Xià ge xīngqī Jiāyuè hé Lǐ Wén yào lái Běijīng, wǒ qù jīchǎng jiē tāmen.", en: "Jiayue and Li Wen are coming to Beijing next week. I’ll pick them up at the airport.", th: "สัปดาห์หน้าเจียเยว่กับหลี่เหวินจะมาปักกิ่ง ฉันจะไปรับพวกเขาที่สนามบิน", visual: { zh: "去机场接他们", th: "ไปรับพวกเขาที่สนามบิน", focus: "64% center" } }),
+      line(homeRef, { role: "A", speaker: "刘明", hanzi: "他们哪天到北京？我跟你一起去机场接他们吧。", pinyin: "Tāmen nǎ tiān dào Běijīng? Wǒ gēn nǐ yìqǐ qù jīchǎng jiē tāmen ba.", en: "What day do they arrive in Beijing? I’ll go with you to pick them up.", th: "พวกเขาถึงปักกิ่งวันไหน? ฉันไปสนามบินรับพวกเขากับเธอด้วย", visual: { zh: "一起去机场", th: "ไปสนามบินด้วยกัน", focus: "40% center" } }),
+    ],
+    qte: { after: 3, prompt: { th: "หลี่เหวินสูงเท่าไร?", zh: "李文身高多少？", en: "How tall is Li Wen?" }, options: [{ value: "一米八", zh: "一米八", pinyin: "yì mǐ bā", th: "1.8 เมตร" }, { value: "一米七", zh: "一米七", pinyin: "yì mǐ qī", th: "1.7 เมตร" }, { value: "两米", zh: "两米", pinyin: "liǎng mǐ", th: "2 เมตร" }], correct: "一米八", evidence: "王一雪：身高有一米八。", evidenceTh: "หวังอี้เสวี่ย: สูงหนึ่งเมตรแปด", sourceRef: homeRef },
+    builder: { prompt: { th: "เรียงประโยคบอกแผนไปรับที่สนามบิน", zh: "重组接机计划", en: "Rebuild the airport-pickup plan" }, answer: ["我", "去", "机场", "接", "他们"], tiles: ["他们", "机场", "我", "接", "去"], gloss: { 我: "ฉัน", 去: "ไป", 机场: "สนามบิน", 接: "รับ", 他们: "พวกเขา" }, translationTh: "ฉันจะไปรับพวกเขาที่สนามบิน", translationEn: "I will pick them up at the airport.", evidence: "Text 1 · หน้าเล่ม 2", sourceRef: homeRef },
+  },
+  {
+    id: "h3l1-baggage", number: "02", glyph: "箱", title: "在行李领取处", titleTh: "ที่จุดรับสัมภาระ", titleEn: "At baggage claim", place: "机场行李领取处", placeTh: "จุดรับสัมภาระสนามบิน", ...art("baggage"),
+    imageAlt: { th: "กระเป๋าบนสายพานรับสัมภาระ", zh: "机场行李领取处", en: "Airport baggage claim" }, source: "Text 2 · หน้าเล่ม 3–4 · PDF หน้า 15–16", sourcePage: "3–4", sourceRef: baggageRef,
+    context: "在机场，李文和白家月在行李领取处。", contextTh: "ที่สนามบิน หลี่เหวินกับไป๋เจียเยว่อยู่ที่จุดรับสัมภาระ", contextEn: "At the airport, Li Wen and Bai Jiayue were at baggage claim.",
+    characters: [{ role: "A", profile: "bai", noteTh: "ผู้ที่กำลังกังวลว่ากระเป๋าหาย", noteZh: "担心行李丢失的人", noteEn: "The traveler worried about missing luggage" }, { role: "B", profile: "liWen", noteTh: "เพื่อนที่ช่วยถามรายละเอียดและเสนอไปเคาน์เตอร์บริการ", noteZh: "帮忙询问并建议去服务台的人", noteEn: "The friend suggesting the service desk" }],
+    lines: [
+      line(baggageRef, { role: "A", speaker: "白家月", hanzi: "我的行李怎么还没出来？是不是丢了？", pinyin: "Wǒ de xíngli zěnme hái méi chūlai? Shì bu shì diū le?", en: "Why hasn’t my luggage come out yet? Could it be lost?", th: "ทำไมสัมภาระของฉันยังไม่ออกมา? หรือว่าหายแล้ว?", visual: { zh: "行李还没出来", th: "สัมภาระยังไม่ออกมา", focus: "36% center" } }),
+      line(baggageRef, { role: "B", speaker: "李文", hanzi: "你的行李箱是什么样的？", pinyin: "Nǐ de xínglixiāng shì shénme yàng de?", en: "What does your suitcase look like?", th: "กระเป๋าเดินทางของเธอมีลักษณะอย่างไร?", visual: { zh: "是什么样的", th: "มีลักษณะอย่างไร", focus: "66% center" } }),
+      line(baggageRef, { role: "A", speaker: "白家月", hanzi: "是一个黑色的箱子，上面写着我的名字和电话号码。", pinyin: "Shì yí ge hēisè de xiāngzi, shàngmian xiězhe wǒ de míngzi hé diànhuà hàomǎ.", en: "It’s a black suitcase with my name and phone number written on it.", th: "เป็นกระเป๋าสีดำ มีชื่อกับหมายเลขโทรศัพท์ของฉันเขียนอยู่ด้านบน", visual: { zh: "黑色的箱子", th: "กระเป๋าสีดำ", focus: "38% center" } }),
+      line(baggageRef, { role: "B", speaker: "李文", hanzi: "我好像在哪儿看到过这个箱子，是不是有人拿错了？", pinyin: "Wǒ hǎoxiàng zài nǎr kàndào guo zhè ge xiāngzi, shì bu shì yǒurén ná cuò le?", en: "I seem to have seen this suitcase somewhere. Did someone take it by mistake?", th: "ฉันเหมือนเคยเห็นกระเป๋านี้ที่ไหนสักแห่ง หรือมีใครหยิบผิดไป?", visual: { zh: "在哪儿看到过", th: "เคยเห็นที่ไหนสักแห่ง", focus: "64% center" } }),
+      line(baggageRef, { role: "A", speaker: "白家月", hanzi: "我们快找谁问一下吧，箱子里有不少重要的东西。", pinyin: "Wǒmen kuài zhǎo shéi wèn yíxià ba, xiāngzi li yǒu bù shǎo zhòngyào de dōngxi.", en: "Let’s quickly ask someone. There are many important things in the suitcase.", th: "เรารีบหาใครสักคนถามเถอะ ในกระเป๋ามีของสำคัญไม่น้อย", visual: { zh: "重要的东西", th: "ของสำคัญ", focus: "40% center" } }),
+      line(baggageRef, { role: "B", speaker: "李文", hanzi: "别着急，我们拿着护照和机票，去服务台问问吧。", pinyin: "Bié zháojí, wǒmen názhe hùzhào hé jīpiào, qù fúwùtái wènwen ba.", en: "Don’t worry. Let’s take our passports and tickets and ask at the service desk.", th: "อย่าร้อนใจ เราถือหนังสือเดินทางกับตั๋วแล้วไปถามที่เคาน์เตอร์บริการกัน", visual: { zh: "去服务台问问", th: "ไปถามที่เคาน์เตอร์บริการ", focus: "62% center" } }),
+    ],
+    qte: { after: 2, prompt: { th: "กระเป๋าของไป๋เจียเยว่มีลักษณะอย่างไร?", zh: "白家月的箱子是什么样的？", en: "What does Bai Jiayue’s suitcase look like?" }, options: [{ value: "黑色的", zh: "黑色的", pinyin: "hēisè de", th: "สีดำ" }, { value: "白色的", zh: "白色的", pinyin: "báisè de", th: "สีขาว" }, { value: "红色的", zh: "红色的", pinyin: "hóngsè de", th: "สีแดง" }], correct: "黑色的", evidence: "白家月：是一个黑色的箱子。", evidenceTh: "ไป๋เจียเยว่: เป็นกระเป๋าสีดำ", sourceRef: baggageRef },
+    builder: { prompt: { th: "เรียงประโยคเสนอไปถามที่เคาน์เตอร์บริการ", zh: "重组去服务台询问的句子", en: "Rebuild the service-desk suggestion" }, answer: ["去", "服务台", "问问", "吧"], tiles: ["吧", "问问", "服务台", "去"], gloss: { 去: "ไป", 服务台: "เคาน์เตอร์บริการ", 问问: "ลองถาม", 吧: "เถอะ" }, translationTh: "ไปลองถามที่เคาน์เตอร์บริการกันเถอะ", translationEn: "Let’s ask at the service desk.", evidence: "Text 2 · หน้าเล่ม 4", sourceRef: baggageRef },
+  },
+  {
+    id: "h3l1-arrival", number: "03", glyph: "站", title: "在机场接人", titleTh: "รอรับเพื่อนที่สนามบิน", titleEn: "Meeting friends at the airport", place: "机场大厅", placeTh: "โถงผู้โดยสารขาเข้า", ...art("arrival"),
+    imageAlt: { th: "เพื่อนเดินออกจากโถงผู้โดยสารขาเข้า", zh: "机场接机场景", en: "Airport pickup scene" }, source: "Text 3 · หน้าเล่ม 5–6 · PDF หน้า 17–18", sourcePage: "5–6", sourceRef: arrivalRef,
+    context: "在机场大厅，刘明和王一雪接机。", contextTh: "ในโถงสนามบิน หลิวหมิงกับหวังอี้เสวี่ยกำลังรอรับเพื่อน", contextEn: "In the airport arrival hall, Liu Ming and Wang Yixue were waiting for their friends.",
+    characters: [{ role: "A", profile: "liu", noteTh: "ผู้ช่วยมองหาหลี่เหวิน", noteZh: "帮忙寻找李文的人", noteEn: "The person helping to spot Li Wen" }, { role: "B", profile: "wang", noteTh: "ผู้จำหลี่เหวินได้จากลักษณะและเห็นเจียเยว่", noteZh: "认出李文并看到家月的人", noteEn: "The person recognizing Li Wen and Jiayue" }],
+    lines: [
+      line(arrivalRef, { role: "A", speaker: "刘明", hanzi: "飞机早就到了，你看见白家月他们了吗？", pinyin: "Fēijī zǎo jiù dào le, nǐ kànjiàn Bái Jiāyuè tāmen le ma?", en: "The plane arrived a while ago. Have you seen Bai Jiayue and the others?", th: "เครื่องบินมาถึงนานแล้ว เธอเห็นไป๋เจียเยว่กับพวกเขาหรือยัง?", visual: { zh: "飞机早就到了", th: "เครื่องบินมาถึงนานแล้ว", focus: "36% center" } }),
+      line(arrivalRef, { role: "B", speaker: "王一雪", hanzi: "没有，他们应该快出来了。", pinyin: "Méiyǒu, tāmen yīnggāi kuài chūlai le.", en: "No. They should be coming out soon.", th: "ยัง พวกเขาน่าจะใกล้ออกมาแล้ว", visual: { zh: "应该快出来了", th: "น่าจะใกล้ออกมาแล้ว", focus: "66% center" } }),
+      line(arrivalRef, { role: "A", speaker: "刘明", hanzi: "我们站到中间去吧，这样他们好找一些。", pinyin: "Wǒmen zhàn dào zhōngjiān qù ba, zhèyàng tāmen hǎo zhǎo yìxiē.", en: "Let’s stand in the middle so it will be easier for them to find us.", th: "เราไปยืนตรงกลางกัน แบบนี้พวกเขาจะหาเราได้ง่ายขึ้น", visual: { zh: "站到中间", th: "ยืนตรงกลาง", focus: "38% center" } }),
+      line(arrivalRef, { role: "B", speaker: "王一雪", hanzi: "你看那个高个子的人是李文吗？", pinyin: "Nǐ kàn nà ge gāo gèzi de rén shì Lǐ Wén ma?", en: "Look—is that tall person Li Wen?", th: "ดูสิ คนตัวสูงคนนั้นคือหลี่เหวินไหม?", visual: { zh: "高个子的人", th: "คนตัวสูง", focus: "64% center" } }),
+      line(arrivalRef, { role: "A", speaker: "刘明", hanzi: "你说的是哪个？那个穿着黑衣服的短头发的年轻人？", pinyin: "Nǐ shuō de shì nǎ ge? Nà ge chuānzhe hēi yīfu de duǎn tóufa de niánqīngrén?", en: "Which one do you mean? The young man in black with short hair?", th: "เธอหมายถึงคนไหน? ชายหนุ่มผมสั้นที่ใส่ชุดดำคนนั้นหรือ?", visual: { zh: "短头发的年轻人", th: "ชายหนุ่มผมสั้น", focus: "42% center" } }),
+      line(arrivalRef, { role: "B", speaker: "王一雪", hanzi: "对，那个人就是李文！你看，家月在他后面呢。", pinyin: "Duì, nà ge rén jiù shì Lǐ Wén! Nǐ kàn, Jiāyuè zài tā hòumian ne.", en: "Yes, that’s Li Wen! Look, Jiayue is behind him.", th: "ใช่ คนนั้นคือหลี่เหวิน! ดูสิ เจียเยว่อยู่ข้างหลังเขา", visual: { zh: "家月在他后面", th: "เจียเยว่อยู่ข้างหลังเขา", focus: "62% center" } }),
+    ],
+    qte: { after: 4, prompt: { th: "หลี่เหวินแต่งตัวและมีทรงผมอย่างไร?", zh: "李文穿什么衣服，头发怎么样？", en: "What is Li Wen wearing, and what is his hair like?" }, options: [{ value: "黑衣服、短头发", zh: "黑衣服、短头发", pinyin: "hēi yīfu, duǎn tóufa", th: "ชุดดำ ผมสั้น" }, { value: "白衣服、长头发", zh: "白衣服、长头发", pinyin: "bái yīfu, cháng tóufa", th: "ชุดขาว ผมยาว" }, { value: "红衣服、短头发", zh: "红衣服、短头发", pinyin: "hóng yīfu, duǎn tóufa", th: "ชุดแดง ผมสั้น" }], correct: "黑衣服、短头发", evidence: "刘明：那个穿着黑衣服的短头发的年轻人？", evidenceTh: "หลิวหมิง: ชายหนุ่มผมสั้นที่ใส่ชุดดำคนนั้นหรือ?", sourceRef: arrivalRef },
+    builder: { prompt: { th: "เรียงวลีบรรยายชายหนุ่ม", zh: "重组多项定语", en: "Rebuild the multiple-attributive phrase" }, answer: ["那个", "穿着黑衣服的", "短头发的", "年轻人"], tiles: ["年轻人", "短头发的", "那个", "穿着黑衣服的"], gloss: { 那个: "คนนั้น", 穿着黑衣服的: "ที่ใส่ชุดดำ", 短头发的: "ที่ผมสั้น", 年轻人: "ชายหนุ่ม" }, translationTh: "ชายหนุ่มผมสั้นที่ใส่ชุดดำคนนั้น", translationEn: "That young man in black with short hair.", evidence: "Text 3 · หน้าเล่ม 6", sourceRef: arrivalRef },
+  },
+];
+
+export const LESSON_HSK3_L1 = {
+  id: "hsk3-l1", slug: "lesson-1", level: "hsk3", number: 1, featured: false, sourceRef,
+  source: { title: "新HSK教程 3 · New HSK Course 3", lesson: "Lesson 1 · 我们去机场接你们", printedPages: "1–9", pdfPages: "13–21", file: "hsk3.pdf", sourceRef },
+  title: { zh: "我们去机场接你们", pinyin: "Wǒmen qù jīchǎng jiē nǐmen", en: "We will pick you up at the airport", thAid: "พวกเราจะไปรับพวกคุณที่สนามบิน" },
+  summary: { zh: "谈论人物外貌、机场丢失物品和接机场景，学习看上去、疑问代词非疑问用法和多项定语。", en: "Describe people, handle lost luggage, and meet friends at the airport while learning appearance phrases, non-interrogative pronouns, and multiple attributives.", thAid: "บรรยายลักษณะบุคคล แก้ปัญหาสัมภาระหาย และรอรับเพื่อน พร้อมฝึก 看上去 สรรพนามคำถามแบบไม่ใช่คำถาม และส่วนขยายนามหลายชั้น" },
+  translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  objectives: [
+    { zh: "能听懂并使用多项定语描述人或事物的特征。", en: "Understand and use multiple attributives to describe people or things.", thAid: "ฟังเข้าใจและใช้ส่วนขยายนามหลายชั้นบรรยายบุคคลหรือสิ่งของ", sourceRef: lessonHsk3L1SourceRef("1", "13") },
+    { zh: "能听懂并解决物品丢失的问题。", en: "Understand and handle situations involving lost items.", thAid: "ฟังเข้าใจและจัดการสถานการณ์ของหาย", sourceRef: lessonHsk3L1SourceRef("1", "13") },
+    { zh: "掌握疑问代词的用法，能表达不确定的人、事物或地方等信息。", en: "Use interrogative pronouns to express unspecified people, things, or places.", thAid: "ใช้สรรพนามคำถามเพื่อกล่าวถึงคน สิ่งของ หรือสถานที่ที่ไม่ระบุแน่ชัด", sourceRef: lessonHsk3L1SourceRef("1", "13") },
+  ],
+  contents: [
+    { number: "00", title: "目标与热身", titleTh: "เป้าหมายและการเตรียมบท", detail: "Objectives · Warm-Up", pages: "1", route: "/home/hsk3/lesson-1/preface/", sourceRef: lessonHsk3L1SourceRef("1", "13") },
+    { number: "01", title: "在家里聊天儿", titleTh: "คุยกันที่บ้าน", detail: "Text 1 · New Words 1–7", pages: "2–3", scene: 1, sourceRef: lessonHsk3L1SourceRef("2-3", "14-15") },
+    { number: "02", title: "在行李领取处", titleTh: "ที่จุดรับสัมภาระ", detail: "Text 2 · New Words 8–16", pages: "3–4", scene: 2, sourceRef: lessonHsk3L1SourceRef("3-4", "15-16") },
+    { number: "03", title: "在机场接人", titleTh: "รอรับเพื่อนที่สนามบิน", detail: "Text 3 · New Words 17–22", pages: "5–6", scene: 3, sourceRef: lessonHsk3L1SourceRef("5-6", "17-18") },
+    { number: "04", title: "日记、练习与活动", titleTh: "บันทึก แบบฝึก และกิจกรรม", detail: "Text 4 · Exercises · Activity", pages: "7–9", sourceRef: lessonHsk3L1SourceRef("7-9", "19-21") },
+  ],
+  vocabulary,
+  grammarFocus: [
+    { title: "固定短语“看上去/看起来”", titleEn: "Set Phrases 看上去/看起来", explanationZh: "“看上去”和“看起来”可以描述人或物的外观或状态。", explanationEn: "看上去 and 看起来 describe the appearance or condition of a person or thing.", thAid: "ใช้ 看上去/看起来 เพื่อบรรยายภาพลักษณ์หรือสภาพที่มองเห็น", examples: ["他们看上去有点儿像。", "这些菜看起来都很好吃。", "那个新来的老师看上去很年轻。"], sourceRef: lessonHsk3L1SourceRef("3", "15") },
+    { title: "疑问代词的非疑问用法（1）", titleEn: "Non-Interrogative Use of Interrogative Pronouns (1)", explanationZh: "“哪儿、什么、谁、哪”等用在陈述句中，表示不知道或不需要指明的地点、事物或人。", explanationEn: "Interrogative pronouns can indicate unspecified places, things, or people in declarative sentences.", thAid: "คำอย่าง 哪儿、什么、谁 ใช้ในประโยคบอกเล่าเพื่อกล่าวถึงสถานที่ สิ่งของ หรือคนที่ไม่ระบุ", examples: ["我好像在哪儿看到过这个箱子。", "你吃点儿什么再走吧。", "我们哪天一起去踢足球吧。"], sourceRef: lessonHsk3L1SourceRef("4", "16") },
+    { title: "多项定语", titleEn: "Multiple Attributives", explanationZh: "多个定语通常按时间或处所、动作或状态、特点的顺序排列在名词前。", explanationEn: "Multiple attributives generally precede a noun in the order of time/location, action/state, and characteristic.", thAid: "ส่วนขยายนามหลายชั้นเรียงโดยทั่วไปจากเวลา/สถานที่ ต่อด้วยการกระทำ/สภาพ แล้วจึงลักษณะ", examples: ["那个穿着黑衣服的短头发的年轻人。", "昨天和家月一起看电影的两个人。", "我那件新买的白色的衣服。"], sourceRef: lessonHsk3L1SourceRef("6", "18") },
+  ],
+  characters,
+  scenes,
+};

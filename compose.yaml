@@ -1,0 +1,23 @@
+services:
+  group3-standalone:
+    image: group3-standalone:20260817
+    build:
+      context: ./source
+      args:
+        VITE_GROUP_ID: "3"
+        VITE_BASE_PATH: /group3
+    container_name: group3-standalone
+    ports:
+      - "127.0.0.1:8104:80"
+      - "100.103.145.101:8104:80"
+    restart: unless-stopped
+    stop_grace_period: 10s
+    mem_limit: 256m
+    cpus: 0.50
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp

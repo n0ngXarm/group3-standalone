@@ -1,0 +1,483 @@
+/* Quick-time and sentence challenges */
+.g3-challenge-backdrop {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: grid;
+  overflow-y: auto;
+  padding: 1rem;
+  place-items: center;
+  background: rgba(5, 9, 9, 0.78);
+  backdrop-filter: blur(12px);
+  animation: g3-backdrop-in 240ms ease both;
+}
+
+@keyframes g3-backdrop-in { from { opacity: 0; } }
+
+.g3-challenge {
+  width: min(100%, 48rem);
+  color: var(--g3-paper-ink);
+  background: var(--g3-paper);
+  border: 2px solid var(--g3-gold);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.45);
+  animation: g3-challenge-in 440ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes g3-challenge-in {
+  from { opacity: 0; transform: translateY(2rem) scale(0.96); }
+}
+
+.g3-challenge > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.8rem);
+}
+
+.g3-challenge > header span,
+.g3-challenge > header strong {
+  display: block;
+}
+
+.g3-challenge > header span {
+  color: var(--g3-red-deep);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.g3-challenge > header strong {
+  max-width: 34rem;
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.7rem);
+  line-height: 1.35;
+}
+
+.g3-qte-clock {
+  display: grid;
+  flex: 0 0 4.2rem;
+  min-height: 4.2rem;
+  place-content: center;
+  border: 2px solid rgba(68, 52, 34, 0.25);
+  border-radius: 50%;
+  text-align: center;
+}
+
+.g3-qte-clock b {
+  color: var(--g3-red-deep);
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.g3-qte-clock small {
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.g3-qte-progress {
+  height: 0.4rem;
+  margin: 0 clamp(1rem, 3vw, 1.8rem);
+  border-radius: 99px;
+  overflow: hidden;
+  background: rgba(55, 44, 31, 0.1);
+}
+
+.g3-qte-progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #4db08a, #2f9e6e);
+  transition: width 100ms linear, background 300ms ease;
+}
+
+.g3-qte-progress span[data-tone="warn"] {
+  background: linear-gradient(90deg, #e0ab3c, #c2922f);
+}
+
+.g3-qte-progress span[data-tone="low"] {
+  background: linear-gradient(90deg, #e0604a, var(--g3-red-deep));
+  animation: g3-qte-low 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes g3-qte-low {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.4); }
+}
+
+.g3-pause-time {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 40px;
+  margin: 0.5rem clamp(1rem, 3vw, 1.8rem) 0 auto;
+  padding: 0.35rem 0.65rem;
+  border: 0;
+  color: #756958;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.g3-qte-options {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.8rem clamp(1rem, 3vw, 1.8rem) 1.5rem;
+}
+
+.g3-qte-options button {
+  display: grid;
+  grid-template-columns: 2.8rem 1fr;
+  align-items: center;
+  min-height: 3.8rem;
+  padding: 0.55rem 0.85rem;
+  border: 1.5px solid rgba(68, 52, 34, 0.2);
+  border-radius: 0.65rem;
+  color: var(--g3-paper-ink);
+  text-align: left;
+  background: var(--color-surface-secondary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.g3-qte-options button:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  transform: translateY(-1px);
+}
+
+.g3-qte-options button > span {
+  color: var(--color-accent);
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.g3-qte-options button strong {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  color: var(--color-text-primary);
+}
+
+.g3-qte-option-copy strong,
+.g3-qte-option-copy small,
+.g3-qte-option-copy b { display: block; }
+.g3-qte-option-copy { color: var(--color-text-primary); }
+.g3-qte-option-copy small { margin-top: 0.15rem; color: var(--color-text-muted); font-size: 0.84rem; font-weight: 600; }
+.g3-qte-option-copy small b { display: inline; margin-right: 0.4rem; color: var(--color-text-primary); font-family: "Noto Serif SC", serif; font-size: 0.96rem; font-weight: 800; }
+
+.g3-challenge-result {
+  padding: 1.2rem clamp(1.3rem, 4vw, 2.5rem) 1.6rem;
+  color: var(--color-text-primary);
+  background: var(--color-success-bg);
+  border-top: 1px solid var(--color-success-border);
+}
+
+.g3-challenge.is-wrong .g3-challenge-result,
+.g3-challenge.is-timeout .g3-challenge-result {
+  background: var(--color-error-bg);
+  border-top: 1px solid var(--color-error-border);
+}
+
+.g3-challenge-result > strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-text-primary);
+}
+
+.g3-challenge-result p {
+  margin: 0.7rem 0 0;
+  color: var(--color-text-secondary);
+  font-family: "Noto Serif SC", serif;
+}
+
+.g3-challenge-result p span {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--color-accent-gold);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+.g3-challenge-result p > small {
+  display: block;
+  margin-top: 0.28rem;
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+}
+
+.g3-challenge-result > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.g3-challenge-result button {
+  min-height: 44px;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--color-border-medium);
+  border-radius: 99px;
+  color: var(--color-text-primary);
+  background: var(--color-surface-primary);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.g3-challenge-result button.is-primary {
+  border-color: var(--color-accent);
+  color: var(--color-accent-text);
+  background: var(--color-accent);
+}
+
+.g3-challenge-result button.is-primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.g3-qte-restart {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.9rem clamp(1.3rem, 4vw, 2.5rem) 1.1rem;
+}
+
+.g3-qte-restart button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.5rem 1.05rem;
+  border: 1px solid rgba(53, 45, 37, 0.28);
+  border-radius: 99px;
+  color: rgba(53, 45, 37, 0.72);
+  background: rgba(0, 0, 0, 0.035);
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.g3-qte-restart button:hover {
+  border-color: #c2922f;
+  color: #8a5d0b;
+  background: rgba(241, 200, 103, 0.16);
+}
+
+.g3-qte-restart button:active {
+  transform: scale(0.97);
+}
+
+.g3-qte-restart svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.g3-builder > header > i {
+  color: rgba(51, 43, 32, 0.12);
+  font-family: "Noto Serif SC", serif;
+  font-size: 5rem;
+  font-style: normal;
+}
+
+.g3-builder-hint {
+  margin: 0;
+  padding: 0 clamp(1.3rem, 4vw, 2.5rem);
+  color: #786e5e;
+  font-size: 0.84rem;
+}
+
+.g3-sentence-track {
+  display: flex;
+  min-height: 7.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 1rem clamp(1.3rem, 4vw, 2.5rem);
+  padding: 1rem 0;
+  border-top: 1px solid rgba(68, 52, 34, 0.18);
+  border-bottom: 1px solid rgba(68, 52, 34, 0.18);
+}
+
+.g3-sentence-track > span {
+  position: relative;
+  display: grid;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.4rem;
+  color: #fff8e8;
+  background: #285557;
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.15rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.g3-sentence-track > span > b {
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.g3-sentence-track > span > em {
+  margin-top: 0.08rem;
+  color: rgba(255, 248, 232, 0.85);
+  font-family: "Noto Sans Thai", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.g3-sentence-track > span small {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.2rem;
+  display: grid;
+  width: 1.05rem;
+  height: 1.05rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--g3-red-deep);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.52rem;
+  font-weight: 800;
+}
+
+.g3-sentence-track > em {
+  color: rgba(57, 47, 34, 0.25);
+  font-family: "Noto Serif SC", serif;
+  font-size: 2.2rem;
+  font-style: normal;
+}
+
+.g3-word-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0 clamp(1rem, 3vw, 1.8rem);
+}
+
+.g3-word-bank button {
+  display: grid;
+  min-height: 42px;
+  padding: 0.45rem 0.85rem;
+  border: 1.5px solid rgba(68, 52, 34, 0.25);
+  border-radius: 99px;
+  color: var(--g3-paper-ink);
+  background: rgba(255, 255, 255, 0.65);
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.g3-word-bank button:hover {
+  border-color: var(--g3-red);
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.g3-word-bank button strong {
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.14rem;
+}
+
+.g3-word-bank button small {
+  margin-top: 0.1rem;
+  color: #756958;
+  font-family: "Noto Sans Thai", sans-serif;
+  font-size: 0.7rem;
+}
+
+.g3-word-bank button:disabled {
+  opacity: 0.24;
+  cursor: default;
+}
+
+.g3-builder-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  padding: 1.2rem clamp(1.3rem, 4vw, 2.5rem) 1.5rem;
+}
+
+.g3-builder-controls button {
+  min-height: 44px;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(68, 52, 34, 0.2);
+  border-radius: 99px;
+  color: var(--g3-paper-ink);
+  background: transparent;
+  cursor: pointer;
+}
+
+.g3-builder-controls button.is-primary {
+  border-color: var(--g3-red-deep);
+  color: #fff8e8;
+  background: var(--g3-red-deep);
+}
+
+.g3-builder-controls button:disabled { opacity: 0.35; cursor: default; }
+
+@media (max-width: 640px) {
+  .g3-challenge-backdrop { padding: 0.5rem; }
+  .g3-challenge { width: 100%; }
+  .g3-challenge > header { padding: 1rem; gap: 0.75rem; }
+  .g3-challenge > header strong { font-size: clamp(1.2rem, 4.5vw, 1.8rem); margin-top: 0.35rem; }
+  .g3-qte-clock { flex: 0 0 3.8rem; min-height: 3.8rem; }
+  .g3-qte-clock b { font-size: 1.4rem; }
+  .g3-qte-clock small { font-size: 0.62rem; }
+  .g3-qte-progress { margin: 0 1rem; }
+  .g3-pause-time { margin-inline: 1rem 0; }
+  .g3-qte-options { padding: 0.75rem 1rem 1.25rem; }
+  .g3-qte-options button { grid-template-columns: 2.2rem 1fr; min-height: 48px; padding: 0.4rem 0.2rem; }
+  .g3-qte-options button strong { font-size: 1.15rem; }
+  .g3-qte-option-copy small { font-size: 0.78rem; }
+  .g3-challenge-result { padding: 1rem; }
+  .g3-challenge-result > div { flex-wrap: wrap; }
+  .g3-challenge-result button { min-height: 44px; width: 100%; }
+  .g3-sentence-track { min-height: 5rem; margin: 0.75rem 1rem; padding: 0.6rem 0; gap: 0.4rem; }
+  .g3-sentence-track > span { padding: 0.4rem 0.55rem; font-size: 1.05rem; min-height: 44px; align-items: center; }
+  .g3-word-bank { padding: 0 1rem; gap: 0.4rem; }
+  .g3-word-bank button { min-height: 48px; padding: 0.4rem 0.65rem; }
+  .g3-builder-controls { padding: 1rem; flex-wrap: wrap; justify-content: stretch; }
+  .g3-builder-controls button { flex: 1 1 auto; min-height: 44px; text-align: center; }
+  .g3-qte-restart { padding: 0.75rem 1rem; }
+  .g3-qte-restart button { width: 100%; justify-content: center; min-height: 44px; }
+}
+
+@media (max-width: 380px) {
+  .g3-challenge-backdrop { padding: max(0.25rem, env(safe-area-inset-top)) max(0.25rem, env(safe-area-inset-right)) max(0.25rem, env(safe-area-inset-bottom)) max(0.25rem, env(safe-area-inset-left)); }
+  .g3-challenge { max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .g3-challenge > header { flex-direction: column-reverse; align-items: stretch; gap: 0.5rem; padding: 0.75rem; }
+  .g3-qte-clock { align-self: flex-end; flex: 0 0 3.2rem; min-height: 3.2rem; border-radius: 0.4rem; padding: 0.2rem 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.35rem; width: auto; }
+  .g3-qte-clock b { font-size: 1.2rem; }
+  .g3-qte-clock small { font-size: 0.7rem; }
+  .g3-qte-progress { margin: 0 0.75rem; }
+  .g3-qte-options { padding: 0.5rem 0.75rem 0.85rem; gap: 0.35rem; }
+  .g3-qte-options button { grid-template-columns: 1.8rem 1fr; min-height: 48px; }
+  .g3-sentence-track { margin: 0.5rem 0.75rem; gap: 0.3rem; min-height: 4.5rem; }
+  .g3-sentence-track > span { padding: 0.35rem 0.45rem; font-size: 0.95rem; min-height: 44px; }
+  .g3-word-bank { padding: 0 0.75rem; gap: 0.3rem; }
+  .g3-word-bank button { min-height: 48px; padding: 0.35rem 0.55rem; font-size: 0.9rem; }
+  .g3-builder-controls { padding: 0.75rem; gap: 0.35rem; }
+  .g3-builder-controls button { min-height: 44px; padding: 0.4rem 0.5rem; font-size: 0.82rem; }
+}
+
+@media (max-width: 320px) {
+  .g3-challenge-backdrop { padding: max(0.2rem, env(safe-area-inset-top)) max(0.2rem, env(safe-area-inset-right)) max(0.2rem, env(safe-area-inset-bottom)) max(0.2rem, env(safe-area-inset-left)); }
+  .g3-challenge > header strong { font-size: clamp(1rem, 4vw, 1.4rem); }
+  .g3-qte-options button strong { font-size: 1rem; }
+  .g3-qte-options button { min-height: 44px; }
+  .g3-sentence-track > span { font-size: 0.88rem; padding: 0.3rem 0.4rem; min-height: 44px; }
+  .g3-word-bank button { font-size: 0.82rem; min-height: 44px; padding: 0.3rem 0.45rem; }
+  .g3-builder-controls button { min-height: 44px; font-size: 0.78rem; padding: 0.35rem 0.45rem; }
+}

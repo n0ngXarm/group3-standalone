@@ -1,0 +1,7 @@
+node_modules/
+source/node_modules/
+images/
+*.tar.gz
+*.log
+source/tmp/
+.DS_Store

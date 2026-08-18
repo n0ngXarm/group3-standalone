@@ -1,0 +1,243 @@
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+
+import {
+  getBrowserAdaptiveThreePolicy,
+  canonicalSurfaceLocation,
+  surfaceAssetPath,
+} from "@lib";
+import { COPY } from "./content/copy.js";
+import {
+  canonicalPathForRoute,
+  gamePath,
+  gamesPath,
+  getInitialTheme,
+  lessonPath,
+  routeFromLocation,
+} from "./routing/routes.js";
+import { stopChineseVoice } from "./services/audio/index.js";
+import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.js";
+import { ContentsPage, PrefacePage, VocabularyPage } from "./features/lesson/index.js";
+import { AboutModal, GuideModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
+import { StoryCatalog, StoryHome } from "./features/catalog/index.js";
+
+const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
+
+  default: StoryCatalog,
+})));
+const ReadingTheatre = lazy(() => import("./features/reader/index.js").then((module) => ({
+
+  default: module.ReadingTheatre,
+})).catch(() => ({
+  default: StoryCatalog,
+})));
+
+const LESSON_ROUTE_NAMES = new Set(["reader", "preface", "contents", "vocabulary", "games", "game"]);
+
+export default function Group3App() {
+  const [route, setRoute] = useState(routeFromLocation);
+  const [theme, setTheme] = useState(getInitialTheme);
+  const [language, setLanguage] = useState("th");
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
+
+  const currentGuideKey = useMemo(() => {
+    if (route.name === "reader") return "reader";
+    if (route.name === "catalog") return "catalog";
+    if (route.name === "games" || route.name === "game") return "games";
+    return "home";
+  }, [route.name]);
+
+  useEffect(() => {
+    try {
+      const hasSeen = localStorage.getItem(`g3_guide_seen_${currentGuideKey}`);
+      if (!hasSeen) {
+        setGuideOpen(true);
+      }
+    } catch {
+      // Storage fallback
+    }
+  }, [currentGuideKey]);
+
+  const lowData = useMemo(() => {
+    const policy = getBrowserAdaptiveThreePolicy();
+    return policy.saveData || policy.lowEnd;
+  }, []);
+  const requestedLesson = useMemo(() => {
+    if (route.level && route.lessonSlug) {
+      return findLesson(route.level, route.lessonSlug) || FEATURED_LESSON;
+    }
+    if (route.level) {
+      const levelLessons = GROUP3_LESSONS
+        .filter((l) => l.level === route.level)
+        .sort((a, b) => Number(a.number) - Number(b.number));
+      return levelLessons[0] || FEATURED_LESSON;
+    }
+    return FEATURED_LESSON;
+  }, [route.level, route.lessonSlug]);
+  const requestedLessonKey = `${requestedLesson.level}:${requestedLesson.slug}`;
+  const [lessonLoadAttempt, setLessonLoadAttempt] = useState(0);
+  const [lessonRequest, setLessonRequest] = useState(() => ({
+    data: FEATURED_LESSON,
+    error: null,
+    key: `${FEATURED_LESSON.level}:${FEATURED_LESSON.slug}`,
+    status: "ready",
+  }));
+
+  useEffect(() => {
+    let active = true;
+    if (!requestedLesson.load) {
+      setLessonRequest({ data: requestedLesson, error: null, key: requestedLessonKey, status: "ready" });
+      return () => { active = false; };
+    }
+
+    setLessonRequest({ data: requestedLesson, error: null, key: requestedLessonKey, status: "loading" });
+    Promise.resolve()
+      .then(() => requestedLesson.load())
+      .then((data) => {
+        if (active) setLessonRequest({ data, error: null, key: requestedLessonKey, status: "ready" });
+      })
+      .catch((error) => {
+        if (active) setLessonRequest({ data: requestedLesson, error, key: requestedLessonKey, status: "error" });
+      });
+
+    return () => { active = false; };
+  }, [lessonLoadAttempt, requestedLesson, requestedLessonKey]);
+
+  const lessonRequestMatches = lessonRequest.key === requestedLessonKey;
+  const lessonStatus = lessonRequestMatches
+    ? lessonRequest.status
+    : requestedLesson.load ? "loading" : "ready";
+  const lesson = lessonRequestMatches ? lessonRequest.data : requestedLesson;
+  const retryLesson = useCallback(() => setLessonLoadAttempt((attempt) => attempt + 1), []);
+  const routeNeedsLesson = LESSON_ROUTE_NAMES.has(route.name);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.experience = "group3-reading";
+    document.documentElement.dataset.lowData = String(lowData);
+    if (lowData) {
+      document.documentElement.style.removeProperty("--g3-reading-background");
+    } else {
+      document.documentElement.style.setProperty(
+        "--g3-reading-background",
+        `url("${surfaceAssetPath(3, "/assets/group3/shared/backgrounds/reading-background-v1.webp")}")`,
+      );
+    }
+    return () => {
+      delete document.documentElement.dataset.experience;
+      delete document.documentElement.dataset.lowData;
+      document.documentElement.style.removeProperty("--g3-reading-background");
+    };
+  }, [lowData, theme]);
+
+  useEffect(() => {
+    document.documentElement.lang = { th: "th", zh: "zh-CN", en: "en" }[language];
+  }, [language]);
+
+  useEffect(() => {
+    stopChineseVoice();
+    return () => stopChineseVoice();
+  }, [language, route.gameSlug, route.name, route.scene]);
+
+  useEffect(() => {
+    const sync = () => setRoute(routeFromLocation());
+    const initial = routeFromLocation();
+    setRoute(initial);
+    history.replaceState(
+      { ...(history.state || {}), g3: true },
+      "",
+      canonicalSurfaceLocation(3, canonicalPathForRoute(initial), {
+        hash: window.location.hash,
+        theme: getInitialTheme(),
+      }),
+    );
+    window.addEventListener("popstate", sync);
+    return () => window.removeEventListener("popstate", sync);
+  }, []);
+
+  useEffect(() => {
+    const text = COPY[language];
+    const lessonTitle = {
+      th: lesson.title?.thAid,
+      zh: lesson.title?.zh,
+      en: lesson.title?.en,
+    }[language];
+    const loadedScene = lessonStatus === "ready" ? lesson.scenes?.[route.scene] : null;
+    const sceneTitle = loadedScene ? {
+      th: loadedScene.titleTh,
+      zh: loadedScene.title,
+      en: loadedScene.titleEn || loadedScene.title,
+    }[language] : lessonTitle;
+    const frontTitles = { preface: text.prefaceTitle, contents: text.contentsTitle, vocabulary: text.vocabularyTitle };
+    const title = route.name === "reader"
+      ? `${sceneTitle} · ${text.brand}`
+      : route.name === "catalog"
+        ? `${route.level ? route.level.toUpperCase() + " · " : ""}${text.catalogTitle} · ${text.brand}`
+        : frontTitles[route.name]
+          ? `${frontTitles[route.name]} · ${lessonTitle} · ${text.brand}`
+          : route.name === "games" || route.name === "game"
+            ? `${lessonTitle} · ${text.brand}`
+            : `${text.brand} · 华韵`;
+    document.title = title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", COPY[language].sourceOnly);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [language, lesson, lessonStatus, route]);
+
+  const navigate = (pathname) => {
+    history.pushState(
+      { g3: true },
+      "",
+      canonicalSurfaceLocation(3, pathname, { theme }),
+    );
+    setRoute(routeFromLocation());
+  };
+
+  const content = useMemo(() => {
+    if (routeNeedsLesson && lessonStatus !== "ready") {
+      return <StoryCatalog key={`lesson-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={route.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />;
+    }
+    if (route.name === "reader") return <ReadingTheatre key={lesson.id} initialLessonId={lesson.id} initialScene={route.scene} language={language} lesson={lesson} navigate={navigate} lowData={lowData} level={route.level} onOpenGuide={() => setGuideOpen(true)} />;
+    if (route.name === "catalog") return <StoryCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} onOpenGuide={() => setGuideOpen(true)} />;
+    if (route.name === "preface") return <PrefacePage language={language} lesson={lesson} navigate={navigate} />;
+    if (route.name === "contents") return <ContentsPage language={language} lesson={lesson} navigate={navigate} />;
+    if (route.name === "vocabulary") return <VocabularyPage language={language} lesson={lesson} navigate={navigate} />;
+    if (route.name === "games" || route.name === "game") return <Group3GameHub activeGame={route.name === "game" ? route.gameSlug : null} lesson={lesson} language={language} onBack={() => navigate(lessonPath(lesson))} onSelectGame={(gameSlug) => navigate(gamePath(lesson, gameSlug))} onShowHub={() => navigate(gamesPath(lesson))} onOpenGuide={() => setGuideOpen(true)} />;
+    return <StoryHome language={language} navigate={navigate} lowData={lowData} onOpenGuide={() => setGuideOpen(true)} />;
+  }, [language, lowData, route, theme, lesson, lessonStatus, requestedLesson, requestedLessonKey, retryLesson, routeNeedsLesson]);
+
+  const mainSuspense = (
+    <Suspense fallback={<StoryCatalog key={`chunk-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={requestedLesson.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />}>
+      {content}
+    </Suspense>
+  );
+
+  return (
+    <div className="g3-story-shell">
+      <a className="g3-skip-link" href="#g3-main">{COPY[language].skip}</a>
+      <StoryHeader
+        route={route}
+        theme={theme}
+        language={language}
+        lesson={lesson}
+        onTheme={() => setTheme((value) => value === "dark" ? "light" : "dark")}
+        onLanguage={setLanguage}
+        onHome={() => navigate("/home/")}
+        onAbout={() => setAboutOpen(true)}
+        onGuide={() => setGuideOpen(true)}
+      />
+      <div id="g3-main" tabIndex="-1" aria-busy={routeNeedsLesson && lessonStatus === "loading" ? "true" : undefined}>
+        {mainSuspense}
+      </div>
+      {route.name !== "reader" && route.name !== "catalog" && (
+        <StoryFooter language={language} lesson={lesson} route={route} />
+      )}
+      <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} language={language} />
+      <GuideModal
+        guideKey={currentGuideKey}
+        isOpen={guideOpen}
+        language={language}
+        onClose={() => setGuideOpen(false)}
+      />
+    </div>
+  );
+}

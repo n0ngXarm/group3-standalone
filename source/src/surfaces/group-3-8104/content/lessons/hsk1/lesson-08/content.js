@@ -1,0 +1,327 @@
+import { group3AssetPath } from "../../../../config.js";
+
+const SOURCE_FILE = "docs/references/hsk/sources/hsk1-2.pdf";
+
+export function lessonHsk1L8SourceRef(printedPages, pdfPages) {
+  return `${SOURCE_FILE}#printed-pages=${printedPages}&pdf-pages=${pdfPages}`;
+}
+
+const sourceRef = lessonHsk1L8SourceRef("54-60", "70-76");
+
+const characters = {
+  bai: {
+    hanzi: "白家月",
+    pinyin: "Bái Jiāyuè",
+    nameTh: "ไป๋เจียเยว่",
+    nameEn: "Bai Jiayue",
+    image: group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-v1.webp"),
+    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-v1.webp")} 1400w`,
+    imageFocus: "50% center",
+  },
+  chen: {
+    hanzi: "陈天中",
+    pinyin: "Chén Tiānzhōng",
+    nameTh: "เฉินเทียนจง",
+    nameEn: "Chen Tianzhong",
+    image: group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-v1.webp"),
+    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-v1.webp")} 1400w`,
+    imageFocus: "74% center",
+  },
+  liWen: {
+    hanzi: "李文",
+    pinyin: "Lǐ Wén",
+    nameTh: "หลี่เหวิน",
+    nameEn: "Li Wen",
+    image: group3AssetPath("/assets/group3/lesson-hsk1-l8-bookstore-v1.webp"),
+    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l8-bookstore-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l8-bookstore-v1.webp")} 1400w`,
+    imageFocus: "50% center",
+  },
+  liu: {
+    hanzi: "刘明",
+    pinyin: "Liú Míng",
+    nameTh: "หลิวหมิง",
+    nameEn: "Liu Ming",
+    image: group3AssetPath("/assets/group3/shared/characters/character-liu-ming.webp"),
+    imageFocus: "50% center",
+  },
+  hu: {
+    hanzi: "胡医生",
+    pinyin: "Hú Yīshēng",
+    nameTh: "หูอีเซิง (คุณหมอหู)",
+    nameEn: "Dr. Hu",
+    image: group3AssetPath("/assets/group3/lesson-hsk1-l8-hospital-v1.webp"),
+    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l8-hospital-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l8-hospital-v1.webp")} 1400w`,
+    imageFocus: "74% center",
+  },
+};
+
+const vocabularyPages = [
+  [1, "房间", "fángjiān", "n.", "room", "ห้อง", 55, 71],
+  [2, "外", "wài", "n.", "outside", "ด้านนอก", 55, 71],
+  [3, "只", "zhī", "m.", "measure word for animals", "ตัว (ลักษณนามสัตว์)", 55, 71],
+  [4, "小", "xiǎo", "adj.", "small; little", "เล็ก", 55, 71],
+  [5, "猫", "māo", "n.", "cat", "แมว", 55, 71],
+  [6, "没", "méi", "adv.", "no; not; not yet", "ไม่ / ยังไม่", 55, 71],
+  [7, "看见", "kànjiàn", "v.", "see; catch sight of", "เห็น", 55, 71],
+  [8, "桌子", "zhuōzi", "n.", "table; desk", "โต๊ะ", 55, 71],
+  [9, "下", "xià", "n.", "low position; under", "ใต้ / ข้างล่าง", 55, 71],
+  [10, "漂亮", "piàoliang", "adj.", "pretty; beautiful", "สวย", 55, 71],
+  [11, "在", "zài", "prep.", "at; in", "ที่ / ใน", 57, 73],
+  [12, "学校", "xuéxiào", "n.", "school", "โรงเรียน / มหาวิทยาลัย", 57, 73],
+  [13, "书店", "shūdiàn", "n.", "bookstore", "ร้านหนังสือ", 57, 73],
+  [14, "前", "qián", "n.", "front", "หน้า / ข้างหน้า", 57, 73],
+  [15, "能", "néng", "mod.", "can; be able to", "สามารถ / ได้", 57, 73],
+  [16, "到", "dào", "v.", "arrive; reach", "ถึง / ไปถึง", 57, 73],
+  [17, "午饭", "wǔfàn", "n.", "lunch", "อาหารกลางวัน", 57, 73],
+  [18, "饭", "fàn", "n.", "meal; food", "ข้าว / อาหาร", 59, 75],
+  [19, "大", "dà", "adj.", "big; large", "ใหญ่", 59, 75],
+  [20, "病人", "bìngrén", "n.", "patient", "คนไข้", 59, 75],
+  [21, "多", "duō", "adj.", "many; much", "มาก", 59, 75],
+  [22, "医生", "yīshēng", "n.", "doctor", "หมอ / แพทย์", 59, 75],
+  [23, "工作", "gōngzuò", "v.", "work; job", "ทำงาน", 59, 75],
+];
+
+const vocabulary = vocabularyPages.map(([index, hanzi, pinyin, type, en, thAid, page, pdfPage]) => ({
+  index,
+  hanzi,
+  pinyin,
+  type,
+  en,
+  th: thAid,
+  thAid,
+  page,
+  translationKind: "editorial-aid",
+  sourceRef: lessonHsk1L8SourceRef(String(page), String(pdfPage)),
+}));
+
+function line(source, value) {
+  return { ...value, sourceRef: source };
+}
+
+const catRef = lessonHsk1L8SourceRef("55", "71");
+const bookstoreRef = lessonHsk1L8SourceRef("57", "73");
+const hospitalRef = lessonHsk1L8SourceRef("59", "75");
+
+const scenes = [
+  {
+    id: "h1l8-cat",
+    number: "01",
+    glyph: "里",
+    title: "在朋友家找小猫",
+    titleTh: "หาแมวน้อยที่บ้านเพื่อน",
+    titleEn: "Looking for a little cat at a friend's home",
+    place: "王一飞家",
+    placeTh: "บ้านของหวังอี้เฟย",
+    image: group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-v1.webp"),
+    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l8-cat-v1.webp")} 1400w`,
+    imageAlt: {
+      th: "ไป๋เจียเยว่ชี้ให้เฉินเทียนจงดูแมวน้อยที่ซ่อนอยู่ใต้โต๊ะ",
+      zh: "白家月指给陈天中看藏在桌子下的小猫",
+      en: "Bai Jiayue shows Chen Tianzhong the little cat hiding under the table",
+    },
+    source: "Text 1 · หน้าเล่ม 55 · PDF หน้า 71",
+    sourcePage: "55",
+    sourceRef: catRef,
+    context: "在王一飞家，白家月和陈天中来做客，发现房间外有一只小猫。",
+    contextTh: "ที่บ้านของหวังอี้เฟย ไป๋เจียเยว่และเฉินเทียนจงมาเยี่ยม แล้วเห็นแมวน้อยอยู่นอกห้อง",
+    contextEn: "At Wang Yifei's home, Bai Jiayue and Chen Tianzhong came over for a visit and found a little cat outside the room.",
+    characters: [
+      { role: "A", profile: "bai", noteTh: "เพื่อนที่เห็นแมวตัวแรก", noteZh: "先看见小猫的同学", noteEn: "The friend who spots the cat first" },
+      { role: "B", profile: "chen", noteTh: "เพื่อนที่ถามหาแมว", noteZh: "询问小猫位置的同学", noteEn: "The friend asking where the cat is" },
+    ],
+    lines: [
+      line(catRef, { role: "A", speaker: "白家月", pinyin: "fángjiān wài yǒu yī zhī xiǎo māo", hanzi: "房间外有一只小猫。", reading: "Fángjiān wài yǒu yī zhī xiǎo māo.", en: "There's a little cat outside the room.", th: "มีแมวน้อยตัวหนึ่งอยู่นอกห้อง", visual: { zh: "有一只小猫", th: "มีแมวตัวหนึ่ง", focus: "26% center" } }),
+      line(catRef, { role: "B", speaker: "陈天中", pinyin: "wǒ méi kànjiàn, tā zài nǎr ne", hanzi: "我没看见，它在哪儿呢？", reading: "Wǒ méi kànjiàn, tā zài nǎr ne?", en: "I don't see it. Where is it?", th: "ฉันไม่เห็น มันอยู่ที่ไหน?", visual: { zh: "在哪儿呢", th: "อยู่ที่ไหน", focus: "74% center" } }),
+      line(catRef, { role: "A", speaker: "白家月", pinyin: "tā zài zhuōzi xià ne", hanzi: "它在桌子下呢。", reading: "Tā zài zhuōzi xià ne.", en: "It's under the table.", th: "มันอยู่ใต้โต๊ะ", visual: { zh: "桌子下", th: "ใต้โต๊ะ", focus: "26% center" } }),
+      line(catRef, { role: "B", speaker: "陈天中", pinyin: "zhè zhī xiǎo māo zhēn piàoliang", hanzi: "这只小猫真漂亮！", reading: "Zhè zhī xiǎo māo zhēn piàoliang!", en: "This little cat is so beautiful!", th: "แมวน้อยตัวนี้สวยจริง ๆ!", visual: { zh: "真漂亮", th: "สวยจริง ๆ", focus: "74% center" } }),
+    ],
+    qte: {
+      after: 4,
+      prompt: { th: "แมวน้อยอยู่ที่ไหน?", zh: "小猫在哪儿？", en: "Where is the cat?" },
+      options: [
+        { value: "桌子下", zh: "桌子下", pinyin: "Zhuōzi xià", th: "ใต้โต๊ะ" },
+        { value: "房间里", zh: "房间里", pinyin: "Fángjiān lǐ", th: "ในห้อง" },
+        { value: "房间里", zh: "房间外", pinyin: "Fángjiān wài", th: "นอกห้อง" },
+      ],
+      correct: "桌子下",
+      evidence: "白家月：它在桌子下呢。",
+      evidenceTh: "ไป๋เจียเยว่: มันอยู่ใต้โต๊ะ",
+      sourceRef: catRef,
+    },
+    builder: {
+      prompt: { th: "เรียงประโยค “มันอยู่ใต้โต๊ะ”", zh: "重组“它在桌子下呢”", en: "Rebuild “It's under the table”" },
+      answer: ["它", "在", "桌子下", "呢。"],
+      tiles: ["桌子下", "它", "在", "呢。"],
+      gloss: { 它: "มัน", 在: "อยู่", 桌子下: "ใต้โต๊ะ", 呢: "นะ" },
+      translationTh: "มันอยู่ใต้โต๊ะ",
+      translationEn: "It's under the table.",
+      evidence: "Text 1 · หน้าเล่ม 55",
+      sourceRef: catRef,
+    },
+  },
+  {
+    id: "h1l8-bookstore",
+    number: "02",
+    glyph: "能",
+    title: "打电话约在书店前见",
+    titleTh: "โทรนัดเจอหน้าร้านหนังสือ",
+    titleEn: "Agreeing to meet at the bookstore on the phone",
+    place: "教室",
+    placePy: "jiàoshì",
+    placeTh: "ห้องเรียน",
+    image: group3AssetPath("/assets/group3/lesson-hsk1-l8-bookstore-v1.webp"),
+    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l8-bookstore-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l8-bookstore-v1.webp")} 1400w`,
+    imageAlt: {
+      th: "ไป๋เจียเยว่โทรนัดหลี่เหวินให้พบกันหน้าร้านหนังสือของมหาวิทยาลัย",
+      zh: "白家月打电话约李文在学校书店前见面",
+      en: "Bai Jiayue calls Li Wen to arrange a meeting at the campus bookstore",
+    },
+    source: "Text 2 · หน้าเล่ม 57 · PDF หน้า 73",
+    sourcePage: "57",
+    sourceRef: bookstoreRef,
+    context: "在教室里，下课后，白家月给李文打电话。",
+    contextTh: "ในห้องเรียน หลังเลิกเรียน ไป๋เจียเยว่โทรหาหลี่เหวิน",
+    contextEn: "After class, Bai Jiayue was calling Li Wen in the classroom.",
+    characters: [
+      { role: "A", profile: "bai", noteTh: "เพื่อนที่โทรนัดเจอ", noteZh: "打电话约见面的同学", noteEn: "The classmate calling to arrange a meeting" },
+      { role: "B", profile: "liWen", noteTh: "เพื่อนที่ตกลงเวลา", noteZh: "确定时间的同学", noteEn: "The classmate confirming the time" },
+    ],
+    lines: [
+      line(bookstoreRef, { role: "A", speaker: "白家月", pinyin: "wǒmen zài nǎr jiàn ne", hanzi: "我们在哪儿见呢？", reading: "Wǒmen zài nǎr jiàn ne?", en: "Where shall we meet?", th: "เราจะเจอกันที่ไหน?", visual: { zh: "在哪儿见", th: "เจอที่ไหน", focus: "26% center" } }),
+      line(bookstoreRef, { role: "B", speaker: "李文", pinyin: "zài xuéxiào shūdiàn qián jiàn ba", hanzi: "在学校书店前见吧。", reading: "Zài xuéxiào shūdiàn qián jiàn ba.", en: "Let's meet in front of the school bookstore.", th: "เจอกันหน้าร้านหนังสือของโรงเรียนนะ", visual: { zh: "书店前", th: "หน้าร้านหนังสือ", focus: "74% center" } }),
+      line(bookstoreRef, { role: "A", speaker: "白家月", pinyin: "hǎo de. xiàwǔ liǎng diǎn nǐ néng dào ma", hanzi: "好的。下午两点你能到吗？", reading: "Hǎo de. Xiàwǔ liǎng diǎn nǐ néng dào ma?", en: "Okay. Can you arrive at 2:00 in the afternoon?", th: "ได้สิ บ่ายสองคุณไปถึงได้ไหม?", visual: { zh: "能到吗", th: "ไปถึงได้ไหม", focus: "26% center" } }),
+      line(bookstoreRef, { role: "B", speaker: "李文", pinyin: "wǒ néng dào. wǒ zài xuéxiào chī wǔfàn", hanzi: "我能到。我在学校吃午饭。", reading: "Wǒ néng dào. Wǒ zài xuéxiào chī wǔfàn.", en: "Yes, I can. I'll have lunch at school.", th: "ไปถึงได้ครับ ผมกินข้าวเที่ยงที่โรงเรียน", visual: { zh: "吃午饭", th: "กินข้าวเที่ยง", focus: "74% center" } }),
+    ],
+    qte: {
+      after: 4,
+      prompt: { th: "李文กินข้าวเที่ยงที่ไหน?", zh: "李文在哪儿吃午饭？", en: "Where will Li Wen have lunch?" },
+      options: [
+        { value: "学校", zh: "学校", pinyin: "Xuéxiào", th: "ที่โรงเรียน" },
+        { value: "书店", zh: "书店", pinyin: "Shūdiàn", th: "ร้านหนังสือ" },
+        { value: "超市", zh: "超市", pinyin: "Chāoshì", th: "ซูเปอร์มาร์เก็ต" },
+      ],
+      correct: "学校",
+      evidence: "李文：我能到。我在学校吃午饭。",
+      evidenceTh: "หลี่เหวิน: ไปถึงได้ครับ ผมกินข้าวเที่ยงที่โรงเรียน",
+      sourceRef: bookstoreRef,
+    },
+    builder: {
+      prompt: { th: "เรียงประโยค “เราเจอกันหน้าร้านหนังสือนะ”", zh: "重组“在学校书店前见吧”", en: "Rebuild “Let's meet in front of the school bookstore”" },
+      answer: ["在学校书店前", "见", "吧。"],
+      tiles: ["见", "吧。", "在学校书店前"],
+      gloss: { 在学校书店前: "หน้าร้านหนังสือโรงเรียน", 见: "เจอ", 吧: "นะ" },
+      translationTh: "เจอกันหน้าร้านหนังสือของโรงเรียนนะ",
+      translationEn: "Let's meet in front of the school bookstore.",
+      evidence: "Text 2 · หน้าเล่ม 57",
+      sourceRef: bookstoreRef,
+    },
+  },
+  {
+    id: "h1l8-hospital",
+    number: "03",
+    glyph: "忙",
+    title: "在医院和同事聊天",
+    titleTh: "คุยกับเพื่อนร่วมงานที่โรงพยาบาล",
+    titleEn: "Chatting with a colleague at the hospital",
+    place: "医院",
+    placePy: "yīyuàn",
+    placeTh: "โรงพยาบาล",
+    image: group3AssetPath("/assets/group3/lesson-hsk1-l8-hospital-v1.webp"),
+    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l8-hospital-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l8-hospital-v1.webp")} 1400w`,
+    imageAlt: {
+      th: "หลิวหมิงและคุณหมอหูคุยกันระหว่างพักกินอาหารในโรงพยาบาล",
+      zh: "刘明和胡医生在医院短暂吃饭休息时聊天",
+      en: "Liu Ming and Doctor Hu chat during a brief meal break at the hospital",
+    },
+    source: "Text 3 · หน้าเล่ม 58–59 · PDF หน้า 74–75",
+    sourcePage: "59",
+    sourceRef: hospitalRef,
+    context: "在医院里，刘明和同事胡医生在聊天儿。",
+    contextTh: "ในโรงพยาบาล หลิวหมิงคุยกับคุณหมอหูเพื่อนร่วมงาน",
+    contextEn: "In the hospital, Liu Ming was chatting with Dr. Hu, his colleague.",
+    characters: [
+      { role: "A", profile: "liu", noteTh: "เพื่อนร่วมงานที่ทักทาย", noteZh: "打招呼的同事", noteEn: "The colleague greeting first" },
+      { role: "B", profile: "hu", noteTh: "คุณหมอที่พูดถึงครอบครัว", noteZh: "谈起家人的医生", noteEn: "The doctor talking about his family" },
+    ],
+    lines: [
+      line(hospitalRef, { role: "A", speaker: "刘明", pinyin: "xiǎo hú, hái méi chī fàn ne", hanzi: "小胡，还没吃饭呢？", reading: "Xiǎo Hú, hái méi chī fàn ne?", en: "Little Hu, haven't you eaten yet?", th: "หูน้อย ยังไม่กินข้าวอีกหรือ?", visual: { zh: "还没吃饭呢", th: "ยังไม่กินข้าว", focus: "26% center" } }),
+      line(hospitalRef, { role: "B", speaker: "胡医生", pinyin: "méi chī ne", hanzi: "没吃呢。", reading: "Méi chī ne.", en: "Not yet.", th: "ยังไม่ได้กิน", visual: { zh: "没吃呢", th: "ยังไม่ได้กิน", focus: "74% center" } }),
+      line(hospitalRef, { role: "A", speaker: "刘明", pinyin: "dà yīyuàn bìngrén duō, yīshēng fēicháng máng", hanzi: "大医院病人多，医生非常忙。", reading: "Dà yīyuàn bìngrén duō, yīshēng fēicháng máng.", en: "There are many patients in big hospitals; doctors are very busy.", th: "โรงพยาบาลใหญ่คนไข้เยอะ หมอยุ่งมาก", visual: { zh: "非常忙", th: "ยุ่งมาก", focus: "26% center" } }),
+      line(hospitalRef, { role: "B", speaker: "胡医生", pinyin: "shì de. wǒ bàba yě zài yīyuàn gōngzuò, tā yě fēicháng máng", hanzi: "是的。我爸爸也在医院工作，他也非常忙。", reading: "Shì de. Wǒ bàba yě zài yīyuàn gōngzuò, tā yě fēicháng máng.", en: "Yes. My father also works at a hospital. He's very busy too.", th: "ใช่ครับ พ่อผมก็ทำงานที่โรงพยาบาลเหมือนกัน ท่านก็ยุ่งมาก", visual: { zh: "也在医院工作", th: "ทำงานโรงพยาบาลเหมือนกัน", focus: "74% center" } }),
+      line(hospitalRef, { role: "A", speaker: "刘明", pinyin: "nǐ jiā yǒu liǎng ge yīshēng", hanzi: "你家有两个医生？", reading: "Nǐ jiā yǒu liǎng ge yīshēng?", en: "So there are two doctors in your family?", th: "บ้านคุณมีหมอสองคนเลยเหรอ?", visual: { zh: "两个医生", th: "หมอสองคน", focus: "26% center" } }),
+      line(hospitalRef, { role: "B", speaker: "胡医生", pinyin: "duì", hanzi: "对。", reading: "Duì.", en: "Right.", th: "ใช่ครับ", visual: { zh: "对", th: "ใช่", focus: "74% center" } }),
+    ],
+    qte: {
+      after: 6,
+      prompt: { th: "พ่อของคุณหมอหูทำงานที่ไหน?", zh: "胡医生的爸爸在哪儿工作？", en: "Where does Dr. Hu's father work?" },
+      options: [
+        { value: "医院", zh: "医院", pinyin: "Yīyuàn", th: "โรงพยาบาล" },
+        { value: "学校", zh: "学校", pinyin: "Xuéxiào", th: "โรงเรียน" },
+        { value: "超市", zh: "超市", pinyin: "Chāoshì", th: "ซูเปอร์มาร์เก็ต" },
+      ],
+      correct: "医院",
+      evidence: "胡医生：是的。我爸爸也在医院工作，他也非常忙。",
+      evidenceTh: "คุณหมอหู: ใช่ครับ พ่อผมก็ทำงานที่โรงพยาบาลเหมือนกัน",
+      sourceRef: hospitalRef,
+    },
+    builder: {
+      prompt: { th: "เรียงประโยค “โรงพยาบาลใหญ่คนไข้เยอะ”", zh: "重组“大医院病人多”", en: "Rebuild “There are many patients in big hospitals”" },
+      answer: ["大医院", "病人", "多。"],
+      tiles: ["病人", "大医院", "多。"],
+      gloss: { 大医院: "โรงพยาบาลใหญ่", 病人: "คนไข้", 多: "เยอะ" },
+      translationTh: "โรงพยาบาลใหญ่คนไข้เยอะ",
+      translationEn: "There are many patients in big hospitals.",
+      evidence: "Text 3 · หน้าเล่ม 59",
+      sourceRef: hospitalRef,
+    },
+  },
+];
+
+export const LESSON_HSK1_L8 = {
+  id: "hsk1-l8",
+  slug: "lesson-8",
+  level: "hsk1",
+  number: 8,
+  featured: false,
+  source: {
+    title: "新HSK教程 1 · New HSK Course 1",
+    lesson: "Lesson 8 · 我爸爸也在医院工作",
+    printedPages: "54–60",
+    pdfPages: "70–76",
+    file: "hsk1-2.pdf",
+    sourceRef,
+  },
+  sourceRef,
+  title: {
+    zh: "我爸爸也在医院工作",
+    pinyin: "Wǒ bàba yě zài yīyuàn gōngzuò",
+    en: "My father also works at a hospital",
+    thAid: "พ่อของฉันก็ทำงานที่โรงพยาบาลเหมือนกัน",
+  },
+  summary: {
+    zh: "学会用方位词描述处所位置，掌握介词“在”表示方位和能愿动词“能”的用法。",
+    en: "Learn positional words to describe locations, master the preposition 在 for direction/location, and the modal verb 能 for ability or possibility.",
+    thAid: "ใช้คำบอกทิศทาง เช่น 上/下/里/外/前 อธิบายตำแหน่ง ใช้ 在 บอกสถานที่ และใช้ 能 บอกความสามารถ",
+  },
+  translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  objectives: [
+    { zh: "能听懂并描述处所、位置等信息。", en: "Be able to understand and describe locations and positions.", thAid: "ฟังและบอกตำแหน่งสถานที่ได้", sourceRef: lessonHsk1L8SourceRef("54", "70") },
+    { zh: "掌握介词“在”表示方位的用法。", en: "Master the use of the preposition 在 to indicate direction/location.", thAid: "ใช้ 在 บอกตำแหน่ง เช่น 在家里 在学校", sourceRef: lessonHsk1L8SourceRef("54", "70") },
+    { zh: "掌握能愿动词“能”的用法。", en: "Master the use of the modal verb 能.", thAid: "ใช้ 能 บอกความสามารถหรือความเป็นไปได้", sourceRef: lessonHsk1L8SourceRef("54", "70") },
+  ],
+  contents: [
+    { number: "00", title: "目标与热身", titleTh: "เป้าหมายและการเตรียมบท", detail: "Objectives · Warm-Up", pages: "54", route: "/home/hsk1/lesson-8/preface/", sourceRef: lessonHsk1L8SourceRef("54", "70") },
+    { number: "01", title: "在朋友家找小猫", titleTh: "หาแมวน้อยที่บ้านเพื่อน", detail: "Text 1 · New Words 1–10", pages: "55", scene: 1, sourceRef: lessonHsk1L8SourceRef("55", "71") },
+    { number: "02", title: "打电话约在书店前见", titleTh: "โทรนัดเจอหน้าร้านหนังสือ", detail: "Text 2 · New Words 11–17", pages: "57", scene: 2, sourceRef: lessonHsk1L8SourceRef("57", "73") },
+    { number: "03", title: "在医院和同事聊天", titleTh: "คุยกับเพื่อนร่วมงานที่โรงพยาบาล", detail: "Text 3 · New Words 18–23", pages: "59", scene: 3, sourceRef: lessonHsk1L8SourceRef("59", "75") },
+    { number: "04", title: "综合练习与活动", titleTh: "แบบฝึกรวมและกิจกรรม", detail: "Comprehensive Exercises (source trail)", pages: "60", sourceRef: lessonHsk1L8SourceRef("60", "76") },
+  ],
+  vocabulary,
+  grammarFocus: [
+    { title: "方位词", titleEn: "Positional Words", explanationZh: "本册学习的方位词有：上、下、里、外、前、后、外边。例如：房间里有一只小猫。", explanationEn: "The positional words in this volume are 上, 下, 里, 外, 前, 后 and 外边. For example: 房间里有一只小猫。", thAid: "คำบอกทิศทาง: 上 บน, 下 ล่าง, 里 ใน, 外 นอก, 前 หน้า, 后 หลัง เช่น 房间里 (ในห้อง)", examples: ["房间里有一只小猫。", "我们在书店前见吧。", "小雪的手机在桌子上呢。"], sourceRef: lessonHsk1L8SourceRef("56", "72") },
+    { title: "介词“在”", titleEn: "The Preposition 在", explanationZh: "介词“在”加处所词语表示动作发生或状态存在的位置，如“在学校”“在书店前”。", explanationEn: "The preposition 在 plus a place word indicates where an action happens or a state exists, e.g., 在学校, 在书店前.", thAid: "在 + สถานที่ = อยู่ที่/ที่ เช่น 在学校书店前 (หน้าร้านหนังสือโรงเรียน)", examples: ["我们在哪儿见呢？", "在学校书店前见吧。", "他在医院工作。"], sourceRef: lessonHsk1L8SourceRef("57", "73") },
+    { title: "能愿动词“能”", titleEn: "The Modal Verb 能", explanationZh: "“能”位于动词前，表示有能力、有条件或可能做某事。例如：下午两点你能到吗？", explanationEn: "The modal verb 能 is placed before the verb to indicate the ability, condition, or possibility of doing something. For example: 下午两点你能到吗？", thAid: "能 วางหน้ากริยา บอกว่าทำได้หรือเป็นไปได้ เช่น 我能到 (ฉันไปถึงได้)", examples: ["下午两点你能到吗？", "爸爸能去。", "我不能去学校吃午饭。"], sourceRef: lessonHsk1L8SourceRef("58", "74") },
+  ],
+  characters,
+  scenes,
+};

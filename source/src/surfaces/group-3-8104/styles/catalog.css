@@ -1,0 +1,319 @@
+/* Story catalog */
+.g3-catalog {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.62fr) minmax(0, 1.38fr);
+  height: calc(100svh - 76px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.g3-catalog-intro {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  padding: clamp(1.4rem, 4vh, 3rem) clamp(1.4rem, 3.5vw, 3.8rem);
+  overflow: hidden;
+  border-right: 1px solid var(--g3-line);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--g3-red) 10%, transparent), transparent 62%);
+}
+
+.g3-catalog-intro::after {
+  position: absolute;
+  right: -0.08em;
+  bottom: -0.25em;
+  content: "读";
+  color: color-mix(in srgb, var(--g3-red) 10%, transparent);
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(12rem, 29vw, 26rem);
+  font-weight: 900;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.g3-back-link {
+  position: relative;
+  z-index: 1;
+  min-height: 44px;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  border: 0;
+  color: var(--g3-muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.g3-catalog-intro-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.g3-catalog-intro h1 {
+  max-width: 9ch;
+  margin: 0.6rem 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.65rem, min(5.4vw, 8.2vh), 5.5rem);
+  line-height: 1.35;
+}
+
+.g3-catalog-intro-copy > p:not(.g3-kicker) {
+  max-width: 30rem;
+  margin: 0;
+  color: var(--g3-muted);
+  font-size: clamp(0.86rem, 1.25vw, 1.04rem);
+  line-height: 1.68;
+}
+
+.g3-catalog-intro-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.g3-catalog-intro-actions .g3-source-stamp { margin: 0; }
+.g3-catalog-intro-actions .g3-primary-action { margin: 0; }
+
+.g3-catalog-browser {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: clamp(0.8rem, 2vh, 1.4rem) clamp(0.8rem, 2vw, 1.6rem);
+}
+
+.g3-catalog-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: clamp(4.6rem, 10vh, 6.2rem);
+  border-top: 1px solid var(--g3-line);
+  border-bottom: 1px solid var(--g3-line);
+}
+
+.g3-catalog-tabs button {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  padding: 0.65rem clamp(0.55rem, 1.4vw, 1.1rem);
+  border: 0;
+  border-right: 1px solid var(--g3-line);
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.g3-catalog-tabs button:last-child { border-right: 0; }
+.g3-catalog-tabs button::after {
+  position: absolute;
+  right: 16%;
+  bottom: -1px;
+  left: 16%;
+  height: 3px;
+  content: "";
+  background: var(--g3-red);
+  opacity: 0;
+  transform: scaleX(0.3);
+  transition: opacity 180ms ease, transform 240ms ease;
+}
+
+.g3-catalog-tabs button:hover,
+.g3-catalog-tabs button.is-active { color: var(--g3-gold); background: var(--g3-faint); }
+.g3-catalog-tabs button.is-active::after { opacity: 1; transform: scaleX(1); }
+.g3-catalog-tabs span { color: var(--g3-red); font-size: 0.7rem; font-weight: 900; }
+.g3-catalog-tabs i { font-family: "Noto Serif SC", serif; font-size: clamp(1.7rem, 3vw, 2.6rem); font-style: normal; }
+.g3-catalog-tabs strong {
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.g3-catalog-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(18rem, 0.88fr);
+  min-height: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--g3-line);
+  animation: g3-catalog-reveal 440ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes g3-catalog-reveal {
+  from { opacity: 0; transform: translateY(0.8rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.g3-catalog-feature-image {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  background: var(--g3-bg-soft);
+}
+
+.g3-catalog-feature-image::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(180deg, transparent 38%, rgba(8, 13, 14, 0.78));
+  pointer-events: none;
+}
+
+.g3-catalog-feature-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.04) contrast(1.04) brightness(0.92);
+  animation: g3-catalog-image 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+:root[data-theme="light"] .g3-catalog-feature-image > img { filter: saturate(1.02) contrast(1.02) brightness(1); }
+
+@keyframes g3-catalog-image {
+  from { transform: scale(1.055); }
+  to { transform: scale(1); }
+}
+
+.g3-catalog-feature-image figcaption {
+  position: absolute;
+  z-index: 2;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  color: #fff8e8;
+}
+
+.g3-catalog-feature-image figcaption > span {
+  align-self: center;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.g3-catalog-feature-image figcaption > i {
+  margin-right: auto;
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(3.4rem, 7vw, 6.5rem);
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.g3-catalog-feature-image figcaption > small {
+  max-width: 13rem;
+  color: rgba(255, 248, 232, 0.72);
+  font-size: 0.7rem;
+  text-align: right;
+}
+
+.g3-catalog-feature-copy {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.2rem, 3.3vw, 3.5rem);
+  overflow: hidden;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--g3-jade) 8%, transparent), transparent 62%);
+}
+
+.g3-catalog-feature-copy > p,
+.g3-catalog-feature-copy h2,
+.g3-catalog-feature-copy blockquote {
+  margin: 0;
+}
+
+.g3-catalog-feature-copy > p {
+  color: var(--g3-jade);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.g3-catalog-feature-copy h2 {
+  margin-top: 0.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, min(4.2vw, 7vh), 4.5rem);
+  line-height: 1.35;
+}
+
+.g3-catalog-feature-copy > strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--g3-muted);
+  font-size: clamp(0.82rem, 1.1vw, 1rem);
+}
+
+.g3-catalog-feature-copy blockquote {
+  margin-top: clamp(0.7rem, 2vh, 1.2rem);
+  color: var(--g3-ink);
+  font-family: var(--font-display);
+  font-size: clamp(0.96rem, 1.3vw, 1.14rem);
+  line-height: 1.55;
+}
+
+.g3-catalog-feature-copy > small {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--g3-muted);
+  font-size: 0.76rem;
+}
+
+.g3-catalog-feature-copy .g3-context-original {
+  color: var(--g3-jade);
+  font-family: "Noto Serif SC", serif;
+  font-size: 0.86rem;
+}
+
+.g3-catalog-cast {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: clamp(0.7rem, 2vh, 1.2rem);
+}
+
+.g3-catalog-cast > span {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.4rem auto;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.g3-catalog-cast img { width: 2.4rem; height: 2.4rem; border: 1px solid var(--g3-gold); border-radius: 50%; object-fit: cover; }
+.g3-catalog-cast b { position: absolute; bottom: -0.1rem; left: 1.65rem; display: grid; width: 1rem; height: 1rem; place-items: center; border-radius: 50%; color: #fff8e8; background: var(--g3-red); font-size: 0.5rem; }
+.g3-catalog-cast em { font-size: 0.74rem; font-style: normal; font-weight: 800; }
+.g3-catalog-cast em small { display: block; margin-top: 0.05rem; color: var(--g3-gold); font-size: 0.6rem; }
+
+.g3-catalog-feature-copy > button {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(100%, 14rem);
+  margin-top: clamp(0.8rem, 2vh, 1.3rem);
+  padding: 0.65rem 0.9rem;
+  border: 0;
+  color: #fff8e8;
+  background: var(--g3-red);
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.g3-catalog-feature-copy > button:hover { transform: translateY(-2px); box-shadow: 0 0.8rem 2rem color-mix(in srgb, var(--g3-red) 20%, transparent); }

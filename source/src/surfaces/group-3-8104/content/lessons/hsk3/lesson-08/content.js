@@ -1,0 +1,109 @@
+import { group3AssetPath } from "../../../../config.js";
+
+const SOURCE_FILE = "docs/references/hsk/sources/hsk3.pdf";
+export const lessonHsk3L8SourceRef = (printedPages, pdfPages) => `${SOURCE_FILE}#printed-pages=${printedPages}&pdf-pages=${pdfPages}`;
+const sourceRef = lessonHsk3L8SourceRef("67-75", "79-87");
+const art = (scene) => ({ image: group3AssetPath(`/assets/group3/lesson-hsk3-l8-${scene}-v1.webp`), imageSrcSet: `${group3AssetPath(`/assets/group3/lesson-hsk3-l8-${scene}-720w-v1.webp`)} 720w, ${group3AssetPath(`/assets/group3/lesson-hsk3-l8-${scene}-v1.webp`)} 1400w` });
+const line = (source, value) => ({ ...value, reading: value.reading || value.pinyin, sourceRef: source });
+
+const characters = {
+  liWen: { hanzi: "李文", pinyin: "Lǐ Wén", nameTh: "หลี่เหวิน", nameEn: "Li Wen", ...art("gym"), imageFocus: "34% center" },
+  chen: { hanzi: "陈天中", pinyin: "Chén Tiānzhōng", nameTh: "เฉินเทียนจง", nameEn: "Chen Tianzhong", ...art("gym"), imageFocus: "66% center" },
+  annie: { hanzi: "安妮", pinyin: "Ānnī", nameTh: "แอนนี่", nameEn: "Annie", ...art("classroom"), imageFocus: "34% center" },
+};
+
+const vocabularyPages = [
+  [1, "最近", "zuìjìn", "n.", "lately; recently", "ช่วงนี้ / เมื่อเร็ว ๆ นี้", 68, 80], [2, "常", "cháng", "adv.", "often", "บ่อย", 68, 80], [3, "体育馆", "tǐyùguǎn", "n.", "gymnasium", "โรงยิม", 68, 80], [4, "习惯", "xíguàn", "n./v.", "habit; be used to", "นิสัย / เคยชิน", 68, 80], [5, "胖", "pàng", "adj.", "fat", "อ้วน", 68, 80], [6, "健康", "jiànkāng", "adj.", "healthy", "สุขภาพดี", 68, 80], [7, "以后", "yǐhòu", "n.", "after; afterward", "หลังจากนี้ / ภายหลัง", 68, 80], [8, "羽毛球", "yǔmáoqiú", "n.", "badminton", "แบดมินตัน", 68, 80],
+  [9, "耳朵", "ěrduo", "n.", "ear", "หู", 70, 82], [10, "感冒", "gǎnmào", "v./n.", "catch a cold; cold", "เป็นหวัด / หวัด", 70, 82], [11, "发烧", "fāshāo", "v.", "have a fever", "เป็นไข้", 70, 82], [12, "低", "dī", "adj.", "low", "ต่ำ", 70, 82], [13, "关心", "guānxīn", "v.", "be concerned about", "ห่วงใย", 70, 82], [14, "注意", "zhùyì", "v.", "pay attention to", "ใส่ใจ / ระวัง", 70, 82],
+  [15, "突然", "tūrán", "adj.", "sudden", "กะทันหัน", 71, 83], [16, "住院", "zhùyuàn", "v.", "be in hospital", "เข้ารักษาตัวในโรงพยาบาล", 71, 83], [17, "担心", "dānxīn", "v.", "worry", "กังวล", 71, 83], [18, "腿", "tuǐ", "n.", "leg", "ขา", 71, 83], [19, "病人", "bìngrén", "n.", "patient", "ผู้ป่วย", 71, 83], [20, "差不多", "chàbuduō", "adv./adj.", "almost; similar", "เกือบ / พอ ๆ กัน", 71, 83], [21, "得", "děi", "mod.", "need; have to", "ต้อง", 71, 83], [22, "开心", "kāixīn", "adj.", "happy", "มีความสุข", 71, 83],
+  [23, "出院", "chūyuàn", "v.", "leave hospital", "ออกจากโรงพยาบาล", 73, 85], [24, "开", "kāi", "v.", "prescribe", "สั่งยา", 73, 85], [25, "种", "zhǒng", "m.", "kind; type", "ชนิด", 73, 85], [26, "方法", "fāngfǎ", "n.", "method", "วิธี", 73, 85], [27, "其他", "qítā", "pron.", "other", "อื่น ๆ", 73, 85], [28, "心里", "xīnli", "n.", "mind; heart", "ในใจ", 73, 85],
+];
+const vocabulary = vocabularyPages.map(([index, hanzi, pinyin, type, en, thAid, page, pdfPage]) => ({ index, hanzi, pinyin, type, en, th: thAid, thAid, page, translationKind: "editorial-aid", sourceRef: lessonHsk3L8SourceRef(String(page), String(pdfPage)) }));
+const gymRef = lessonHsk3L8SourceRef("68", "80");
+const classroomRef = lessonHsk3L8SourceRef("69-70", "81-82");
+const wardRef = lessonHsk3L8SourceRef("71", "83");
+
+const scenes = [
+  {
+    id: "h3l8-gym", number: "01", glyph: "健", title: "在体育馆谈运动习惯", titleTh: "คุยเรื่องนิสัยออกกำลังกายในโรงยิม", titleEn: "Exercise habits at the gym", place: "学校体育馆", placeTh: "โรงยิมของโรงเรียน", ...art("gym"),
+    imageAlt: { th: "หลี่เหวินพบเฉินเทียนจงในโรงยิม", zh: "体育馆场景", en: "The school gym scene" }, source: "Text 1 · หน้าเล่ม 68 · PDF หน้า 80", sourcePage: "68", sourceRef: gymRef,
+    context: "在学校的体育馆，李文遇到了陈天中。", contextTh: "ที่โรงยิมของโรงเรียน หลี่เหวินพบเฉินเทียนจง", contextEn: "In the school gymnasium, Li Wen met Chen Tianzhong.",
+    characters: [{ role: "A", profile: "liWen", noteTh: "ผู้ชวนเล่นแบดมินตันและเสนอจะสอน", noteZh: "邀请打羽毛球并愿意教的人", noteEn: "The badminton player offering to teach" }, { role: "B", profile: "chen", noteTh: "ผู้วิ่งทุกวันเพื่อควบคุมน้ำหนัก", noteZh: "为了健康每天跑步的人", noteEn: "The person running daily for health" }],
+    lines: [
+      line(gymRef, { role: "A", speaker: "李文", hanzi: "天中，最近常看见你来体育馆。", pinyin: "Tiānzhōng, zuìjìn cháng kànjiàn nǐ lái tǐyùguǎn.", en: "Tianzhong, I often see you coming to the gym lately.", th: "เทียนจง ช่วงนี้เห็นเธอมาที่โรงยิมบ่อย", visual: { zh: "常来体育馆", th: "มาโรงยิมบ่อย", focus: "34% center" } }),
+      line(gymRef, { role: "B", speaker: "陈天中", hanzi: "我每天下午都来跑一个小时步。", pinyin: "Wǒ měitiān xiàwǔ dōu lái pǎo yí ge xiǎoshí bù.", en: "I come every afternoon and run for an hour.", th: "ฉันมาวิ่งหนึ่งชั่วโมงทุกบ่าย", visual: { zh: "跑一个小时步", th: "วิ่งหนึ่งชั่วโมง", focus: "66% center" } }),
+      line(gymRef, { role: "A", speaker: "李文", hanzi: "你的运动习惯真不错。", pinyin: "Nǐ de yùndòng xíguàn zhēn búcuò.", en: "Your exercise habit is really good.", th: "นิสัยออกกำลังกายของเธอดีจริง ๆ", visual: { zh: "运动习惯真不错", th: "นิสัยออกกำลังดี", focus: "36% center" } }),
+      line(gymRef, { role: "B", speaker: "陈天中", hanzi: "因为我今年胖了十多斤，不能再胖下去了，有点儿不健康。", pinyin: "Yīnwèi wǒ jīnnián pàng le shí duō jīn, bù néng zài pàng xiàqu le, yǒudiǎnr bù jiànkāng.", en: "I gained over ten jin this year. I can’t keep getting heavier; it’s a little unhealthy.", th: "เพราะปีนี้ฉันหนักขึ้นกว่าสิบจิน จะอ้วนต่อไปไม่ได้แล้ว ไม่ค่อยดีต่อสุขภาพ", visual: { zh: "不能再胖下去了", th: "อ้วนต่อไปไม่ได้แล้ว", focus: "64% center" } }),
+      line(gymRef, { role: "A", speaker: "李文", hanzi: "我下课以后常去打羽毛球，你也来玩吧。", pinyin: "Wǒ xiàkè yǐhòu cháng qù dǎ yǔmáoqiú, nǐ yě lái wán ba.", en: "I often play badminton after class. Come join us.", th: "หลังเลิกเรียนฉันไปเล่นแบดมินตันบ่อย เธอมาร่วมด้วยสิ", visual: { zh: "打羽毛球", th: "เล่นแบดมินตัน", focus: "38% center" } }),
+      line(gymRef, { role: "B", speaker: "陈天中", hanzi: "我知道，但是你们的水平太高了，我打得不怎么样。", pinyin: "Wǒ zhīdào, dànshì nǐmen de shuǐpíng tài gāo le, wǒ dǎ de bù zěnmeyàng.", en: "I know, but your level is too high. I’m not very good.", th: "ฉันรู้ แต่ระดับของพวกเธอสูงเกินไป ฉันเล่นไม่ค่อยดี", visual: { zh: "打得不怎么样", th: "เล่นไม่ค่อยดี", focus: "62% center" } }),
+      line(gymRef, { role: "A", speaker: "李文", hanzi: "没关系，我可以教你。", pinyin: "Méi guānxi, wǒ kěyǐ jiāo nǐ.", en: "It’s okay. I can teach you.", th: "ไม่เป็นไร ฉันสอนเธอได้", visual: { zh: "我可以教你", th: "ฉันสอนเธอได้", focus: "40% center" } }),
+    ],
+    qte: { after: 3, prompt: { th: "ทำไมเฉินเทียนจงจึงไม่อยากอ้วนต่อไป?", zh: "陈天中为什么不能再胖下去？", en: "Why does Chen Tianzhong not want to keep gaining weight?" }, options: [{ value: "有点儿不健康", zh: "有点儿不健康", pinyin: "yǒudiǎnr bù jiànkāng", th: "ไม่ค่อยดีต่อสุขภาพ" }, { value: "要参加比赛", zh: "要参加比赛", pinyin: "yào cānjiā bǐsài", th: "ต้องแข่งกีฬา" }, { value: "不喜欢体育馆", zh: "不喜欢体育馆", pinyin: "bù xǐhuan tǐyùguǎn", th: "ไม่ชอบโรงยิม" }], correct: "有点儿不健康", evidence: "陈天中：不能再胖下去了，有点儿不健康。", evidenceTh: "เฉินเทียนจง: อ้วนต่อไปไม่ได้แล้ว ไม่ค่อยดีต่อสุขภาพ", sourceRef: gymRef },
+    builder: { prompt: { th: "เรียงประโยคบอกว่าน้ำหนักเพิ่มต่อไม่ได้", zh: "重组“下去”句", en: "Rebuild the 下去 sentence" }, answer: ["不能", "再", "胖", "下去", "了"], tiles: ["下去", "了", "不能", "胖", "再"], gloss: { 不能: "ไม่ได้", 再: "อีก", 胖: "อ้วน", 下去: "ต่อไป", 了: "แล้ว" }, translationTh: "จะอ้วนต่อไปอีกไม่ได้แล้ว", translationEn: "I cannot keep gaining weight.", evidence: "Text 1 · หน้าเล่ม 68", sourceRef: gymRef },
+  },
+  {
+    id: "h3l8-classroom", number: "02", glyph: "烧", title: "安妮关心发烧的同学", titleTh: "แอนนี่ห่วงเพื่อนที่เป็นไข้", titleEn: "Annie checks on a sick classmate", place: "教室",
+    placePy: "jiàoshì", placeTh: "ห้องเรียน", ...art("classroom"),
+    imageAlt: { th: "แอนนี่ถามอาการเฉินเทียนจง", zh: "教室问候场景", en: "Annie asking about Chen’s health" }, source: "Text 2 · หน้าเล่ม 69–70 · PDF หน้า 81–82", sourcePage: "69–70", sourceRef: classroomRef,
+    context: "在教室，安妮问候陈天中。", contextTh: "ในห้องเรียน แอนนี่ถามไถ่อาการเฉินเทียนจง", contextEn: "In the classroom, Annie expressed concern for Chen Tianzhong.",
+    characters: [{ role: "A", profile: "annie", noteTh: "ผู้ห่วงใยและแนะนำให้ไปหาหมอ", noteZh: "关心同学并建议看医生的人", noteEn: "The concerned classmate recommending a doctor" }, { role: "B", profile: "chen", noteTh: "ผู้ป่วยที่อยากกลับไปนอนพักก่อน", noteZh: "想先回去休息的病人", noteEn: "The sick student wanting to rest first" }],
+    lines: [
+      line(classroomRef, { role: "A", speaker: "安妮", hanzi: "你怎么了？看上去有点儿不舒服。", pinyin: "Nǐ zěnme le? Kàn shangqu yǒudiǎnr bù shūfu.", en: "What’s wrong? You look a little unwell.", th: "เป็นอะไร? ดูเหมือนไม่ค่อยสบาย", visual: { zh: "有点儿不舒服", th: "ไม่ค่อยสบาย", focus: "34% center" } }),
+      line(classroomRef, { role: "B", speaker: "陈天中", hanzi: "昨天游完泳以后，耳朵一直有点儿疼。", pinyin: "Zuótiān yóuwán yǒng yǐhòu, ěrduo yìzhí yǒudiǎnr téng.", en: "Since I finished swimming yesterday, my ear has kept hurting a little.", th: "หลังว่ายน้ำเสร็จเมื่อวาน หูเจ็บนิดหน่อยมาตลอด", visual: { zh: "耳朵一直疼", th: "หูเจ็บมาตลอด", focus: "66% center" } }),
+      line(classroomRef, { role: "A", speaker: "安妮", hanzi: "是不是感冒了？发烧吗？", pinyin: "Shì bu shì gǎnmào le? Fāshāo ma?", en: "Did you catch a cold? Do you have a fever?", th: "เป็นหวัดหรือเปล่า? เป็นไข้ไหม?", visual: { zh: "发烧吗", th: "เป็นไข้ไหม", focus: "36% center" } }),
+      line(classroomRef, { role: "B", speaker: "陈天中", hanzi: "好像发低烧了。", pinyin: "Hǎoxiàng fā dīshāo le.", en: "It seems I have a low fever.", th: "เหมือนจะมีไข้ต่ำ", visual: { zh: "发低烧", th: "มีไข้ต่ำ", focus: "64% center" } }),
+      line(classroomRef, { role: "A", speaker: "安妮", hanzi: "我送你去医院，让医生检查一下吧。", pinyin: "Wǒ sòng nǐ qù yīyuàn, ràng yīshēng jiǎnchá yíxià ba.", en: "I’ll take you to the hospital and let a doctor examine you.", th: "ฉันพาเธอไปโรงพยาบาล ให้หมอตรวจหน่อย", visual: { zh: "让医生检查一下", th: "ให้หมอตรวจ", focus: "38% center" } }),
+      line(classroomRef, { role: "B", speaker: "陈天中", hanzi: "我先回去睡一觉，可能休息休息就好了。", pinyin: "Wǒ xiān huíqu shuì yí jiào, kěnéng xiūxixiūxi jiù hǎo le.", en: "I’ll go back and sleep first. Maybe some rest will make me better.", th: "ฉันจะกลับไปนอนก่อน พักสักหน่อยอาจจะดีขึ้น", visual: { zh: "休息休息就好了", th: "พักแล้วคงดีขึ้น", focus: "62% center" } }),
+      line(classroomRef, { role: "A", speaker: "安妮", hanzi: "好吧，如果下午还发烧，就一定要去看医生。", pinyin: "Hǎo ba, rúguǒ xiàwǔ hái fāshāo, jiù yídìng yào qù kàn yīshēng.", en: "All right. If you still have a fever this afternoon, you must see a doctor.", th: "ได้ ถ้าบ่ายนี้ยังเป็นไข้ ต้องไปหาหมอแน่นอน", visual: { zh: "一定要去看医生", th: "ต้องไปหาหมอ", focus: "40% center" } }),
+      line(classroomRef, { role: "B", speaker: "陈天中", hanzi: "谢谢关心，我会注意的。", pinyin: "Xièxie guānxīn, wǒ huì zhùyì de.", en: "Thank you for caring. I’ll pay attention.", th: "ขอบคุณที่เป็นห่วง ฉันจะระวัง", visual: { zh: "我会注意的", th: "ฉันจะระวัง", focus: "42% center" } }),
+    ],
+    qte: { after: 3, prompt: { th: "เฉินเทียนจงมีอาการอะไร?", zh: "陈天中有什么症状？", en: "What symptom does Chen Tianzhong have?" }, options: [{ value: "发低烧", zh: "发低烧", pinyin: "fā dīshāo", th: "มีไข้ต่ำ" }, { value: "腿疼", zh: "腿疼", pinyin: "tuǐ téng", th: "ปวดขา" }, { value: "头疼", zh: "头疼", pinyin: "tóuténg", th: "ปวดหัว" }], correct: "发低烧", evidence: "陈天中：好像发低烧了。", evidenceTh: "เฉินเทียนจง: เหมือนจะมีไข้ต่ำ", sourceRef: classroomRef },
+    builder: { prompt: { th: "เรียงประโยคที่มีคำกริยาแยก", zh: "重组离合词句", en: "Rebuild the separable-word sentence" }, answer: ["昨天", "游完泳", "以后", "耳朵", "一直有点儿疼"], tiles: ["耳朵", "以后", "游完泳", "一直有点儿疼", "昨天"], gloss: { 昨天: "เมื่อวาน", 游完泳: "ว่ายน้ำเสร็จ", 以后: "หลังจาก", 耳朵: "หู", 一直有点儿疼: "เจ็บนิดหน่อยมาตลอด" }, translationTh: "หลังว่ายน้ำเสร็จเมื่อวาน หูเจ็บนิดหน่อยมาตลอด", translationEn: "After swimming yesterday, my ear kept hurting a little.", evidence: "Text 2 · หน้าเล่ม 70", sourceRef: classroomRef },
+  },
+  {
+    id: "h3l8-ward", number: "03", glyph: "院", title: "在病房探望陈天中", titleTh: "เยี่ยมเฉินเทียนจงในห้องผู้ป่วย", titleEn: "Visiting Chen in hospital", place: "医院病房", placeTh: "ห้องผู้ป่วยในโรงพยาบาล", ...art("ward"),
+    imageAlt: { th: "แอนนี่เยี่ยมเฉินเทียนจงในโรงพยาบาล", zh: "医院病房探望场景", en: "A hospital ward visit" }, source: "Text 3 · หน้าเล่ม 71 · PDF หน้า 83", sourcePage: "71", sourceRef: wardRef,
+    context: "在医院病房，安妮探望陈天中。", contextTh: "ในห้องผู้ป่วย แอนนี่มาเยี่ยมเฉินเทียนจง", contextEn: "In the hospital ward, Annie visited Chen Tianzhong.",
+    characters: [{ role: "A", profile: "annie", noteTh: "ผู้มาเยี่ยมและให้กำลังใจ", noteZh: "探望病人并鼓励休息的人", noteEn: "The visitor encouraging rest" }, { role: "B", profile: "chen", noteTh: "ผู้ป่วยขาที่ต้องตรวจเพิ่มเติม", noteZh: "因腿疼住院检查的人", noteEn: "The patient hospitalized for leg tests" }],
+    lines: [
+      line(wardRef, { role: "A", speaker: "安妮", hanzi: "你怎么突然住院了？大家都很担心你。", pinyin: "Nǐ zěnme tūrán zhùyuàn le? Dàjiā dōu hěn dānxīn nǐ.", en: "Why were you suddenly hospitalized? Everyone is worried about you.", th: "ทำไมถึงเข้าโรงพยาบาลกะทันหัน? ทุกคนเป็นห่วงเธอมาก", visual: { zh: "突然住院了", th: "เข้าโรงพยาบาลกะทันหัน", focus: "34% center" } }),
+      line(wardRef, { role: "B", speaker: "陈天中", hanzi: "我的腿疼了几个星期了，医生说需要住院做检查。", pinyin: "Wǒ de tuǐ téng le jǐ ge xīngqī le, yīshēng shuō xūyào zhùyuàn zuò jiǎnchá.", en: "My leg has hurt for several weeks. The doctor said I needed to be hospitalized for tests.", th: "ขาฉันเจ็บมาหลายสัปดาห์ หมอบอกว่าต้องเข้าโรงพยาบาลเพื่อตรวจ", visual: { zh: "住院做检查", th: "เข้าโรงพยาบาลตรวจ", focus: "66% center" } }),
+      line(wardRef, { role: "A", speaker: "安妮", hanzi: "你看起来一点儿也不像病人。", pinyin: "Nǐ kàn qǐlai yìdiǎnr yě bú xiàng bìngrén.", en: "You don’t look like a patient at all.", th: "เธอดูไม่เหมือนผู้ป่วยเลยสักนิด", visual: { zh: "一点儿也不像病人", th: "ไม่เหมือนผู้ป่วยเลย", focus: "36% center" } }),
+      line(wardRef, { role: "B", speaker: "陈天中", hanzi: "是啊，我很少生病。我上次来医院已经过去差不多两年了。", pinyin: "Shì a, wǒ hěn shǎo shēngbìng. Wǒ shàng cì lái yīyuàn yǐjīng guòqu chàbuduō liǎng nián le.", en: "Right. I rarely get sick. It has been almost two years since I last came to a hospital.", th: "ใช่ ฉันป่วยน้อยมาก ครั้งก่อนที่มาโรงพยาบาลผ่านไปเกือบสองปีแล้ว", visual: { zh: "差不多两年了", th: "เกือบสองปีแล้ว", focus: "64% center" } }),
+      line(wardRef, { role: "A", speaker: "安妮", hanzi: "你每天跑步，有时候还去游泳，是不是运动太多了？", pinyin: "Nǐ měitiān pǎobù, yǒushíhou hái qù yóuyǒng, shì bu shì yùndòng tài duō le?", en: "You run every day and sometimes swim. Have you been exercising too much?", th: "เธอวิ่งทุกวัน บางครั้งยังไปว่ายน้ำ ออกกำลังกายมากเกินไปหรือเปล่า?", visual: { zh: "运动太多了", th: "ออกกำลังมากเกินไป", focus: "38% center" } }),
+      line(wardRef, { role: "B", speaker: "陈天中", hanzi: "医生也这么说，但是还得做完检查才能知道。", pinyin: "Yīshēng yě zhème shuō, dànshì hái děi zuòwán jiǎnchá cái néng zhīdào.", en: "The doctor said so too, but we won’t know until the tests are finished.", th: "หมอก็พูดแบบนั้น แต่ต้องตรวจให้เสร็จก่อนจึงจะรู้", visual: { zh: "做完检查才能知道", th: "ตรวจเสร็จจึงจะรู้", focus: "62% center" } }),
+      line(wardRef, { role: "A", speaker: "安妮", hanzi: "别担心！听医生的话，好好休息，你的腿一定能好。", pinyin: "Bié dānxīn! Tīng yīshēng de huà, hǎohāo xiūxi, nǐ de tuǐ yídìng néng hǎo.", en: "Don’t worry! Follow the doctor’s advice and rest well; your leg will get better.", th: "ไม่ต้องกังวล! เชื่อหมอ พักให้ดี ขาของเธอต้องหายแน่", visual: { zh: "好好休息", th: "พักให้ดี", focus: "40% center" } }),
+      line(wardRef, { role: "B", speaker: "陈天中", hanzi: "谢谢。有人来看我，我就开心多了。", pinyin: "Xièxie. Yǒu rén lái kàn wǒ, wǒ jiù kāixīn duō le.", en: "Thank you. Having someone visit makes me much happier.", th: "ขอบคุณ มีคนมาเยี่ยม ฉันก็มีความสุขขึ้นมาก", visual: { zh: "开心多了", th: "มีความสุขขึ้นมาก", focus: "42% center" } }),
+    ],
+    qte: { after: 3, prompt: { th: "ครั้งก่อนที่เฉินเทียนจงมาโรงพยาบาลผ่านไปนานเท่าไร?", zh: "陈天中上次来医院已经过去多久了？", en: "How long has it been since Chen last came to the hospital?" }, options: [{ value: "差不多两年", zh: "差不多两年", pinyin: "chàbuduō liǎng nián", th: "เกือบสองปี" }, { value: "几个星期", zh: "几个星期", pinyin: "jǐ ge xīngqī", th: "หลายสัปดาห์" }, { value: "两个月", zh: "两个月", pinyin: "liǎng ge yuè", th: "สองเดือน" }], correct: "差不多两年", evidence: "陈天中：我上次来医院已经过去差不多两年了。", evidenceTh: "เฉินเทียนจง: ครั้งก่อนที่มาโรงพยาบาลผ่านไปเกือบสองปีแล้ว", sourceRef: wardRef },
+    builder: { prompt: { th: "เรียงประโยคบอกช่วงเวลาที่ผ่านไป", zh: "重组时量补语句", en: "Rebuild the duration-complement sentence" }, answer: ["我上次来医院", "已经", "过去", "差不多两年", "了"], tiles: ["差不多两年", "已经", "了", "我上次来医院", "过去"], gloss: { 我上次来医院: "ครั้งก่อนที่ฉันมาโรงพยาบาล", 已经: "ได้...แล้ว", 过去: "ผ่านไป", 差不多两年: "เกือบสองปี", 了: "แล้ว" }, translationTh: "ครั้งก่อนที่ฉันมาโรงพยาบาลผ่านไปเกือบสองปีแล้ว", translationEn: "It has been almost two years since I last came to the hospital.", evidence: "Text 3 · หน้าเล่ม 71", sourceRef: wardRef },
+  },
+];
+
+export const LESSON_HSK3_L8 = {
+  id: "hsk3-l8", slug: "lesson-8", level: "hsk3", number: 8, featured: false, sourceRef,
+  source: { title: "新HSK教程 3 · New HSK Course 3", lesson: "Lesson 8 · 今天我出院了", printedPages: "67–75", pdfPages: "79–87", file: "hsk3.pdf", sourceRef },
+  title: { zh: "今天我出院了", pinyin: "Jīntiān wǒ chūyuàn le", en: "Today I was discharged from the hospital", thAid: "วันนี้ฉันออกจากโรงพยาบาลแล้ว" },
+  summary: { zh: "谈运动习惯、身体不适和住院经历，学习“下去”、离合词和时量补语。", en: "Discuss exercise habits, illness, and hospitalization while learning 下去, separable words, and duration complements.", thAid: "คุยเรื่องการออกกำลัง อาการป่วย และการเข้าโรงพยาบาล พร้อมฝึก 下去 คำกริยาแยก และบทเสริมเวลา" },
+  translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  objectives: [
+    { zh: "能听懂并描述看病经历及用药方法。", en: "Understand and describe medical visits and methods of medication.", thAid: "ฟังเข้าใจและเล่าประสบการณ์พบหมอกับวิธีใช้ยา", sourceRef: lessonHsk3L8SourceRef("67", "79") },
+    { zh: "能听懂并交流身体状况和健康习惯。", en: "Understand and discuss physical conditions and healthy habits.", thAid: "พูดคุยเรื่องสภาพร่างกายและนิสัยเพื่อสุขภาพ", sourceRef: lessonHsk3L8SourceRef("67", "79") },
+    { zh: "掌握时量补语（2）的用法，能表达动作结束后延续到现在的时长。", en: "Use the complement of duration to express time elapsed since an action ended.", thAid: "ใช้บทเสริมเวลาเพื่อบอกระยะตั้งแต่เหตุการณ์จบจนถึงปัจจุบัน", sourceRef: lessonHsk3L8SourceRef("67", "79") },
+  ],
+  contents: [
+    { number: "00", title: "目标与热身", titleTh: "เป้าหมายและการเตรียมบท", detail: "Objectives · Warm-Up", pages: "67", route: "/home/hsk3/lesson-8/preface/", sourceRef: lessonHsk3L8SourceRef("67", "79") },
+    { number: "01", title: "在体育馆谈运动习惯", titleTh: "นิสัยออกกำลังกายในโรงยิม", detail: "Text 1 · New Words 1–8", pages: "68–69", scene: 1, sourceRef: lessonHsk3L8SourceRef("68-69", "80-81") },
+    { number: "02", title: "安妮关心发烧的同学", titleTh: "ห่วงเพื่อนที่เป็นไข้", detail: "Text 2 · New Words 9–14", pages: "69–70", scene: 2, sourceRef: lessonHsk3L8SourceRef("69-70", "81-82") },
+    { number: "03", title: "在病房探望陈天中", titleTh: "เยี่ยมเฉินเทียนจงในโรงพยาบาล", detail: "Text 3 · New Words 15–22", pages: "71–72", scene: 3, sourceRef: lessonHsk3L8SourceRef("71-72", "83-84") },
+    { number: "04", title: "出院用药、练习与活动", titleTh: "การใช้ยาหลังออกจากโรงพยาบาล", detail: "Text 4 · Exercises · Activity", pages: "72–75", sourceRef: lessonHsk3L8SourceRef("72-75", "84-87") },
+  ],
+  vocabulary,
+  grammarFocus: [
+    { title: "趋向补语“下去”的引申用法", titleEn: "Extended Use of 下去", explanationZh: "“下去”用在动词或形容词后面，表示已经开始的动作或者状态还要继续。", explanationEn: "下去 after a verb or adjective indicates that an action or state already begun will continue.", thAid: "下去 วางหลังกริยาหรือคุณศัพท์ เพื่อบอกว่าการกระทำหรือสภาพที่เริ่มแล้วดำเนินต่อ", examples: ["不能再胖下去了。", "后面的你读下去。", "如果再热下去就不能出门了。"], sourceRef: lessonHsk3L8SourceRef("69", "81") },
+    { title: "离合词（2）", titleEn: "Separable Words (2)", explanationZh: "离合词一般不能直接加宾语；句中有补语时，一般放在离合词的中间。", explanationEn: "Separable words generally cannot directly take an object; complements are normally placed between their two parts.", thAid: "คำกริยาแยกมักรับกรรมตรงไม่ได้ และวางบทเสริมไว้ระหว่างสองส่วน", examples: ["昨天游完泳以后，我的耳朵一直有点儿疼。", "今年夏天只下了两次雨。", "小张下个月跟他女朋友结婚。"], sourceRef: lessonHsk3L8SourceRef("70", "82") },
+    { title: "时量补语（2）", titleEn: "Complement of Duration (2)", explanationZh: "时量补语用在动词后表示动作或状态持续的时间；非持续动词后表示动作完成到说话时过了多久。", explanationEn: "A duration complement states how long an action lasts, or with a non-durative verb, how much time has elapsed since completion.", thAid: "บทเสริมเวลาบอกระยะของการกระทำ หรือระยะที่ผ่านไปหลังเหตุการณ์จบ", examples: ["我上次来医院已经过去差不多两年了。", "她回家两个月了。", "开学已经三个多星期了。"], sourceRef: lessonHsk3L8SourceRef("72", "84") },
+  ],
+  characters,
+  scenes,
+};

@@ -25,8 +25,8 @@ test("legacy scene query normalization stays bounded", () => {
   assert.equal(normalizeSceneIndex("?scene=999"), 2);
 });
 
-test("all 48 lessons expose canonical overview, section, scene, and game routes", () => {
-  assert.equal(GROUP3_LESSONS.length, 48);
+test("all 7 curated lessons expose canonical overview, section, scene, and game routes", () => {
+  assert.equal(GROUP3_LESSONS.length, 7);
   for (const lesson of GROUP3_LESSONS) {
     const lessonNumber = String(lesson.number).padStart(2, "0");
     const base = `/home/${lesson.level}/lessons/lesson-${lessonNumber}/`;
@@ -38,7 +38,7 @@ test("all 48 lessons expose canonical overview, section, scene, and game routes"
       `${base}vocabulary/`,
     ]);
 
-    for (let scene = 1; scene <= 3; scene += 1) {
+    for (let scene = 1; scene <= (lesson.scenes?.length || 2); scene += 1) {
       const path = scenePath(lesson, scene);
       assert.equal(path, `${base}scenes/scene-0${scene}/`);
       assert.deepEqual(routeFromLocation({ pathname: path, search: "" }), {
@@ -83,24 +83,24 @@ test("canonical parser supports gateway mounts and lesson sections", () => {
 
 test("legacy lesson URLs map to canonical resources without losing lesson identity", () => {
   const legacyReader = routeFromLocation({
-    pathname: "/group3/home/hsk1/lesson-10/",
-    search: "?scene=3&theme=dark",
+    pathname: "/group3/home/hsk1/lesson-2/",
+    search: "?scene=2&theme=dark",
   });
   assert.deepEqual(legacyReader, {
     level: "hsk1",
-    lessonSlug: "lesson-10",
+    lessonSlug: "lesson-2",
     name: "reader",
-    scene: 2,
+    scene: 1,
   });
   assert.equal(
     canonicalPathForRoute(legacyReader),
-    "/home/hsk1/lessons/lesson-10/scenes/scene-03/",
+    "/home/hsk1/lessons/lesson-02/scenes/scene-02/",
   );
 
-  const legacyPreface = routeFromLocation({ pathname: "/home/hsk2/lesson-9/preface/", search: "" });
-  assert.equal(canonicalPathForRoute(legacyPreface), "/home/hsk2/lessons/lesson-09/overview/");
-  const legacyGames = routeFromLocation({ pathname: "/home/hsk3/lesson-7/games/", search: "" });
-  assert.equal(canonicalPathForRoute(legacyGames), "/home/hsk3/lessons/lesson-07/games/");
+  const legacyPreface = routeFromLocation({ pathname: "/home/hsk2/lesson-2/preface/", search: "" });
+  assert.equal(canonicalPathForRoute(legacyPreface), "/home/hsk2/lessons/lesson-02/overview/");
+  const legacyGames = routeFromLocation({ pathname: "/home/hsk3/lesson-2/games/", search: "" });
+  assert.equal(canonicalPathForRoute(legacyGames), "/home/hsk3/lessons/lesson-02/games/");
 });
 
 test("unknown lessons fall back to their level catalog", () => {
@@ -118,18 +118,18 @@ test("locationForRoute preserves live theme, hash, and gateway mount", () => {
   const location = {
     hash: "#old",
     hostname: "www.nongmodels.com",
-    pathname: "/group3/home/hsk1/lesson-10/",
+    pathname: "/group3/home/hsk1/lesson-2/",
     port: "",
     protocol: "https:",
-    search: "?theme=light&learner=abc&level=1&lesson=10",
+    search: "?theme=light&learner=abc&level=1&lesson=2",
   };
-  const lesson = findLesson("hsk1", "lesson-10");
+  const lesson = findLesson("hsk1", "lesson-2");
   assert.equal(
-    locationForRoute(scenePath(lesson, 3), {
+    locationForRoute(scenePath(lesson, 2), {
       hash: "#dialogue",
       location,
       theme: "dark",
     }),
-    "/group3/home/hsk1/lessons/lesson-10/scenes/scene-03/?theme=dark#dialogue",
+    "/group3/home/hsk1/lessons/lesson-02/scenes/scene-02/?theme=dark#dialogue",
   );
 });

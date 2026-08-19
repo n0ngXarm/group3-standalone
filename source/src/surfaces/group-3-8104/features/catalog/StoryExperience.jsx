@@ -94,8 +94,11 @@ const LEVEL_ART = {
 };
 
 import { GuideButton } from "../../shared/components/GuideModal.jsx";
+import { FeatureDemoModal, FeatureShowcase } from "./FeatureDemoModal.jsx";
+import { HeroPreviewCarousel } from "./HeroPreviewCarousel.jsx";
 
 export function StoryHome({ language, navigate, lowData = false, onOpenGuide }) {
+  const [activeDemoFeature, setActiveDemoFeature] = useState(null);
   const text = COPY[language];
   const levelGuide = LEVEL_GUIDE[language];
   const featured = FEATURED_LESSON;
@@ -145,11 +148,20 @@ export function StoryHome({ language, navigate, lowData = false, onOpenGuide }) 
           </div>
           <p className="g3-privacy-note"><Icon paths={eyeSlashIcon} />{text.noStorage}</p>
         </div>
-        <MarketIllustration language={language} lowData={lowData} />
+        <HeroPreviewCarousel
+          language={language}
+          lowData={lowData}
+          onOpenFeatureDemo={(featureId) => setActiveDemoFeature(featureId)}
+        />
         <div className="g3-method-rail">
           {methods.map(([number, title, body], index) => <article style={{ "--g3-method-index": index }} key={number}><span>{number}</span><div><strong>{title}</strong><p>{body}</p></div></article>)}
         </div>
       </section>
+
+      <FeatureShowcase
+        language={language}
+        onSelectFeature={(featureId) => setActiveDemoFeature(featureId)}
+      />
 
       <section className="g3-level-gate" aria-labelledby="g3-level-gate-title">
         <header className="g3-level-gate-heading">
@@ -198,6 +210,13 @@ export function StoryHome({ language, navigate, lowData = false, onOpenGuide }) 
         </div>
         <p className="g3-source-policy"><Icon paths={bookIcon} />{text.sourceOnly}</p>
       </section>
+
+      <FeatureDemoModal
+        activeFeature={activeDemoFeature}
+        language={language}
+        onClose={() => setActiveDemoFeature(null)}
+        onSwitchFeature={(nextFeature) => setActiveDemoFeature(nextFeature)}
+      />
     </main>
   );
 }

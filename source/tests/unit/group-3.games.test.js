@@ -127,10 +127,10 @@ async function withLocalStorage(value, callback) {
   }
 }
 
-test("[P0] all 48 lesson builders create exact unique visible choices and card faces", async () => {
+test("[P0] all 7 curated lesson builders create exact unique visible choices and card faces", async () => {
   assert.deepEqual(
     GROUP3_LESSONS.reduce((counts, lesson) => ({ ...counts, [lesson.level]: (counts[lesson.level] || 0) + 1 }), {}),
-    { hsk1: 15, hsk2: 15, hsk3: 18 },
+    { hsk1: 3, hsk2: 2, hsk3: 2 },
   );
 
   for (const entry of GROUP3_LESSONS) {

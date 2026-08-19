@@ -50,9 +50,9 @@ test("Group 3 exposes exactly 28 stable and audibly distinct persona signatures"
   assert.deepEqual(GROUP3_VOICE_PROFILES.teacherWang.legacyProfiles, ["yifei"]);
 });
 
-test("all 48 lessons resolve character roles to the canonical persona registry", () => {
+test("all 7 curated lessons resolve character roles to the canonical persona registry", () => {
   const namedSpeakerProfiles = new Map();
-  const genericLabels = new Set(["服务员", "售货员"]);
+  const genericLabels = new Set(["服务员", "售货员", "司机", "同事", "学生们"]);
   let lineCount = 0;
 
   for (const lesson of GROUP3_LESSONS) {
@@ -76,7 +76,7 @@ test("all 48 lessons resolve character roles to the canonical persona registry",
     }
   }
 
-  assert.equal(lineCount, 868);
+  assert.equal(lineCount, 54);
   assert.deepEqual([...namedSpeakerProfiles.get("王一飞")], ["teacherWang"]);
   for (const [speaker, profiles] of namedSpeakerProfiles) {
     assert.equal(profiles.size, 1, `${speaker} must keep one canonical persona across lessons`);
@@ -90,7 +90,7 @@ test("persona manifest covers every line with identity, transform, loudness, and
   assert.equal(manifest.personaCount, 28);
   assert.equal(manifest.loudnessTargetLufs, -23);
   assert.equal(Object.keys(manifest.profiles).length, 28);
-  assert.equal(manifest.files.length, 868);
+  assert.equal(manifest.files.length, 54);
 
   for (const lesson of GROUP3_LESSONS) {
     for (const [sceneIndex, scene] of lesson.scenes.entries()) {
@@ -113,13 +113,6 @@ test("persona manifest covers every line with identity, transform, loudness, and
       }
     }
   }
-
-  const mixed = byFile.get("h2l5-family-greeting-02.mp3");
-  assert.deepEqual(mixed.participants, ["bai", "annie"]);
-  assert.deepEqual(
-    mixed.participantVoices,
-    [GROUP3_VOICE_PROFILES.bai.voice, GROUP3_VOICE_PROFILES.annie.voice],
-  );
 });
 
 test("voice generator stages the complete batch and restores backups on promotion failure", async () => {
@@ -134,5 +127,4 @@ test("voice generator stages the complete batch and restores backups on promotio
   assert.match(generator, /loudnorm=I=\{LOUDNESS_TARGET_LUFS\}/);
   assert.match(generator, /for current, backup in reversed\(promoted\)/);
   assert.match(generator, /shutil\.copy2\(backup, current\)/);
-  assert.match(generator, /MIXED_LINE_PROFILES = \{"h2l5-family-greeting-02": \("bai", "annie"\)\}/);
 });

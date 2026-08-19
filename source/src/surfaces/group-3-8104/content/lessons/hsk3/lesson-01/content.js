@@ -1,111 +1,1605 @@
+// Auto-generated dynamic Group 3 lesson content
 import { group3AssetPath } from "../../../../config.js";
 
 const SOURCE_FILE = "docs/references/hsk/sources/hsk3.pdf";
-export const lessonHsk3L1SourceRef = (printedPages, pdfPages) => `${SOURCE_FILE}#printed-pages=${printedPages}&pdf-pages=${pdfPages}`;
-const sourceRef = lessonHsk3L1SourceRef("1-9", "13-21");
-const art = (scene) => ({ image: group3AssetPath(`/assets/group3/lesson-hsk3-l1-${scene}-v1.webp`), imageSrcSet: `${group3AssetPath(`/assets/group3/lesson-hsk3-l1-${scene}-720w-v1.webp`)} 720w, ${group3AssetPath(`/assets/group3/lesson-hsk3-l1-${scene}-v1.webp`)} 1400w` });
-const line = (source, value) => ({ ...value, reading: value.reading || value.pinyin, sourceRef: source });
 
-const characters = {
-  liu: { hanzi: "刘明", pinyin: "Liú Míng", nameTh: "หลิวหมิง", nameEn: "Liu Ming", ...art("home"), imageFocus: "34% center" },
-  wang: { hanzi: "王一雪", pinyin: "Wáng Yīxuě", nameTh: "หวังอี้เสวี่ย", nameEn: "Wang Yixue", ...art("home"), imageFocus: "68% center" },
-  bai: { hanzi: "白家月", pinyin: "Bái Jiāyuè", nameTh: "ไป๋เจียเยว่", nameEn: "Bai Jiayue", ...art("baggage"), imageFocus: "35% center" },
-  liWen: { hanzi: "李文", pinyin: "Lǐ Wén", nameTh: "หลี่เหวิน", nameEn: "Li Wen", ...art("arrival"), imageFocus: "68% center" },
+export const SOURCE = {
+  title: "新HSK教程 3 · New HSK Course 3",
+  lesson: "Lesson 1 · 新居生活与高铁之旅",
+  printedPages: "1–10",
+  pdfPages: "1–10",
+  file: "hsk3.pdf",
+  sourceRef: `${SOURCE_FILE}#printed-pages=1-10&pdf-pages=1-10`,
 };
 
-const vocabularyPages = [
-  [1, "以为", "yǐwéi", "v.", "think; consider", "คิดว่า (แต่ความจริงอาจไม่ใช่)", 2, 14], [2, "像", "xiàng", "v.", "be like; resemble", "เหมือน", 2, 14],
-  [3, "长", "zhǎng", "v.", "grow; develop", "เติบโต / มีรูปร่างหน้าตา", 2, 14], [4, "身高", "shēngāo", "n.", "height", "ส่วนสูง", 2, 14],
-  [5, "米", "mǐ", "m.", "meter", "เมตร", 2, 14], [6, "瘦", "shòu", "adj.", "thin", "ผอม", 2, 14], [7, "接", "jiē", "v.", "meet; pick up", "ไปรับ", 2, 14],
-  [8, "行李", "xíngli", "n.", "luggage", "สัมภาระ", 4, 16], [9, "丢", "diū", "v.", "lose", "ทำหาย", 4, 16], [10, "箱子", "xiāngzi", "n.", "case; trunk", "กล่อง / กระเป๋าเดินทาง", 4, 16],
-  [11, "号码", "hàomǎ", "n.", "number", "หมายเลข", 4, 16], [12, "好像", "hǎoxiàng", "adv.", "seemingly", "ดูเหมือนว่า", 4, 16], [13, "重要", "zhòngyào", "adj.", "important", "สำคัญ", 4, 16],
-  [14, "着急", "zháojí", "adj.", "worried; anxious", "ร้อนใจ / กังวล", 4, 16], [15, "护照", "hùzhào", "n.", "passport", "หนังสือเดินทาง", 4, 16], [16, "服务台", "fúwùtái", "n.", "service desk", "เคาน์เตอร์บริการ", 4, 16],
-  [17, "应该", "yīnggāi", "mod.", "should", "ควร / น่าจะ", 6, 18], [18, "站", "zhàn", "v.", "stand", "ยืน", 6, 18], [19, "中间", "zhōngjiān", "n.", "middle", "ตรงกลาง", 6, 18],
-  [20, "短", "duǎn", "adj.", "short", "สั้น", 6, 18], [21, "头发", "tóufa", "n.", "hair", "ผม", 6, 18], [22, "年轻", "niánqīng", "adj.", "young", "อายุน้อย", 6, 18],
-  [23, "发现", "fāxiàn", "v.", "discover; find", "พบ / สังเกตพบ", 8, 20], [24, "帮助", "bāngzhù", "v.", "help", "ช่วยเหลือ", 8, 20], [25, "不见", "bújiàn", "v.", "be missing", "หายไป / ไม่พบ", 8, 20], [26, "照片", "zhàopiàn", "n.", "photo", "รูปถ่าย", 8, 20],
-];
-const vocabulary = vocabularyPages.map(([index, hanzi, pinyin, type, en, thAid, page, pdfPage]) => ({ index, hanzi, pinyin, type, en, th: thAid, thAid, page, translationKind: "editorial-aid", sourceRef: lessonHsk3L1SourceRef(String(page), String(pdfPage)) }));
-
-const homeRef = lessonHsk3L1SourceRef("2", "14");
-const baggageRef = lessonHsk3L1SourceRef("3-4", "15-16");
-const arrivalRef = lessonHsk3L1SourceRef("5-6", "17-18");
-
-const scenes = [
-  {
-    id: "h3l1-home", number: "01", glyph: "接", title: "在家里聊天儿", titleTh: "คุยกันที่บ้าน", titleEn: "Chatting at home", place: "家里", placeTh: "บ้าน", ...art("home"),
-    imageAlt: { th: "หลิวหมิงกับหวังอี้เสวี่ยคุยกันที่บ้าน", zh: "家里聊天场景", en: "At-home conversation" }, source: "Text 1 · หน้าเล่ม 2 · PDF หน้า 14", sourcePage: "2", sourceRef: homeRef,
-    context: "在家里，刘明和王一雪在沙发上聊天儿。", contextTh: "ที่บ้าน หลิวหมิงกับหวังอี้เสวี่ยกำลังคุยกันบนโซฟา", contextEn: "At home, Liu Ming and Wang Yixue were chatting on the sofa.",
-    characters: [{ role: "A", profile: "liu", noteTh: "ผู้ที่เข้าใจผิดว่าหลี่เหวินคือหยางถงเล่อ", noteZh: "把李文认成杨同乐的人", noteEn: "The person who mistakes Li Wen for Yang Tongle" }, { role: "B", profile: "wang", noteTh: "ผู้บอกลักษณะของหลี่เหวินและแผนไปรับที่สนามบิน", noteZh: "介绍李文并计划接机的人", noteEn: "The person describing Li Wen and the airport plan" }],
-    lines: [
-      line(homeRef, { role: "A", speaker: "刘明", hanzi: "这是杨同乐吗？他怎么跟白家月在一起？", pinyin: "Zhè shì Yáng Tónglè ma? Tā zěnme gēn Bái Jiāyuè zài yìqǐ?", en: "Is this Yang Tongle? Why is he with Bai Jiayue?", th: "นี่คือหยางถงเล่อหรือ? ทำไมเขาอยู่กับไป๋เจียเยว่?", visual: { zh: "这是杨同乐吗", th: "นี่คือหยางถงเล่อหรือ", focus: "34% center" } }),
-      line(homeRef, { role: "B", speaker: "王一雪", hanzi: "他不是杨同乐，他叫李文，是白家月的好朋友。", pinyin: "Tā bú shì Yáng Tónglè, tā jiào Lǐ Wén, shì Bái Jiāyuè de hǎo péngyou.", en: "He is not Yang Tongle. His name is Li Wen, and he is Bai Jiayue’s good friend.", th: "เขาไม่ใช่หยางถงเล่อ เขาชื่อหลี่เหวิน เป็นเพื่อนสนิทของไป๋เจียเยว่", visual: { zh: "他叫李文", th: "เขาชื่อหลี่เหวิน", focus: "68% center" } }),
-      line(homeRef, { role: "A", speaker: "刘明", hanzi: "我还以为是同乐呢，他们看上去有点儿像。", pinyin: "Wǒ hái yǐwéi shì Tónglè ne, tāmen kàn shàngqu yǒudiǎnr xiàng.", en: "I thought it was Tongle. They look a little alike.", th: "ฉันนึกว่าคือถงเล่อเสียอีก พวกเขาดูคล้ายกันนิดหน่อย", visual: { zh: "看上去有点儿像", th: "ดูคล้ายกันนิดหน่อย", focus: "36% center" } }),
-      line(homeRef, { role: "B", speaker: "王一雪", hanzi: "是长得有点儿像，但是他比同乐高，身高有一米八。", pinyin: "Shì zhǎng de yǒudiǎnr xiàng, dànshì tā bǐ Tónglè gāo, shēngāo yǒu yì mǐ bā.", en: "They do look a little alike, but he is taller than Tongle—about 1.8 meters.", th: "หน้าตาคล้ายกันนิดหน่อยจริง แต่เขาสูงกว่าถงเล่อ สูงหนึ่งเมตรแปด", visual: { zh: "身高有一米八", th: "สูงหนึ่งเมตรแปด", focus: "66% center" } }),
-      line(homeRef, { role: "A", speaker: "刘明", hanzi: "看起来也比同乐瘦一点儿。", pinyin: "Kàn qǐlai yě bǐ Tónglè shòu yìdiǎnr.", en: "He also looks a little thinner than Tongle.", th: "ดูแล้วก็ผอมกว่าถงเล่อนิดหน่อย", visual: { zh: "瘦一点儿", th: "ผอมกว่านิดหน่อย", focus: "38% center" } }),
-      line(homeRef, { role: "B", speaker: "王一雪", hanzi: "下个星期家月和李文要来北京，我去机场接他们。", pinyin: "Xià ge xīngqī Jiāyuè hé Lǐ Wén yào lái Běijīng, wǒ qù jīchǎng jiē tāmen.", en: "Jiayue and Li Wen are coming to Beijing next week. I’ll pick them up at the airport.", th: "สัปดาห์หน้าเจียเยว่กับหลี่เหวินจะมาปักกิ่ง ฉันจะไปรับพวกเขาที่สนามบิน", visual: { zh: "去机场接他们", th: "ไปรับพวกเขาที่สนามบิน", focus: "64% center" } }),
-      line(homeRef, { role: "A", speaker: "刘明", hanzi: "他们哪天到北京？我跟你一起去机场接他们吧。", pinyin: "Tāmen nǎ tiān dào Běijīng? Wǒ gēn nǐ yìqǐ qù jīchǎng jiē tāmen ba.", en: "What day do they arrive in Beijing? I’ll go with you to pick them up.", th: "พวกเขาถึงปักกิ่งวันไหน? ฉันไปสนามบินรับพวกเขากับเธอด้วย", visual: { zh: "一起去机场", th: "ไปสนามบินด้วยกัน", focus: "40% center" } }),
-    ],
-    qte: { after: 3, prompt: { th: "หลี่เหวินสูงเท่าไร?", zh: "李文身高多少？", en: "How tall is Li Wen?" }, options: [{ value: "一米八", zh: "一米八", pinyin: "yì mǐ bā", th: "1.8 เมตร" }, { value: "一米七", zh: "一米七", pinyin: "yì mǐ qī", th: "1.7 เมตร" }, { value: "两米", zh: "两米", pinyin: "liǎng mǐ", th: "2 เมตร" }], correct: "一米八", evidence: "王一雪：身高有一米八。", evidenceTh: "หวังอี้เสวี่ย: สูงหนึ่งเมตรแปด", sourceRef: homeRef },
-    builder: { prompt: { th: "เรียงประโยคบอกแผนไปรับที่สนามบิน", zh: "重组接机计划", en: "Rebuild the airport-pickup plan" }, answer: ["我", "去", "机场", "接", "他们"], tiles: ["他们", "机场", "我", "接", "去"], gloss: { 我: "ฉัน", 去: "ไป", 机场: "สนามบิน", 接: "รับ", 他们: "พวกเขา" }, translationTh: "ฉันจะไปรับพวกเขาที่สนามบิน", translationEn: "I will pick them up at the airport.", evidence: "Text 1 · หน้าเล่ม 2", sourceRef: homeRef },
-  },
-  {
-    id: "h3l1-baggage", number: "02", glyph: "箱", title: "在行李领取处", titleTh: "ที่จุดรับสัมภาระ", titleEn: "At baggage claim", place: "机场行李领取处", placeTh: "จุดรับสัมภาระสนามบิน", ...art("baggage"),
-    imageAlt: { th: "กระเป๋าบนสายพานรับสัมภาระ", zh: "机场行李领取处", en: "Airport baggage claim" }, source: "Text 2 · หน้าเล่ม 3–4 · PDF หน้า 15–16", sourcePage: "3–4", sourceRef: baggageRef,
-    context: "在机场，李文和白家月在行李领取处。", contextTh: "ที่สนามบิน หลี่เหวินกับไป๋เจียเยว่อยู่ที่จุดรับสัมภาระ", contextEn: "At the airport, Li Wen and Bai Jiayue were at baggage claim.",
-    characters: [{ role: "A", profile: "bai", noteTh: "ผู้ที่กำลังกังวลว่ากระเป๋าหาย", noteZh: "担心行李丢失的人", noteEn: "The traveler worried about missing luggage" }, { role: "B", profile: "liWen", noteTh: "เพื่อนที่ช่วยถามรายละเอียดและเสนอไปเคาน์เตอร์บริการ", noteZh: "帮忙询问并建议去服务台的人", noteEn: "The friend suggesting the service desk" }],
-    lines: [
-      line(baggageRef, { role: "A", speaker: "白家月", hanzi: "我的行李怎么还没出来？是不是丢了？", pinyin: "Wǒ de xíngli zěnme hái méi chūlai? Shì bu shì diū le?", en: "Why hasn’t my luggage come out yet? Could it be lost?", th: "ทำไมสัมภาระของฉันยังไม่ออกมา? หรือว่าหายแล้ว?", visual: { zh: "行李还没出来", th: "สัมภาระยังไม่ออกมา", focus: "36% center" } }),
-      line(baggageRef, { role: "B", speaker: "李文", hanzi: "你的行李箱是什么样的？", pinyin: "Nǐ de xínglixiāng shì shénme yàng de?", en: "What does your suitcase look like?", th: "กระเป๋าเดินทางของเธอมีลักษณะอย่างไร?", visual: { zh: "是什么样的", th: "มีลักษณะอย่างไร", focus: "66% center" } }),
-      line(baggageRef, { role: "A", speaker: "白家月", hanzi: "是一个黑色的箱子，上面写着我的名字和电话号码。", pinyin: "Shì yí ge hēisè de xiāngzi, shàngmian xiězhe wǒ de míngzi hé diànhuà hàomǎ.", en: "It’s a black suitcase with my name and phone number written on it.", th: "เป็นกระเป๋าสีดำ มีชื่อกับหมายเลขโทรศัพท์ของฉันเขียนอยู่ด้านบน", visual: { zh: "黑色的箱子", th: "กระเป๋าสีดำ", focus: "38% center" } }),
-      line(baggageRef, { role: "B", speaker: "李文", hanzi: "我好像在哪儿看到过这个箱子，是不是有人拿错了？", pinyin: "Wǒ hǎoxiàng zài nǎr kàndào guo zhè ge xiāngzi, shì bu shì yǒurén ná cuò le?", en: "I seem to have seen this suitcase somewhere. Did someone take it by mistake?", th: "ฉันเหมือนเคยเห็นกระเป๋านี้ที่ไหนสักแห่ง หรือมีใครหยิบผิดไป?", visual: { zh: "在哪儿看到过", th: "เคยเห็นที่ไหนสักแห่ง", focus: "64% center" } }),
-      line(baggageRef, { role: "A", speaker: "白家月", hanzi: "我们快找谁问一下吧，箱子里有不少重要的东西。", pinyin: "Wǒmen kuài zhǎo shéi wèn yíxià ba, xiāngzi li yǒu bù shǎo zhòngyào de dōngxi.", en: "Let’s quickly ask someone. There are many important things in the suitcase.", th: "เรารีบหาใครสักคนถามเถอะ ในกระเป๋ามีของสำคัญไม่น้อย", visual: { zh: "重要的东西", th: "ของสำคัญ", focus: "40% center" } }),
-      line(baggageRef, { role: "B", speaker: "李文", hanzi: "别着急，我们拿着护照和机票，去服务台问问吧。", pinyin: "Bié zháojí, wǒmen názhe hùzhào hé jīpiào, qù fúwùtái wènwen ba.", en: "Don’t worry. Let’s take our passports and tickets and ask at the service desk.", th: "อย่าร้อนใจ เราถือหนังสือเดินทางกับตั๋วแล้วไปถามที่เคาน์เตอร์บริการกัน", visual: { zh: "去服务台问问", th: "ไปถามที่เคาน์เตอร์บริการ", focus: "62% center" } }),
-    ],
-    qte: { after: 2, prompt: { th: "กระเป๋าของไป๋เจียเยว่มีลักษณะอย่างไร?", zh: "白家月的箱子是什么样的？", en: "What does Bai Jiayue’s suitcase look like?" }, options: [{ value: "黑色的", zh: "黑色的", pinyin: "hēisè de", th: "สีดำ" }, { value: "白色的", zh: "白色的", pinyin: "báisè de", th: "สีขาว" }, { value: "红色的", zh: "红色的", pinyin: "hóngsè de", th: "สีแดง" }], correct: "黑色的", evidence: "白家月：是一个黑色的箱子。", evidenceTh: "ไป๋เจียเยว่: เป็นกระเป๋าสีดำ", sourceRef: baggageRef },
-    builder: { prompt: { th: "เรียงประโยคเสนอไปถามที่เคาน์เตอร์บริการ", zh: "重组去服务台询问的句子", en: "Rebuild the service-desk suggestion" }, answer: ["去", "服务台", "问问", "吧"], tiles: ["吧", "问问", "服务台", "去"], gloss: { 去: "ไป", 服务台: "เคาน์เตอร์บริการ", 问问: "ลองถาม", 吧: "เถอะ" }, translationTh: "ไปลองถามที่เคาน์เตอร์บริการกันเถอะ", translationEn: "Let’s ask at the service desk.", evidence: "Text 2 · หน้าเล่ม 4", sourceRef: baggageRef },
-  },
-  {
-    id: "h3l1-arrival", number: "03", glyph: "站", title: "在机场接人", titleTh: "รอรับเพื่อนที่สนามบิน", titleEn: "Meeting friends at the airport", place: "机场大厅", placeTh: "โถงผู้โดยสารขาเข้า", ...art("arrival"),
-    imageAlt: { th: "เพื่อนเดินออกจากโถงผู้โดยสารขาเข้า", zh: "机场接机场景", en: "Airport pickup scene" }, source: "Text 3 · หน้าเล่ม 5–6 · PDF หน้า 17–18", sourcePage: "5–6", sourceRef: arrivalRef,
-    context: "在机场大厅，刘明和王一雪接机。", contextTh: "ในโถงสนามบิน หลิวหมิงกับหวังอี้เสวี่ยกำลังรอรับเพื่อน", contextEn: "In the airport arrival hall, Liu Ming and Wang Yixue were waiting for their friends.",
-    characters: [{ role: "A", profile: "liu", noteTh: "ผู้ช่วยมองหาหลี่เหวิน", noteZh: "帮忙寻找李文的人", noteEn: "The person helping to spot Li Wen" }, { role: "B", profile: "wang", noteTh: "ผู้จำหลี่เหวินได้จากลักษณะและเห็นเจียเยว่", noteZh: "认出李文并看到家月的人", noteEn: "The person recognizing Li Wen and Jiayue" }],
-    lines: [
-      line(arrivalRef, { role: "A", speaker: "刘明", hanzi: "飞机早就到了，你看见白家月他们了吗？", pinyin: "Fēijī zǎo jiù dào le, nǐ kànjiàn Bái Jiāyuè tāmen le ma?", en: "The plane arrived a while ago. Have you seen Bai Jiayue and the others?", th: "เครื่องบินมาถึงนานแล้ว เธอเห็นไป๋เจียเยว่กับพวกเขาหรือยัง?", visual: { zh: "飞机早就到了", th: "เครื่องบินมาถึงนานแล้ว", focus: "36% center" } }),
-      line(arrivalRef, { role: "B", speaker: "王一雪", hanzi: "没有，他们应该快出来了。", pinyin: "Méiyǒu, tāmen yīnggāi kuài chūlai le.", en: "No. They should be coming out soon.", th: "ยัง พวกเขาน่าจะใกล้ออกมาแล้ว", visual: { zh: "应该快出来了", th: "น่าจะใกล้ออกมาแล้ว", focus: "66% center" } }),
-      line(arrivalRef, { role: "A", speaker: "刘明", hanzi: "我们站到中间去吧，这样他们好找一些。", pinyin: "Wǒmen zhàn dào zhōngjiān qù ba, zhèyàng tāmen hǎo zhǎo yìxiē.", en: "Let’s stand in the middle so it will be easier for them to find us.", th: "เราไปยืนตรงกลางกัน แบบนี้พวกเขาจะหาเราได้ง่ายขึ้น", visual: { zh: "站到中间", th: "ยืนตรงกลาง", focus: "38% center" } }),
-      line(arrivalRef, { role: "B", speaker: "王一雪", hanzi: "你看那个高个子的人是李文吗？", pinyin: "Nǐ kàn nà ge gāo gèzi de rén shì Lǐ Wén ma?", en: "Look—is that tall person Li Wen?", th: "ดูสิ คนตัวสูงคนนั้นคือหลี่เหวินไหม?", visual: { zh: "高个子的人", th: "คนตัวสูง", focus: "64% center" } }),
-      line(arrivalRef, { role: "A", speaker: "刘明", hanzi: "你说的是哪个？那个穿着黑衣服的短头发的年轻人？", pinyin: "Nǐ shuō de shì nǎ ge? Nà ge chuānzhe hēi yīfu de duǎn tóufa de niánqīngrén?", en: "Which one do you mean? The young man in black with short hair?", th: "เธอหมายถึงคนไหน? ชายหนุ่มผมสั้นที่ใส่ชุดดำคนนั้นหรือ?", visual: { zh: "短头发的年轻人", th: "ชายหนุ่มผมสั้น", focus: "42% center" } }),
-      line(arrivalRef, { role: "B", speaker: "王一雪", hanzi: "对，那个人就是李文！你看，家月在他后面呢。", pinyin: "Duì, nà ge rén jiù shì Lǐ Wén! Nǐ kàn, Jiāyuè zài tā hòumian ne.", en: "Yes, that’s Li Wen! Look, Jiayue is behind him.", th: "ใช่ คนนั้นคือหลี่เหวิน! ดูสิ เจียเยว่อยู่ข้างหลังเขา", visual: { zh: "家月在他后面", th: "เจียเยว่อยู่ข้างหลังเขา", focus: "62% center" } }),
-    ],
-    qte: { after: 4, prompt: { th: "หลี่เหวินแต่งตัวและมีทรงผมอย่างไร?", zh: "李文穿什么衣服，头发怎么样？", en: "What is Li Wen wearing, and what is his hair like?" }, options: [{ value: "黑衣服、短头发", zh: "黑衣服、短头发", pinyin: "hēi yīfu, duǎn tóufa", th: "ชุดดำ ผมสั้น" }, { value: "白衣服、长头发", zh: "白衣服、长头发", pinyin: "bái yīfu, cháng tóufa", th: "ชุดขาว ผมยาว" }, { value: "红衣服、短头发", zh: "红衣服、短头发", pinyin: "hóng yīfu, duǎn tóufa", th: "ชุดแดง ผมสั้น" }], correct: "黑衣服、短头发", evidence: "刘明：那个穿着黑衣服的短头发的年轻人？", evidenceTh: "หลิวหมิง: ชายหนุ่มผมสั้นที่ใส่ชุดดำคนนั้นหรือ?", sourceRef: arrivalRef },
-    builder: { prompt: { th: "เรียงวลีบรรยายชายหนุ่ม", zh: "重组多项定语", en: "Rebuild the multiple-attributive phrase" }, answer: ["那个", "穿着黑衣服的", "短头发的", "年轻人"], tiles: ["年轻人", "短头发的", "那个", "穿着黑衣服的"], gloss: { 那个: "คนนั้น", 穿着黑衣服的: "ที่ใส่ชุดดำ", 短头发的: "ที่ผมสั้น", 年轻人: "ชายหนุ่ม" }, translationTh: "ชายหนุ่มผมสั้นที่ใส่ชุดดำคนนั้น", translationEn: "That young man in black with short hair.", evidence: "Text 3 · หน้าเล่ม 6", sourceRef: arrivalRef },
-  },
-];
-
 export const LESSON_HSK3_L1 = {
-  id: "hsk3-l1", slug: "lesson-1", level: "hsk3", number: 1, featured: false, sourceRef,
-  source: { title: "新HSK教程 3 · New HSK Course 3", lesson: "Lesson 1 · 我们去机场接你们", printedPages: "1–9", pdfPages: "13–21", file: "hsk3.pdf", sourceRef },
-  title: { zh: "我们去机场接你们", pinyin: "Wǒmen qù jīchǎng jiē nǐmen", en: "We will pick you up at the airport", thAid: "พวกเราจะไปรับพวกคุณที่สนามบิน" },
-  summary: { zh: "谈论人物外貌、机场丢失物品和接机场景，学习看上去、疑问代词非疑问用法和多项定语。", en: "Describe people, handle lost luggage, and meet friends at the airport while learning appearance phrases, non-interrogative pronouns, and multiple attributives.", thAid: "บรรยายลักษณะบุคคล แก้ปัญหาสัมภาระหาย และรอรับเพื่อน พร้อมฝึก 看上去 สรรพนามคำถามแบบไม่ใช่คำถาม และส่วนขยายนามหลายชั้น" },
+  id: "hsk3-l1",
+  slug: "lesson-1",
+  level: "hsk3",
+  number: 1,
+  source: SOURCE,
+  sourceRef: SOURCE.sourceRef,
+  title: {
+  "zh": "新居生活与高铁之旅",
+  "pinyin": "Xīnjū shēnghuó yǔ gāotiě zhī lǚ",
+  "en": "New Home and High-Speed Train Journey",
+  "thAid": "ชีวิตในบ้านใหม่และทริปรถไฟความเร็วสูง"
+},
+  summary: {
+  "zh": "在饭馆品尝特色美食，体验乘坐高铁点外卖的便捷与舒适旅程。",
+  "en": "Dine on delicious Chinese dishes at the restaurant, and experience taking high-speed train with food delivery.",
+  "thAid": "ลิ้มลองอาหารจีนรสเลิศในร้านอาหาร และสัมผัสประสบการณ์นั่งรถไฟความเร็วสูงสั่งเดลิเวอรีแสนสะดวก"
+},
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
   objectives: [
-    { zh: "能听懂并使用多项定语描述人或事物的特征。", en: "Understand and use multiple attributives to describe people or things.", thAid: "ฟังเข้าใจและใช้ส่วนขยายนามหลายชั้นบรรยายบุคคลหรือสิ่งของ", sourceRef: lessonHsk3L1SourceRef("1", "13") },
-    { zh: "能听懂并解决物品丢失的问题。", en: "Understand and handle situations involving lost items.", thAid: "ฟังเข้าใจและจัดการสถานการณ์ของหาย", sourceRef: lessonHsk3L1SourceRef("1", "13") },
-    { zh: "掌握疑问代词的用法，能表达不确定的人、事物或地方等信息。", en: "Use interrogative pronouns to express unspecified people, things, or places.", thAid: "ใช้สรรพนามคำถามเพื่อกล่าวถึงคน สิ่งของ หรือสถานที่ที่ไม่ระบุแน่ชัด", sourceRef: lessonHsk3L1SourceRef("1", "13") },
-  ],
+  {
+    "zh": "掌握第1课的核心词汇与日常对话。",
+    "th": "เข้าใจคำศัพท์หลักและบทสนทนาประจำวันในบทที่ 1",
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "zh": "熟练运用重点句型进行交流。",
+    "th": "ใช้รูปประโยคสำคัญในการสื่อสารได้อย่างคล่องแคล่ว",
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "zh": "提高听力理解与阅读表达能力。",
+    "th": "พัฒนาทักษะการฟังและการอ่านภาษาจีน",
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
   contents: [
-    { number: "00", title: "目标与热身", titleTh: "เป้าหมายและการเตรียมบท", detail: "Objectives · Warm-Up", pages: "1", route: "/home/hsk3/lesson-1/preface/", sourceRef: lessonHsk3L1SourceRef("1", "13") },
-    { number: "01", title: "在家里聊天儿", titleTh: "คุยกันที่บ้าน", detail: "Text 1 · New Words 1–7", pages: "2–3", scene: 1, sourceRef: lessonHsk3L1SourceRef("2-3", "14-15") },
-    { number: "02", title: "在行李领取处", titleTh: "ที่จุดรับสัมภาระ", detail: "Text 2 · New Words 8–16", pages: "3–4", scene: 2, sourceRef: lessonHsk3L1SourceRef("3-4", "15-16") },
-    { number: "03", title: "在机场接人", titleTh: "รอรับเพื่อนที่สนามบิน", detail: "Text 3 · New Words 17–22", pages: "5–6", scene: 3, sourceRef: lessonHsk3L1SourceRef("5-6", "17-18") },
-    { number: "04", title: "日记、练习与活动", titleTh: "บันทึก แบบฝึก และกิจกรรม", detail: "Text 4 · Exercises · Activity", pages: "7–9", sourceRef: lessonHsk3L1SourceRef("7-9", "19-21") },
-  ],
-  vocabulary,
+  {
+    "number": "00",
+    "title": "目标与热身",
+    "titleTh": "เป้าหมายและภาพรวมบทเรียน",
+    "detail": "Objectives · Warm-Up",
+    "pages": "1",
+    "route": "/home/hsk3/lessons/lesson-01/overview/",
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "number": "01",
+    "title": "在饭馆点菜与品尝美食",
+    "titleTh": "สั่งอาหารจีนรสเลิศในร้านอาหาร",
+    "detail": "Text 1 · Scenes",
+    "pages": "1",
+    "scene": 1,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "number": "02",
+    "title": "商量坐高铁去上海",
+    "titleTh": "นั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้และสั่งอาหาร",
+    "detail": "Text 2 · Scenes",
+    "pages": "2",
+    "scene": 2,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
+  vocabulary: [
+  {
+    "index": 1,
+    "hanzi": "菜单",
+    "pinyin": "càidān",
+    "type": "n.",
+    "en": "menu",
+    "th": "เมนู",
+    "thAid": "เมนู",
+    "translationKind": "editorial-aid",
+    "page": 11,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=11&pdf-pages=23"
+  },
+  {
+    "index": 2,
+    "hanzi": "又",
+    "pinyin": "yòu",
+    "type": "adv.",
+    "en": "and; also (in 又…又…)",
+    "th": "ก็…ก็… (ใช้คู่กันบอกสองลักษณะ)",
+    "thAid": "ก็…ก็… (ใช้คู่กันบอกสองลักษณะ)",
+    "translationKind": "editorial-aid",
+    "page": 11,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=11&pdf-pages=23"
+  },
+  {
+    "index": 3,
+    "hanzi": "饿",
+    "pinyin": "è",
+    "type": "adj.",
+    "en": "hungry",
+    "th": "หิว",
+    "thAid": "หิว",
+    "translationKind": "editorial-aid",
+    "page": 11,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=11&pdf-pages=23"
+  },
+  {
+    "index": 4,
+    "hanzi": "渴",
+    "pinyin": "kě",
+    "type": "adj.",
+    "en": "thirsty",
+    "th": "กระหายน้ำ",
+    "thAid": "กระหายน้ำ",
+    "translationKind": "editorial-aid",
+    "page": 11,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=11&pdf-pages=23"
+  },
+  {
+    "index": 5,
+    "hanzi": "客气",
+    "pinyin": "kèqi",
+    "type": "v./adj.",
+    "en": "be polite; polite",
+    "th": "เกรงใจ / พูดจาเรียบร้อย",
+    "thAid": "เกรงใจ / พูดจาเรียบร้อย",
+    "translationKind": "editorial-aid",
+    "page": 11,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=11&pdf-pages=23"
+  },
+  {
+    "index": 6,
+    "hanzi": "饮料",
+    "pinyin": "yǐnliào",
+    "type": "n.",
+    "en": "drink; beverage",
+    "th": "เครื่องดื่ม",
+    "thAid": "เครื่องดื่ม",
+    "translationKind": "editorial-aid",
+    "page": 11,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=11&pdf-pages=23"
+  },
+  {
+    "index": 7,
+    "hanzi": "好久",
+    "pinyin": "hǎojiǔ",
+    "type": "adj.",
+    "en": "for a long time",
+    "th": "นานมาแล้ว / ไม่ได้…มานาน",
+    "thAid": "นานมาแล้ว / ไม่ได้…มานาน",
+    "translationKind": "editorial-aid",
+    "page": 11,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=11&pdf-pages=23"
+  },
+  {
+    "index": 8,
+    "hanzi": "服务",
+    "pinyin": "fúwù",
+    "type": "v.",
+    "en": "serve",
+    "th": "บริการ",
+    "thAid": "บริการ",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 9,
+    "hanzi": "筷子",
+    "pinyin": "kuàizi",
+    "type": "n.",
+    "en": "chopsticks",
+    "th": "ตะเกียบ",
+    "thAid": "ตะเกียบ",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 10,
+    "hanzi": "勺子",
+    "pinyin": "sháozi",
+    "type": "n.",
+    "en": "spoon",
+    "th": "ช้อน",
+    "thAid": "ช้อน",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 11,
+    "hanzi": "碗",
+    "pinyin": "wǎn",
+    "type": "n.",
+    "en": "bowl",
+    "th": "ถ้วย / ชาม",
+    "thAid": "ถ้วย / ชาม",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 12,
+    "hanzi": "马上",
+    "pinyin": "mǎshàng",
+    "type": "adv.",
+    "en": "immediately",
+    "th": "เดี๋ยวนี้ / ทันที",
+    "thAid": "เดี๋ยวนี้ / ทันที",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 13,
+    "hanzi": "热情",
+    "pinyin": "rèqíng",
+    "type": "adj.",
+    "en": "warm; enthusiastic",
+    "th": "อบอุ่น / กระตือรือร้น",
+    "thAid": "อบอุ่น / กระตือรือร้น",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 14,
+    "hanzi": "尝",
+    "pinyin": "cháng",
+    "type": "v.",
+    "en": "taste",
+    "th": "ชิม",
+    "thAid": "ชิม",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 15,
+    "hanzi": "记",
+    "pinyin": "jì",
+    "type": "v.",
+    "en": "remember",
+    "th": "จำ",
+    "thAid": "จำ",
+    "translationKind": "editorial-aid",
+    "page": 13,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=13&pdf-pages=25"
+  },
+  {
+    "index": 16,
+    "hanzi": "外卖",
+    "pinyin": "wàimài",
+    "type": "n./v.",
+    "en": "takeout; food delivery",
+    "th": "อาหารเดลิเวอรี / ส่งอาหาร",
+    "thAid": "อาหารเดลิเวอรี / ส่งอาหาร",
+    "translationKind": "editorial-aid",
+    "page": 15,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=15&pdf-pages=27"
+  },
+  {
+    "index": 17,
+    "hanzi": "方便",
+    "pinyin": "fāngbiàn",
+    "type": "adj.",
+    "en": "convenient",
+    "th": "สะดวก",
+    "thAid": "สะดวก",
+    "translationKind": "editorial-aid",
+    "page": 15,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=15&pdf-pages=27"
+  },
+  {
+    "index": 18,
+    "hanzi": "不用",
+    "pinyin": "búyòng",
+    "type": "adv.",
+    "en": "need not",
+    "th": "ไม่ต้อง",
+    "thAid": "ไม่ต้อง",
+    "translationKind": "editorial-aid",
+    "page": 15,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=15&pdf-pages=27"
+  },
+  {
+    "index": 19,
+    "hanzi": "蛋糕",
+    "pinyin": "dàngāo",
+    "type": "n.",
+    "en": "cake",
+    "th": "เค้ก",
+    "thAid": "เค้ก",
+    "translationKind": "editorial-aid",
+    "page": 16,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=16&pdf-pages=28"
+  },
+  {
+    "index": 20,
+    "hanzi": "简单",
+    "pinyin": "jiǎndān",
+    "type": "adj.",
+    "en": "simple",
+    "th": "ง่าย ๆ",
+    "thAid": "ง่าย ๆ",
+    "translationKind": "editorial-aid",
+    "page": 16,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=16&pdf-pages=28"
+  },
+  {
+    "index": 21,
+    "hanzi": "初中",
+    "pinyin": "chūzhōng",
+    "type": "n.",
+    "en": "middle school",
+    "th": "มัธยมต้น",
+    "thAid": "มัธยมต้น",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 22,
+    "hanzi": "咱们",
+    "pinyin": "zánmen",
+    "type": "pron.",
+    "en": "we; us",
+    "th": "พวกเรา (รวมผู้ฟัง)",
+    "thAid": "พวกเรา (รวมผู้ฟัง)",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 23,
+    "hanzi": "换",
+    "pinyin": "huàn",
+    "type": "v.",
+    "en": "change",
+    "th": "เปลี่ยน",
+    "thAid": "เปลี่ยน",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 24,
+    "hanzi": "房子",
+    "pinyin": "fángzi",
+    "type": "n.",
+    "en": "house",
+    "th": "บ้าน",
+    "thAid": "บ้าน",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 25,
+    "hanzi": "小区",
+    "pinyin": "xiǎoqū",
+    "type": "n.",
+    "en": "residential complex",
+    "th": "หมู่บ้าน / ชุมชนที่พักอาศัย",
+    "thAid": "หมู่บ้าน / ชุมชนที่พักอาศัย",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 26,
+    "hanzi": "环境",
+    "pinyin": "huánjìng",
+    "type": "n.",
+    "en": "surroundings; environment",
+    "th": "สภาพแวดล้อม",
+    "thAid": "สภาพแวดล้อม",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 27,
+    "hanzi": "挺",
+    "pinyin": "tǐng",
+    "type": "adv.",
+    "en": "quite; very",
+    "th": "ค่อนข้าง / มากทีเดียว",
+    "thAid": "ค่อนข้าง / มากทีเดียว",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 28,
+    "hanzi": "空调",
+    "pinyin": "kōngtiáo",
+    "type": "n.",
+    "en": "air conditioner",
+    "th": "เครื่องปรับอากาศ",
+    "thAid": "เครื่องปรับอากาศ",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 29,
+    "hanzi": "洗衣机",
+    "pinyin": "xǐyījī",
+    "type": "n.",
+    "en": "washing machine",
+    "th": "เครื่องซักผ้า",
+    "thAid": "เครื่องซักผ้า",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 30,
+    "hanzi": "层",
+    "pinyin": "céng",
+    "type": "m.",
+    "en": "floor; story",
+    "th": "ชั้น",
+    "thAid": "ชั้น",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 31,
+    "hanzi": "花园",
+    "pinyin": "huāyuán",
+    "type": "n.",
+    "en": "garden",
+    "th": "สวน",
+    "thAid": "สวน",
+    "translationKind": "editorial-aid",
+    "page": 20,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=20&pdf-pages=32"
+  },
+  {
+    "index": 32,
+    "hanzi": "灯",
+    "pinyin": "dēng",
+    "type": "n.",
+    "en": "light; lamp",
+    "th": "ไฟ / โคมไฟ",
+    "thAid": "ไฟ / โคมไฟ",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=22&pdf-pages=34"
+  },
+  {
+    "index": 33,
+    "hanzi": "关",
+    "pinyin": "guān",
+    "type": "v.",
+    "en": "turn off; close",
+    "th": "ปิด",
+    "thAid": "ปิด",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=22&pdf-pages=34"
+  },
+  {
+    "index": 34,
+    "hanzi": "冰箱",
+    "pinyin": "bīngxiāng",
+    "type": "n.",
+    "en": "refrigerator",
+    "th": "ตู้เย็น",
+    "thAid": "ตู้เย็น",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=22&pdf-pages=34"
+  },
+  {
+    "index": 35,
+    "hanzi": "卫生间",
+    "pinyin": "wèishēngjiān",
+    "type": "n.",
+    "en": "bathroom",
+    "th": "ห้องน้ำ",
+    "thAid": "ห้องน้ำ",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=22&pdf-pages=34"
+  },
+  {
+    "index": 36,
+    "hanzi": "打扫",
+    "pinyin": "dǎsǎo",
+    "type": "v.",
+    "en": "clean",
+    "th": "ทำความสะอาด",
+    "thAid": "ทำความสะอาด",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=22&pdf-pages=34"
+  },
+  {
+    "index": 37,
+    "hanzi": "搬家",
+    "pinyin": "bānjiā",
+    "type": "v.",
+    "en": "move house",
+    "th": "ย้ายบ้าน",
+    "thAid": "ย้ายบ้าน",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=22&pdf-pages=34"
+  },
+  {
+    "index": 38,
+    "hanzi": "办",
+    "pinyin": "bàn",
+    "type": "v.",
+    "en": "do; handle",
+    "th": "จัดการ / ทำเรื่อง",
+    "thAid": "จัดการ / ทำเรื่อง",
+    "translationKind": "editorial-aid",
+    "page": 23,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
+  },
+  {
+    "index": 39,
+    "hanzi": "信用卡",
+    "pinyin": "xìnyòngkǎ",
+    "type": "n.",
+    "en": "credit card",
+    "th": "บัตรเครดิต",
+    "thAid": "บัตรเครดิต",
+    "translationKind": "editorial-aid",
+    "page": 23,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
+  },
+  {
+    "index": 40,
+    "hanzi": "还",
+    "pinyin": "huán",
+    "type": "v.",
+    "en": "return; repay",
+    "th": "คืน / ชำระคืน",
+    "thAid": "คืน / ชำระคืน",
+    "translationKind": "editorial-aid",
+    "page": 23,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
+  },
+  {
+    "index": 41,
+    "hanzi": "听说",
+    "pinyin": "tīngshuō",
+    "type": "v.",
+    "en": "hear about",
+    "th": "ได้ยินมาว่า",
+    "thAid": "ได้ยินมาว่า",
+    "translationKind": "editorial-aid",
+    "page": 23,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
+  },
+  {
+    "index": 42,
+    "hanzi": "银行",
+    "pinyin": "yínháng",
+    "type": "n.",
+    "en": "bank",
+    "th": "ธนาคาร",
+    "thAid": "ธนาคาร",
+    "translationKind": "editorial-aid",
+    "page": 23,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
+  },
+  {
+    "index": 43,
+    "hanzi": "才",
+    "pinyin": "cái",
+    "type": "adv.",
+    "en": "not until; only then",
+    "th": "กว่าจะ / เพิ่งจะ",
+    "thAid": "กว่าจะ / เพิ่งจะ",
+    "translationKind": "editorial-aid",
+    "page": 23,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
+  },
+  {
+    "index": 44,
+    "hanzi": "纸",
+    "pinyin": "zhǐ",
+    "type": "n.",
+    "en": "paper",
+    "th": "กระดาษ",
+    "thAid": "กระดาษ",
+    "translationKind": "editorial-aid",
+    "page": 25,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=25&pdf-pages=37"
+  },
+  {
+    "index": 45,
+    "hanzi": "搬",
+    "pinyin": "bān",
+    "type": "v.",
+    "en": "move; carry",
+    "th": "ย้าย / ขน",
+    "thAid": "ย้าย / ขน",
+    "translationKind": "editorial-aid",
+    "page": 25,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=25&pdf-pages=37"
+  },
+  {
+    "index": 46,
+    "hanzi": "需要",
+    "pinyin": "xūyào",
+    "type": "v./n.",
+    "en": "need",
+    "th": "ต้องการ / จำเป็น",
+    "thAid": "ต้องการ / จำเป็น",
+    "translationKind": "editorial-aid",
+    "page": 25,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=25&pdf-pages=37"
+  },
+  {
+    "index": 47,
+    "hanzi": "该",
+    "pinyin": "gāi",
+    "type": "mod.",
+    "en": "should",
+    "th": "ควร / ถึงเวลาที่ต้อง",
+    "thAid": "ควร / ถึงเวลาที่ต้อง",
+    "translationKind": "editorial-aid",
+    "page": 48,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=48&pdf-pages=60"
+  },
+  {
+    "index": 48,
+    "hanzi": "打算",
+    "pinyin": "dǎsuàn",
+    "type": "v./n.",
+    "en": "plan; intention",
+    "th": "วางแผน / แผน",
+    "thAid": "วางแผน / แผน",
+    "translationKind": "editorial-aid",
+    "page": 48,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=48&pdf-pages=60"
+  },
+  {
+    "index": 49,
+    "hanzi": "高铁",
+    "pinyin": "gāotiě",
+    "type": "n.",
+    "en": "high-speed train",
+    "th": "รถไฟความเร็วสูง",
+    "thAid": "รถไฟความเร็วสูง",
+    "translationKind": "editorial-aid",
+    "page": 48,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=48&pdf-pages=60"
+  },
+  {
+    "index": 50,
+    "hanzi": "行",
+    "pinyin": "xíng",
+    "type": "v./adj.",
+    "en": "be all right; capable",
+    "th": "ได้ / ใช้ได้",
+    "thAid": "ได้ / ใช้ได้",
+    "translationKind": "editorial-aid",
+    "page": 48,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=48&pdf-pages=60"
+  },
+  {
+    "index": 51,
+    "hanzi": "路口",
+    "pinyin": "lùkǒu",
+    "type": "n.",
+    "en": "intersection; crossing",
+    "th": "ทางแยก",
+    "thAid": "ทางแยก",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 52,
+    "hanzi": "小心",
+    "pinyin": "xiǎoxīn",
+    "type": "v./adj.",
+    "en": "take care; careful",
+    "th": "ระวัง",
+    "thAid": "ระวัง",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 53,
+    "hanzi": "迟到",
+    "pinyin": "chídào",
+    "type": "v.",
+    "en": "be late",
+    "th": "มาสาย",
+    "thAid": "มาสาย",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 54,
+    "hanzi": "红绿灯",
+    "pinyin": "hóng-lǜdēng",
+    "type": "n.",
+    "en": "traffic lights",
+    "th": "ไฟจราจร",
+    "thAid": "ไฟจราจร",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 55,
+    "hanzi": "后来",
+    "pinyin": "hòulái",
+    "type": "n.",
+    "en": "afterward; later",
+    "th": "ต่อมา",
+    "thAid": "ต่อมา",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 56,
+    "hanzi": "急",
+    "pinyin": "jí",
+    "type": "adj./v.",
+    "en": "urgent; be anxious",
+    "th": "รีบ / ร้อนใจ",
+    "thAid": "รีบ / ร้อนใจ",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 57,
+    "hanzi": "如果",
+    "pinyin": "rúguǒ",
+    "type": "conj.",
+    "en": "if",
+    "th": "ถ้าหาก",
+    "thAid": "ถ้าหาก",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 58,
+    "hanzi": "以前",
+    "pinyin": "yǐqián",
+    "type": "n.",
+    "en": "earlier times; before",
+    "th": "ก่อนหน้านี้",
+    "thAid": "ก่อนหน้านี้",
+    "translationKind": "editorial-aid",
+    "page": 50,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=50&pdf-pages=62"
+  },
+  {
+    "index": 59,
+    "hanzi": "耳机",
+    "pinyin": "ěrjī",
+    "type": "n.",
+    "en": "earphones; headphones",
+    "th": "หูฟัง",
+    "thAid": "หูฟัง",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 60,
+    "hanzi": "充电宝",
+    "pinyin": "chōngdiànbǎo",
+    "type": "n.",
+    "en": "power bank",
+    "th": "พาวเวอร์แบงก์",
+    "thAid": "พาวเวอร์แบงก์",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 61,
+    "hanzi": "常用",
+    "pinyin": "chángyòng",
+    "type": "adj.",
+    "en": "commonly used",
+    "th": "ใช้เป็นประจำ",
+    "thAid": "ใช้เป็นประจำ",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 62,
+    "hanzi": "越",
+    "pinyin": "yuè",
+    "type": "adv.",
+    "en": "the more... the more...",
+    "th": "ยิ่ง...ยิ่ง...",
+    "thAid": "ยิ่ง...ยิ่ง...",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 63,
+    "hanzi": "分开",
+    "pinyin": "fēnkāi",
+    "type": "v.",
+    "en": "separate",
+    "th": "แยกจากกัน",
+    "thAid": "แยกจากกัน",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 64,
+    "hanzi": "检查",
+    "pinyin": "jiǎnchá",
+    "type": "v.",
+    "en": "check; inspect",
+    "th": "ตรวจสอบ",
+    "thAid": "ตรวจสอบ",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 65,
+    "hanzi": "刷",
+    "pinyin": "shuā",
+    "type": "v.",
+    "en": "scan",
+    "th": "สแกน",
+    "thAid": "สแกน",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 66,
+    "hanzi": "检票",
+    "pinyin": "jiǎnpiào",
+    "type": "v.",
+    "en": "check or inspect tickets",
+    "th": "ตรวจตั๋ว",
+    "thAid": "ตรวจตั๋ว",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 67,
+    "hanzi": "电梯",
+    "pinyin": "diàntī",
+    "type": "n.",
+    "en": "elevator; escalator",
+    "th": "ลิฟต์ / บันไดเลื่อน",
+    "thAid": "ลิฟต์ / บันไดเลื่อน",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=51&pdf-pages=63"
+  },
+  {
+    "index": 68,
+    "hanzi": "放假",
+    "pinyin": "fàngjià",
+    "type": "v.",
+    "en": "have a vacation",
+    "th": "หยุดเรียน / หยุดงาน",
+    "thAid": "หยุดเรียน / หยุดงาน",
+    "translationKind": "editorial-aid",
+    "page": 53,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=53&pdf-pages=65"
+  },
+  {
+    "index": 69,
+    "hanzi": "沙发",
+    "pinyin": "shāfā",
+    "type": "n.",
+    "en": "sofa",
+    "th": "โซฟา",
+    "thAid": "โซฟา",
+    "translationKind": "editorial-aid",
+    "page": 53,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=53&pdf-pages=65"
+  },
+  {
+    "index": 70,
+    "hanzi": "安静",
+    "pinyin": "ānjìng",
+    "type": "adj.",
+    "en": "quiet",
+    "th": "เงียบสงบ",
+    "thAid": "เงียบสงบ",
+    "translationKind": "editorial-aid",
+    "page": 53,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=53&pdf-pages=65"
+  },
+  {
+    "index": 71,
+    "hanzi": "选择",
+    "pinyin": "xuǎnzé",
+    "type": "v.",
+    "en": "choose",
+    "th": "เลือก",
+    "thAid": "เลือก",
+    "translationKind": "editorial-aid",
+    "page": 53,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=53&pdf-pages=65"
+  },
+  {
+    "index": 72,
+    "hanzi": "必须",
+    "pinyin": "bìxū",
+    "type": "adv.",
+    "en": "have to; must",
+    "th": "ต้อง",
+    "thAid": "ต้อง",
+    "translationKind": "editorial-aid",
+    "page": 53,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=53&pdf-pages=65"
+  },
+  {
+    "index": 73,
+    "hanzi": "总是",
+    "pinyin": "zǒngshì",
+    "type": "adv.",
+    "en": "always",
+    "th": "เสมอ",
+    "thAid": "เสมอ",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 74,
+    "hanzi": "终于",
+    "pinyin": "zhōngyú",
+    "type": "adv.",
+    "en": "finally",
+    "th": "ในที่สุด",
+    "thAid": "ในที่สุด",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 75,
+    "hanzi": "爬",
+    "pinyin": "pá",
+    "type": "v.",
+    "en": "climb",
+    "th": "ปีน",
+    "thAid": "ปีน",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 76,
+    "hanzi": "山",
+    "pinyin": "shān",
+    "type": "n.",
+    "en": "mountain; hill",
+    "th": "ภูเขา",
+    "thAid": "ภูเขา",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 77,
+    "hanzi": "锻炼",
+    "pinyin": "duànliàn",
+    "type": "v.",
+    "en": "exercise",
+    "th": "ออกกำลังกาย",
+    "thAid": "ออกกำลังกาย",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 78,
+    "hanzi": "照",
+    "pinyin": "zhào",
+    "type": "v.",
+    "en": "take a picture",
+    "th": "ถ่ายรูป",
+    "thAid": "ถ่ายรูป",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 79,
+    "hanzi": "鞋",
+    "pinyin": "xié",
+    "type": "n.",
+    "en": "shoe",
+    "th": "รองเท้า",
+    "thAid": "รองเท้า",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 80,
+    "hanzi": "大衣",
+    "pinyin": "dàyī",
+    "type": "n.",
+    "en": "overcoat",
+    "th": "เสื้อโค้ต",
+    "thAid": "เสื้อโค้ต",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=39&pdf-pages=51"
+  },
+  {
+    "index": 81,
+    "hanzi": "拍照",
+    "pinyin": "pāizhào",
+    "type": "v.",
+    "en": "take a picture",
+    "th": "ถ่ายภาพ",
+    "thAid": "ถ่ายภาพ",
+    "translationKind": "editorial-aid",
+    "page": 41,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=41&pdf-pages=53"
+  },
+  {
+    "index": 82,
+    "hanzi": "感兴趣",
+    "pinyin": "gǎn xìngqù",
+    "type": "v.",
+    "en": "be interested in",
+    "th": "สนใจ",
+    "thAid": "สนใจ",
+    "translationKind": "editorial-aid",
+    "page": 41,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=41&pdf-pages=53"
+  },
+  {
+    "index": 83,
+    "hanzi": "照相",
+    "pinyin": "zhàoxiàng",
+    "type": "v.",
+    "en": "take a picture",
+    "th": "ถ่ายรูป",
+    "thAid": "ถ่ายรูป",
+    "translationKind": "editorial-aid",
+    "page": 41,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=41&pdf-pages=53"
+  },
+  {
+    "index": 84,
+    "hanzi": "难看",
+    "pinyin": "nánkàn",
+    "type": "adj.",
+    "en": "bad-looking; ugly",
+    "th": "ดูไม่สวย",
+    "thAid": "ดูไม่สวย",
+    "translationKind": "editorial-aid",
+    "page": 41,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=41&pdf-pages=53"
+  },
+  {
+    "index": 85,
+    "hanzi": "比较",
+    "pinyin": "bǐjiào",
+    "type": "v./adv.",
+    "en": "compare; relatively",
+    "th": "เปรียบเทียบ / ค่อนข้าง",
+    "thAid": "เปรียบเทียบ / ค่อนข้าง",
+    "translationKind": "editorial-aid",
+    "page": 41,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=41&pdf-pages=53"
+  },
+  {
+    "index": 86,
+    "hanzi": "水平",
+    "pinyin": "shuǐpíng",
+    "type": "n.",
+    "en": "level",
+    "th": "ระดับ / ฝีมือ",
+    "thAid": "ระดับ / ฝีมือ",
+    "translationKind": "editorial-aid",
+    "page": 41,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=41&pdf-pages=53"
+  },
+  {
+    "index": 87,
+    "hanzi": "太阳",
+    "pinyin": "tàiyáng",
+    "type": "n.",
+    "en": "sun",
+    "th": "ดวงอาทิตย์",
+    "thAid": "ดวงอาทิตย์",
+    "translationKind": "editorial-aid",
+    "page": 42,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=42&pdf-pages=54"
+  },
+  {
+    "index": 88,
+    "hanzi": "树",
+    "pinyin": "shù",
+    "type": "n.",
+    "en": "tree",
+    "th": "ต้นไม้",
+    "thAid": "ต้นไม้",
+    "translationKind": "editorial-aid",
+    "page": 42,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=42&pdf-pages=54"
+  },
+  {
+    "index": 89,
+    "hanzi": "干",
+    "pinyin": "gàn",
+    "type": "v.",
+    "en": "do",
+    "th": "ทำ",
+    "thAid": "ทำ",
+    "translationKind": "editorial-aid",
+    "page": 42,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=42&pdf-pages=54"
+  },
+  {
+    "index": 90,
+    "hanzi": "电",
+    "pinyin": "diàn",
+    "type": "n.",
+    "en": "electricity",
+    "th": "ไฟฟ้า / แบตเตอรี่",
+    "thAid": "ไฟฟ้า / แบตเตอรี่",
+    "translationKind": "editorial-aid",
+    "page": 42,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=42&pdf-pages=54"
+  },
+  {
+    "index": 91,
+    "hanzi": "收到",
+    "pinyin": "shōudào",
+    "type": "v.",
+    "en": "receive",
+    "th": "ได้รับ",
+    "thAid": "ได้รับ",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 92,
+    "hanzi": "封",
+    "pinyin": "fēng",
+    "type": "m.",
+    "en": "measure word for mail",
+    "th": "ฉบับ (ลักษณนามจดหมาย)",
+    "thAid": "ฉบับ (ลักษณนามจดหมาย)",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 93,
+    "hanzi": "邮件",
+    "pinyin": "yóujiàn",
+    "type": "n.",
+    "en": "email; mail",
+    "th": "อีเมล / จดหมาย",
+    "thAid": "อีเมล / จดหมาย",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 94,
+    "hanzi": "难过",
+    "pinyin": "nánguò",
+    "type": "adj.",
+    "en": "sad",
+    "th": "เสียใจ",
+    "thAid": "เสียใจ",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 95,
+    "hanzi": "哈哈",
+    "pinyin": "hāhā",
+    "type": "interj.",
+    "en": "ha-ha",
+    "th": "ฮ่า ๆ",
+    "thAid": "ฮ่า ๆ",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 96,
+    "hanzi": "音乐",
+    "pinyin": "yīnyuè",
+    "type": "n.",
+    "en": "music",
+    "th": "ดนตรี",
+    "thAid": "ดนตรี",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 97,
+    "hanzi": "兴趣",
+    "pinyin": "xìngqù",
+    "type": "n.",
+    "en": "interest",
+    "th": "ความสนใจ",
+    "thAid": "ความสนใจ",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 98,
+    "hanzi": "会",
+    "pinyin": "huì",
+    "type": "n.",
+    "en": "gathering; event",
+    "th": "งาน / การชุมนุม",
+    "thAid": "งาน / การชุมนุม",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  },
+  {
+    "index": 99,
+    "hanzi": "结束",
+    "pinyin": "jiéshù",
+    "type": "v.",
+    "en": "finish; end",
+    "th": "สิ้นสุด",
+    "thAid": "สิ้นสุด",
+    "translationKind": "editorial-aid",
+    "page": 44,
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=44&pdf-pages=56"
+  }
+],
   grammarFocus: [
-    { title: "固定短语“看上去/看起来”", titleEn: "Set Phrases 看上去/看起来", explanationZh: "“看上去”和“看起来”可以描述人或物的外观或状态。", explanationEn: "看上去 and 看起来 describe the appearance or condition of a person or thing.", thAid: "ใช้ 看上去/看起来 เพื่อบรรยายภาพลักษณ์หรือสภาพที่มองเห็น", examples: ["他们看上去有点儿像。", "这些菜看起来都很好吃。", "那个新来的老师看上去很年轻。"], sourceRef: lessonHsk3L1SourceRef("3", "15") },
-    { title: "疑问代词的非疑问用法（1）", titleEn: "Non-Interrogative Use of Interrogative Pronouns (1)", explanationZh: "“哪儿、什么、谁、哪”等用在陈述句中，表示不知道或不需要指明的地点、事物或人。", explanationEn: "Interrogative pronouns can indicate unspecified places, things, or people in declarative sentences.", thAid: "คำอย่าง 哪儿、什么、谁 ใช้ในประโยคบอกเล่าเพื่อกล่าวถึงสถานที่ สิ่งของ หรือคนที่ไม่ระบุ", examples: ["我好像在哪儿看到过这个箱子。", "你吃点儿什么再走吧。", "我们哪天一起去踢足球吧。"], sourceRef: lessonHsk3L1SourceRef("4", "16") },
-    { title: "多项定语", titleEn: "Multiple Attributives", explanationZh: "多个定语通常按时间或处所、动作或状态、特点的顺序排列在名词前。", explanationEn: "Multiple attributives generally precede a noun in the order of time/location, action/state, and characteristic.", thAid: "ส่วนขยายนามหลายชั้นเรียงโดยทั่วไปจากเวลา/สถานที่ ต่อด้วยการกระทำ/สภาพ แล้วจึงลักษณะ", examples: ["那个穿着黑衣服的短头发的年轻人。", "昨天和家月一起看电影的两个人。", "我那件新买的白色的衣服。"], sourceRef: lessonHsk3L1SourceRef("6", "18") },
-  ],
-  characters,
-  scenes,
+  {
+    "title": "基础句型表达",
+    "titleEn": "Basic Sentence Structure",
+    "explanationZh": "掌握陈述句与常用疑问句的基本语序。",
+    "explanationEn": "Master basic word order in statements and common questions.",
+    "thAid": "เข้าใจโครงสร้างประโยคบอกเล่าและประโยคคำถามพื้นฐาน",
+    "examples": [
+      "你好！",
+      "这是我的家人。"
+    ],
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "title": "常用动词与形容词用法",
+    "titleEn": "Common Verbs and Adjectives",
+    "explanationZh": "熟练使用常用动词与形容词作谓语。",
+    "explanationEn": "Use common verbs and adjectives as predicates.",
+    "thAid": "ใช้คำกริยาและคำคุณศัพท์เป็นภาคแสดงในประโยค",
+    "examples": [
+      "很好看。",
+      "我想买一件衣服。"
+    ],
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
+  scenes: [
+  {
+    "id": "hsk3-l1-s1",
+    "number": "01",
+    "glyph": "菜",
+    "title": "在饭馆点菜与品尝美食",
+    "titleTh": "สั่งอาหารจีนรสเลิศในร้านอาหาร",
+    "titleEn": "Ordering delicious dishes at restaurant",
+    "place": "饭馆",
+    "placePy": "fànguǎn",
+    "placeTh": "ร้านอาหาร",
+    "context": "在特色餐馆里，李文和白家月看菜单点菜，品尝地道中国美味。",
+    "contextTh": "ที่ร้านอาหารจีน หลี่เหวินและไป๋เจียเยว่ดูเมนูสั่งอาหาร และลิ้มลองรสชาติอาหารจีนแท้ๆ",
+    "contextEn": "At the restaurant, ordering dishes from menu and tasting Chinese food.",
+    "characters": [
+      {
+        "role": "A",
+        "profile": "liWen",
+        "noteTh": "ผู้ชวนสั่งอาหาร",
+        "noteZh": "点菜的朋友",
+        "noteEn": "Friend ordering food"
+      },
+      {
+        "role": "B",
+        "profile": "bai",
+        "noteTh": "ผู้เลือกเมนูที่ชอบ",
+        "noteZh": "选择菜肴的客人",
+        "noteEn": "Guest picking dishes"
+      },
+      {
+        "role": "C",
+        "profile": "restaurantServer",
+        "noteTh": "พนักงานเสิร์ฟอาหาร",
+        "noteZh": "饭馆服务员",
+        "noteEn": "Restaurant waiter"
+      }
+    ],
+    "lines": [
+      {
+        "role": "C",
+        "speaker": "服务员",
+        "pinyin": "huānyíng guānglín, zhè shì càidān, qǐng diǎncài",
+        "hanzi": "欢迎光临，这是菜单，请点菜。",
+        "reading": "Huānyíng guānglín, zhè shì càidān, qǐng diǎncài.",
+        "en": "Welcome, here is the menu, please order.",
+        "th": "ยินดีต้อนรับค่ะ นี่คือเมนูอาหาร เชิญสั่งได้เลยนะคะ",
+        "visual": {
+          "zh": "请点菜",
+          "th": "เชิญสั่งอาหาร",
+          "focus": "50% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "A",
+        "speaker": "李文",
+        "pinyin": "nǐmen xiǎng chī shénme jiù diǎn shénme",
+        "hanzi": "你们想吃什么就点什么！",
+        "reading": "Nǐmen xiǎng chī shénme jiù diǎn shénme!",
+        "en": "Order whatever you'd like to eat!",
+        "th": "พวกเธออยากกินอะไรก็สั่งได้ตามสบายเลยนะ!",
+        "visual": {
+          "zh": "想吃什么",
+          "th": "อยากกินอะไร",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "B",
+        "speaker": "白家月",
+        "pinyin": "zhège cài de wèidao hǎo jí le, zhēn hào chī",
+        "hanzi": "这个菜的味道好极了，真好吃！",
+        "reading": "Zhè ge cài de wèidao hǎo jí le, zhēn hǎochī!",
+        "en": "The taste of this dish is wonderful, so delicious!",
+        "th": "รสชาติของจานนี้ดีเยี่ยมยอดเลย อร่อยมากๆ!",
+        "visual": {
+          "zh": "好极了",
+          "th": "ดีเยี่ยม",
+          "focus": "74% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "A",
+        "speaker": "李文",
+        "pinyin": "xǐhuan jiù duō chī diǎnr",
+        "hanzi": "喜欢就多吃点儿！",
+        "reading": "Xǐhuan jiù duō chī diǎnr!",
+        "en": "If you like it, eat more!",
+        "th": "ถ้าชอบก็ทานเยอะๆ นะ!",
+        "visual": {
+          "zh": "多吃点儿",
+          "th": "ทานเยอะๆ",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      }
+    ],
+    "qte": {
+      "after": 2,
+      "prompt": {
+        "th": "白家月觉得这个菜的味道怎么样?",
+        "zh": "白家月觉得这个菜的味道怎么样？",
+        "en": "How does Bai Jiayue find the food taste?"
+      },
+      "options": [
+        {
+          "value": "好极了",
+          "zh": "好极了",
+          "pinyin": "Hǎo jí le",
+          "th": "ดีเยี่ยมยอด"
+        },
+        {
+          "value": "不太好",
+          "zh": "不太好",
+          "pinyin": "Bú tài hǎo",
+          "th": "ไม่ค่อยดี"
+        },
+        {
+          "value": "一般",
+          "zh": "一般",
+          "pinyin": "Yìbān",
+          "th": "ธรรมดา"
+        }
+      ],
+      "correct": "好极了",
+      "evidence": "白家月：这个菜的味道好极了，真好吃！",
+      "evidenceTh": "ไป๋เจียเยว่: รสชาติของจานนี้ดีเยี่ยมยอดเลย อร่อยมากๆ!",
+      "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "builder": {
+      "prompt": {
+        "th": "เรียงประโยคชมรสชาติอาหาร",
+        "zh": "重组赞美菜肴味道句子",
+        "en": "Rebuild food compliment sentence"
+      },
+      "answer": [
+        "这个菜的味道",
+        "好极了！"
+      ],
+      "tiles": [
+        "好极了！",
+        "这个菜的味道"
+      ],
+      "gloss": {
+        "这个菜的味道": "รสชาติของอาหารจานนี้",
+        "好极了": "ดีเยี่ยมยอด"
+      },
+      "translationTh": "รสชาติของอาหารจานนี้ดีเยี่ยมยอดเลย!",
+      "translationEn": "The taste of this dish is wonderful!",
+      "evidence": "Text 1 · HSK3 Lesson 2",
+      "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "source": "Text 1",
+    "sourcePage": "1",
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "id": "hsk3-l1-s2",
+    "number": "02",
+    "glyph": "铁",
+    "title": "商量坐高铁去上海",
+    "titleTh": "นั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้และสั่งอาหาร",
+    "titleEn": "High-speed train to Shanghai and food delivery",
+    "place": "咖啡厅",
+    "placePy": "kāfēitīng",
+    "placeTh": "ร้านกาแฟ",
+    "context": "两人在咖啡厅商量假期出行，计划乘坐高铁去上海，体验在车上点外卖。",
+    "contextTh": "ทั้งสองปรึกษากันในร้านกาแฟเรื่องเดินทางวันหยุด วางแผนนั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้และสั่งอาหารเดลิเวอรีบนรถไฟ",
+    "contextEn": "Planning a high-speed train trip to Shanghai and ordering food onboard.",
+    "characters": [
+      {
+        "role": "A",
+        "profile": "wang",
+        "noteTh": "ผู้วางแผนการเดินทาง",
+        "noteZh": "计划出行的母亲",
+        "noteEn": "Mother planning trip"
+      },
+      {
+        "role": "B",
+        "profile": "liu",
+        "noteTh": "ผู้จองตั๋วรถไฟความเร็วสูง",
+        "noteZh": "订高铁票的父亲",
+        "noteEn": "Father booking train tickets"
+      }
+    ],
+    "lines": [
+      {
+        "role": "A",
+        "speaker": "王一雪",
+        "pinyin": "jiàqī wǒmen zuò gāotiě qù shànghǎi ba",
+        "hanzi": "假期我们坐高铁去上海吧。",
+        "reading": "Jiàqī wǒmen zuò gāotiě qù Shànghǎi ba.",
+        "en": "Let's take the high-speed train to Shanghai for holiday.",
+        "th": "วันหยุดนี้พวกเรานั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้กันเถอะ",
+        "visual": {
+          "zh": "坐高铁",
+          "th": "นั่งรถไฟความเร็วสูง",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "B",
+        "speaker": "刘明",
+        "pinyin": "hǎo a, gāotiě shang hái kěyǐ diǎn wàimài, tèbié fāngbiàn",
+        "hanzi": "好啊，高铁上还可以点外卖，特别方便！",
+        "reading": "Hǎo a, gāotiě shang hái kěyǐ diǎn wàimài, tèbié fāngbiàn!",
+        "en": "Great, you can even order takeout on high-speed train, very convenient!",
+        "th": "ดีเลย บนรถไฟความเร็วสูงยังสั่งเดลิเวอรีได้ด้วย สะดวกมากๆ!",
+        "visual": {
+          "zh": "点外卖",
+          "th": "สั่งเดลิเวอรี",
+          "focus": "74% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "A",
+        "speaker": "王一雪",
+        "pinyin": "wǒmen xiànzài jiù shàngwǎng mǎi piào",
+        "hanzi": "我们现在就上网买票。",
+        "reading": "Wǒmen xiànzài jiù shàngwǎng mǎi piào.",
+        "en": "Let's buy tickets online right now.",
+        "th": "พวกเราเข้าเน็ตซื้อตั๋วกันตอนนี้เลยนะ",
+        "visual": {
+          "zh": "上网买票",
+          "th": "ซื้อตั๋วออนไลน์",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "B",
+        "speaker": "刘明",
+        "pinyin": "mǎi hǎo le, zhù wǒmen lǚxíng yúkuài",
+        "hanzi": "买好了，祝我们旅行愉快！",
+        "reading": "Mǎi hǎo le, zhù wǒmen lǚxíng yúkuài!",
+        "en": "Purchased, wishing us a happy trip!",
+        "th": "ซื้อเสร็จเรียบร้อยแล้ว ขอให้การเดินทางราบรื่นมีความสุขนะ!",
+        "visual": {
+          "zh": "旅行愉快",
+          "th": "เที่ยวให้สนุก",
+          "focus": "74% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+      }
+    ],
+    "qte": {
+      "after": 1,
+      "prompt": {
+        "th": "在高铁上有什么便捷的服务?",
+        "zh": "在高铁上有什么便捷的服务？",
+        "en": "What convenient service is on the high-speed train?"
+      },
+      "options": [
+        {
+          "value": "可以点外卖",
+          "zh": "可以点外卖",
+          "pinyin": "Kěyǐ diǎn wàimài",
+          "th": "สั่งอาหารเดลิเวอรีได้"
+        },
+        {
+          "value": "可以游泳",
+          "zh": "可以游泳",
+          "pinyin": "Kěyǐ yóuyǒng",
+          "th": "ว่ายน้ำได้"
+        },
+        {
+          "value": "可以看电影院",
+          "zh": "可以看电影院",
+          "pinyin": "Kěyǐ kàn diànyǐngyuàn",
+          "th": "มีโรงหนังให้ดู"
+        }
+      ],
+      "correct": "可以点外卖",
+      "evidence": "刘明：高铁上还可以点外卖，特别方便！",
+      "evidenceTh": "หลิวหมิง: บนรถไฟความเร็วสูงยังสั่งเดลิเวอรีได้ด้วย สะดวกมากๆ!",
+      "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "builder": {
+      "prompt": {
+        "th": "เรียงประโยคชวนนั่งรถไฟความเร็วสูง",
+        "zh": "重组坐高铁旅行句子",
+        "en": "Rebuild high-speed train sentence"
+      },
+      "answer": [
+        "假期我们",
+        "坐高铁去上海吧。"
+      ],
+      "tiles": [
+        "坐高铁去上海吧。",
+        "假期我们"
+      ],
+      "gloss": {
+        "假期我们": "วันหยุดนี้พวกเรา",
+        "坐高铁去上海吧": "นั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้กันเถอะ"
+      },
+      "translationTh": "วันหยุดนี้พวกเรานั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้กันเถอะ",
+      "translationEn": "Let's take the high-speed train to Shanghai for holiday.",
+      "evidence": "Text 1 · HSK3 Lesson 6",
+      "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "source": "Text 2",
+    "sourcePage": "2",
+    "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
 };

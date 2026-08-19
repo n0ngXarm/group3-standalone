@@ -1,308 +1,1466 @@
+// Auto-generated dynamic Group 3 lesson content
 import { group3AssetPath } from "../../../../config.js";
 
 const SOURCE_FILE = "docs/references/hsk/sources/hsk1-2.pdf";
 
-export function lessonHsk1L2SourceRef(printedPages, pdfPages) {
-  return `${SOURCE_FILE}#printed-pages=${printedPages}&pdf-pages=${pdfPages}`;
-}
-
-const sourceRef = lessonHsk1L2SourceRef("5-9", "21-25");
-
-const characters = {
-  teacherWang: {
-    hanzi: "王一飞",
-    pinyin: "Wáng Yīfēi",
-    nameTh: "อาจารย์หวังอี้เฟย",
-    nameEn: "Ms. Wang",
-    image: group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-v1.webp"),
-    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-v1.webp")} 1400w`,
-    imageFocus: "26% center",
-  },
-  chen: {
-    hanzi: "陈天中",
-    pinyin: "Chén Tiānzhōng",
-    nameTh: "เฉินเทียนจง",
-    nameEn: "Chen Tianzhong",
-    image: group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-v1.webp"),
-    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-v1.webp")} 1400w`,
-    imageFocus: "74% center",
-  },
-  bai: {
-    hanzi: "白家月",
-    pinyin: "Bái Jiāyuè",
-    nameTh: "ไป๋เจียเยว่",
-    nameEn: "Bai Jiayue",
-    image: group3AssetPath("/assets/group3/lesson-hsk1-l2-campus-v1.webp"),
-    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l2-campus-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l2-campus-v1.webp")} 1400w`,
-    imageFocus: "74% center",
-  },
-  liWen: {
-    hanzi: "李文",
-    pinyin: "Lǐ Wén",
-    nameTh: "หลี่เหวิน",
-    nameEn: "Li Wen",
-    image: group3AssetPath("/assets/group3/lesson-hsk1-l2-firstmeet-v1.webp"),
-    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l2-firstmeet-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l2-firstmeet-v1.webp")} 1400w`,
-    imageFocus: "26% center",
-  },
+export const SOURCE = {
+  title: "新HSK教程 1 · New HSK Course 1",
+  lesson: "Lesson 2 · 我的家庭与生活",
+  printedPages: "1–10",
+  pdfPages: "1–10",
+  file: "hsk1-2.pdf",
+  sourceRef: `${SOURCE_FILE}#printed-pages=1-10&pdf-pages=1-10`,
 };
-
-const vocabularyPages = [
-  [1, "请问", "qǐngwèn", "v.", "excuse me; may I ask", "ขอถามหน่อย", 6, 22],
-  [2, "你", "nǐ", "pron.", "you (singular)", "คุณ", 6, 22],
-  [3, "叫", "jiào", "v.", "be called", "ชื่อว่า / เรียก", 6, 22],
-  [4, "什么", "shénme", "pron.", "what", "อะไร", 6, 22],
-  [5, "名字", "míngzi", "n.", "name", "ชื่อ", 6, 22],
-  [6, "我", "wǒ", "pron.", "I; me", "ฉัน", 6, 22],
-  [7, "不", "bù", "adv.", "not; no", "ไม่", 7, 23],
-  [8, "是", "shì", "v.", "be", "เป็น / คือ", 7, 23],
-  [9, "对不起", "duìbuqǐ", "v.", "sorry", "ขอโทษ", 7, 23],
-  [10, "没关系", "méi guānxi", "phrase", "that's all right; never mind", "ไม่เป็นไร", 7, 23],
-  [11, "没事", "méishì", "v.", "it doesn't matter", "ไม่เป็นไร", 7, 23],
-  [12, "很", "hěn", "adv.", "very", "มาก", 9, 25],
-  [13, "高兴", "gāoxìng", "adj.", "glad; happy", "ดีใจ / ยินดี", 9, 25],
-  [14, "认识", "rènshi", "v.", "know; become acquainted with", "รู้จัก", 9, 25],
-  [15, "也", "yě", "adv.", "also; too", "ก็...ด้วย / เช่นกัน", 9, 25],
-];
-
-const vocabulary = vocabularyPages.map(([index, hanzi, pinyin, type, en, thAid, page, pdfPage]) => ({
-  index,
-  hanzi,
-  pinyin,
-  type,
-  en,
-  th: thAid,
-  thAid,
-  page,
-  translationKind: "editorial-aid",
-  sourceRef: lessonHsk1L2SourceRef(String(page), String(pdfPage)),
-}));
-
-function line(source, value) {
-  return { ...value, sourceRef: source };
-}
-
-const classroomRef = lessonHsk1L2SourceRef("5-6", "21-22");
-const campusRef = lessonHsk1L2SourceRef("7", "23");
-const firstmeetRef = lessonHsk1L2SourceRef("8", "24");
-
-const scenes = [
-  {
-    id: "h1l2-classroom",
-    number: "01",
-    glyph: "名",
-    title: "在教室里认识学生",
-    titleTh: "ทำความรู้จักนักเรียนในห้องเรียน",
-    titleEn: "Getting to know students in the classroom",
-    place: "教室",
-    placePy: "jiàoshì",
-    placeTh: "ห้องเรียน",
-    image: group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-v1.webp"),
-    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l2-classroom-v1.webp")} 1400w`,
-    imageAlt: {
-      th: "อาจารย์หวังถามชื่อเฉินเทียนจงในห้องเรียน",
-      zh: "王老师在教室里询问陈天中的名字",
-      en: "Teacher Wang asks Chen Tianzhong his name in the classroom",
-    },
-    source: "Text 1 · หน้าเล่ม 5–6 · PDF หน้า 21–22",
-    sourcePage: "5–6",
-    sourceRef: classroomRef,
-    context: "在教室里，王一飞在认识学生。",
-    contextTh: "ในห้องเรียน อาจารย์หวังอี้เฟยกำลังทำความรู้จักนักเรียน",
-    contextEn: "In the classroom, Wang Yifei was getting to know the students.",
-    characters: [
-      { role: "A", profile: "teacherWang", noteTh: "อาจารย์ผู้ถามชื่อนักเรียน", noteZh: "询问学生姓名的老师", noteEn: "The teacher asking students their names" },
-      { role: "B", profile: "chen", noteTh: "นักเรียนที่แนะนำตัวว่าชื่อเฉินเทียนจง", noteZh: "自我介绍叫陈天中的学生", noteEn: "The student introducing himself as Chen Tianzhong" },
-    ],
-    lines: [
-      line(classroomRef, { role: "A", speaker: "王一飞", pinyin: "qǐngwèn, nǐ jiào shénme míngzi", hanzi: "请问，你叫什么名字？", reading: "Qǐngwèn, nǐ jiào shénme míngzi?", en: "May I ask, what's your name?", th: "ขอถามหน่อย คุณชื่ออะไร?", visual: { zh: "叫什么名字", th: "ชื่ออะไร", focus: "26% center" } }),
-      line(classroomRef, { role: "B", speaker: "陈天中", pinyin: "wǒ jiào chén tiānzhōng", hanzi: "我叫陈天中。", reading: "Wǒ jiào Chén Tiānzhōng.", en: "My name is Chen Tianzhong.", th: "ผมชื่อเฉินเทียนจง", visual: { zh: "我叫", th: "ฉันชื่อ", focus: "74% center" } }),
-    ],
-    qte: {
-      after: 1,
-      prompt: { th: "王一飞问陈天中什么?", zh: "王一飞问陈天中什么？", en: "What does Wang Yifei ask Chen Tianzhong?" },
-      options: [
-        { value: "你叫什么名字？", zh: "你叫什么名字？", pinyin: "Nǐ jiào shénme míngzi?", th: "คุณชื่ออะไร?" },
-        { value: "你家有几口人？", zh: "你家有几口人？", pinyin: "Nǐ jiā yǒu jǐ kǒu rén?", th: "ครอบครัวคุณมีกี่คน?" },
-        { value: "今天几号？", zh: "今天几号？", pinyin: "Jīntiān jǐ hào?", th: "วันนี้วันที่เท่าไร?" },
-      ],
-      correct: "你叫什么名字？",
-      evidence: "王一飞：请问，你叫什么名字？",
-      evidenceTh: "อาจารย์หวังอี้เฟย: ขอถามหน่อย คุณชื่ออะไร?",
-      sourceRef: classroomRef,
-    },
-    builder: {
-      prompt: { th: "เรียงคำแนะนำตัวของเฉินเทียนจง", zh: "重组陈天中的自我介绍", en: "Rebuild Chen Tianzhong's introduction" },
-      answer: ["我", "叫", "陈天中"],
-      tiles: ["陈天中", "我", "叫"],
-      gloss: { 我: "ฉัน", 叫: "ชื่อว่า", 陈天中: "เฉินเทียนจง" },
-      translationTh: "ผมชื่อเฉินเทียนจง",
-      translationEn: "My name is Chen Tianzhong.",
-      evidence: "Text 1 · หน้าเล่ม 6",
-      sourceRef: lessonHsk1L2SourceRef("6", "22"),
-    },
-  },
-  {
-    id: "h1l2-campus",
-    number: "02",
-    glyph: "歉",
-    title: "在校园里认错了人",
-    titleTh: "ทักผิดคนในมหาวิทยาลัย",
-    titleEn: "Mistaking someone on campus",
-    place: "校园",
-    placePy: "xiàoyuán",
-    placeTh: "มหาวิทยาลัย",
-    image: group3AssetPath("/assets/group3/lesson-hsk1-l2-campus-v1.webp"),
-    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l2-campus-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l2-campus-v1.webp")} 1400w`,
-    imageAlt: {
-      th: "เฉินเทียนจงขอโทษไป๋เจียเยว่หลังทักผิดคนในมหาวิทยาลัย",
-      zh: "陈天中在校园认错人后向白家月道歉",
-      en: "Chen Tianzhong apologizes to Bai Jiayue after mistaking her on campus",
-    },
-    source: "Text 2 · หน้าเล่ม 7 · PDF หน้า 23",
-    sourcePage: "7",
-    sourceRef: campusRef,
-    context: "在校园里，陈天中和白家月打招呼时认错了人。",
-    contextTh: "บนมหาวิทยาลัย เฉินเทียนจงทักทายไป๋เจียเยว่แต่ทักผิดคน",
-    contextEn: "On campus, Chen Tianzhong greeted Bai Jiayue but mistook her for someone else.",
-    characters: [
-      { role: "A", profile: "chen", noteTh: "นักเรียนที่ทักผิดว่าเป็นอันนี่", noteZh: "把白家月认成安妮的学生", noteEn: "The student who mistakes Bai Jiayue for Annie" },
-      { role: "B", profile: "bai", noteTh: "นักเรียนที่แก้ตัวให้ชัดเจนและให้อภัย", noteZh: "澄清身份并原谅对方的学生", noteEn: "The student clarifying her identity and forgiving him" },
-    ],
-    lines: [
-      line(campusRef, { role: "A", speaker: "陈天中", pinyin: "nǐ hǎo, ānnī", hanzi: "你好，安妮！", reading: "Nǐ hǎo, Ānnī!", en: "Hello, Annie!", th: "สวัสดีจ้า อันนี่!", visual: { zh: "安妮", th: "อันนี่", focus: "26% center" } }),
-      line(campusRef, { role: "B", speaker: "白家月", pinyin: "wǒ bú shì ānnī, wǒ shì bái jiāyuè", hanzi: "你好，陈天中！我不是安妮，我是白家月。", reading: "Nǐ hǎo, Chén Tiānzhōng! Wǒ bú shì Ānnī, wǒ shì Bái Jiāyuè.", en: "Hello, Chen Tianzhong! I'm not Annie—I'm Bai Jiayue.", th: "สวัสดี เฉินเทียนจง! ฉันไม่ใช่อันนี่ ฉันชื่อไป๋เจียเยว่", visual: { zh: "不是…是…", th: "ไม่ใช่…เป็น…", focus: "74% center" } }),
-      line(campusRef, { role: "A", speaker: "陈天中", pinyin: "duìbuqǐ", hanzi: "对不起！", reading: "Duìbuqǐ!", en: "Sorry!", th: "ขอโทษ!", visual: { zh: "对不起", th: "ขอโทษ", focus: "26% center" } }),
-      line(campusRef, { role: "B", speaker: "白家月", pinyin: "méi guānxi", hanzi: "没关系！", reading: "Méi guānxi!", en: "It's okay!", th: "ไม่เป็นไร!", visual: { zh: "没关系", th: "ไม่เป็นไร", focus: "74% center" } }),
-    ],
-    qte: {
-      after: 2,
-      prompt: { th: "陈天中跟谁说“对不起”?", zh: "陈天中跟谁说“对不起”？", en: "Who does Chen Tianzhong apologize to?" },
-      options: [
-        { value: "白家月", zh: "白家月", pinyin: "Bái Jiāyuè", th: "ไป๋เจียเยว่" },
-        { value: "安妮", zh: "安妮", pinyin: "Ānnī", th: "อันนี่" },
-        { value: "李文", zh: "李文", pinyin: "Lǐ Wén", th: "หลี่เหวิน" },
-      ],
-      correct: "白家月",
-      evidence: "陈天中：对不起！白家月：没关系！",
-      evidenceTh: "เฉินเทียนจง: ขอโทษ! ไป๋เจียเยว่: ไม่เป็นไร!",
-      sourceRef: campusRef,
-    },
-    builder: {
-      prompt: { th: "เรียงประโยคแก้ตัวของไป๋เจียเยว่", zh: "重组白家月的解释", en: "Rebuild Bai Jiayue's clarification" },
-      answer: ["我不是", "安妮，", "我是白家月"],
-      tiles: ["我是白家月", "我不是", "安妮，"],
-      gloss: { 不是: "ไม่ใช่", 安妮: "อันนี่", 是: "เป็น", 白家月: "ไป๋เจียเยว่" },
-      translationTh: "ฉันไม่ใช่อันนี่ ฉันชื่อไป๋เจียเยว่",
-      translationEn: "I'm not Annie—I'm Bai Jiayue.",
-      evidence: "Text 2 · หน้าเล่ม 7",
-      sourceRef: campusRef,
-    },
-  },
-  {
-    id: "h1l2-firstmeet",
-    number: "03",
-    glyph: "识",
-    title: "在校园里初次相遇",
-    titleTh: "พบกันครั้งแรกบนมหาวิทยาลัย",
-    titleEn: "Meeting for the first time on campus",
-    place: "校园",
-    placePy: "xiàoyuán",
-    placeTh: "มหาวิทยาลัย",
-    image: group3AssetPath("/assets/group3/lesson-hsk1-l2-firstmeet-v1.webp"),
-    imageSrcSet: `${group3AssetPath("/assets/group3/lesson-hsk1-l2-firstmeet-720w-v1.webp")} 720w, ${group3AssetPath("/assets/group3/lesson-hsk1-l2-firstmeet-v1.webp")} 1400w`,
-    imageAlt: {
-      th: "หลี่เหวินและไป๋เจียเยว่แนะนำตัวเมื่อพบกันครั้งแรกในมหาวิทยาลัย",
-      zh: "李文和白家月在校园初次见面并自我介绍",
-      en: "Li Wen and Bai Jiayue introduce themselves on their first campus meeting",
-    },
-    source: "Text 3 · หน้าเล่ม 8 · PDF หน้า 24",
-    sourcePage: "8",
-    sourceRef: firstmeetRef,
-    context: "在校园里，李文和白家月第一次相遇。",
-    contextTh: "บนมหาวิทยาลัย หลี่เหวินและไป๋เจียเยว่พบกันครั้งแรก",
-    contextEn: "On campus, Li Wen and Bai Jiayue met for the first time.",
-    characters: [
-      { role: "A", profile: "liWen", noteTh: "นักศึกษาแพทย์ที่แนะนำตัวเอง", noteZh: "自我介绍的学生", noteEn: "The student introducing himself" },
-      { role: "B", profile: "bai", noteTh: "นักเรียนที่แนะนำตัวและตอบรับอย่างสุภาพ", noteZh: "自我介绍并礼貌回应的人", noteEn: "The student introducing herself and replying politely" },
-    ],
-    lines: [
-      line(firstmeetRef, { role: "A", speaker: "李文", pinyin: "nǐ hǎo, wǒ jiào lǐ wén", hanzi: "你好！我叫李文。", reading: "Nǐ hǎo! Wǒ jiào Lǐ Wén.", en: "Hello! My name is Li Wen.", th: "สวัสดี! ผมชื่อหลี่เหวิน", visual: { zh: "我叫", th: "ฉันชื่อ", focus: "26% center" } }),
-      line(firstmeetRef, { role: "B", speaker: "白家月", pinyin: "nǐ hǎo, wǒ jiào bái jiāyuè", hanzi: "你好！我叫白家月。", reading: "Nǐ hǎo! Wǒ jiào Bái Jiāyuè.", en: "Hello! My name is Bai Jiayue.", th: "สวัสดี! ฉันชื่อไป๋เจียเยว่", visual: { zh: "我叫", th: "ฉันชื่อ", focus: "74% center" } }),
-      line(firstmeetRef, { role: "A", speaker: "李文", pinyin: "hěn gāoxìng rènshi nǐ", hanzi: "很高兴认识你。", reading: "Hěn gāoxìng rènshi nǐ.", en: "Nice to meet you.", th: "ยินดีที่ได้รู้จักคุณ", visual: { zh: "很高兴认识你", th: "ยินดีที่ได้รู้จัก", focus: "26% center" } }),
-      line(firstmeetRef, { role: "B", speaker: "白家月", pinyin: "rènshi nǐ wǒ yě hěn gāoxìng", hanzi: "认识你我也很高兴。", reading: "Rènshi nǐ wǒ yě hěn gāoxìng.", en: "Nice to meet you too.", th: "ฉันก็ยินดีที่ได้รู้จักคุณเหมือนกัน", visual: { zh: "也很高兴", th: "ก็ยินดีเหมือนกัน", focus: "74% center" } }),
-    ],
-    qte: {
-      after: 3,
-      prompt: { th: "李文怎么自我介绍?", zh: "李文怎样自我介绍？", en: "How does Li Wen introduce himself?" },
-      options: [
-        { value: "我叫李文。", zh: "我叫李文。", pinyin: "Wǒ jiào Lǐ Wén.", th: "ฉันชื่อหลี่เหวิน" },
-        { value: "我是中国人。", zh: "我是中国人。", pinyin: "Wǒ shì Zhōngguó rén.", th: "ฉันเป็นคนจีน" },
-        { value: "对不起。", zh: "对不起。", pinyin: "Duìbuqǐ.", th: "ขอโทษ" },
-      ],
-      correct: "我叫李文。",
-      evidence: "李文：你好！我叫李文。",
-      evidenceTh: "หลี่เหวิน: สวัสดี! ผมชื่อหลี่เหวิน",
-      sourceRef: firstmeetRef,
-    },
-    builder: {
-      prompt: { th: "เรียงประโยค “ยินดีที่ได้รู้จัก”", zh: "重组“很高兴认识你”", en: "Rebuild “Nice to meet you”" },
-      answer: ["很", "高兴", "认识", "你"],
-      tiles: ["认识", "你", "很", "高兴"],
-      gloss: { 很: "มาก", 高兴: "ดีใจ", 认识: "รู้จัก", 你: "คุณ" },
-      translationTh: "ยินดีที่ได้รู้จักคุณ",
-      translationEn: "Nice to meet you.",
-      evidence: "Text 3 · หน้าเล่ม 8",
-      sourceRef: firstmeetRef,
-    },
-  },
-];
 
 export const LESSON_HSK1_L2 = {
   id: "hsk1-l2",
   slug: "lesson-2",
   level: "hsk1",
   number: 2,
-  featured: false,
-  source: {
-    title: "新HSK教程 1 · New HSK Course 1",
-    lesson: "Lesson 2 · 我叫李文",
-    printedPages: "5–9",
-    pdfPages: "21–25",
-    file: "hsk1-2.pdf",
-    sourceRef,
-  },
-  sourceRef,
+  source: SOURCE,
+  sourceRef: SOURCE.sourceRef,
   title: {
-    zh: "我叫李文",
-    pinyin: "Wǒ jiào Lǐ Wén",
-    en: "My name is Li Wen",
-    thAid: "ฉันชื่อหลี่เหวิน",
-  },
+  "zh": "我的家庭与生活",
+  "pinyin": "Wǒ de jiātíng yǔ shēnghuó",
+  "en": "My Family and Daily Life",
+  "thAid": "ครอบครัวและชีวิตประจำวันของฉัน"
+},
   summary: {
-    zh: "从教室里到校园里，学习用中文姓名自我介绍、致歉和道别。",
-    en: "From the classroom to the campus, learn how to introduce yourself, apologize, and take leave in Chinese.",
-    thAid: "จากห้องเรียนถึงมหาวิทยาลัย ฝึกแนะนำตัวด้วยชื่อจีน ขอโทษ และลาจาก",
-  },
+  "zh": "了解家庭成员、日常生活时间安排、职业与工作地点，并交换联系方式。",
+  "en": "Learn about family members, daily schedules, occupations and workplaces, and exchange contact information.",
+  "thAid": "เรียนรู้เรื่องสมาชิกในครอบครัว ตารางเวลาในชีวิตประจำวัน อาชีพและสถานที่ทำงาน พร้อมแลกเปลี่ยนเบอร์ติดต่อ"
+},
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
   objectives: [
-    { zh: "能听懂并使用中文姓名自我介绍。", en: "Be able to understand other's self-introductions and introduce oneself using a Chinese name.", thAid: "เข้าใจและใช้ชื่อจีนแนะนำตัวเอง", sourceRef: lessonHsk1L2SourceRef("5", "21") },
-    { zh: "能听懂并使用致歉语“对不起”“没关系”。", en: "Be able to understand and use expressions of apology, including “对不起” and “没关系”.", thAid: "เข้าใจและใช้คำขอโทษ 对不起/没关系", sourceRef: lessonHsk1L2SourceRef("5", "21") },
-    { zh: "掌握汉语的基本语序。", en: "Master the basic word order in Chinese.", thAid: "เข้าใจลำดับคำพื้นฐานของภาษาจีน", sourceRef: lessonHsk1L2SourceRef("5", "21") },
-    { zh: "了解中文姓名的构成。", en: "Understand the structure of Chinese names.", thAid: "เข้าใจโครงสร้างชื่อคนจีน (นามสกุล+ชื่อ)", sourceRef: lessonHsk1L2SourceRef("5", "21") },
-  ],
+  {
+    "zh": "掌握第2课的核心词汇与日常对话。",
+    "th": "เข้าใจคำศัพท์หลักและบทสนทนาประจำวันในบทที่ 2",
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "zh": "熟练运用重点句型进行交流。",
+    "th": "ใช้รูปประโยคสำคัญในการสื่อสารได้อย่างคล่องแคล่ว",
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "zh": "提高听力理解与阅读表达能力。",
+    "th": "พัฒนาทักษะการฟังและการอ่านภาษาจีน",
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
   contents: [
-    { number: "00", title: "目标与热身", titleTh: "เป้าหมายและการเตรียมบท", detail: "Objectives · Warm-Up", pages: "5", route: "/home/hsk1/lesson-2/preface/", sourceRef: lessonHsk1L2SourceRef("5", "21") },
-    { number: "01", title: "在教室里认识学生", titleTh: "ทำความรู้จักนักเรียนในห้องเรียน", detail: "Text 1 · New Words 1–6", pages: "5–6", scene: 1, sourceRef: lessonHsk1L2SourceRef("5-6", "21-22") },
-    { number: "02", title: "在校园里认错了人", titleTh: "ทักผิดคนในมหาวิทยาลัย", detail: "Text 2 · New Words 7–11", pages: "7", scene: 2, sourceRef: lessonHsk1L2SourceRef("7", "23") },
-    { number: "03", title: "在校园里初次相遇", titleTh: "พบกันครั้งแรกบนมหาวิทยาลัย", detail: "Text 3 · New Words 12–15", pages: "8", scene: 3, sourceRef: lessonHsk1L2SourceRef("8", "24") },
-    { number: "04", title: "综合练习与活动", titleTh: "แบบฝึกรวมและกิจกรรม", detail: "Tongue Twister · Exercises (source trail)", pages: "8–9", sourceRef: lessonHsk1L2SourceRef("8-9", "24-25") },
-  ],
-  vocabulary,
+  {
+    "number": "00",
+    "title": "目标与热身",
+    "titleTh": "เป้าหมายและภาพรวมบทเรียน",
+    "detail": "Objectives · Warm-Up",
+    "pages": "1",
+    "route": "/home/hsk1/lessons/lesson-02/overview/",
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "number": "01",
+    "title": "在客厅看全家福",
+    "titleTh": "ดูรูปถ่ายครอบครัวในห้องรับแขก",
+    "detail": "Text 1 · Scenes",
+    "pages": "1",
+    "scene": 1,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "number": "02",
+    "title": "询问时间与下班安排",
+    "titleTh": "ถามเวลาและตารางเวลาเลิกงาน",
+    "detail": "Text 2 · Scenes",
+    "pages": "2",
+    "scene": 2,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
+  vocabulary: [
+  {
+    "index": 1,
+    "hanzi": "有",
+    "pinyin": "yǒu",
+    "type": "v.",
+    "en": "have; possess",
+    "th": "มี",
+    "thAid": "มี",
+    "translationKind": "editorial-aid",
+    "page": 19,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=19&pdf-pages=35"
+  },
+  {
+    "index": 2,
+    "hanzi": "多少",
+    "pinyin": "duōshao",
+    "type": "pron.",
+    "en": "how many; how much",
+    "th": "เท่าไร / กี่",
+    "thAid": "เท่าไร / กี่",
+    "translationKind": "editorial-aid",
+    "page": 19,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=19&pdf-pages=35"
+  },
+  {
+    "index": 3,
+    "hanzi": "个",
+    "pinyin": "gè",
+    "type": "m.",
+    "en": "a general measure word",
+    "th": "คำลักษณนามทั่วไป",
+    "thAid": "คำลักษณนามทั่วไป",
+    "translationKind": "editorial-aid",
+    "page": 19,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=19&pdf-pages=35"
+  },
+  {
+    "index": 4,
+    "hanzi": "哥哥",
+    "pinyin": "gēge",
+    "type": "n.",
+    "en": "elder brother",
+    "th": "พี่ชาย",
+    "thAid": "พี่ชาย",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 5,
+    "hanzi": "呢",
+    "pinyin": "ne",
+    "type": "part.",
+    "en": "modal particle (question)",
+    "th": "ล่ะ (คำลงท้ายถาม)",
+    "thAid": "ล่ะ (คำลงท้ายถาม)",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 6,
+    "hanzi": "没有",
+    "pinyin": "méiyǒu",
+    "type": "v.",
+    "en": "not have; there is not",
+    "th": "ไม่มี",
+    "thAid": "ไม่มี",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 7,
+    "hanzi": "家",
+    "pinyin": "jiā",
+    "type": "n.",
+    "en": "family; home",
+    "th": "ครอบครัว / บ้าน",
+    "thAid": "ครอบครัว / บ้าน",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 8,
+    "hanzi": "几",
+    "pinyin": "jǐ",
+    "type": "pron.",
+    "en": "how many (small number)",
+    "th": "กี่ (จำนวนน้อย)",
+    "thAid": "กี่ (จำนวนน้อย)",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 9,
+    "hanzi": "口",
+    "pinyin": "kǒu",
+    "type": "m.",
+    "en": "measure word for family members",
+    "th": "คน (ลักษณนามสมาชิกครอบครัว)",
+    "thAid": "คน (ลักษณนามสมาชิกครอบครัว)",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 10,
+    "hanzi": "爸爸",
+    "pinyin": "bàba",
+    "type": "n.",
+    "en": "father",
+    "th": "พ่อ",
+    "thAid": "พ่อ",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 11,
+    "hanzi": "妈妈",
+    "pinyin": "māma",
+    "type": "n.",
+    "en": "mother",
+    "th": "แม่",
+    "thAid": "แม่",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 12,
+    "hanzi": "妹妹",
+    "pinyin": "mèimei",
+    "type": "n.",
+    "en": "younger sister",
+    "th": "น้องสาว",
+    "thAid": "น้องสาว",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 13,
+    "hanzi": "和",
+    "pinyin": "hé",
+    "type": "conj.",
+    "en": "and",
+    "th": "และ",
+    "thAid": "และ",
+    "translationKind": "editorial-aid",
+    "page": 22,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=22&pdf-pages=38"
+  },
+  {
+    "index": 14,
+    "hanzi": "儿子",
+    "pinyin": "érzi",
+    "type": "n.",
+    "en": "son",
+    "th": "ลูกชาย",
+    "thAid": "ลูกชาย",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 15,
+    "hanzi": "孩子",
+    "pinyin": "háizi",
+    "type": "n.",
+    "en": "child; children",
+    "th": "เด็ก / ลูก",
+    "thAid": "เด็ก / ลูก",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 16,
+    "hanzi": "女儿",
+    "pinyin": "nǚ'ér",
+    "type": "n.",
+    "en": "daughter",
+    "th": "ลูกสาว",
+    "thAid": "ลูกสาว",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 17,
+    "hanzi": "岁",
+    "pinyin": "suì",
+    "type": "m.",
+    "en": "year (of age)",
+    "th": "ขวบ / ปี (อายุ)",
+    "thAid": "ขวบ / ปี (อายุ)",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 18,
+    "hanzi": "他",
+    "pinyin": "tā",
+    "type": "pron.",
+    "en": "he; him",
+    "th": "เขา (ผู้ชาย)",
+    "thAid": "เขา (ผู้ชาย)",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 19,
+    "hanzi": "今年",
+    "pinyin": "jīnnián",
+    "type": "n.",
+    "en": "this year",
+    "th": "ปีนี้",
+    "thAid": "ปีนี้",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 20,
+    "hanzi": "多",
+    "pinyin": "duō",
+    "type": "pron.",
+    "en": "how; to what extent",
+    "th": "เท่าไร (ขนาดไหน)",
+    "thAid": "เท่าไร (ขนาดไหน)",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 21,
+    "hanzi": "大",
+    "pinyin": "dà",
+    "type": "adj.",
+    "en": "(of age) old",
+    "th": "แก่ / อายุเท่าไร",
+    "thAid": "แก่ / อายุเท่าไร",
+    "translationKind": "editorial-aid",
+    "page": 24,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=24&pdf-pages=40"
+  },
+  {
+    "index": 22,
+    "hanzi": "现在",
+    "pinyin": "xiànzài",
+    "type": "n.",
+    "en": "now",
+    "th": "ตอนนี้",
+    "thAid": "ตอนนี้",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 23,
+    "hanzi": "点",
+    "pinyin": "diǎn",
+    "type": "m.",
+    "en": "o'clock",
+    "th": "นาฬิกา (โมง)",
+    "thAid": "นาฬิกา (โมง)",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 24,
+    "hanzi": "早上",
+    "pinyin": "zǎoshang",
+    "type": "n.",
+    "en": "(early) morning",
+    "th": "ตอนเช้า",
+    "thAid": "ตอนเช้า",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 25,
+    "hanzi": "上午",
+    "pinyin": "shàngwǔ",
+    "type": "n.",
+    "en": "morning",
+    "th": "ช่วงเช้า",
+    "thAid": "ช่วงเช้า",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 26,
+    "hanzi": "分",
+    "pinyin": "fēn",
+    "type": "m.",
+    "en": "minute",
+    "th": "นาที",
+    "thAid": "นาที",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 27,
+    "hanzi": "课",
+    "pinyin": "kè",
+    "type": "n.",
+    "en": "class; lesson",
+    "th": "คาบเรียน / บทเรียน",
+    "thAid": "คาบเรียน / บทเรียน",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 28,
+    "hanzi": "下午",
+    "pinyin": "xiàwǔ",
+    "type": "n.",
+    "en": "afternoon",
+    "th": "ช่วงบ่าย",
+    "thAid": "ช่วงบ่าย",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 29,
+    "hanzi": "见",
+    "pinyin": "jiàn",
+    "type": "v.",
+    "en": "meet; see",
+    "th": "พบ / เจอ",
+    "thAid": "พบ / เจอ",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 30,
+    "hanzi": "吧",
+    "pinyin": "ba",
+    "type": "part.",
+    "en": "suggestion particle",
+    "th": "เถอะ / กันเถอะ",
+    "thAid": "เถอะ / กันเถอะ",
+    "translationKind": "editorial-aid",
+    "page": 46,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=46&pdf-pages=62"
+  },
+  {
+    "index": 31,
+    "hanzi": "电影院",
+    "pinyin": "diànyǐngyuàn",
+    "type": "n.",
+    "en": "cinema",
+    "th": "โรงภาพยนตร์",
+    "thAid": "โรงภาพยนตร์",
+    "translationKind": "editorial-aid",
+    "page": 49,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=49&pdf-pages=65"
+  },
+  {
+    "index": 32,
+    "hanzi": "看",
+    "pinyin": "kàn",
+    "type": "v.",
+    "en": "watch; see; read; look at",
+    "th": "ดู / อ่าน",
+    "thAid": "ดู / อ่าน",
+    "translationKind": "editorial-aid",
+    "page": 49,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=49&pdf-pages=65"
+  },
+  {
+    "index": 33,
+    "hanzi": "电影",
+    "pinyin": "diànyǐng",
+    "type": "n.",
+    "en": "movie; film",
+    "th": "หนัง / ภาพยนตร์",
+    "thAid": "หนัง / ภาพยนตร์",
+    "translationKind": "editorial-aid",
+    "page": 49,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=49&pdf-pages=65"
+  },
+  {
+    "index": 34,
+    "hanzi": "事",
+    "pinyin": "shì",
+    "type": "n.",
+    "en": "thing; affair; matter",
+    "th": "เรื่อง / ธุระ",
+    "thAid": "เรื่อง / ธุระ",
+    "translationKind": "editorial-aid",
+    "page": 49,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=49&pdf-pages=65"
+  },
+  {
+    "index": 35,
+    "hanzi": "上课",
+    "pinyin": "shàngkè",
+    "type": "v.",
+    "en": "attend a class",
+    "th": "เข้าเรียน",
+    "thAid": "เข้าเรียน",
+    "translationKind": "editorial-aid",
+    "page": 49,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=49&pdf-pages=65"
+  },
+  {
+    "index": 36,
+    "hanzi": "半",
+    "pinyin": "bàn",
+    "type": "num.",
+    "en": "half",
+    "th": "ครึ่ง",
+    "thAid": "ครึ่ง",
+    "translationKind": "editorial-aid",
+    "page": 49,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=49&pdf-pages=65"
+  },
+  {
+    "index": 37,
+    "hanzi": "下课",
+    "pinyin": "xiàkè",
+    "type": "v.",
+    "en": "dismiss a class",
+    "th": "เลิกเรียน",
+    "thAid": "เลิกเรียน",
+    "translationKind": "editorial-aid",
+    "page": 49,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=49&pdf-pages=65"
+  },
+  {
+    "index": 38,
+    "hanzi": "在",
+    "pinyin": "zài",
+    "type": "v.",
+    "en": "be at; be in",
+    "th": "อยู่ที่",
+    "thAid": "อยู่ที่",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 39,
+    "hanzi": "里",
+    "pinyin": "lǐ",
+    "type": "n.",
+    "en": "inner; inside",
+    "th": "ใน",
+    "thAid": "ใน",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 40,
+    "hanzi": "晚上",
+    "pinyin": "wǎnshang",
+    "type": "n.",
+    "en": "evening; night",
+    "th": "ตอนเย็น / ตอนกลางคืน",
+    "thAid": "ตอนเย็น / ตอนกลางคืน",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 41,
+    "hanzi": "医院",
+    "pinyin": "yīyuàn",
+    "type": "n.",
+    "en": "hospital",
+    "th": "โรงพยาบาล",
+    "thAid": "โรงพยาบาล",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 42,
+    "hanzi": "上班",
+    "pinyin": "shàngbān",
+    "type": "v.",
+    "en": "go to work",
+    "th": "ไปทำงาน",
+    "thAid": "ไปทำงาน",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 43,
+    "hanzi": "店",
+    "pinyin": "diàn",
+    "type": "n.",
+    "en": "shop; store",
+    "th": "ร้าน",
+    "thAid": "ร้าน",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 44,
+    "hanzi": "菜",
+    "pinyin": "cài",
+    "type": "n.",
+    "en": "vegetable; dish",
+    "th": "ผัก / กับข้าว",
+    "thAid": "ผัก / กับข้าว",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 45,
+    "hanzi": "分钟",
+    "pinyin": "fēnzhōng",
+    "type": "m.",
+    "en": "minute",
+    "th": "นาที",
+    "thAid": "นาที",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 46,
+    "hanzi": "后",
+    "pinyin": "hòu",
+    "type": "n.",
+    "en": "after; later",
+    "th": "หลัง / ต่อมา",
+    "thAid": "หลัง / ต่อมา",
+    "translationKind": "editorial-aid",
+    "page": 51,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=51&pdf-pages=67"
+  },
+  {
+    "index": 47,
+    "hanzi": "房间",
+    "pinyin": "fángjiān",
+    "type": "n.",
+    "en": "room",
+    "th": "ห้อง",
+    "thAid": "ห้อง",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 48,
+    "hanzi": "外",
+    "pinyin": "wài",
+    "type": "n.",
+    "en": "outside",
+    "th": "ด้านนอก",
+    "thAid": "ด้านนอก",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 49,
+    "hanzi": "只",
+    "pinyin": "zhī",
+    "type": "m.",
+    "en": "measure word for animals",
+    "th": "ตัว (ลักษณนามสัตว์)",
+    "thAid": "ตัว (ลักษณนามสัตว์)",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 50,
+    "hanzi": "小",
+    "pinyin": "xiǎo",
+    "type": "adj.",
+    "en": "small; little",
+    "th": "เล็ก",
+    "thAid": "เล็ก",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 51,
+    "hanzi": "猫",
+    "pinyin": "māo",
+    "type": "n.",
+    "en": "cat",
+    "th": "แมว",
+    "thAid": "แมว",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 52,
+    "hanzi": "没",
+    "pinyin": "méi",
+    "type": "adv.",
+    "en": "no; not; not yet",
+    "th": "ไม่ / ยังไม่",
+    "thAid": "ไม่ / ยังไม่",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 53,
+    "hanzi": "看见",
+    "pinyin": "kànjiàn",
+    "type": "v.",
+    "en": "see; catch sight of",
+    "th": "เห็น",
+    "thAid": "เห็น",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 54,
+    "hanzi": "桌子",
+    "pinyin": "zhuōzi",
+    "type": "n.",
+    "en": "table; desk",
+    "th": "โต๊ะ",
+    "thAid": "โต๊ะ",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 55,
+    "hanzi": "下",
+    "pinyin": "xià",
+    "type": "n.",
+    "en": "low position; under",
+    "th": "ใต้ / ข้างล่าง",
+    "thAid": "ใต้ / ข้างล่าง",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 56,
+    "hanzi": "漂亮",
+    "pinyin": "piàoliang",
+    "type": "adj.",
+    "en": "pretty; beautiful",
+    "th": "สวย",
+    "thAid": "สวย",
+    "translationKind": "editorial-aid",
+    "page": 55,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=55&pdf-pages=71"
+  },
+  {
+    "index": 57,
+    "hanzi": "学校",
+    "pinyin": "xuéxiào",
+    "type": "n.",
+    "en": "school",
+    "th": "โรงเรียน / มหาวิทยาลัย",
+    "thAid": "โรงเรียน / มหาวิทยาลัย",
+    "translationKind": "editorial-aid",
+    "page": 57,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=57&pdf-pages=73"
+  },
+  {
+    "index": 58,
+    "hanzi": "书店",
+    "pinyin": "shūdiàn",
+    "type": "n.",
+    "en": "bookstore",
+    "th": "ร้านหนังสือ",
+    "thAid": "ร้านหนังสือ",
+    "translationKind": "editorial-aid",
+    "page": 57,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=57&pdf-pages=73"
+  },
+  {
+    "index": 59,
+    "hanzi": "前",
+    "pinyin": "qián",
+    "type": "n.",
+    "en": "front",
+    "th": "หน้า / ข้างหน้า",
+    "thAid": "หน้า / ข้างหน้า",
+    "translationKind": "editorial-aid",
+    "page": 57,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=57&pdf-pages=73"
+  },
+  {
+    "index": 60,
+    "hanzi": "能",
+    "pinyin": "néng",
+    "type": "mod.",
+    "en": "can; be able to",
+    "th": "สามารถ / ได้",
+    "thAid": "สามารถ / ได้",
+    "translationKind": "editorial-aid",
+    "page": 57,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=57&pdf-pages=73"
+  },
+  {
+    "index": 61,
+    "hanzi": "到",
+    "pinyin": "dào",
+    "type": "v.",
+    "en": "arrive; reach",
+    "th": "ถึง / ไปถึง",
+    "thAid": "ถึง / ไปถึง",
+    "translationKind": "editorial-aid",
+    "page": 57,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=57&pdf-pages=73"
+  },
+  {
+    "index": 62,
+    "hanzi": "午饭",
+    "pinyin": "wǔfàn",
+    "type": "n.",
+    "en": "lunch",
+    "th": "อาหารกลางวัน",
+    "thAid": "อาหารกลางวัน",
+    "translationKind": "editorial-aid",
+    "page": 57,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=57&pdf-pages=73"
+  },
+  {
+    "index": 63,
+    "hanzi": "饭",
+    "pinyin": "fàn",
+    "type": "n.",
+    "en": "meal; food",
+    "th": "ข้าว / อาหาร",
+    "thAid": "ข้าว / อาหาร",
+    "translationKind": "editorial-aid",
+    "page": 59,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=59&pdf-pages=75"
+  },
+  {
+    "index": 64,
+    "hanzi": "病人",
+    "pinyin": "bìngrén",
+    "type": "n.",
+    "en": "patient",
+    "th": "คนไข้",
+    "thAid": "คนไข้",
+    "translationKind": "editorial-aid",
+    "page": 59,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=59&pdf-pages=75"
+  },
+  {
+    "index": 65,
+    "hanzi": "医生",
+    "pinyin": "yīshēng",
+    "type": "n.",
+    "en": "doctor",
+    "th": "หมอ / แพทย์",
+    "thAid": "หมอ / แพทย์",
+    "translationKind": "editorial-aid",
+    "page": 59,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=59&pdf-pages=75"
+  },
+  {
+    "index": 66,
+    "hanzi": "工作",
+    "pinyin": "gōngzuò",
+    "type": "v.",
+    "en": "work; job",
+    "th": "ทำงาน",
+    "thAid": "ทำงาน",
+    "translationKind": "editorial-aid",
+    "page": 59,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=59&pdf-pages=75"
+  },
+  {
+    "index": 67,
+    "hanzi": "手机",
+    "pinyin": "shǒujī",
+    "type": "n.",
+    "en": "cell phone",
+    "th": "โทรศัพท์มือถือ",
+    "thAid": "โทรศัพท์มือถือ",
+    "translationKind": "editorial-aid",
+    "page": 36,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=36&pdf-pages=52"
+  },
+  {
+    "index": 68,
+    "hanzi": "电话",
+    "pinyin": "diànhuà",
+    "type": "n.",
+    "en": "telephone (set); phone call",
+    "th": "โทรศัพท์ / สายโทร",
+    "thAid": "โทรศัพท์ / สายโทร",
+    "translationKind": "editorial-aid",
+    "page": 36,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=36&pdf-pages=52"
+  },
+  {
+    "index": 69,
+    "hanzi": "号",
+    "pinyin": "hào",
+    "type": "n.",
+    "en": "number",
+    "th": "หมายเลข",
+    "thAid": "หมายเลข",
+    "translationKind": "editorial-aid",
+    "page": 36,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=36&pdf-pages=52"
+  },
+  {
+    "index": 70,
+    "hanzi": "明天",
+    "pinyin": "míngtiān",
+    "type": "n.",
+    "en": "tomorrow",
+    "th": "พรุ่งนี้",
+    "thAid": "พรุ่งนี้",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 71,
+    "hanzi": "去",
+    "pinyin": "qù",
+    "type": "v.",
+    "en": "go (to)",
+    "th": "ไป",
+    "thAid": "ไป",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 72,
+    "hanzi": "哪儿",
+    "pinyin": "nǎr",
+    "type": "pron.",
+    "en": "where",
+    "th": "ที่ไหน",
+    "thAid": "ที่ไหน",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 73,
+    "hanzi": "想",
+    "pinyin": "xiǎng",
+    "type": "mod.",
+    "en": "want to; think",
+    "th": "อยาก / คิดว่า",
+    "thAid": "อยาก / คิดว่า",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 74,
+    "hanzi": "超市",
+    "pinyin": "chāoshì",
+    "type": "n.",
+    "en": "supermarket",
+    "th": "ซูเปอร์มาร์เก็ต",
+    "thAid": "ซูเปอร์มาร์เก็ต",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 75,
+    "hanzi": "买",
+    "pinyin": "mǎi",
+    "type": "v.",
+    "en": "buy",
+    "th": "ซื้อ",
+    "thAid": "ซื้อ",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 76,
+    "hanzi": "东西",
+    "pinyin": "dōngxi",
+    "type": "n.",
+    "en": "thing; goods",
+    "th": "ของ / สิ่งของ",
+    "thAid": "ของ / สิ่งของ",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 77,
+    "hanzi": "些",
+    "pinyin": "xiē",
+    "type": "m.",
+    "en": "some; a few",
+    "th": "บาง / จำนวนหนึ่ง",
+    "thAid": "บาง / จำนวนหนึ่ง",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 78,
+    "hanzi": "牛奶",
+    "pinyin": "niúnǎi",
+    "type": "n.",
+    "en": "milk",
+    "th": "นม",
+    "thAid": "นม",
+    "translationKind": "editorial-aid",
+    "page": 37,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=37&pdf-pages=53"
+  },
+  {
+    "index": 79,
+    "hanzi": "吃",
+    "pinyin": "chī",
+    "type": "v.",
+    "en": "eat; have",
+    "th": "กิน / ทาน",
+    "thAid": "กิน / ทาน",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 80,
+    "hanzi": "晚饭",
+    "pinyin": "wǎnfàn",
+    "type": "n.",
+    "en": "dinner; supper",
+    "th": "อาหารเย็น",
+    "thAid": "อาหารเย็น",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 81,
+    "hanzi": "那边",
+    "pinyin": "nàbiān",
+    "type": "pron.",
+    "en": "there",
+    "th": "ฝั่งนั้น / ที่นั่น",
+    "thAid": "ฝั่งนั้น / ที่นั่น",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 82,
+    "hanzi": "包子",
+    "pinyin": "bāozi",
+    "type": "n.",
+    "en": "steamed stuffed bun",
+    "th": "ซาลาเปา",
+    "thAid": "ซาลาเปา",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 83,
+    "hanzi": "非常",
+    "pinyin": "fēicháng",
+    "type": "adv.",
+    "en": "very; extremely",
+    "th": "มาก / ยิ่ง",
+    "thAid": "มาก / ยิ่ง",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 84,
+    "hanzi": "好吃",
+    "pinyin": "hǎochī",
+    "type": "adj.",
+    "en": "tasty; delicious",
+    "th": "อร่อย",
+    "thAid": "อร่อย",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 85,
+    "hanzi": "米饭",
+    "pinyin": "mǐfàn",
+    "type": "n.",
+    "en": "(cooked) rice",
+    "th": "ข้าวสวย",
+    "thAid": "ข้าวสวย",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 86,
+    "hanzi": "怎么",
+    "pinyin": "zěnme",
+    "type": "pron.",
+    "en": "how",
+    "th": "อย่างไร",
+    "thAid": "อย่างไร",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 87,
+    "hanzi": "坐",
+    "pinyin": "zuò",
+    "type": "v.",
+    "en": "take; travel by or on",
+    "th": "นั่ง / โดยสาร",
+    "thAid": "นั่ง / โดยสาร",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  },
+  {
+    "index": 88,
+    "hanzi": "出租车",
+    "pinyin": "chūzūchē",
+    "type": "n.",
+    "en": "taxi",
+    "th": "แท็กซี่",
+    "thAid": "แท็กซี่",
+    "translationKind": "editorial-aid",
+    "page": 39,
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=39&pdf-pages=55"
+  }
+],
   grammarFocus: [
-    { title: "汉语的基本语序", titleEn: "Basic Word Order in Chinese", explanationZh: "汉语的基本语序是：主语+谓语+宾语。例如：我（主语）叫（谓语）陈天中（宾语）。", explanationEn: "The basic word order in Chinese is: Subject + Predicate + Object. For example: 我 (Subject) 叫 (Predicate) 陈天中 (Object).", thAid: "ลำดับคำพื้นฐานภาษาจีนคือ ประธาน+กริยา+กรรม เช่น ฉัน (ประธาน) ชื่อว่า (กริยา) เฉินเทียนจง (กรรม)", examples: ["你叫什么名字？", "我叫白家月。", "我是学生。"], sourceRef: lessonHsk1L2SourceRef("8", "24") },
-    { title: "中文姓名的构成", titleEn: "The Structure of Chinese Names", explanationZh: "中国人的姓名：姓+名。姓在前，名在后。", explanationEn: "Chinese names consist of a surname followed by a given name: surname + given name.", thAid: "ชื่อคนจีน: นามสกุล+ชื่อตัว (นามสกุลมาก่อน)", examples: ["陈天中：姓陈，名天中。", "白家月：姓白，名家月。", "李文：姓李，名文。"], sourceRef: lessonHsk1L2SourceRef("8", "24") },
-  ],
-  characters,
-  scenes,
+  {
+    "title": "基础句型表达",
+    "titleEn": "Basic Sentence Structure",
+    "explanationZh": "掌握陈述句与常用疑问句的基本语序。",
+    "explanationEn": "Master basic word order in statements and common questions.",
+    "thAid": "เข้าใจโครงสร้างประโยคบอกเล่าและประโยคคำถามพื้นฐาน",
+    "examples": [
+      "你好！",
+      "这是我的家人。"
+    ],
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "title": "常用动词与形容词用法",
+    "titleEn": "Common Verbs and Adjectives",
+    "explanationZh": "熟练使用常用动词与形容词作谓语。",
+    "explanationEn": "Use common verbs and adjectives as predicates.",
+    "thAid": "ใช้คำกริยาและคำคุณศัพท์เป็นภาคแสดงในประโยค",
+    "examples": [
+      "很好看。",
+      "我想买一件衣服。"
+    ],
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
+  scenes: [
+  {
+    "id": "hsk1-l2-s1",
+    "number": "01",
+    "glyph": "家",
+    "title": "在客厅看全家福",
+    "titleTh": "ดูรูปถ่ายครอบครัวในห้องรับแขก",
+    "titleEn": "Looking at family photos in living room",
+    "place": "客厅",
+    "placePy": "kètīng",
+    "placeTh": "ห้องรับแขก",
+    "context": "在客厅里，王一雪和刘明一起看家庭照片，介绍家人。",
+    "contextTh": "ในห้องรับแขก หวังอี้เสวี่ยและหลิวหมิงดูรูปครอบครัวด้วยกัน และแนะนำคนในบ้าน",
+    "contextEn": "In the living room, Wang Yixue and Liu Ming look at family photos together.",
+    "characters": [
+      {
+        "role": "A",
+        "profile": "wang",
+        "noteTh": "คุณแม่ผู้แนะนำครอบครัว",
+        "noteZh": "介绍家人的母亲",
+        "noteEn": "The mother introducing family"
+      },
+      {
+        "role": "B",
+        "profile": "liu",
+        "noteTh": "คุณพ่อที่สอบถามเรื่องลูก ๆ",
+        "noteZh": "询问孩子的父亲",
+        "noteEn": "The father asking about children"
+      }
+    ],
+    "lines": [
+      {
+        "role": "A",
+        "speaker": "王一雪",
+        "pinyin": "nǐ kàn, zhè shì wǒ de jiārén",
+        "hanzi": "你看，这是我的家人。",
+        "reading": "Nǐ kàn, zhè shì wǒ de jiārén.",
+        "en": "Look, this is my family.",
+        "th": "เธอดูสิ นี่คือคนในครอบครัวของฉัน",
+        "visual": {
+          "zh": "家人",
+          "th": "คนในครอบครัว",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "B",
+        "speaker": "刘明",
+        "pinyin": "nǐ jiā yǒu jǐ kǒu rén",
+        "hanzi": "你家有几口人？",
+        "reading": "Nǐ jiā yǒu jǐ kǒu rén?",
+        "en": "How many people are in your family?",
+        "th": "ครอบครัวเธอมีกี่คน?",
+        "visual": {
+          "zh": "几口人",
+          "th": "กี่คน",
+          "focus": "74% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "A",
+        "speaker": "王一雪",
+        "pinyin": "wǒ jiā yǒu sì kǒu rén, wǒ yǒu liǎng gè háizi",
+        "hanzi": "我家有四口人，我有两个孩子。",
+        "reading": "Wǒ jiā yǒu sì kǒu rén, wǒ yǒu liǎng gè háizi.",
+        "en": "My family has four people, I have two children.",
+        "th": "ครอบครัวฉันมีสี่คน ฉันมีลูกสองคน",
+        "visual": {
+          "zh": "两个孩子",
+          "th": "ลูกสองคน",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "B",
+        "speaker": "刘明",
+        "pinyin": "tāmen duō dà le",
+        "hanzi": "他们多大了？",
+        "reading": "Tāmen duō dà le?",
+        "en": "How old are they?",
+        "th": "พวกเขาอายุเท่าไหร่แล้ว?",
+        "visual": {
+          "zh": "多大",
+          "th": "อายุเท่าไหร่",
+          "focus": "74% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      }
+    ],
+    "qte": {
+      "after": 2,
+      "prompt": {
+        "th": "王一雪家有几口人?",
+        "zh": "王一雪家有几口人？",
+        "en": "How many people in Wang Yixue's family?"
+      },
+      "options": [
+        {
+          "value": "四口人",
+          "zh": "四口人",
+          "pinyin": "Sì kǒu rén",
+          "th": "สี่คน"
+        },
+        {
+          "value": "三口人",
+          "zh": "三口人",
+          "pinyin": "Sān kǒu rén",
+          "th": "สามคน"
+        },
+        {
+          "value": "五口人",
+          "zh": "五口人",
+          "pinyin": "Wǔ kǒu rén",
+          "th": "ห้าคน"
+        }
+      ],
+      "correct": "四口人",
+      "evidence": "王一雪：我家有四口人。",
+      "evidenceTh": "หวังอี้เสวี่ย: ครอบครัวฉันมีสี่คน",
+      "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "builder": {
+      "prompt": {
+        "th": "เรียงประโยคแนะนำจำนวนสมาชิกในบ้าน",
+        "zh": "重组家庭人数句子",
+        "en": "Rebuild family size sentence"
+      },
+      "answer": [
+        "我家有",
+        "四口人。"
+      ],
+      "tiles": [
+        "四口人。",
+        "我家有"
+      ],
+      "gloss": {
+        "我家有": "ครอบครัวฉันมี",
+        "四口人": "สี่คน"
+      },
+      "translationTh": "ครอบครัวฉันมีสี่คน",
+      "translationEn": "My family has four people.",
+      "evidence": "Text 1 · หน้าเล่ม 4",
+      "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "source": "Text 1",
+    "sourcePage": "1",
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  },
+  {
+    "id": "hsk1-l2-s2",
+    "number": "02",
+    "glyph": "时",
+    "title": "询问时间与下班安排",
+    "titleTh": "ถามเวลาและตารางเวลาเลิกงาน",
+    "titleEn": "Asking about time and schedule",
+    "place": "办公室",
+    "placePy": "bàngōngshì",
+    "placeTh": "ออฟฟิศ",
+    "context": "在办公室里，两人询问现在的时间与晚上下班安排。",
+    "contextTh": "ในออฟฟิศ ทั้งสองถามเวลาปัจจุบันและนัดหมายเวลาเลิกงานตอนเย็น",
+    "contextEn": "In the office, the two ask about the current time and evening plans.",
+    "characters": [
+      {
+        "role": "A",
+        "profile": "wang",
+        "noteTh": "ผู้ตอบเวลาและนัดหมาย",
+        "noteZh": "回答时间的同事",
+        "noteEn": "Colleague answering time"
+      },
+      {
+        "role": "B",
+        "profile": "liu",
+        "noteTh": "ผู้ถามเวลาและชวนทานข้าว",
+        "noteZh": "询问时间的同事",
+        "noteEn": "Colleague asking time"
+      }
+    ],
+    "lines": [
+      {
+        "role": "B",
+        "speaker": "刘明",
+        "pinyin": "xiànzài jǐ diǎn",
+        "hanzi": "现在几点？",
+        "reading": "Xiànzài jǐ diǎn?",
+        "en": "What time is it now?",
+        "th": "ตอนนี้กี่โมงแล้ว?",
+        "visual": {
+          "zh": "几点",
+          "th": "กี่โมง",
+          "focus": "74% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "A",
+        "speaker": "王一雪",
+        "pinyin": "xiànzài shàngwǔ shí diǎn shí fēn",
+        "hanzi": "现在上午十点十分。",
+        "reading": "Xiànzài shàngwǔ shí diǎn shí fēn.",
+        "en": "It is 10:10 in the morning.",
+        "th": "ตอนนี้สิบโมงสิบนาทีช่วงเช้า",
+        "visual": {
+          "zh": "十点十分",
+          "th": "10 โมง 10 นาที",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "B",
+        "speaker": "刘明",
+        "pinyin": "nǐ jīntiān shénme shíhou xiàbān",
+        "hanzi": "你今天什么时候下班？",
+        "reading": "Nǐ jīntiān shénme shíhou xiàbān?",
+        "en": "When do you finish work today?",
+        "th": "วันนี้เธอเลิกงานตอนไหน?",
+        "visual": {
+          "zh": "什么时候",
+          "th": "เมื่อไหร่",
+          "focus": "74% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      },
+      {
+        "role": "A",
+        "speaker": "王一雪",
+        "pinyin": "wǒ wǎnshang liù diǎn bàn xiàbān",
+        "hanzi": "我晚上六点半下班。",
+        "reading": "Wǒ wǎnshang liù diǎn bàn xiàbān.",
+        "en": "I finish work at 6:30 in the evening.",
+        "th": "ฉันเลิกงานตอนหกโมงครึ่งตอนเย็น",
+        "visual": {
+          "zh": "六点半",
+          "th": "หกโมงครึ่ง",
+          "focus": "26% center"
+        },
+        "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+      }
+    ],
+    "qte": {
+      "after": 2,
+      "prompt": {
+        "th": "王一雪晚上几点下班?",
+        "zh": "王一雪晚上几点下班？",
+        "en": "When does Wang Yixue finish work?"
+      },
+      "options": [
+        {
+          "value": "六点半",
+          "zh": "六点半",
+          "pinyin": "Liù diǎn bàn",
+          "th": "หกโมงครึ่ง"
+        },
+        {
+          "value": "七点",
+          "zh": "七点",
+          "pinyin": "Qī diǎn",
+          "th": "หนึ่งทุ่ม"
+        },
+        {
+          "value": "五点半",
+          "zh": "五点半",
+          "pinyin": "Wǔ diǎn bàn",
+          "th": "ห้าโมงครึ่ง"
+        }
+      ],
+      "correct": "六点半",
+      "evidence": "王一雪：我晚上六点半下班。",
+      "evidenceTh": "หวังอี้เสวี่ย: ฉันเลิกงานตอนหกโมงครึ่งตอนเย็น",
+      "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "builder": {
+      "prompt": {
+        "th": "เรียงประโยคบอกเวลาเลิกงาน",
+        "zh": "重组下班时间句子",
+        "en": "Rebuild finish work sentence"
+      },
+      "answer": [
+        "我晚上",
+        "六点半下班。"
+      ],
+      "tiles": [
+        "六点半下班。",
+        "我晚上"
+      ],
+      "gloss": {
+        "我晚上": "ฉันตอนเย็น",
+        "六点半下班": "เลิกงานหกโมงครึ่ง"
+      },
+      "translationTh": "ฉันเลิกงานตอนหกโมงครึ่งตอนเย็น",
+      "translationEn": "I finish work at 6:30 in the evening.",
+      "evidence": "Text 2 · หน้าเล่ม 7",
+      "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+    },
+    "source": "Text 2",
+    "sourcePage": "2",
+    "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
+  }
+],
 };

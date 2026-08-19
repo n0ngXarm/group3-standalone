@@ -120,6 +120,36 @@
       "sourceType": "github",
       "skillPath": "skills/verify-and-stop/SKILL.md",
       "computedHash": "3d67de16a2b3c48b643bc511ebc4cb86e6c7105215d8428b6140cbcb73aba4e6"
+    },
+    "group3-home-redesign": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/group3-home-redesign/SKILL.md"
+    },
+    "group3-game-engine": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/group3-game-engine/SKILL.md"
+    },
+    "group3-curation-media": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/group3-curation-media/SKILL.md"
+    },
+    "group3-theme-accessibility": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/group3-theme-accessibility/SKILL.md"
+    },
+    "group3-verification-suite": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/group3-verification-suite/SKILL.md"
+    },
+    "team-orchestrator": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/team-orchestrator/SKILL.md"
     }
   }
 }

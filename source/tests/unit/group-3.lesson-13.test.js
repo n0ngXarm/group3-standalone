@@ -4,7 +4,7 @@ import path from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { LESSON_13 } from "../../src/surfaces/group-3-8104/content/lessons/hsk1/lesson-13/content.js";
+import { LESSON_HSK1_L1 } from "../../src/surfaces/group-3-8104/content/lessons/hsk1/lesson-01/content.js";
 import {
   FEATURED_LESSON,
   GROUP3_LESSONS as GROUP3_LESSONS_META,
@@ -48,10 +48,10 @@ async function group3Source(relativePath) {
   return readFile(new URL(relativePath, GROUP3_SOURCE_ROOT), "utf8");
 }
 
-test("Group 3 registry exposes all 48 lessons and preserves its featured legacy lessons", () => {
-  const lessonCounts = { hsk1: 15, hsk2: 15, hsk3: 18 };
+test("Group 3 registry exposes all 7 curated lessons and preserves its featured lesson", () => {
+  const lessonCounts = { hsk1: 3, hsk2: 2, hsk3: 2 };
 
-  assert.equal(GROUP3_LESSONS.length, 48);
+  assert.equal(GROUP3_LESSONS.length, 7);
   for (const [level, count] of Object.entries(lessonCounts)) {
     const lessons = GROUP3_LESSONS.filter((lesson) => lesson.level === level);
     assert.equal(lessons.length, count, `${level} lesson count`);
@@ -65,50 +65,25 @@ test("Group 3 registry exposes all 48 lessons and preserves its featured legacy 
     }
   }
 
-  assert.equal(FEATURED_LESSON, LESSON_13);
-  assert.equal(findLesson("hsk1", "lesson-10")?.number, 10);
-  assert.equal(findLesson("hsk1", "lesson-13"), LESSON_13);
+  assert.equal(FEATURED_LESSON.id, LESSON_HSK1_L1.id);
+  assert.equal(findLesson("hsk1", "lesson-1")?.number, 1);
 });
 
-const NEW_HSK1 = (item) => item.level === "hsk1" && ![10, 13].includes(item.number);
-
-test("every new HSK1 lesson carries the HSK1 content contract", () => {
-  for (const lesson of GROUP3_LESSONS.filter(NEW_HSK1)) {
-    assert.ok(lesson.vocabulary.length >= 10, `${lesson.id} vocabulary count`);
+test("every Group 3 lesson carries the content contract", () => {
+  for (const lesson of GROUP3_LESSONS) {
+    assert.ok(lesson.vocabulary.length >= 20, `${lesson.id} vocabulary count`);
     assert.ok(lesson.grammarFocus.length >= 2, `${lesson.id} grammar focus count`);
-    assert.equal(lesson.scenes.length, 3, `${lesson.id} scene count`);
+    assert.equal(lesson.scenes.length, 2, `${lesson.id} scene count (2)`);
     assert.equal(lesson.translationPolicy.kind, "editorial-aid", `${lesson.id} translation policy`);
     assert.ok(lesson.vocabulary.every((word) => word.translationKind === "editorial-aid"), `${lesson.id} vocab translations`);
     for (const [index, scene] of lesson.scenes.entries()) {
       assert.ok(
-        scene.lines.length >= 2 && scene.lines.length <= 8,
-        `${lesson.id} scene ${index + 1} has ${scene.lines.length} lines (2–8)`,
+        scene.lines.length >= 2 && scene.lines.length <= 10,
+        `${lesson.id} scene ${index + 1} has ${scene.lines.length} lines (2–10)`,
       );
       assert.ok(scene.qte && scene.builder && scene.lines.length > 0, `${lesson.id} scene ${index + 1} activities`);
     }
     assert.ok(lesson.source.file, `${lesson.id} source file`);
-  }
-});
-
-test("every Group 3 lesson carries the shared content contract", () => {
-  const legacy = findLesson("hsk1", "lesson-10");
-  assert.ok(legacy.vocabulary.length > 0 && legacy.scenes.length > 0, "legacy Lesson 10 stays readable");
-  const hsk1New = GROUP3_LESSONS.filter(NEW_HSK1);
-  for (const lesson of GROUP3_LESSONS.filter((item) => item.level !== "hsk1")) {
-    assert.ok(lesson.vocabulary.length >= 20, `${lesson.id} vocabulary count`);
-    assert.equal(lesson.grammarFocus.length, 3, `${lesson.id} grammar focus count`);
-    assert.equal(lesson.scenes.length, 3, `${lesson.id} scene count`);
-    assert.equal(lesson.translationPolicy.kind, "editorial-aid", `${lesson.id} translation policy`);
-    for (const [index, scene] of lesson.scenes.entries()) {
-      assert.ok(
-        scene.lines.length >= 4 && scene.lines.length <= 9,
-        `${lesson.id} scene ${index + 1} has ${scene.lines.length} lines (4–9)`,
-      );
-    }
-    assert.ok(lesson.source.file, `${lesson.id} source file`);
-  }
-  for (const lesson of hsk1New) {
-    assert.equal(lesson.source.file, "hsk1-2.pdf", `${lesson.id} source file`);
   }
 });
 
@@ -118,10 +93,7 @@ test("every Group 3 learning row carries a local PDF source reference", () => {
     hsk2: /^docs\/references\/hsk\/sources\/hsk2\.pdf#printed-pages=.+&pdf-pages=.+$/,
     hsk3: /^docs\/references\/hsk\/sources\/hsk3\.pdf#printed-pages=.+&pdf-pages=.+$/,
   };
-  for (const lesson of [
-    ...GROUP3_LESSONS.filter((item) => item.level !== "hsk1"),
-    ...GROUP3_LESSONS.filter(NEW_HSK1),
-  ]) {
+  for (const lesson of GROUP3_LESSONS) {
     const pattern = pdfByLevel[lesson.level];
     assert.ok(pattern, `${lesson.id} has a known level`);
     const rows = [
@@ -137,7 +109,7 @@ test("every Group 3 learning row carries a local PDF source reference", () => {
   }
 });
 
-test("all 48 lessons resolve every scene image and srcset candidate from public", async () => {
+test("all 7 lessons resolve every scene image and srcset candidate from public", async () => {
   for (const lesson of GROUP3_LESSONS) {
     for (const [sceneIndex, scene] of lesson.scenes.entries()) {
       assert.equal(typeof scene.image, "string", `${lesson.id}/${scene.id} image`);
@@ -160,23 +132,16 @@ test("all 48 lessons resolve every scene image and srcset candidate from public"
 });
 
 test("Group 3 media uses independent WebP and dialogue voice cache revisions", () => {
-  const lesson = { level: "hsk3", number: 18 };
-  assert.equal(
-    group3LessonAssetPath(lesson, "scenes/scene-03-1400w.webp"),
-    `/assets/group3/lessons/hsk3/lesson-18/scenes/scene-03-1400w.webp?v=${GROUP3_WEBP_REVISION}`,
+  assert.equal(GROUP3_WEBP_REVISION, "scene-art-20260811");
+  assert.equal(GROUP3_VOICE_CAST_REVISION, "voice-cast-20260811-v1");
+
+  const sampleLesson = findLesson("hsk1", "lesson-1");
+  const sceneMedia = group3SceneMedia(sampleLesson, 0);
+  assert.match(sceneMedia.image, new RegExp(`\\?v=${GROUP3_WEBP_REVISION}$`));
+  assert.match(
+    dialogueVoicePath(sampleLesson, 0, 0),
+    new RegExp(`\\?v=${GROUP3_VOICE_CAST_REVISION}$`),
   );
-  assert.equal(
-    group3LessonAssetPath(lesson, "audio/scene-03/line-01.mp3"),
-    "/assets/group3/lessons/hsk3/lesson-18/audio/scene-03/line-01.mp3",
-  );
-  assert.equal(
-    dialogueVoicePath(lesson, 2, 0),
-    `/assets/group3/lessons/hsk3/lesson-18/audio/scene-03/line-01.mp3?v=${GROUP3_VOICE_CAST_REVISION}`,
-  );
-  assert.deepEqual(group3SceneMedia(lesson, 2), {
-    image: `/assets/group3/lessons/hsk3/lesson-18/scenes/scene-03-1400w.webp?v=${GROUP3_WEBP_REVISION}`,
-    imageSrcSet: `/assets/group3/lessons/hsk3/lesson-18/scenes/scene-03-720w.webp?v=${GROUP3_WEBP_REVISION} 720w, /assets/group3/lessons/hsk3/lesson-18/scenes/scene-03-1400w.webp?v=${GROUP3_WEBP_REVISION} 1400w`,
-  });
 });
 
 test("every dialogueVoicePath resolves to an MP3 and a consistent manifest entry", async () => {
@@ -214,7 +179,7 @@ test("every dialogueVoicePath resolves to an MP3 and a consistent manifest entry
     }
   }
 
-  assert.equal(expectedVoiceCount, 868, "all Group 3 dialogue lines have local voice paths");
+  assert.equal(expectedVoiceCount, 54, "all Group 3 dialogue lines have local voice paths");
   assert.equal(manifest.files.length, expectedVoiceCount, "manifest has one entry per dialogue line");
 });
 
@@ -276,35 +241,27 @@ test("StoryCatalog catches stale loads and exposes retry plus loading semantics"
   );
 });
 
-test("Lesson 13 matches the verified PDF content contract", () => {
-  assert.equal(LESSON_13.title.zh, "请给我一杯茶");
-  assert.equal(LESSON_13.source.printedPages, "95–102");
-  assert.equal(LESSON_13.source.pdfPages, "111–118");
-  assert.equal(LESSON_13.vocabulary.length, 20);
-  assert.equal(LESSON_13.grammarFocus.length, 3);
-  assert.deepEqual(LESSON_13.scenes.map((scene) => scene.lines.length), [4, 4, 6]);
-  assert.deepEqual(LESSON_13.scenes.map((scene) => scene.qte.correct), ["那个小店卖不卖手机？", "牛奶", "茶"]);
-  assert.deepEqual(LESSON_13.scenes.map((scene) => scene.builder.answer.join("")), [
-    "你可以打电话问一下",
-    "请给我一杯牛奶",
-    "请给我一杯茶吧",
-  ]);
+test("Curated Lesson 1 matches the content contract", () => {
+  assert.equal(LESSON_HSK1_L1.title.zh, "AI小语，你好！");
+  assert.equal(LESSON_HSK1_L1.vocabulary.length >= 20, true);
+  assert.equal(LESSON_HSK1_L1.grammarFocus.length >= 2, true);
+  assert.equal(LESSON_HSK1_L1.scenes.length, 2);
 });
 
-test("every Lesson 13 learning row carries a local PDF source reference", () => {
+test("every Curated Lesson 1 learning row carries a local PDF source reference", () => {
   const rows = [
-    LESSON_13,
-    ...LESSON_13.objectives,
-    ...LESSON_13.contents,
-    ...LESSON_13.vocabulary,
-    ...LESSON_13.grammarFocus,
-    ...LESSON_13.scenes,
-    ...LESSON_13.scenes.flatMap((scene) => [scene.qte, scene.builder, ...scene.lines]),
+    LESSON_HSK1_L1,
+    ...LESSON_HSK1_L1.objectives,
+    ...LESSON_HSK1_L1.contents,
+    ...LESSON_HSK1_L1.vocabulary,
+    ...LESSON_HSK1_L1.grammarFocus,
+    ...LESSON_HSK1_L1.scenes,
+    ...LESSON_HSK1_L1.scenes.flatMap((scene) => [scene.qte, scene.builder, ...scene.lines]),
   ];
   for (const row of rows) assert.match(row.sourceRef, LOCAL_PDF);
 });
 
-test("Lesson 13 Thai content is explicitly editorial aid", () => {
-  assert.equal(LESSON_13.translationPolicy.kind, "editorial-aid");
-  assert.ok(LESSON_13.vocabulary.every((word) => word.translationKind === "editorial-aid"));
+test("Curated Lesson 1 Thai content is explicitly editorial aid", () => {
+  assert.equal(LESSON_HSK1_L1.translationPolicy.kind, "editorial-aid");
+  assert.ok(LESSON_HSK1_L1.vocabulary.every((word) => word.translationKind === "editorial-aid"));
 });

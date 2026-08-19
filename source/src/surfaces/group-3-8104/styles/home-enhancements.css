@@ -473,3 +473,1187 @@
   from { transform: scale(0.92) translateY(1.2rem); opacity: 0; }
   to { transform: scale(1) translateY(0); opacity: 1; }
 }
+
+/* ===== FEATURE SHOWCASE & INTERACTIVE DEMO MODALS ===== */
+
+.g3-feature-showcase {
+  max-width: 1320px;
+  margin: 3rem auto 2rem;
+  padding: 0 1.5rem;
+}
+
+.g3-features-header {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto 2.5rem;
+}
+
+.g3-features-header h2 {
+  margin: 0 0 0.8rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 850;
+  color: var(--g3-ink);
+}
+
+.g3-features-header p {
+  margin: 0;
+  color: var(--g3-muted);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.6;
+}
+
+.g3-feature-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.g3-feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  background: var(--g3-paper);
+  border: 1px solid var(--g3-line);
+  box-shadow: var(--g3-shadow);
+  cursor: pointer;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms ease, border-color 260ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.g3-feature-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--g3-red) 40%, var(--g3-line));
+  box-shadow: 0 1.5rem 3rem color-mix(in srgb, var(--g3-red) 12%, transparent);
+}
+
+.g3-feature-card-glyph {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--g3-red) 12%, transparent);
+  color: var(--g3-red);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin-bottom: 1.2rem;
+  flex-shrink: 0;
+}
+
+.g3-feature-card.is-roleplay .g3-feature-card-glyph {
+  background: color-mix(in srgb, var(--g3-jade) 14%, transparent);
+  color: var(--g3-jade);
+}
+
+.g3-feature-card.is-vocab .g3-feature-card-glyph {
+  background: color-mix(in srgb, var(--g3-gold) 16%, transparent);
+  color: var(--g3-gold);
+}
+
+.g3-feature-card.is-game .g3-feature-card-glyph {
+  background: color-mix(in srgb, var(--g3-red) 14%, transparent);
+  color: var(--g3-red);
+}
+
+.g3-feature-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
+.g3-feature-card-content h3 {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--g3-ink);
+}
+
+.g3-feature-card-desc {
+  margin: 0 0 1.2rem;
+  color: var(--g3-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.g3-feature-card-sample {
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--g3-bg) 60%, transparent);
+  border: 1px solid var(--g3-line);
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.g3-feature-card-sample strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--g3-ink);
+}
+
+.g3-feature-card-sample small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--g3-jade);
+  font-size: 0.8rem;
+}
+
+.g3-feature-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--g3-red);
+  margin-top: auto;
+}
+
+/* --- DEMO MODAL DIALOG --- */
+
+.g3-demo-modal-backdrop {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(14, 18, 22, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: g3-modal-fade-in 220ms ease-out both;
+}
+
+.g3-demo-modal {
+  width: min(100%, 46rem);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.5rem;
+  background: var(--g3-paper);
+  border: 1px solid var(--g3-line);
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  animation: g3-modal-scale-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.g3-demo-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--g3-line);
+  background: var(--g3-paper);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.g3-demo-modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.g3-demo-badge {
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: var(--g3-red);
+  color: #fff8ea;
+}
+
+.g3-demo-modal-header h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--g3-ink);
+}
+
+.g3-demo-modal-close {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid var(--g3-line);
+  background: transparent;
+  color: var(--g3-ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.g3-demo-modal-close:hover {
+  background: var(--g3-red);
+  color: #ffffff;
+  border-color: var(--g3-red);
+}
+
+.g3-demo-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* Demo Toolbar & Buttons */
+.g3-demo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.g3-demo-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  background: var(--g3-red);
+  color: #ffffff;
+  border: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.g3-demo-primary-btn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: scale(1.02);
+}
+
+.g3-demo-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--g3-ink);
+  border: 1px solid var(--g3-line);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 180ms ease;
+}
+
+.g3-demo-secondary-btn:hover {
+  background: color-mix(in srgb, var(--g3-bg) 60%, transparent);
+}
+
+.g3-demo-hint {
+  color: var(--g3-muted);
+  font-size: 0.84rem;
+}
+
+/* 1. Listen Rows */
+.g3-demo-dialogue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.g3-demo-dialogue-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--g3-bg) 40%, transparent);
+  border: 1px solid var(--g3-line);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 200ms ease, background 200ms ease, transform 200ms ease;
+  width: 100%;
+}
+
+.g3-demo-dialogue-row:hover,
+.g3-demo-dialogue-row.is-active {
+  border-color: var(--g3-jade);
+  background: color-mix(in srgb, var(--g3-jade) 10%, transparent);
+  transform: translateX(4px);
+}
+
+.g3-demo-speaker-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--g3-gold) 15%, transparent);
+  color: var(--g3-gold);
+  flex-shrink: 0;
+}
+
+.g3-demo-dialogue-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.g3-demo-role-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--g3-muted);
+}
+
+.g3-demo-hanzi {
+  font-size: 1.15rem;
+  color: var(--g3-ink);
+  font-family: var(--font-display);
+}
+
+.g3-demo-pinyin {
+  font-size: 0.88rem;
+  color: var(--g3-jade);
+}
+
+.g3-demo-thai {
+  font-size: 0.85rem;
+  color: var(--g3-muted);
+}
+
+/* 2. Roleplay */
+.g3-demo-role-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.g3-demo-tab-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--g3-line);
+  color: var(--g3-muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.g3-demo-tab-btn.is-active {
+  background: var(--g3-red);
+  color: #ffffff;
+  border-color: var(--g3-red);
+}
+
+.g3-demo-prompt-box {
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--g3-bg) 50%, transparent);
+  border: 1px solid var(--g3-line);
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.g3-demo-prompt-label {
+  font-size: 0.8rem;
+  color: var(--g3-muted);
+  font-weight: 700;
+}
+
+.g3-demo-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.g3-demo-option-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--g3-paper);
+  border: 1px solid var(--g3-line);
+  text-align: left;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.g3-demo-option-btn:hover {
+  border-color: var(--g3-jade);
+  background: color-mix(in srgb, var(--g3-jade) 6%, transparent);
+}
+
+.g3-demo-option-btn.is-correct {
+  border-color: #22c55e;
+  background: color-mix(in srgb, #22c55e 12%, transparent);
+}
+
+.g3-demo-option-btn.is-wrong {
+  border-color: var(--g3-red);
+  background: color-mix(in srgb, var(--g3-red) 12%, transparent);
+}
+
+.g3-demo-feedback-banner {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--g3-jade) 12%, transparent);
+  color: var(--g3-ink);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 3. Vocab Explorer */
+.g3-demo-vocab-layout {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  gap: 1.25rem;
+}
+
+.g3-demo-vocab-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.g3-demo-vocab-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--g3-line);
+  text-align: left;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.g3-demo-vocab-item:hover,
+.g3-demo-vocab-item.is-active {
+  background: color-mix(in srgb, var(--g3-gold) 15%, transparent);
+  border-color: var(--g3-gold);
+}
+
+.g3-demo-vocab-item strong {
+  font-size: 1.05rem;
+  color: var(--g3-ink);
+}
+
+.g3-demo-vocab-item small {
+  color: var(--g3-jade);
+  font-size: 0.8rem;
+}
+
+.g3-demo-vocab-stage {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--g3-bg) 50%, transparent);
+  border: 1px solid var(--g3-line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.g3-demo-big-hanzi {
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 900;
+  color: var(--g3-ink);
+  font-family: var(--font-display);
+  line-height: 1.1;
+}
+
+.g3-demo-big-pinyin {
+  font-size: 1.25rem;
+  color: var(--g3-jade);
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.g3-demo-big-meaning {
+  font-size: 1.15rem;
+  color: var(--g3-ink);
+  margin-top: 0.35rem;
+}
+
+.g3-demo-vocab-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.g3-demo-vocab-source {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--g3-line);
+  font-size: 0.85rem;
+  color: var(--g3-muted);
+  width: 100%;
+}
+
+.g3-demo-vocab-source strong {
+  margin-left: 0.4rem;
+  color: var(--g3-ink);
+}
+
+/* 4. Mini-game Match */
+.g3-demo-game-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.g3-demo-score-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1rem;
+  color: var(--g3-ink);
+}
+
+.g3-demo-score-chip strong {
+  color: var(--g3-gold);
+  font-size: 1.3rem;
+}
+
+.g3-demo-reset-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--g3-line);
+  color: var(--g3-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.g3-demo-reset-btn:hover {
+  background: color-mix(in srgb, var(--g3-bg) 60%, transparent);
+  color: var(--g3-ink);
+}
+
+.g3-demo-match-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.g3-demo-match-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.g3-demo-match-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--g3-paper);
+  border: 1px solid var(--g3-line);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: 4.25rem;
+  transition: all 200ms ease;
+}
+
+.g3-demo-match-btn:hover:not(:disabled) {
+  border-color: var(--g3-jade);
+  transform: translateY(-2px);
+}
+
+.g3-demo-match-btn.is-selected {
+  border-color: var(--g3-gold);
+  background: color-mix(in srgb, var(--g3-gold) 15%, transparent);
+  box-shadow: 0 0 0 2px var(--g3-gold);
+}
+
+.g3-demo-match-btn.is-matched {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: color-mix(in srgb, #22c55e 12%, transparent);
+  opacity: 0.65;
+  cursor: default;
+}
+
+.g3-demo-match-btn strong {
+  font-size: 1.15rem;
+  color: var(--g3-ink);
+}
+
+.g3-demo-match-btn small {
+  font-size: 0.8rem;
+  color: var(--g3-jade);
+}
+
+.g3-demo-match-btn span {
+  font-size: 0.95rem;
+  color: var(--g3-ink);
+  font-weight: 600;
+}
+
+.g3-demo-game-status {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--g3-muted);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--g3-bg) 40%, transparent);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .g3-feature-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .g3-feature-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .g3-demo-vocab-layout {
+    grid-template-columns: 1fr;
+  }
+  .g3-demo-match-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== HERO PREVIEW CAROUSEL (2D MANGA & SHARP LINE ART) ===== */
+
+.g3-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  position: relative;
+  z-index: 5;
+}
+
+.g3-preview-frame {
+  width: 100%;
+  min-height: 520px;
+  border-radius: 1.75rem;
+  border: 1px solid var(--g3-line);
+  background: var(--g3-paper);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--g3-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.g3-preview-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 8;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--g3-red) 90%, #000);
+  color: #fff8ea;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.25);
+}
+
+.g3-preview-image-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.g3-preview-backdrop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.g3-preview-frame:hover .g3-preview-backdrop-img {
+  transform: scale(1.03);
+}
+
+.g3-preview-backdrop-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.65) 100%);
+  pointer-events: none;
+}
+
+.g3-preview-content-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  padding: 2.5rem 1.5rem 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.g3-preview-content-stage button,
+.g3-preview-content-stage .g3-preview-speech-bubble,
+.g3-preview-content-stage .g3-preview-word-chip,
+.g3-preview-content-stage .g3-preview-roleplay-card {
+  pointer-events: auto;
+}
+
+/* 1. Vocab Overlay */
+.g3-preview-vocab-overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.g3-preview-mini-note {
+  align-self: flex-start;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #4d3f32;
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+}
+
+.g3-preview-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.g3-preview-word-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--g3-line);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.g3-preview-word-chip:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: var(--g3-gold);
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.25);
+}
+
+.g3-preview-word-chip strong {
+  font-size: 1.4rem;
+  color: #241c14;
+  font-family: var(--font-display);
+}
+
+.g3-preview-word-chip small {
+  color: #1b7577;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.g3-preview-word-chip span {
+  color: #6e6254;
+  font-size: 0.8rem;
+}
+
+/* 2. Manga Dialogue Overlay */
+.g3-preview-dialogue-overlay {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.g3-preview-speech-bubble {
+  max-width: 22rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(125, 95, 60, 0.25);
+  box-shadow: 0 0.6rem 2rem rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  backdrop-filter: blur(8px);
+  position: relative;
+  animation: g3-bubble-in 350ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.g3-preview-speech-bubble.is-left {
+  align-self: flex-start;
+  margin-left: 0.5rem;
+}
+
+.g3-preview-speech-bubble.is-right {
+  align-self: flex-end;
+  margin-right: 0.5rem;
+}
+
+.g3-preview-bubble-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.g3-preview-bubble-role {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--g3-red);
+}
+
+.g3-preview-bubble-audio-btn {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 0;
+  background: color-mix(in srgb, var(--g3-gold) 20%, transparent);
+  color: var(--g3-gold);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+
+.g3-preview-bubble-audio-btn:hover {
+  transform: scale(1.15);
+}
+
+.g3-preview-bubble-hanzi {
+  font-size: 1.2rem;
+  color: #241c14;
+  font-family: var(--font-display);
+}
+
+.g3-preview-bubble-pinyin {
+  font-size: 0.85rem;
+  color: #1b7577;
+}
+
+.g3-preview-bubble-thai {
+  font-size: 0.82rem;
+  color: #4d3f32;
+}
+
+@keyframes g3-bubble-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 3. Roleplay Overlay */
+.g3-preview-roleplay-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.g3-preview-roleplay-card {
+  width: min(100%, 24rem);
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(125, 95, 60, 0.25);
+  box-shadow: 0 0.8rem 2.5rem rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+.g3-preview-question-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.g3-preview-q-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--g3-red);
+}
+
+.g3-preview-question-box strong {
+  font-size: 1.2rem;
+  color: #241c14;
+  font-family: var(--font-display);
+}
+
+.g3-preview-q-py {
+  font-size: 0.85rem;
+  color: #1b7577;
+}
+
+.g3-preview-question-box span {
+  font-size: 0.82rem;
+  color: #4d3f32;
+}
+
+.g3-preview-answers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.g3-preview-answer-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 0.85rem;
+  background: #ffffff;
+  border: 1px solid rgba(125, 95, 60, 0.2);
+  text-align: left;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.g3-preview-answer-btn:hover {
+  border-color: #1b7577;
+  background: rgba(27, 117, 119, 0.08);
+}
+
+.g3-preview-answer-btn.is-ok {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.g3-preview-answer-btn.is-wrong {
+  border-color: var(--g3-red);
+  background: rgba(207, 58, 39, 0.15);
+}
+
+.g3-preview-answer-btn strong {
+  font-size: 1rem;
+  color: #241c14;
+  font-family: var(--font-display);
+}
+
+.g3-preview-answer-btn small {
+  font-size: 0.8rem;
+  color: #1b7577;
+}
+
+/* 4. Game Overlay */
+.g3-preview-game-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.g3-preview-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--g3-line);
+  font-size: 0.85rem;
+  color: #241c14;
+  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.g3-preview-score-badge strong {
+  color: var(--g3-gold);
+  font-size: 1.1rem;
+}
+
+.g3-preview-match-board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: min(100%, 24rem);
+}
+
+.g3-preview-match-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.g3-preview-match-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(125, 95, 60, 0.2);
+  min-height: 3.5rem;
+  text-align: center;
+}
+
+.g3-preview-match-cell.is-done {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.g3-preview-match-cell strong {
+  font-size: 1.05rem;
+  color: #241c14;
+  font-family: var(--font-display);
+}
+
+.g3-preview-match-cell small {
+  font-size: 0.75rem;
+  color: #1b7577;
+}
+
+.g3-preview-match-cell span {
+  font-size: 0.9rem;
+  color: #241c14;
+  font-weight: 600;
+}
+
+/* Bottom Label Bar */
+.g3-preview-label-bar {
+  position: absolute;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  z-index: 7;
+  min-width: 14rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #241c14;
+  border: 1px solid var(--g3-line);
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 200ms ease, background 200ms ease;
+}
+
+.g3-preview-label-bar:hover {
+  transform: translateX(-50%) translateY(-2px);
+  background: #ffffff;
+  color: var(--g3-red);
+}
+
+.g3-preview-label-bar i {
+  font-style: normal;
+  font-size: 1.1rem;
+  color: var(--g3-red);
+}
+
+/* Navigation Arrows */
+.g3-preview-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.9);
+  color: #241c14;
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 8;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.2);
+  transition: all 180ms ease;
+}
+
+.g3-preview-arrow:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+  color: var(--g3-red);
+}
+
+.g3-preview-arrow.is-prev {
+  left: 1rem;
+}
+
+.g3-preview-arrow.is-next {
+  right: 1rem;
+}
+
+/* Pagination Dots */
+.g3-preview-dots {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.g3-preview-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  border: 0;
+  background: color-mix(in srgb, var(--g3-red) 30%, transparent);
+  cursor: pointer;
+  padding: 0;
+  transition: all 200ms ease;
+}
+
+.g3-preview-dot.is-active {
+  width: 2rem;
+  border-radius: 999px;
+  background: var(--g3-red);
+}
+
+@media (max-width: 768px) {
+  .g3-preview-frame {
+    min-height: 440px;
+  }
+  .g3-preview-arrow {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.4rem;
+  }
+  .g3-preview-arrow.is-prev { left: 0.5rem; }
+  .g3-preview-arrow.is-next { right: 0.5rem; }
+  .g3-preview-label-bar {
+    min-width: 11rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1.05rem;
+    bottom: 0.8rem;
+  }
+}
+
+

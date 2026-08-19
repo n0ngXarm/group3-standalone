@@ -94,22 +94,31 @@ test("home uses one ability-led HSK selector without lesson previews", async () 
     path.join(root, "src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx"),
     "utf8",
   );
+  const carousel = await readFile(
+    path.join(root, "src/surfaces/group-3-8104/features/catalog/HomeCarousel.jsx"),
+    "utf8",
+  );
   const styles = await readFile(
     path.join(root, "src/surfaces/group-3-8104/styles/ui-polish.css"),
     "utf8",
   );
-  assert.match(experience, /className="g3-level-gate"/);
+  // Home level selection moved into the outline CTA (no heavy level gate).
+  assert.doesNotMatch(experience, /className="g3-level-gate"/);
+  assert.match(experience, /className="g3-home-cta-secondary"/);
+  assert.match(experience, /levelPath\("hsk1"\)/);
+  assert.match(experience, /className="g3-home-feature-bar"/);
   for (const level of ["hsk1", "hsk2", "hsk3"]) {
-    assert.match(experience, new RegExp(`id: "${level}"`));
-    assert.match(experience, new RegExp(`${level}-path-v2-720w\\.webp`));
-    assert.match(experience, new RegExp(`${level}-path-v2-1440w\\.webp`));
     for (const width of [720, 1440]) {
       const asset = await stat(path.join(root, `public/assets/group3/shared/level-paths/${level}-path-v2-${width}w.webp`));
       assert.ok(asset.size > 40_000, `${level} ${width}w cover should be a real optimized image`);
     }
   }
-  assert.match(experience, /GROUP3_LESSONS\.filter\(\(lesson\) => lesson\.level === level\.id\)\.length/);
-  assert.match(experience, /className="g3-level-signals"/);
+  // 5-slide animated manga carousel with dots and a vocab jump pill.
+  assert.match(carousel, /SCENARIOS\.map/);
+  assert.match(carousel, /ScenarioMangaStage/);
+  assert.match(carousel, /className="g3-vocab-pill"/);
+  assert.match(carousel, /lessonPath\(lesson, "vocabulary"\)/);
+  assert.match(experience, /import \{ HomeCarousel \}/);
   assert.doesNotMatch(experience, /FEATURED_SCENES|StoryPreview|g3-scene-preview/);
   assert.match(styles, /\.g3-level-option\.is-hsk1 \{[^}]*grid-row: 1 \/ 3;/s);
   assert.match(styles, /\.g3-level-option\.is-hsk2 \{[^}]*grid-template-areas: "copy visual";/s);

@@ -416,7 +416,7 @@ f|644|976459|./source/public/assets/group3/games/vocab_blitz.jpg|
 f|644|998212|./source/public/assets/group3/games/pinyin_dash.jpg|
 f|664|1006|./source/src/shared/components/ui/Icon.jsx|
 f|664|100802|./source/public/assets/group3/lessons/hsk3/lesson-02/scenes/scene-03-1400w.webp|
-f|664|10080|./source/src/surfaces/group-3-8104/Group3App.jsx|
+f|664|10105|./source/src/surfaces/group-3-8104/Group3App.jsx|
 f|664|103000|./source/public/assets/group3/lessons/hsk3/lesson-01/scenes/scene-03-1400w.webp|
 f|664|103574|./source/public/assets/group3/lessons/hsk3/lesson-05/scenes/scene-01-1400w.webp|
 f|664|103776|./source/public/assets/group3/lessons/hsk1/lesson-15/scenes/scene-01-1400w.webp|
@@ -443,7 +443,7 @@ f|664|11036|./source/public/assets/group3/lessons/hsk2/lesson-10/audio/scene-03/
 f|664|11036|./source/public/assets/group3/lessons/hsk3/lesson-17/audio/scene-01/line-03.mp3|
 f|664|111238|./source/public/assets/group3/lessons/hsk1/lesson-10/scenes/scene-03-1400w.webp|
 f|664|111256|./source/public/assets/group3/lessons/hsk1/lesson-15/scenes/scene-03-1400w.webp|
-f|664|47205|./source/src/surfaces/group-3-8104/styles/home-enhancements.css|
+f|664|48551|./source/src/surfaces/group-3-8104/styles/home-enhancements.css|
 f|664|111488|./source/public/assets/group3/lessons/hsk1/lesson-13/scenes/scene-03-1400w.webp|
 f|664|11180|./source/public/assets/group3/lessons/hsk1/lesson-01/audio/scene-02/line-02.mp3|
 f|664|11180|./source/public/assets/group3/lessons/hsk1/lesson-01/audio/scene-02/line-03.mp3|
@@ -717,7 +717,7 @@ f|664|17084|./source/public/assets/group3/lessons/hsk3/lesson-10/audio/scene-02/
 f|664|17084|./source/public/assets/group3/lessons/hsk3/lesson-17/audio/scene-03/line-06.mp3|
 f|664|17084|./source/public/assets/group3/lessons/hsk3/lesson-18/audio/scene-02/line-02.mp3|
 f|664|17150|./source/public/assets/group3/lessons/hsk2/lesson-11/scenes/scene-01-720w.webp|
-f|664|24413|./source/src/surfaces/group-3-8104/styles/tokens-shell.css|
+f|664|25061|./source/src/surfaces/group-3-8104/styles/tokens-shell.css|
 f|664|17228|./source/public/assets/group3/lessons/hsk1/lesson-06/audio/scene-03/line-01.mp3|
 f|664|17228|./source/public/assets/group3/lessons/hsk1/lesson-13/audio/scene-02/line-03.mp3|
 f|664|17228|./source/public/assets/group3/lessons/hsk2/lesson-14/audio/scene-02/line-04.mp3|
@@ -859,7 +859,7 @@ f|664|20540|./source/public/assets/group3/lessons/hsk1/lesson-13/audio/scene-03/
 f|664|20540|./source/public/assets/group3/lessons/hsk2/lesson-04/audio/scene-02/line-05.mp3|
 f|664|20540|./source/public/assets/group3/lessons/hsk2/lesson-08/audio/scene-03/line-03.mp3|
 f|664|205|./source/src/app/SurfaceLoader.jsx|
-f|664|25614|./source/src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx|
+f|664|17095|./source/src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx|
 f|664|20608|./source/src/surfaces/group-3-8104/content/registry.js|
 f|664|20684|./source/public/assets/group3/lessons/hsk1/lesson-11/audio/scene-01/line-03.mp3|
 f|664|20684|./source/public/assets/group3/lessons/hsk2/lesson-07/audio/scene-02/line-01.mp3|
@@ -1050,7 +1050,7 @@ f|664|24716|./source/public/assets/group3/lessons/hsk3/lesson-05/audio/scene-02/
 f|664|24731|./source/src/surfaces/group-3-8104/content/lessons/hsk1/lesson-05/content.js|
 f|664|24758|./source/public/assets/group3/lessons/hsk2/lesson-02/scenes/scene-01-720w.webp|
 f|664|24762|./source/public/assets/group3/lessons/hsk2/lesson-15/scenes/scene-01-720w.webp|
-f|664|27978|./source/src/surfaces/group-3-8104/content/copy.js|
+f|664|29523|./source/src/surfaces/group-3-8104/content/copy.js|
 f|664|24860|./source/public/assets/group3/lessons/hsk2/lesson-02/audio/scene-01/line-05.mp3|
 f|664|24860|./source/public/assets/group3/lessons/hsk2/lesson-12/audio/scene-01/line-05.mp3|
 f|664|24860|./source/public/assets/group3/lessons/hsk2/lesson-13/audio/scene-02/line-06.mp3|
@@ -1379,7 +1379,7 @@ f|664|32060|./source/public/assets/group3/lessons/hsk2/lesson-14/audio/scene-03/
 f|664|32060|./source/public/assets/group3/lessons/hsk3/lesson-01/audio/scene-03/line-05.mp3|
 f|664|32060|./source/public/assets/group3/lessons/hsk3/lesson-05/audio/scene-02/line-02.mp3|
 f|664|32060|./source/public/assets/group3/lessons/hsk3/lesson-09/audio/scene-02/line-05.mp3|
-f|664|3210|./source/tests/unit/standalone-boundary.test.js|
+f|664|7289|./source/tests/unit/standalone-boundary.test.js|
 f|664|32112|./source/public/assets/group3/lessons/hsk1/lesson-01/scenes/scene-03-720w.webp|
 f|664|32204|./source/public/assets/group3/lessons/hsk2/lesson-08/audio/scene-02/line-03.mp3|
 f|664|32204|./source/public/assets/group3/lessons/hsk3/lesson-18/audio/scene-03/line-02.mp3|
@@ -1620,7 +1620,7 @@ f|664|66093|./source/package-lock.json|
 f|664|66212|./source/public/assets/group3/lessons/hsk2/lesson-03/scenes/scene-01-1400w.webp|
 f|664|6626|./source/tests/unit/group-3.voice-personas.test.js|
 f|664|66768|./source/public/assets/group3/lessons/hsk3/lesson-17/scenes/scene-02-1400w.webp|
-f|664|748|./source/src/surfaces/group-3-8104/group-3-story.css|
+f|664|786|./source/src/surfaces/group-3-8104/group-3-story.css|
 f|664|66950|./source/public/assets/group3/lessons/hsk2/lesson-03/scenes/scene-03-1400w.webp|
 f|664|67684|./source/public/assets/group3/lessons/hsk2/lesson-12/scenes/scene-02-1400w.webp|
 f|664|67936|./source/public/assets/group3/lessons/hsk2/lesson-08/scenes/scene-02-1400w.webp|
@@ -1710,7 +1710,7 @@ f|664|86578|./source/public/assets/group3/lessons/hsk3/lesson-18/scenes/scene-02
 f|664|86888|./source/public/assets/group3/lessons/hsk3/lesson-05/scenes/scene-03-1400w.webp|
 f|664|87352|./source/public/assets/group3/lessons/hsk3/lesson-01/scenes/scene-02-1400w.webp|
 f|664|87374|./source/public/assets/group3/lessons/hsk3/lesson-06/scenes/scene-03-1400w.webp|
-f|664|8734|./source/tests/unit/group-3.autoplay-contract.test.js|
+f|664|8757|./source/tests/unit/group-3.autoplay-contract.test.js|
 f|664|88443|./scripts/media/generate-group3-voices-8104.py|
 f|664|89726|./source/public/assets/group3/lessons/hsk3/lesson-16/scenes/scene-01-1400w.webp|
 f|664|90148|./source/public/assets/group3/lessons/hsk1/lesson-01/scenes/scene-03-1400w.webp|
@@ -1724,7 +1724,7 @@ f|664|9302|./source/src/surfaces/group-3-8104/features/games/sound-sprint/SoundS
 f|664|93078|./source/public/assets/group3/lessons/hsk3/lesson-16/scenes/scene-03-1400w.webp|
 f|664|9360|./source/tests/unit/group-3.audio.test.js|
 f|664|93652|./source/public/assets/group3/lessons/hsk3/lesson-02/scenes/scene-01-1400w.webp|
-f|664|12584|./source/src/surfaces/group-3-8104/shared/components/StoryLayout.jsx|
+f|664|14516|./source/src/surfaces/group-3-8104/shared/components/StoryLayout.jsx|
 f|664|93998|./source/public/assets/group3/lessons/hsk3/lesson-04/scenes/scene-03-1400w.webp|
 f|664|9478|./source/src/shared/components/ui/iconPaths.js|
 f|664|9522|./source/public/favicon.svg|
@@ -2931,5 +2931,20 @@ f|644|137312|./source/public/assets/group3/shared/home/hero-dumplings-stage-shar
 f|644|130814|./source/public/assets/group3/shared/home/hero-restaurant-stage-sharp.webp|
 f|644|126994|./source/public/assets/group3/shared/home/hero-train-stage-sharp.webp|
 f|644|7603|./source/src/surfaces/group-3-8104/features/catalog/HomeViews.jsx|
-f|644|17112|./source/src/surfaces/group-3-8104/features/catalog/ScenarioMangaStage.jsx|
-f|644|15098|./source/src/surfaces/group-3-8104/styles/home-single-screen.css|
+f|644|19377|./source/src/surfaces/group-3-8104/features/catalog/ScenarioMangaStage.jsx|
+f|644|17060|./source/src/surfaces/group-3-8104/styles/home-single-screen.css|
+f|644|4989|./.agents/home-redesign-reference/README.md|
+f|755|4058|./scripts/package-for-nongserver1.sh|
+f|644|39991|./source/dist/assets/content-BzYCOceY.js|
+f|644|41068|./source/dist/assets/content-DGR6pPPl.js|
+f|644|29772|./source/dist/assets/content-DihCLyRj.js|
+f|644|33488|./source/dist/assets/content-DtJknrIa.js|
+f|644|41834|./source/dist/assets/hub-ZldM4emj.js|
+f|644|389634|./source/dist/assets/index-BsS5q2kG.js|
+f|644|216723|./source/dist/assets/index-CyEkp-yx.css|
+f|644|72593|./source/dist/assets/reader-DJ4lkT3X.js|
+f|644|14638|./source/dist/assets/roleplay-BR1tKiMV.js|
+f|644|5357|./source/dist/assets/ThreeBackdrop-gnyM3YF8.js|
+f|644|2827|./source/src/surfaces/group-3-8104/features/catalog/HomeCarousel.jsx|
+f|644|14794|./source/src/surfaces/group-3-8104/features/catalog/HomeFeatureDemos.jsx|
+f|644|13405|./source/src/surfaces/group-3-8104/styles/home-features.css|

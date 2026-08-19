@@ -289,6 +289,7 @@ export function ScenarioMangaStage({
   const scenario = SCENARIOS[activeScenarioIndex] || SCENARIOS[0];
   const [lineIndex, setLineIndex] = useState(0);
   const [isSpeakingAnim, setIsSpeakingAnim] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [panelKey, setPanelKey] = useState(0);
 
   const currentDialogue = scenario.dialogues[lineIndex] || scenario.dialogues[0];
@@ -300,6 +301,29 @@ export function ScenarioMangaStage({
     setPanelKey((key) => key + 1);
   }, [activeScenarioIndex]);
 
+  // Live Auto-Play Sequence
+  useEffect(() => {
+    if (!isPlaying) return;
+    const dialogue = scenario.dialogues[lineIndex];
+    if (!dialogue) return;
+
+    setIsSpeakingAnim(true);
+    speak(dialogue.zh);
+
+    const animTimer = setTimeout(() => {
+      setIsSpeakingAnim(false);
+    }, 2200);
+
+    const nextTimer = setTimeout(() => {
+      setLineIndex((prev) => (prev + 1) % scenario.dialogues.length);
+    }, 4200);
+
+    return () => {
+      clearTimeout(animTimer);
+      clearTimeout(nextTimer);
+    };
+  }, [isPlaying, lineIndex, scenario]);
+
   const handleSpeakLine = (text) => {
     playUiCue("tap");
     setIsSpeakingAnim(true);
@@ -307,18 +331,18 @@ export function ScenarioMangaStage({
     setTimeout(() => setIsSpeakingAnim(false), 2200);
   };
 
-  const handleNextLine = () => {
+  const handlePrevScenario = () => {
     playUiCue("tap");
-    const next = (lineIndex + 1) % scenario.dialogues.length;
-    setLineIndex(next);
-    handleSpeakLine(scenario.dialogues[next].zh);
+    const total = SCENARIOS.length;
+    const prev = (activeScenarioIndex - 1 + total) % total;
+    onSelectScenario?.(prev);
   };
 
-  const handlePrevLine = () => {
+  const handleNextScenario = () => {
     playUiCue("tap");
-    const prev = (lineIndex - 1 + scenario.dialogues.length) % scenario.dialogues.length;
-    setLineIndex(prev);
-    handleSpeakLine(scenario.dialogues[prev].zh);
+    const total = SCENARIOS.length;
+    const next = (activeScenarioIndex + 1) % total;
+    onSelectScenario?.(next);
   };
 
   return (
@@ -353,12 +377,24 @@ export function ScenarioMangaStage({
           </>
         )}
 
-        {/* Top Scenario Title Tag */}
+        {/* Top Scenario Title Tag + Live Preview + Pause Toggle */}
         <div className="g3-manga-top-bar">
+          <span className="g3-manga-live-badge">
+            <i className="g3-pulse-dot" aria-hidden="true" /> LIVE PREVIEW
+          </span>
           <span className="g3-manga-tag">{scenario.tag}</span>
           <strong className="g3-manga-scenario-title">
             {scenario.title[language] || scenario.title.th}
           </strong>
+          <button
+            type="button"
+            className="g3-manga-pause-btn"
+            onClick={() => setIsPlaying((p) => !p)}
+            aria-label={isPlaying ? "พักการเล่นอัตโนมัติ" : "เล่นอัตโนมัติ"}
+            title={isPlaying ? "พักการเล่นอัตโนมัติ" : "เล่นอัตโนมัติ"}
+          >
+            {isPlaying ? "⏸" : "▶"}
+          </button>
         </div>
 
         {/* 2D Actors with Animated Frame Pose Swapping */}
@@ -388,49 +424,73 @@ export function ScenarioMangaStage({
           </div>
         </div>
 
-        {/* Visual Novel Bottom Subtitle Bar */}
+        {/* Visual Novel Bottom Subtitle Bar (Hanzi + Pinyin + Thai) */}
         <div className="g3-manga-subtitle-box" role="region" aria-label="Dialogue Subtitle">
           <div className="g3-manga-subtitle-header">
             <span className="g3-manga-speaker-tag">
               {isLeftSpeaker ? scenario.leftActor.name : scenario.rightActor.name}
             </span>
-            <button
-              type="button"
-              className="g3-manga-audio-btn"
-              onClick={() => handleSpeakLine(currentDialogue.zh)}
-              aria-label="Play Dialogue Audio"
-              title="ฟังเสียงอ่าน"
-            >
-              <Icon paths={volumeIcon} />
-            </button>
+            <div className="g3-manga-subtitle-actions">
+              <span className="g3-manga-line-counter">
+                {lineIndex + 1}/{scenario.dialogues.length}
+              </span>
+              <button
+                type="button"
+                className="g3-manga-audio-btn"
+                onClick={() => handleSpeakLine(currentDialogue.zh)}
+                aria-label="Play Dialogue Audio"
+                title="ฟังเสียงอ่านซ้ำ"
+              >
+                <Icon paths={volumeIcon} />
+              </button>
+            </div>
           </div>
           <p className="g3-manga-hanzi">{currentDialogue.zh}</p>
           <p className="g3-manga-pinyin">{currentDialogue.py}</p>
           <p className="g3-manga-thai">{language === "en" ? currentDialogue.en : currentDialogue.th}</p>
         </div>
 
-        {/* Dialogue Navigation Arrows */}
+        {/* Scenario Carousel Navigation Arrows */}
         <button
           type="button"
           className="g3-manga-arrow is-prev"
-          onClick={handlePrevLine}
-          aria-label="Previous Line"
-          title="ประโยคก่อนหน้า"
+          onClick={handlePrevScenario}
+          aria-label="Previous Scenario"
+          title="สถานการณ์ก่อนหน้า"
         >
           ‹
         </button>
         <button
           type="button"
           className="g3-manga-arrow is-next"
-          onClick={handleNextLine}
-          aria-label="Next Line"
-          title="ประโยคถัดไป"
+          onClick={handleNextScenario}
+          aria-label="Next Scenario"
+          title="สถานการณ์ถัดไป"
         >
           ›
         </button>
 
+        {/* 5 Pagination Dots */}
+        <div className="g3-manga-dots" role="tablist" aria-label="Scenario Selector">
+          {SCENARIOS.map((s, idx) => (
+            <button
+              key={s.id}
+              type="button"
+              role="tab"
+              aria-selected={activeScenarioIndex === idx}
+              className={`g3-manga-dot${activeScenarioIndex === idx ? " is-active" : ""}`}
+              onClick={() => {
+                playUiCue("tap");
+                onSelectScenario?.(idx);
+              }}
+              aria-label={`สถานการณ์ที่ ${idx + 1}: ${s.title[language] || s.title.th}`}
+              title={s.title[language] || s.title.th}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
+
 

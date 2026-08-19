@@ -2,19 +2,20 @@ import { useEffect, useRef, useState } from "react";
 
 import Icon from "../../../../shared/components/ui/Icon.jsx";
 import {
-  bookIcon,
+  bullseyeIcon,
+  cardsIcon,
   expandIcon,
-  eyeSlashIcon,
   fileImageIcon,
+  headphonesIcon,
   waveSquareIcon,
   xmarkIcon,
 } from "../../../../shared/components/ui/iconPaths.js";
 import { group3AssetPath } from "../../config.js";
 import { COPY } from "../../content/copy.js";
-import { FEATURED_LESSON, GROUP3_CATALOG_PATH, GROUP3_LESSONS } from "../../content/registry.js";
+import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { GROUP3_VOICE_PROFILES, playUiCue } from "../../services/audio/index.js";
 import { lessonPath, levelPath, scenePath } from "../../routing/routes.js";
-import { MarketIllustration, SourceStamp } from "../../shared/components/index.js";
+import { SourceStamp } from "../../shared/components/index.js";
 
 function sceneTitle(scene, language) {
   return { th: scene.titleTh, zh: scene.title, en: scene.titleEn || scene.title }[language];
@@ -36,75 +37,12 @@ function profileName(profile, language) {
   return { th: profile.nameTh, zh: profile.hanzi, en: profile.nameEn || profile.pinyin }[language];
 }
 
-const LEVEL_GUIDE = {
-  th: {
-    title: "เลือกระดับบทเรียนที่ต้องการฝึก",
-    body: "เลือกระดับความรู้ภาษาจีน เพื่อเริ่มต้นฝึกฟังและสนทนาในสถานการณ์จำลอง",
-    lessonUnit: "บทเรียน",
-    action: "เข้าสู่บทเรียน",
-    sceneLabel: "สถานการณ์",
-    languageLabel: "ลักษณะประโยค",
-    levels: [
-      { id: "hsk1", title: "HSK 1", stage: "ระดับเริ่มต้น", difficulty: "ระดับ 1: ง่าย", glyph: "听", outcome: "เข้าใจคำศัพท์และประโยคสั้น ๆ ในชีวิตประจำวัน", situation: "สนทนาพื้นฐาน 1 ต่อ 1", languageShape: "ประโยคสั้น เข้าใจง่าย" },
-      { id: "hsk2", title: "HSK 2", stage: "ระดับกลางต้น", difficulty: "ระดับ 2: ปานกลาง", glyph: "行", outcome: "ถาม-ตอบและสื่อสารในสถานการณ์ทั่วไปได้คล่องขึ้น", situation: "สนทนาต่อเนื่องหลายประโยค", languageShape: "ประโยคเชื่อมโยง ต่อเนื่อง" },
-      { id: "hsk3", title: "HSK 3", stage: "ระดับกลาง", difficulty: "ระดับ 3: ท้าทาย", glyph: "议", outcome: "เข้าใจบทสนทนาที่มีรายละเอียด อธิบายและแสดงความเห็นได้", situation: "การสนทนาและแสดงความคิดเห็น", languageShape: "ประโยคซับซ้อนขึ้น" },
-    ],
-  },
-  zh: {
-    title: "选择适合你的等级",
-    body: "从你现在能做到的事情开始，看看下一级的对话会怎样变化。",
-    lessonUnit: "课",
-    action: "查看课程",
-    sceneLabel: "场景",
-    languageLabel: "语言形式",
-    levels: [
-      { id: "hsk1", title: "HSK 1", stage: "从零开始", difficulty: "难度 1 / 3", glyph: "听", outcome: "听懂简单表达，立即回应", situation: "一对一交流", languageShape: "简短句子" },
-      { id: "hsk2", title: "HSK 2", stage: "实际交流", difficulty: "难度 2 / 3", glyph: "行", outcome: "继续追问，完成多步骤交流", situation: "多轮互动", languageShape: "连续对话" },
-      { id: "hsk3", title: "HSK 3", stage: "思考表达", difficulty: "难度 3 / 3", glyph: "议", outcome: "理解不同观点，有逻辑地回应", situation: "小组讨论", languageShape: "复杂结构" },
-    ],
-  },
-  en: {
-    title: "Choose your starting level",
-    body: "Choose what you can do now, then see how the conversation changes at the next level.",
-    lessonUnit: "lessons",
-    action: "View lessons",
-    sceneLabel: "Scene type",
-    languageLabel: "Language shape",
-    levels: [
-      { id: "hsk1", title: "HSK 1", stage: "Start from zero", difficulty: "Difficulty 1 of 3", glyph: "听", outcome: "Understand simple words and respond right away", situation: "One-to-one", languageShape: "Short sentences" },
-      { id: "hsk2", title: "HSK 2", stage: "Use it outside", difficulty: "Difficulty 2 of 3", glyph: "行", outcome: "Ask follow-ups and handle a multi-step exchange", situation: "Multi-turn", languageShape: "Connected dialogue" },
-      { id: "hsk3", title: "HSK 3", stage: "Think and explain", difficulty: "Difficulty 3 of 3", glyph: "议", outcome: "Follow different viewpoints and answer with reasons", situation: "Group discussion", languageShape: "Complex structures" },
-    ],
-  },
-};
-
-const LEVEL_ART = {
-  hsk1: {
-    src: group3AssetPath("/assets/group3/shared/level-paths/hsk1-path-v2-720w.webp"),
-    srcSet: `${group3AssetPath("/assets/group3/shared/level-paths/hsk1-path-v2-720w.webp")} 720w, ${group3AssetPath("/assets/group3/shared/level-paths/hsk1-path-v2-1440w.webp")} 1440w`,
-  },
-  hsk2: {
-    src: group3AssetPath("/assets/group3/shared/level-paths/hsk2-path-v2-720w.webp"),
-    srcSet: `${group3AssetPath("/assets/group3/shared/level-paths/hsk2-path-v2-720w.webp")} 720w, ${group3AssetPath("/assets/group3/shared/level-paths/hsk2-path-v2-1440w.webp")} 1440w`,
-  },
-  hsk3: {
-    src: group3AssetPath("/assets/group3/shared/level-paths/hsk3-path-v2-720w.webp"),
-    srcSet: `${group3AssetPath("/assets/group3/shared/level-paths/hsk3-path-v2-720w.webp")} 720w, ${group3AssetPath("/assets/group3/shared/level-paths/hsk3-path-v2-1440w.webp")} 1440w`,
-  },
-};
-
-import { ScenarioMangaStage, SCENARIOS } from "./ScenarioMangaStage.jsx";
+import { HomeCarousel } from "./HomeCarousel.jsx";
 
 export function StoryHome({ language, navigate, lowData = false }) {
   const [activeScenario, setActiveScenario] = useState(0);
   const text = COPY[language];
-  const levelGuide = LEVEL_GUIDE[language];
   const featured = FEATURED_LESSON;
-  const methods = [
-    ["01", text.methodRead, text.methodReadBody],
-    ["02", text.methodThink, text.methodThinkBody],
-    ["03", text.methodBuild, text.methodBuildBody],
-  ];
   const navigateWithCue = (path, cue = "tap") => {
     playUiCue(cue);
     navigate(path);
@@ -114,119 +52,45 @@ export function StoryHome({ language, navigate, lowData = false }) {
     <main className="g3-home is-single-screen">
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
-          <p className="g3-kicker">{text.heroKicker}</p>
-          <h1 id="g3-home-title" tabIndex="-1">
-            {text.heroTitle.split("\n").map((line, index) => (
-              <span style={{ "--g3-title-line": index }} key={line}>{line}</span>
-            ))}
-          </h1>
-          <p className="g3-hero-body">{text.heroBody}</p>
+          <span className="g3-home-eyebrow">{text.heroBadge}</span>
+          <h1 id="g3-home-title" className="g3-home-title" tabIndex="-1">{text.heroTitleLine}</h1>
+          <p className="g3-home-sub">{text.heroSubLine}</p>
 
-          {/* 5 Real Curriculum Scenarios Quick Selector */}
-          <div className="g3-hero-scenarios-bar" role="tablist" aria-label="Select Scenario">
-            {SCENARIOS.map((s, idx) => (
-              <button
-                key={s.id}
-                type="button"
-                role="tab"
-                aria-selected={activeScenario === idx}
-                className={`g3-scenario-tab-btn${activeScenario === idx ? " is-active" : ""}`}
-                onClick={() => {
-                  playUiCue("tap");
-                  setActiveScenario(idx);
-                }}
-              >
-                <span>{s.title[language] || s.title.th}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Compact Level Gate */}
-          <div className="g3-level-gate" aria-labelledby="g3-level-gate-title">
-            <h2 id="g3-level-gate-title" className="g3-sr-only">{levelGuide.title}</h2>
-            <div className="g3-level-options is-compact-grid">
-              {levelGuide.levels.map((level, index) => {
-                const lessonCount = GROUP3_LESSONS.filter((lesson) => lesson.level === level.id).length;
-                const rank = index + 1;
-                return (
-                  <button
-                    aria-label={`${level.title}, ${level.stage}, ${level.difficulty}`}
-                    className={`g3-level-option is-${level.id}`}
-                    data-rank={rank}
-                    key={level.id}
-                    onClick={() => navigateWithCue(levelPath(level.id), "confirm")}
-                    type="button"
-                  >
-                    <span className="g3-level-visual" aria-hidden="true">
-                      {!lowData && (
-                        <img
-                          alt=""
-                          decoding="async"
-                          height="405"
-                          loading="lazy"
-                          sizes="(max-width: 700px) 100vw, (max-width: 900px) 48vw, 42vw"
-                          src={LEVEL_ART[level.id].src}
-                          srcSet={LEVEL_ART[level.id].srcSet}
-                          width="720"
-                        />
-                      )}
-                    </span>
-                    <span className="g3-level-copy">
-                      <span className="g3-level-glyph" aria-hidden="true">{level.glyph}</span>
-                      <small>{level.stage}</small>
-                      <strong>{level.title}</strong>
-                      <span className="g3-level-outcome">{level.outcome}</span>
-                      <span className="g3-level-signals">
-                        <span><small>{levelGuide.sceneLabel}</small><b>{level.situation}</b></span>
-                        <span><small>{levelGuide.languageLabel}</small><b>{level.languageShape}</b></span>
-                      </span>
-                      <span className="g3-level-meta">
-                        <span>{lessonCount} {levelGuide.lessonUnit}</span>
-                        <span className="g3-level-difficulty">
-                          <span className="g3-level-difficulty-steps" aria-hidden="true">
-                            {[1, 2, 3].map((step) => <i className={step <= rank ? "is-active" : ""} key={step} />)}
-                          </span>
-                          {level.difficulty}
-                        </span>
-                      </span>
-                      <span className="g3-level-action">{levelGuide.action}<b aria-hidden="true">→</b></span>
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-            <p className="g3-source-policy"><Icon paths={bookIcon} />{text.sourceOnly}</p>
-          </div>
-
-          <div className="g3-hero-actions">
+          <div className="g3-home-cta-row">
             <button
-              className="g3-primary-action"
+              className="g3-home-cta-primary"
               type="button"
               onClick={() => navigateWithCue(scenePath(featured, 1), "confirm")}
             >
-              {text.startLessonNow || "🚀 เริ่มเรียนทันที (HSK 1 บทที่ 1)"}<i aria-hidden="true">→</i>
+              {text.ctaStart}<i aria-hidden="true">→</i>
+            </button>
+            <button
+              className="g3-home-cta-secondary"
+              type="button"
+              onClick={() => navigateWithCue(levelPath("hsk1"), "tap")}
+            >
+              {text.ctaLevel}
             </button>
           </div>
-          <p className="g3-privacy-note"><Icon paths={eyeSlashIcon} />{text.noStorage}</p>
+          <span className="g3-home-free-tag">{text.noStorage}</span>
         </div>
 
-        {/* 2D Manga Stage with Frame Animation on Right Column */}
-        <ScenarioMangaStage
-          activeScenarioIndex={activeScenario}
-          onSelectScenario={setActiveScenario}
+        {/* 5-Slide Manga Carousel — animated 2D frame-by-frame scenes */}
+        <HomeCarousel
           language={language}
+          navigate={navigate}
+          activeScenario={activeScenario}
+          onSelectScenario={setActiveScenario}
           lowData={lowData}
         />
-
-        <div className="g3-method-rail">
-          {methods.map(([number, title, body], index) => (
-            <article style={{ "--g3-method-index": index }} key={number}>
-              <span>{number}</span>
-              <div><strong>{title}</strong><p>{body}</p></div>
-            </article>
-          ))}
-        </div>
       </section>
+
+      {/* One-line learning flow bar */}
+      <div className="g3-home-feature-bar" aria-label={language === "th" ? "ขั้นตอนการเรียนรู้" : language === "zh" ? "学习流程" : "Learning flow"}>
+        <span className="g3-home-feature"><Icon paths={headphonesIcon} />{text.featureListen}</span>
+        <span className="g3-home-feature"><Icon paths={bullseyeIcon} />{text.featureCheck}</span>
+        <span className="g3-home-feature"><Icon paths={cardsIcon} />{text.featureGame}</span>
+      </div>
     </main>
   );
 }

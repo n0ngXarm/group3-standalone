@@ -1,147 +1,31 @@
-# Home Redesign Reference — Group 3 Standalone
-
-> **สถานะ: DESIGN / INTERACTION REFERENCE ONLY**
->
-> ไฟล์ในโฟลเดอร์นี้เป็นต้นแบบสำหรับนำแนวคิดไปปรับใช้กับโปรเจกต์จริง **ห้ามนำ HTML ไปแทนที่ source ปัจจุบันทั้งไฟล์**
-
-## จุดประสงค์
-
-โฟลเดอร์นี้เก็บ Home Page prototype ที่ผ่านการคุยและปรับทิศทางร่วมกับผู้ใช้ เพื่อให้ Agent / Developer คนถัดไปสามารถเปิดดูหน้าตาและ interaction ที่ต้องการได้ทันที โดยไม่ต้องตีความจากข้อความอย่างเดียว
-
-Prototype หลัก:
-
-- `home-preview-v8.html`
-
-## กฎสำคัญในการนำไปใช้
-
-1. **ห้าม replace หน้า Home ปัจจุบันด้วยไฟล์ HTML นี้โดยตรง**
-2. ให้ถือ `home-preview-v8.html` เป็น **visual + interaction reference** เท่านั้น
-3. Source of truth ของระบบจริงยังอยู่ใน React/Vite project โดยเฉพาะบริเวณ:
-   - `source/src/surfaces/group-3-8104/Group3App.jsx`
-   - `source/src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx`
-   - `source/src/surfaces/group-3-8104/styles/home.css`
-   - theme/tokens ที่โปรเจกต์ใช้อยู่
-4. เวลา implement ให้ย้ายเฉพาะแนวคิดด้าน layout, component structure, spacing และ interaction จาก prototype ไปเขียนใหม่ให้เข้ากับ architecture เดิม
-5. **ห้ามทำลาย routing, localization, audio service, lesson registry, theme switching, accessibility หรือ feature เดิมที่มีอยู่**
-6. ก่อนแก้ production code ให้ตรวจ component และ service ที่มีอยู่ก่อนเสมอ และ reuse ของเดิมเมื่อทำได้
-7. สีใน production ให้ยึด theme token ของโปรเจกต์ ไม่ hard-code palette จาก mockup หากมี token ที่เทียบกันได้
-
-## Design Direction ที่ตกลงไว้
-
-### 1. โครง Home หลัก
-
-ยึดโครงจาก wireframe แรกของผู้ใช้:
-
-- Header / Navbar ด้านบน
-- Hero แบ่งสองฝั่ง
-- ฝั่งซ้าย:
-  - Headline ใหญ่
-  - คำอธิบายสั้น
-  - CTA หลัก เช่น เริ่มเรียน
-  - CTA รอง
-- ฝั่งขวา:
-  - กล่อง Preview ขนาดใหญ่
-  - ลูกศรซ้าย / ขวา
-  - Pagination dots ด้านล่าง
-  - มีชื่อ feature / content ของ slide
-
-### 2. Preview ฝั่งขวา
-
-ฝั่งขวาไม่ต้องใช้ 3D และไม่จำเป็นต้องเป็นวิดีโอเต็มรูปแบบ
-
-แนวทางที่ต้องการคือ **2D / manga-like / visual-novel-like presentation**:
-
-- ใช้ภาพ 2D หลายเฟรม
-- เปลี่ยน frame / expression / pose ตามบทสนทนา
-- ให้ความรู้สึกเหมือนอ่านมังงะหรือฉาก visual novel
-- รองรับ Hanzi + Pinyin + คำแปล
-- ผูกกับเสียงและ dialogue interaction ได้
-- เน้นเบาและสมเหตุสมผลกับเว็บเรียนภาษา มากกว่าการทำ 3D scene
-
-Prototype HTML ปัจจุบันใช้ element จำลองแทน artwork จริง ดังนั้นตอน production สามารถเปลี่ยนเป็น assets 2D จริงภายหลังได้
-
-### 3. Feature Cards ใต้ Hero
-
-ต้องมี section การ์ด 4 ใบประมาณนี้:
-
-- ฟังและอ่าน
-- ลองพูดตอบ / Roleplay
-- จำคำศัพท์จากเรื่อง
-- ทบทวนด้วยเกม
-
-รูปแบบการ์ด:
-
-- ดูเป็น card ลอยเรียบ ๆ
-- ไม่ต้องมี CTA button ใหญ่หรือข้อความเชิญกดที่เด่นเกินไป
-- ทั้ง card สามารถ clickable ได้
-- การกด card เปิด **Popup / Modal demo** โดยยังคงอยู่หน้า Home
-
-### 4. Popup Demo
-
-แต่ละ popup ควรเป็น demo ที่ใช้งานได้จริง ไม่ใช่ภาพอธิบายอย่างเดียว
-
-ข้อมูลขั้นต่ำในตัวอย่าง:
-
-- Hanzi
-- Pinyin
-- คำแปล
-- ฟังก์ชันเสียง
-- interaction ที่สัมพันธ์กับหัวข้อนั้น
-
-ตัวอย่าง flow ที่ prototype ใช้อยู่:
-
-`บทสนทนา → คำศัพท์ → Roleplay → เกมทบทวน`
-
-ควรพยายามใช้ข้อมูลสถานการณ์เดียวกันเพื่อให้ผู้ใช้เข้าใจว่าฟีเจอร์ทั้งหมดเชื่อมต่อกัน
-
-### 5. หลัก UX สำหรับผู้ใช้ใหม่
-
-หน้า Home ต้องทำให้ผู้ใช้ใหม่เข้าใจเร็วว่า:
-
-1. เว็บนี้ใช้เรียนอะไร
-2. เริ่มเรียนตรงไหน
-3. มีอะไรให้ทำบ้าง
-4. สามารถทดลอง feature ก่อนเข้า lesson จริงได้
-
-หลีกเลี่ยงการอัดคำอธิบายจำนวนมากหรือทำให้ user ต้องเข้าใจศัพท์ภายในระบบก่อนจึงจะใช้งานได้
-
-## วิธีใช้ Prototype
-
-เปิด `home-preview-v8.html` ใน browser ได้โดยตรงเพื่อดู:
-
-- Hero layout
-- Preview carousel
-- Feature cards
-- Popup interaction
-- SpeechSynthesis demo
-- Vocabulary demo
-- Roleplay demo
-- Matching-game demo
-
-Prototype เป็น standalone HTML เพื่อให้ตรวจ visual/interaction ได้เร็วเท่านั้น ไม่ใช่ production implementation
-
-## Workflow ที่แนะนำสำหรับ Agent ต่อไป
-
-1. อ่านไฟล์นี้ก่อน
-2. เปิด `home-preview-v8.html`
-3. สำรวจ Home production ปัจจุบันใน React project
-4. ทำ mapping ว่า prototype ส่วนไหนควรไปอยู่ component ใด
-5. reuse routing / localization / audio / lesson data / theme token เดิม
-6. implement ทีละส่วน
-7. ทำ preview ให้ผู้ใช้ตรวจทุกครั้งก่อนแก้ส่วนใหญ่ต่อ
-8. เมื่อผู้ใช้ approve แล้วจึงเก็บรายละเอียด responsive, accessibility และ regression tests
-
-## สิ่งที่ไม่ควรทำ
-
-- copy HTML prototype ไปทับ `StoryExperience.jsx`
-- ลบ component เดิมเพื่อให้ prototype รันง่ายขึ้น
-- เปลี่ยน theme system ใหม่โดยไม่จำเป็น
-- hard-code lesson content แทน registry จริง
-- ตัด localization เหลือภาษาเดียว
-- ตัด audio service แล้วใช้ SpeechSynthesis อย่างเดียวใน production โดยไม่ตรวจระบบเดิม
-- เปลี่ยน route structure โดยไม่จำเป็น
-- เปลี่ยน 2D preview เป็น 3D หรือ video-heavy experience โดยพลการ
-
----
-
-**สรุป:** `home-preview-v8.html` คือแบบตัวอย่างที่ใช้สื่อสาร design/UX เท่านั้น ให้ Agent นำไป **ปรับใช้กับระบบเดิม** ไม่ใช่ใช้แทนระบบเดิมทั้งชุด
+สเปกดีไซน์หน้า Home ใหม่
+บริบทและข้อจำกัดหลัก
+รีดีไซน์หน้า home ทั้งหมด โดยเอาโครง layout จาก wireframe ที่วาดเอง แต่ คงธีมเดิมไว้ไม่แก้ (ink black, cream paper, vermillion/gold accent, ฟอนต์ Noto Serif SC / Noto Sans Thai)
+หน้า home ไม่มีการ scroll เลย — ทุก section ต้องพอดีใน 1 viewport
+ปุ่ม utility ทั้งหมด (ภาษา/ธีม/info) ยังทำงานอ้างอิงจากเว็บจริงปัจจุบัน ไม่ใช่แค่โครงที่วาด
+ตัดแท็บเมนู "หน้าหลัก / เกี่ยวกับ / รายงาน" ออกจาก header ทั้งหมด (ยกเลิกไอเดียนี้)
+โครงสร้างหน้า (บนลงล่าง)
+1. Header
+ซ้าย: โลโก้ + ชื่อเว็บ "中文练习 (Zhōngwén Liànxí)"
+ขวา: ปุ่มวงกลม 3 ปุ่ม — สลับภาษา / สลับธีม / info — ทำงานตามฟังก์ชันจริงของเว็บปัจจุบัน
+ไม่มีแท็บเมนูใดๆ ตรงกลาง
+2. Hero — ฝั่งซ้าย
+ป้ายเล็กบอกหมวด (เช่น "HSK 1-3 · สถานการณ์จำลอง")
+หัวข้อใหญ่ 1 บรรทัดสั้น (ปรับให้กระชับกว่าปัจจุบันเพื่อประหยัดพื้นที่แนวตั้ง)
+คำอธิบายสั้น 1 บรรทัด
+ปุ่ม CTA คู่ ต้องต่าง hierarchy กันชัดเจน: ปุ่มหลัก (เริ่มเรียน) ทึบสี vermillion, ปุ่มรอง (เลือกระดับ) แบบ outline — ห้ามให้สองปุ่มหน้าตาเหมือนกัน
+แท็กเล็กใต้ปุ่ม: "ใช้งานฟรี ไม่ต้องสมัคร" (คงไว้จากของเดิม เพราะช่วยลด friction)
+3. Hero — ฝั่งขวา (carousel ตัวอย่างบทเรียน)
+เปลี่ยนจากภาพนิ่งเดี่ยวเป็น carousel 5 สไลด์
+เนื้อหาแต่ละสไลด์: ภาพ 2D แบบ frame-by-frame ต่อกันสไตล์มังงะ (ไม่ใช้วิดีโอ ไม่ใช้ 3D) แสดงตัวอย่างสถานการณ์ในบทเรียน
+ปุ่มลูกศรซ้าย-ขวา + จุด pagination ด้านล่างภาพ บอกตำแหน่งสไลด์ปัจจุบัน
+ปุ่มลอย (pill) มุมล่างซ้ายของภาพ ข้อความ "ดูคำศัพท์" — กดแล้วพาไปหน้า/ส่วนคำศัพท์ของสไลด์นั้น (เปลี่ยนจากป้าย "คำศัพ" เดิมที่ความหมายไม่ชัด ให้เป็นคำกริยาสั่งการที่เข้าใจได้ทันที)
+4. แถบฟีเจอร์ท้ายสุด (บีบให้พอดี 1 จอ)
+จากเดิมที่เป็นบล็อกใหญ่ 3 อัน (01/02/03) ย่อเหลือ แถบเดียวบรรทัดเดียว วางไอคอน + label สั้นเรียงกัน 3 จุด:
+ฟังและอ่าน
+ตรวจความเข้าใจ
+เล่นเกมทบทวน
+จุดประสงค์: ยังคงบอก flow การเรียนคร่าวๆ ให้ user ใหม่เห็น โดยไม่กิน viewport เกินจำเป็น
+หมายเหตุ / จุดที่ต้องตัดสินใจต่อตอน implement
+ต้อง confirm ว่าจะ implement carousel เป็นแบบ animate วนในแต่ละสไลด์ หรือแบบ 5 ภาพนิ่งเรียงต่อกันแบบหน้ามังงะ (ผลต่อ asset ที่ต้องเตรียมและ effort งานเยอะมาก)
+ปุ่ม utility 3 ปุ่มใน header ต้อง map ให้ตรงกับฟังก์ชันจริงของเว็บปัจจุบัน (ภาษา/ธีม/info) ก่อนตัดโค้ด

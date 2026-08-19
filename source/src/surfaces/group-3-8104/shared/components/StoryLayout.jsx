@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import Icon from "../../../../shared/components/ui/Icon.jsx";
 import {
+  circleHalfStrokeIcon,
   circleInfoIcon,
+  languageIcon,
   moonIcon,
   sunIcon,
 } from "../../../../shared/components/ui/iconPaths.js";
@@ -31,6 +33,64 @@ export function SourceStamp({ compact = false, lesson = null, route = null }) {
 
 export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout }) {
   const text = COPY[language];
+
+  // Home keeps a minimal header: brand left, 3 round utility buttons right.
+  if (route?.name === "home") {
+    const nextLanguage = { th: "zh", zh: "en", en: "th" }[language];
+    const languageLabel = { th: "TH", zh: "中", en: "EN" }[language];
+    return (
+      <header className="g3-header is-home">
+        <div className="group-title-dropdown-wrap">
+          <button
+            aria-label={text.routeLabels.home}
+            className="g3-brand"
+            onClick={onHome}
+            type="button"
+          >
+            <span aria-hidden="true">读</span>
+            <span>
+              <strong>{text.brand}</strong>
+              <small>{text.group}</small>
+            </span>
+          </button>
+        </div>
+        <div />
+        <nav className="g3-header-actions" aria-label={text.navigation}>
+          <button
+            type="button"
+            className="g3-home-header-btn"
+            onClick={() => onLanguage(nextLanguage)}
+            aria-label={text.switchLanguage}
+            title={`${text.switchLanguage} · ${languageLabel}`}
+          >
+            <Icon paths={languageIcon} />
+            <small>{languageLabel}</small>
+          </button>
+          <button
+            type="button"
+            className="g3-home-header-btn"
+            onClick={onTheme}
+            aria-label={theme === "dark" ? text.light : text.dark}
+            title={theme === "dark" ? text.light : text.dark}
+          >
+            <Icon paths={theme === "dark" ? sunIcon : moonIcon} />
+          </button>
+          {onAbout && (
+            <button
+              type="button"
+              className="g3-home-header-btn"
+              onClick={onAbout}
+              aria-label={text.about}
+              title={text.about}
+            >
+              <Icon paths={circleInfoIcon} />
+            </button>
+          )}
+        </nav>
+      </header>
+    );
+  }
+
   const routeLabel = route.name === "reader"
     ? `${text.stage} 0${route.scene + 1}`
     : text.routeLabels[route.name] || text.routeLabels.home;

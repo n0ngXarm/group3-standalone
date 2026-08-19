@@ -175,6 +175,43 @@ body:has(.g3-front-matter) {
   box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.25);
 }
 
+/* Home header variant: brand left, 3 round utility buttons right */
+.g3-header.is-home {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.g3-header.is-home .g3-route-mark,
+.g3-header.is-home .g3-source-stamp {
+  display: none;
+}
+
+.g3-header.is-home .g3-brand {
+  min-height: 44px;
+}
+
+.g3-home-header-btn {
+  position: relative;
+}
+
+.g3-home-header-btn .ui-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.g3-home-header-btn > small {
+  position: absolute;
+  right: 0.28rem;
+  bottom: 0.22rem;
+  font-size: 0.52rem;
+  font-weight: 900;
+  color: var(--g3-red);
+  line-height: 1;
+}
+
+.g3-home-header-btn:hover > small {
+  color: var(--g3-red);
+}
+
 .g3-language-control {
   color: var(--g3-ink) !important;
   gap: 0.45rem !important;

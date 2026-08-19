@@ -33,6 +33,7 @@ const STORY_STYLE_FILES = [
   "role-picker-responsive.css",
   "ui-polish.css",
   "home-enhancements.css",
+  "home-features.css",
 ];
 
 const   STYLE_LINE_BOUNDS = { "home-enhancements.css": 2300 };

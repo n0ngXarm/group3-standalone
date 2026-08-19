@@ -281,6 +281,7 @@
 .g3-match-card-back { position: absolute; inset: 0; display: grid; place-items: center; padding: 0.65rem; border: 2px solid var(--g3-line); border-radius: inherit; backface-visibility: hidden; }
 .g3-match-card-front { color: var(--g3-game-gold-text); background: repeating-linear-gradient(45deg, var(--g3-bg-soft), var(--g3-bg-soft) 0.65rem, color-mix(in srgb, var(--g3-gold) 8%, var(--g3-bg-soft)) 0.65rem, color-mix(in srgb, var(--g3-gold) 8%, var(--g3-bg-soft)) 1.3rem); font-family: "Noto Serif SC", serif; font-size: clamp(0.95rem, 2.2vw, 1.4rem); }
 .g3-match-card-back { border-color: var(--g3-jade); background: var(--g3-bg-soft); transform: rotateY(180deg); font-size: clamp(0.85rem, 1.8vw, 1.1rem); font-weight: 700; overflow-wrap: anywhere; }
+.g3-match-card-front small { display: block; margin-top: 0.15rem; color: var(--g3-muted); font-family: var(--font-mono); font-size: clamp(0.6rem, 1.2vw, 0.8rem); }
 .g3-match-card-back.type-zh { font-family: "Noto Serif SC", serif; font-size: clamp(1.1rem, 2.5vw, 1.6rem); }
 .g3-match-card-back small { display: block; margin-top: 0.2rem; color: var(--g3-muted); font-family: var(--font-mono); font-size: clamp(0.8rem, 1.4vw, 0.9rem); }
 

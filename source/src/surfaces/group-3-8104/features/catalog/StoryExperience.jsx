@@ -93,12 +93,10 @@ const LEVEL_ART = {
   },
 };
 
-import { GuideButton } from "../../shared/components/GuideModal.jsx";
-import { FeatureDemoModal, FeatureShowcase } from "./FeatureDemoModal.jsx";
-import { HeroPreviewCarousel } from "./HeroPreviewCarousel.jsx";
+import { ScenarioMangaStage, SCENARIOS } from "./ScenarioMangaStage.jsx";
 
-export function StoryHome({ language, navigate, lowData = false, onOpenGuide }) {
-  const [activeDemoFeature, setActiveDemoFeature] = useState(null);
+export function StoryHome({ language, navigate, lowData = false }) {
+  const [activeScenario, setActiveScenario] = useState(0);
   const text = COPY[language];
   const levelGuide = LEVEL_GUIDE[language];
   const featured = FEATURED_LESSON;
@@ -113,12 +111,93 @@ export function StoryHome({ language, navigate, lowData = false, onOpenGuide }) 
   };
 
   return (
-    <main className="g3-home">
+    <main className="g3-home is-single-screen">
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
           <p className="g3-kicker">{text.heroKicker}</p>
-          <h1 id="g3-home-title" tabIndex="-1">{text.heroTitle.split("\n").map((line, index) => <span style={{ "--g3-title-line": index }} key={line}>{line}</span>)}</h1>
+          <h1 id="g3-home-title" tabIndex="-1">
+            {text.heroTitle.split("\n").map((line, index) => (
+              <span style={{ "--g3-title-line": index }} key={line}>{line}</span>
+            ))}
+          </h1>
           <p className="g3-hero-body">{text.heroBody}</p>
+
+          {/* 5 Real Curriculum Scenarios Quick Selector */}
+          <div className="g3-hero-scenarios-bar" role="tablist" aria-label="Select Scenario">
+            {SCENARIOS.map((s, idx) => (
+              <button
+                key={s.id}
+                type="button"
+                role="tab"
+                aria-selected={activeScenario === idx}
+                className={`g3-scenario-tab-btn${activeScenario === idx ? " is-active" : ""}`}
+                onClick={() => {
+                  playUiCue("tap");
+                  setActiveScenario(idx);
+                }}
+              >
+                <span>{s.title[language] || s.title.th}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Compact Level Gate */}
+          <div className="g3-level-gate" aria-labelledby="g3-level-gate-title">
+            <h2 id="g3-level-gate-title" className="g3-sr-only">{levelGuide.title}</h2>
+            <div className="g3-level-options is-compact-grid">
+              {levelGuide.levels.map((level, index) => {
+                const lessonCount = GROUP3_LESSONS.filter((lesson) => lesson.level === level.id).length;
+                const rank = index + 1;
+                return (
+                  <button
+                    aria-label={`${level.title}, ${level.stage}, ${level.difficulty}`}
+                    className={`g3-level-option is-${level.id}`}
+                    data-rank={rank}
+                    key={level.id}
+                    onClick={() => navigateWithCue(levelPath(level.id), "confirm")}
+                    type="button"
+                  >
+                    <span className="g3-level-visual" aria-hidden="true">
+                      {!lowData && (
+                        <img
+                          alt=""
+                          decoding="async"
+                          height="405"
+                          loading="lazy"
+                          sizes="(max-width: 700px) 100vw, (max-width: 900px) 48vw, 42vw"
+                          src={LEVEL_ART[level.id].src}
+                          srcSet={LEVEL_ART[level.id].srcSet}
+                          width="720"
+                        />
+                      )}
+                    </span>
+                    <span className="g3-level-copy">
+                      <span className="g3-level-glyph" aria-hidden="true">{level.glyph}</span>
+                      <small>{level.stage}</small>
+                      <strong>{level.title}</strong>
+                      <span className="g3-level-outcome">{level.outcome}</span>
+                      <span className="g3-level-signals">
+                        <span><small>{levelGuide.sceneLabel}</small><b>{level.situation}</b></span>
+                        <span><small>{levelGuide.languageLabel}</small><b>{level.languageShape}</b></span>
+                      </span>
+                      <span className="g3-level-meta">
+                        <span>{lessonCount} {levelGuide.lessonUnit}</span>
+                        <span className="g3-level-difficulty">
+                          <span className="g3-level-difficulty-steps" aria-hidden="true">
+                            {[1, 2, 3].map((step) => <i className={step <= rank ? "is-active" : ""} key={step} />)}
+                          </span>
+                          {level.difficulty}
+                        </span>
+                      </span>
+                      <span className="g3-level-action">{levelGuide.action}<b aria-hidden="true">→</b></span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="g3-source-policy"><Icon paths={bookIcon} />{text.sourceOnly}</p>
+          </div>
+
           <div className="g3-hero-actions">
             <button
               className="g3-primary-action"
@@ -127,101 +206,32 @@ export function StoryHome({ language, navigate, lowData = false, onOpenGuide }) 
             >
               {text.startLessonNow || "🚀 เริ่มเรียนทันที (HSK 1 บทที่ 1)"}<i aria-hidden="true">→</i>
             </button>
-            <button
-              className="g3-text-action"
-              type="button"
-              onClick={() => {
-                const el = document.getElementById("g3-level-gate-title");
-                if (el) {
-                  playUiCue("tap");
-                  el.scrollIntoView({ behavior: "smooth" });
-                } else {
-                  navigateWithCue(levelPath("hsk1"), "confirm");
-                }
-              }}
-            >
-              {text.start}<i aria-hidden="true">↓</i>
-            </button>
-            {onOpenGuide && (
-              <GuideButton onClick={onOpenGuide} label={text.howToPlay || "💡 แนะนำวิธีใช้งาน"} className="g3-home-guide-action" />
-            )}
           </div>
           <p className="g3-privacy-note"><Icon paths={eyeSlashIcon} />{text.noStorage}</p>
         </div>
-        <HeroPreviewCarousel
+
+        {/* 2D Manga Stage with Frame Animation on Right Column */}
+        <ScenarioMangaStage
+          activeScenarioIndex={activeScenario}
+          onSelectScenario={setActiveScenario}
           language={language}
           lowData={lowData}
-          onOpenFeatureDemo={(featureId) => setActiveDemoFeature(featureId)}
         />
+
         <div className="g3-method-rail">
-          {methods.map(([number, title, body], index) => <article style={{ "--g3-method-index": index }} key={number}><span>{number}</span><div><strong>{title}</strong><p>{body}</p></div></article>)}
+          {methods.map(([number, title, body], index) => (
+            <article style={{ "--g3-method-index": index }} key={number}>
+              <span>{number}</span>
+              <div><strong>{title}</strong><p>{body}</p></div>
+            </article>
+          ))}
         </div>
       </section>
-
-      <FeatureShowcase
-        language={language}
-        onSelectFeature={(featureId) => setActiveDemoFeature(featureId)}
-      />
-
-      <section className="g3-level-gate" aria-labelledby="g3-level-gate-title">
-        <header className="g3-level-gate-heading">
-          <h2 id="g3-level-gate-title">{levelGuide.title}</h2>
-          <p>{levelGuide.body}</p>
-        </header>
-        <div className="g3-level-options">
-          {levelGuide.levels.map((level, index) => {
-            const lessonCount = GROUP3_LESSONS.filter((lesson) => lesson.level === level.id).length;
-            const rank = index + 1;
-            return (
-              <button
-                aria-label={`${level.title}, ${level.stage}, ${level.difficulty}`}
-                className={`g3-level-option is-${level.id}`}
-                data-rank={rank}
-                key={level.id}
-                onClick={() => navigateWithCue(levelPath(level.id), "confirm")}
-                type="button"
-              >
-                <span className="g3-level-visual" aria-hidden="true">
-                  {!lowData && <img alt="" decoding="async" height="405" loading="lazy" sizes="(max-width: 700px) 100vw, (max-width: 900px) 48vw, 42vw" src={LEVEL_ART[level.id].src} srcSet={LEVEL_ART[level.id].srcSet} width="720" />}
-                </span>
-                <span className="g3-level-copy">
-                  <span className="g3-level-glyph" aria-hidden="true">{level.glyph}</span>
-                  <small>{level.stage}</small>
-                  <strong>{level.title}</strong>
-                  <span className="g3-level-outcome">{level.outcome}</span>
-                  <span className="g3-level-signals">
-                    <span><small>{levelGuide.sceneLabel}</small><b>{level.situation}</b></span>
-                    <span><small>{levelGuide.languageLabel}</small><b>{level.languageShape}</b></span>
-                  </span>
-                  <span className="g3-level-meta">
-                    <span>{lessonCount} {levelGuide.lessonUnit}</span>
-                    <span className="g3-level-difficulty">
-                      <span className="g3-level-difficulty-steps" aria-hidden="true">
-                        {[1, 2, 3].map((step) => <i className={step <= rank ? "is-active" : ""} key={step} />)}
-                      </span>
-                      {level.difficulty}
-                    </span>
-                  </span>
-                  <span className="g3-level-action">{levelGuide.action}<b aria-hidden="true">→</b></span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        <p className="g3-source-policy"><Icon paths={bookIcon} />{text.sourceOnly}</p>
-      </section>
-
-      <FeatureDemoModal
-        activeFeature={activeDemoFeature}
-        language={language}
-        onClose={() => setActiveDemoFeature(null)}
-        onSwitchFeature={(nextFeature) => setActiveDemoFeature(nextFeature)}
-      />
     </main>
   );
 }
 
-export function StoryCatalog({ language, level = "hsk1", navigate, lowData = false, initialLessonId = null, onRetry, onOpenGuide }) {
+export function StoryCatalog({ language, level = "hsk1", navigate, lowData = false, initialLessonId = null, onRetry }) {
   const text = COPY[language];
   const levelLessons = GROUP3_LESSONS
     .filter((item) => item.level === level)
@@ -330,9 +340,6 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
           <p>{text.catalogBody}</p>
         </div>
         <div className="g3-catalog-intro-actions">
-          {onOpenGuide && (
-            <GuideButton onClick={onOpenGuide} label={text.howToPlay || "💡 วิธีใช้งาน"} />
-          )}
           <SourceStamp lesson={lesson} />
           <button className="g3-primary-action" type="button" disabled={activeLessonStatus === "loading"} onClick={() => enterLesson()}>{activeLessonStatus === "error" ? text.retry : text.readLesson}<i aria-hidden="true">→</i></button>
         </div>

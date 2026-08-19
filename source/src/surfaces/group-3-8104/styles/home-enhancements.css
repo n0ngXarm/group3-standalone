@@ -276,6 +276,23 @@
     animation: none !important;
     opacity: 0 !important;
   }
+
+  .g3-manga-bg-img,
+  .g3-manga-dust i,
+  .g3-manga-speed-lines,
+  .g3-manga-actor-frame,
+  .g3-manga-actor.is-talking .g3-manga-actor-frames {
+    animation: none !important;
+  }
+
+  .g3-manga-bg-img {
+    transform: none !important;
+  }
+
+  .g3-manga-dust,
+  .g3-manga-speed-lines {
+    opacity: 0 !important;
+  }
 }
 
 /* --- Mobile adjustments for new elements --- */
@@ -1655,5 +1672,553 @@
     bottom: 0.8rem;
   }
 }
+
+/* ===== SINGLE-SCREEN NO-SCROLL HOME & 2D MANGA FRAME STAGE ===== */
+
+@media (min-width: 1024px) {
+  .g3-home.is-single-screen {
+    height: calc(100dvh - 4.5rem);
+    max-height: calc(100dvh - 4.5rem);
+    overflow: hidden;
+    padding: 0.75rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .g3-home.is-single-screen .g3-home-hero {
+    display: grid;
+    grid-template-columns: minmax(340px, 1fr) minmax(420px, 1.35fr);
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+    align-items: center;
+    max-height: 100%;
+  }
+
+  .g3-home.is-single-screen .g3-hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .g3-home.is-single-screen .g3-hero-copy h1 {
+    font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .g3-home.is-single-screen .g3-hero-body {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .g3-home.is-single-screen .g3-method-rail {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .g3-home.is-single-screen .g3-method-rail article {
+    padding: 0.5rem 0.85rem;
+  }
+}
+
+/* 5 Scenarios Quick Selector */
+.g3-hero-scenarios-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.25rem 0;
+}
+
+.g3-scenario-tab-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--g3-bg) 60%, transparent);
+  border: 1px solid var(--g3-line);
+  color: var(--g3-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.g3-scenario-tab-btn:hover {
+  border-color: var(--g3-gold);
+  background: var(--g3-paper);
+}
+
+.g3-scenario-tab-btn.is-active {
+  background: var(--g3-red);
+  color: #fff8ea;
+  border-color: var(--g3-red);
+  box-shadow: 0 0.2rem 0.6rem rgba(207, 58, 39, 0.3);
+}
+
+/* Compact Level Gate Grid */
+.g3-level-options.is-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin: 0.4rem 0;
+}
+
+.g3-level-options.is-compact-grid .g3-level-option {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0.75rem;
+  border-radius: 1rem;
+  background: var(--g3-paper);
+  border: 1px solid var(--g3-line);
+  box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.g3-level-options.is-compact-grid .g3-level-option:hover {
+  transform: translateY(-2px);
+  border-color: var(--g3-gold);
+}
+
+.g3-level-options.is-compact-grid .g3-level-visual {
+  display: none;
+}
+
+.g3-level-options.is-compact-grid .g3-level-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.g3-level-options.is-compact-grid .g3-level-copy small {
+  font-size: 0.68rem;
+  color: var(--g3-muted);
+}
+
+.g3-level-options.is-compact-grid .g3-level-copy strong {
+  font-size: 1.1rem;
+  color: var(--g3-ink);
+  font-family: var(--font-display);
+}
+
+.g3-level-options.is-compact-grid .g3-level-outcome {
+  font-size: 0.74rem;
+  color: var(--g3-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.g3-level-options.is-compact-grid .g3-level-signals {
+  display: none;
+}
+
+.g3-level-options.is-compact-grid .g3-level-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  color: var(--g3-jade);
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+.g3-level-options.is-compact-grid .g3-level-action {
+  font-size: 0.72rem;
+  color: var(--g3-red);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+/* 2D Manga Stage Component */
+.g3-manga-stage-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: relative;
+  z-index: 5;
+}
+
+.g3-manga-viewport {
+  width: 100%;
+  height: clamp(380px, 48vh, 520px);
+  border-radius: 1.75rem;
+  border: 1px solid var(--g3-line);
+  background: #111;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.28);
+}
+
+.g3-manga-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.g3-manga-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.92) contrast(1.05);
+  animation: g3-manga-kenburns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes g3-manga-kenburns {
+  0% { transform: scale(1.02) translate(0, 0); }
+  50% { transform: scale(1.09) translate(1.2%, -1%); }
+  100% { transform: scale(1.05) translate(-1%, 0.8%); }
+}
+
+/* Manga panel ambient motion: drifting dust motes */
+.g3-manga-dust {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.g3-manga-dust i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 244, 214, 0.55);
+  filter: blur(1px);
+  top: calc(18% + (var(--g3-dust-index) * 13%));
+  left: calc(12% + (var(--g3-dust-index) * 15%));
+  opacity: 0;
+  animation: g3-dust-drift 9s linear infinite;
+  animation-delay: calc(var(--g3-dust-index) * -1.4s);
+}
+
+@keyframes g3-dust-drift {
+  0% { opacity: 0; transform: translate3d(0, 12px, 0); }
+  18% { opacity: 0.85; }
+  72% { opacity: 0.5; }
+  100% { opacity: 0; transform: translate3d(26px, -46px, 0); }
+}
+
+/* Manga speed lines — subtle comic motion streaks */
+.g3-manga-speed-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.16;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 64px,
+      rgba(255, 255, 255, 0.6) 64px 66px,
+      transparent 66px 132px),
+    repeating-linear-gradient(90deg,
+      transparent 0 148px,
+      rgba(255, 255, 255, 0.35) 148px 149px,
+      transparent 149px 296px);
+  animation: g3-speed-lines-shift 14s linear infinite;
+}
+
+@keyframes g3-speed-lines-shift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: -296px 0, -296px 0; }
+}
+
+.g3-manga-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.45) 100%),
+              linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+}
+
+.g3-manga-top-bar {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.3);
+}
+
+.g3-manga-tag {
+  background: var(--g3-red);
+  color: #fff8ea;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.g3-manga-scenario-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* 2D Animated Character Sprites */
+.g3-manga-actors-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 1.5rem;
+  pointer-events: none;
+}
+
+.g3-manga-actor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(140px, 24vw, 220px);
+  position: relative;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease;
+}
+
+.g3-manga-actor-sprite {
+  width: 100%;
+  height: auto;
+  max-height: clamp(240px, 34vh, 340px);
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.45));
+}
+
+.g3-manga-actor.is-talking {
+  transform: translateY(-8px) scale(1.06);
+  z-index: 5;
+  animation: g3-actor-talk-beat 1.4s ease-in-out infinite alternate;
+}
+
+.g3-manga-actor.is-idle {
+  opacity: 0.82;
+  filter: brightness(0.88);
+  animation: g3-actor-idle-breathe 3.5s ease-in-out infinite alternate;
+}
+
+.g3-manga-actor-name {
+  position: absolute;
+  bottom: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+@keyframes g3-actor-talk-beat {
+  0% { transform: translateY(-8px) scale(1.06); }
+  50% { transform: translateY(-12px) scale(1.08); }
+  100% { transform: translateY(-8px) scale(1.06); }
+}
+
+@keyframes g3-actor-idle-breathe {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(3px) scale(0.98); }
+}
+
+/* Multi-frame pose cycling (manga cut-in feel) */
+.g3-manga-actor-frames {
+  position: relative;
+  width: 100%;
+  height: clamp(240px, 34vh, 340px);
+}
+
+.g3-manga-actor-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.45));
+  transition: opacity 420ms ease;
+}
+
+.g3-manga-actor-frame.is-active {
+  opacity: 1;
+}
+
+.g3-manga-actor-frame.is-fade {
+  opacity: 0;
+}
+
+.g3-manga-actor.is-talking .g3-manga-actor-frames {
+  animation: g3-frame-talk-jiggle 640ms ease-in-out infinite alternate;
+}
+
+@keyframes g3-frame-talk-jiggle {
+  from { transform: rotate(-0.6deg) translateY(0); }
+  to { transform: rotate(0.6deg) translateY(-3px); }
+}
+
+/* Manga Speech Bubble */
+.g3-manga-speech-bubble {
+  position: absolute;
+  bottom: 1.25rem;
+  z-index: 7;
+  max-width: min(85%, 26rem);
+  padding: 0.85rem 1.15rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--g3-line);
+  box-shadow: 0 0.8rem 2.5rem rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  animation: g3-bubble-popup 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.g3-manga-speech-bubble.is-left {
+  left: 1.5rem;
+}
+
+.g3-manga-speech-bubble.is-right {
+  right: 1.5rem;
+}
+
+.g3-manga-bubble-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.g3-manga-speaker-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--g3-red);
+}
+
+.g3-manga-audio-btn {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  border: 0;
+  background: color-mix(in srgb, var(--g3-gold) 20%, transparent);
+  color: var(--g3-gold);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+
+.g3-manga-audio-btn:hover {
+  transform: scale(1.15);
+}
+
+.g3-manga-hanzi {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #241c14;
+  font-family: var(--font-display);
+  margin: 0;
+}
+
+.g3-manga-pinyin {
+  font-size: 0.84rem;
+  color: #1b7577;
+  font-weight: 600;
+  margin: 0;
+}
+
+.g3-manga-thai {
+  font-size: 0.82rem;
+  color: #5d4f40;
+  margin: 0;
+}
+
+@keyframes g3-bubble-popup {
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Arrow controls */
+.g3-manga-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 8;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.9);
+  color: #241c14;
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.25);
+  transition: all 180ms ease;
+}
+
+.g3-manga-arrow:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.1);
+  color: var(--g3-red);
+}
+
+.g3-manga-arrow.is-prev { left: 0.75rem; }
+.g3-manga-arrow.is-next { right: 0.75rem; }
+
+/* Bottom Pill Switcher */
+.g3-manga-scenario-picker {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding: 0.2rem 0;
+}
+
+.g3-manga-pill {
+  flex: 1;
+  white-space: nowrap;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.75rem;
+  background: var(--g3-paper);
+  border: 1px solid var(--g3-line);
+  color: var(--g3-ink);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 180ms ease;
+}
+
+.g3-manga-pill:hover {
+  border-color: var(--g3-gold);
+}
+
+.g3-manga-pill.is-active {
+  background: var(--g3-red);
+  color: #fff8ea;
+  border-color: var(--g3-red);
+}
+
 
 

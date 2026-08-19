@@ -1,5 +1,6 @@
 @import "./styles/tokens-shell.css";
 @import "./styles/home.css";
+@import "./styles/home-single-screen.css";
 @import "./styles/catalog.css";
 @import "./styles/reader.css";
 @import "./styles/challenges.css";
@@ -9,6 +10,10 @@
 @import "./styles/roleplay.css";
 @import "./styles/role-picker-responsive.css";
 @import "./styles/ui-polish.css";
+@import "./styles/home-enhancements.css";
+
+
+
 
 /* Compatibility entrypoint: keep this file because the surface registry loads it. */
 

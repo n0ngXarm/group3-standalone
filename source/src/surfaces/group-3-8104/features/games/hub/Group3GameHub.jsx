@@ -20,9 +20,8 @@ const GAME_COMPONENTS = Object.freeze({
   "pinyin-dash": PinyinDashGame,
 });
 
-import { GuideButton } from "../../../shared/components/GuideModal.jsx";
 
-export default function Group3GameHub({ activeGame = null, lesson, language, onBack, onSelectGame, onShowHub, onOpenGuide }) {
+export default function Group3GameHub({ activeGame = null, lesson, language, onBack, onSelectGame, onShowHub }) {
   const returnFocusRef = useRef(null);
   const restoreTimerRef = useRef(null);
   const previousGameRef = useRef(activeGame);
@@ -70,9 +69,6 @@ export default function Group3GameHub({ activeGame = null, lesson, language, onB
         <p className="g3-arcade-intro">{copy.arcadeIntro}</p>
         <div className="g3-arcade-header-actions" style={{ display: "flex", gap: "0.75rem", justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}>
           <button className="g3-game-secondary" type="button" onClick={onBack}>{copy.backLesson}</button>
-          {onOpenGuide && (
-            <GuideButton onClick={onOpenGuide} label={language === "th" ? "💡 วิธีเล่นมินิเกม" : language === "zh" ? "💡 玩法说明" : "💡 How to Play"} />
-          )}
         </div>
       </header>
 

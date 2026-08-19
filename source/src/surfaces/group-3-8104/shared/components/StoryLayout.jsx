@@ -29,9 +29,7 @@ export function SourceStamp({ compact = false, lesson = null, route = null }) {
 }
 
 
-export { GuideButton, GuideModal } from "./GuideModal.jsx";
-
-export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout, onGuide }) {
+export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout }) {
   const text = COPY[language];
   const routeLabel = route.name === "reader"
     ? `${text.stage} 0${route.scene + 1}`
@@ -57,19 +55,8 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
         <span>{routeLabel}</span>
       </div>
       <SourceStamp compact lesson={lesson} route={route} />
+
       <nav className="g3-header-actions" aria-label={text.navigation}>
-        {onGuide && (
-          <button
-            type="button"
-            className="g3-header-guide-btn"
-            onClick={onGuide}
-            aria-label={text.howToPlay}
-            title={text.howToPlay}
-          >
-            <span aria-hidden="true">💡</span>
-            <span className="g3-header-guide-text">{text.guide}</span>
-          </button>
-        )}
         <button type="button" onClick={onTheme} aria-label={theme === "dark" ? text.light : text.dark} title={theme === "dark" ? text.light : text.dark}>
           <Icon paths={theme === "dark" ? sunIcon : moonIcon} />
         </button>

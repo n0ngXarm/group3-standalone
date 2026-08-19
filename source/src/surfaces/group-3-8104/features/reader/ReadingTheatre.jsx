@@ -63,7 +63,7 @@ function supportingProfileName(profile, language) {
   }[language];
 }
 
-export function ReadingTheatre({ initialScene, language, lesson, navigate, lowData = false, onOpenGuide }) {
+export function ReadingTheatre({ initialScene, language, lesson, navigate, lowData = false }) {
   const text = COPY[language];
   const scenes = lesson.scenes;
   const characterProfiles = lesson.characters;
@@ -533,11 +533,6 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
                 <strong>{sceneSupportingTitle(scene, language)}</strong>
               </div>
               <div className="g3-stage-meta">
-                {onOpenGuide && (
-                  <button type="button" onClick={onOpenGuide} className="g3-stage-guide-btn" title={text.howToPlay} aria-label={text.howToPlay}>
-                    💡 {text.guide}
-                  </button>
-                )}
                 <span>{text.sourcePage}<b>{scene.sourcePage}</b></span>
                 <button type="button" onClick={() => setShowTranslation((value) => !value)} className={showTranslation ? "is-on" : ""}><Icon paths={languageIcon} />{showTranslation ? text.translationOn : text.translationOff}</button>
                 <button type="button" onClick={() => setTimed((value) => !value)} className={timed ? "is-on" : ""}><Icon paths={stopwatchIcon} />{timed ? text.timerOn : text.timerOff}</button>

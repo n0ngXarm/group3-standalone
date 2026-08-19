@@ -142,7 +142,7 @@ export default function CardFrenzyGame({ lesson, language, onBack }) {
               aria-pressed={isFlipped}
               aria-label={isFlipped ? `${card.content}${card.pinyin ? `, ${card.pinyin}` : ""}` : `${copy.play} ${card.id}`}
             >
-              <span className="g3-match-card-front" aria-hidden="true"><span>华韵</span></span>
+              <span className="g3-match-card-front" aria-hidden="true"><span>中文练习</span><small>Zhōngwén Liànxí</small></span>
               <span className={`g3-match-card-back type-${card.type}`} aria-hidden={!isFlipped}>
                 <span>{card.content}{card.type === "zh" && <small>{card.pinyin}</small>}</span>
               </span>

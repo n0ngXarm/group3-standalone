@@ -672,28 +672,6 @@
   line-height: 1.55;
 }
 
-.g3-stage-guide-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  min-height: 36px;
-  padding: 0.3rem 0.75rem;
-  border: 1.5px solid var(--g3-gold);
-  border-radius: 99px;
-  color: var(--g3-ink);
-  background: color-mix(in srgb, var(--g3-gold) 15%, var(--g3-bg-soft));
-  font-size: 0.82rem;
-  font-weight: 750;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 180ms ease, background 180ms ease;
-}
-
-.g3-stage-guide-btn:hover {
-  transform: translateY(-1px);
-  background: color-mix(in srgb, var(--g3-gold) 28%, var(--g3-bg-soft));
-}
-
 .g3-reader-controls {
   position: sticky;
   z-index: 7;

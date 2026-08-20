@@ -57,7 +57,7 @@
 }
 
 .g3-home-hero {
-  width: min(calc(100% - 2rem), 1320px);
+  width: min(calc(100% - 2rem), 82.5rem);
   min-height: calc(100dvh - 68px);
   margin: 0 auto;
   padding: clamp(2rem, 4vw, 4rem) 0 1.4rem;
@@ -542,7 +542,7 @@
 }
 
 .g3-level-gate {
-  width: min(calc(100% - 2rem), 1200px);
+  width: min(calc(100% - 2rem), 75rem);
   margin: 0 auto;
   padding: clamp(4.5rem, 8vw, 7rem) 0;
 }

@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 DIST_DIR="${ROOT_DIR}/dist-nongserver1"
 TARGET_HOST="100.83.235.78"
-TARGET_PORT="8104"
+TARGET_PORT="8303"
 IMAGE_TAG="group3-standalone:$(date +%Y%m%d)"
 COMPRESS_CMD="pigz -c"
 
@@ -41,7 +41,7 @@ cat <<EOF > "${COMPOSE_DEST}"
 services:
   group3-standalone:
     image: ${IMAGE_TAG}
-    container_name: group3-standalone
+    container_name: group3-standalone-dev
     ports:
       - "127.0.0.1:${TARGET_PORT}:80"
       - "${TARGET_HOST}:${TARGET_PORT}:80"
@@ -89,14 +89,14 @@ sleep 3
 docker compose ps
 
 echo ">> Verifying HTTP endpoint..."
-if curl -fsS http://127.0.0.1:8104/group3/ > /dev/null; then
-  echo "✅ Local check OK (http://127.0.0.1:8104/group3/)"
+if curl -fsS "http://127.0.0.1:${TARGET_PORT}/group3/" > /dev/null; then
+  echo "✅ Local check OK (http://127.0.0.1:${TARGET_PORT}/group3/)"
 else
   echo "❌ Local check failed"
 fi
 
-if curl -fsS http://100.83.235.78:8104/group3/ > /dev/null; then
-  echo "✅ Tailscale check OK (http://100.83.235.78:8104/group3/)"
+if curl -fsS "http://${TARGET_HOST}:${TARGET_PORT}/group3/" > /dev/null; then
+  echo "✅ Tailscale check OK (http://${TARGET_HOST}:${TARGET_PORT}/group3/)"
 else
   echo "⚠️  Tailscale interface check failed (check firewall/listening IP)"
 fi

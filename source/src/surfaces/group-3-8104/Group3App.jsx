@@ -18,7 +18,7 @@ import { stopChineseVoice } from "./services/audio/index.js";
 import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.js";
 import { ContentsPage, PrefacePage, VocabularyPage } from "./features/lesson/index.js";
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
-import { AboutView, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
+import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
 
 const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
 
@@ -203,9 +203,16 @@ export default function Group3App() {
       return <StoryCatalog key={`lesson-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={route.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />;
     }
     if (route.name === "reader") return <ReadingTheatre key={lesson.id} initialLessonId={lesson.id} initialScene={route.scene} language={language} lesson={lesson} navigate={navigate} lowData={lowData} level={route.level} />;
+    if (route.name === "levels") return <LevelPicker language={language} navigate={navigate} />;
     if (route.name === "catalog") return <StoryCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
-    if (route.name === "preface" || route.name === "contents" || route.name === "vocabulary") {
-      return <FrontMatterIndex key={route.name} language={language} route={route} lesson={lesson} navigate={navigate} />;
+    if (route.name === "preface") {
+      return <PrefacePage key={`${lesson.id}-preface`} language={language} lesson={lesson} navigate={navigate} />;
+    }
+    if (route.name === "contents") {
+      return <ContentsPage key={`${lesson.id}-contents`} language={language} lesson={lesson} navigate={navigate} />;
+    }
+    if (route.name === "vocabulary") {
+      return <VocabularyPage key={`${lesson.id}-vocabulary`} language={language} lesson={lesson} navigate={navigate} />;
     }
     if (route.name === "games" || route.name === "game") return <Group3GameHub activeGame={route.name === "game" ? route.gameSlug : null} lesson={lesson} language={language} onBack={() => navigate(lessonPath(lesson))} onSelectGame={(gameSlug) => navigate(gamePath(lesson, gameSlug))} onShowHub={() => navigate(gamesPath(lesson))} />;
     if (homeView === "about") return <AboutView language={language} onBack={() => switchHomeView("home")} />;

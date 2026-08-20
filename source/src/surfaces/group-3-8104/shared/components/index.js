@@ -3,7 +3,6 @@ export {
   BookPageControls,
   FrontMatterIndex,
   LessonNavigationBar,
-  MarketIllustration,
   SourceStamp,
   StoryFooter,
   StoryHeader,

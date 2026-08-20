@@ -95,6 +95,7 @@ export function routeFromLocation(location = window.location) {
   const parts = pathParts(location.pathname);
   const [home, level] = parts;
   if (home !== "home") return { name: "home" };
+  if (level === "levels") return { name: "levels" };
   if (!LEVELS.has(level)) return { name: "home" };
   if (parts.length === 2) {
     return { level, name: "catalog" };
@@ -151,6 +152,7 @@ export function routeFromLocation(location = window.location) {
 
 export function canonicalPathForRoute(route) {
   if (route.name === "home") return "/home/";
+  if (route.name === "levels") return "/home/levels/";
   if (route.name === "catalog") return levelPath(route.level);
   const lesson = routeLesson(route);
   if (!lesson) return levelPath(route.level);

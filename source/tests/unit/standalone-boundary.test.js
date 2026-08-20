@@ -72,13 +72,6 @@ test("home hero renders independent background and character pose layers", async
     path.join(root, "src/surfaces/group-3-8104/styles/ui-polish.css"),
     "utf8",
   );
-  assert.match(layout, /hero-market-stage-v1\.webp/);
-  for (const actor of ["seller", "student-male", "student-female"]) {
-    assert.match(layout, new RegExp(`hero-${actor}-idle-v1\\.webp`));
-  }
-  assert.match(layout, /hero-seller-gesture-v2\.webp/);
-  assert.match(layout, /hero-student-male-talk-v2\.webp/);
-  assert.match(layout, /hero-student-female-talk-v2\.webp/);
   assert.doesNotMatch(layout, /onPointerMove|onPointerLeave|moveScene|resetScene/);
   assert.match(styles, /@keyframes g3-seller-action-frame/);
   assert.match(styles, /@keyframes g3-male-action-frame/);
@@ -102,11 +95,13 @@ test("home uses one ability-led HSK selector without lesson previews", async () 
     path.join(root, "src/surfaces/group-3-8104/styles/ui-polish.css"),
     "utf8",
   );
-  // Home level selection moved into the outline CTA (no heavy level gate).
+  // Home has exactly one ability-led CTA and no guide/catalog extras.
   assert.doesNotMatch(experience, /className="g3-level-gate"/);
-  assert.match(experience, /className="g3-home-cta-secondary"/);
-  assert.match(experience, /levelPath\("hsk1"\)/);
-  assert.match(experience, /className="g3-home-feature-bar"/);
+  assert.match(experience, /g3-home-cta-primary/);
+  assert.doesNotMatch(experience, /g3-wow-button-secondary|GuideModal|setGuideOpen/);
+  assert.doesNotMatch(experience, /g3-home-text-link/);
+  assert.match(experience, /scenePath\(featured, 1\)/);
+  assert.doesNotMatch(experience, /g3-home-feature-bar|FeatureDemoModal|g3-feature-showcase/);
   for (const level of ["hsk1", "hsk2", "hsk3"]) {
     for (const width of [720, 1440]) {
       const asset = await stat(path.join(root, `public/assets/group3/shared/level-paths/${level}-path-v2-${width}w.webp`));

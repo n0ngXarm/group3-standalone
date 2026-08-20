@@ -7,7 +7,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: "group3-dev-fix-relative-base-html",
+      apply: "serve",
+      transformIndexHtml: {
+        order: "post",
+        handler(html, ctx) {
+          const base = ctx.server?.config.base ?? ctx.config?.base;
+          if (base && base.length > 1 && base.endsWith("/")) {
+            const double = `${base}${base.slice(1)}`;
+            if (html.includes(double)) return html.split(double).join(base);
+          }
+          return html;
+        },
+      },
+    },
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -2,11 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import Icon from "../../../../shared/components/ui/Icon.jsx";
 import {
-  bullseyeIcon,
-  cardsIcon,
   expandIcon,
   fileImageIcon,
-  headphonesIcon,
   waveSquareIcon,
   xmarkIcon,
 } from "../../../../shared/components/ui/iconPaths.js";
@@ -14,7 +11,7 @@ import { group3AssetPath } from "../../config.js";
 import { COPY } from "../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { GROUP3_VOICE_PROFILES, playUiCue } from "../../services/audio/index.js";
-import { lessonPath, levelPath, scenePath } from "../../routing/routes.js";
+import { levelPath, lessonPath, scenePath } from "../../routing/routes.js";
 import { SourceStamp } from "../../shared/components/index.js";
 
 function sceneTitle(scene, language) {
@@ -39,8 +36,42 @@ function profileName(profile, language) {
 
 import { HomeCarousel } from "./HomeCarousel.jsx";
 
+export function LevelPicker({ language, navigate }) {
+  const text = COPY[language];
+  const levels = [
+    { id: "hsk1", number: "01", title: text.hsk1Title, body: text.hsk1Body },
+    { id: "hsk2", number: "02", title: text.hsk2Title, body: text.hsk2Body },
+    { id: "hsk3", number: "03", title: text.hsk3Title, body: text.hsk3Body },
+  ];
+
+  return (
+    <main className="g3-level-picker" aria-labelledby="g3-level-picker-title">
+      <section className="g3-level-picker-intro">
+        <p className="g3-home-section-label">{text.levelPickerKicker}</p>
+        <h1 id="g3-level-picker-title">{text.levelPickerTitle}</h1>
+        <p>{text.levelPickerBody}</p>
+      </section>
+      <section className="g3-level-picker-options" aria-label={text.levelPickerTitle}>
+        {levels.map((level) => (
+          <button key={level.id} type="button" className="g3-level-picker-option" onClick={() => navigate(levelPath(level.id))}>
+            <span>{level.number}</span>
+            <strong>{level.id.toUpperCase()}</strong>
+            <b>{level.title}</b>
+            <small>{level.body}</small>
+            <i aria-hidden="true">→</i>
+          </button>
+        ))}
+      </section>
+    </main>
+  );
+}
+
 export function StoryHome({ language, navigate, lowData = false }) {
   const [activeScenario, setActiveScenario] = useState(0);
+  const [registerOpen, setRegisterOpen] = useState(false);
+  const [learnerName, setLearnerName] = useState("");
+  const [registerError, setRegisterError] = useState(false);
+  const nameInputRef = useRef(null);
   const text = COPY[language];
   const featured = FEATURED_LESSON;
   const navigateWithCue = (path, cue = "tap") => {
@@ -48,31 +79,59 @@ export function StoryHome({ language, navigate, lowData = false }) {
     navigate(path);
   };
 
+  useEffect(() => {
+    if (!registerOpen) return undefined;
+    nameInputRef.current?.focus();
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setRegisterOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [registerOpen]);
+
+  const startPractice = (event) => {
+    event.preventDefault();
+    const name = learnerName.trim();
+    if (!name) {
+      setRegisterError(true);
+      nameInputRef.current?.focus();
+      return;
+    }
+    try {
+      window.localStorage?.setItem("huayun_learner_name", name);
+    } catch {
+      // Continue even when browser storage is unavailable.
+    }
+    setRegisterOpen(false);
+    navigateWithCue("/home/levels/", "confirm");
+  };
+
   return (
     <main className="g3-home is-single-screen">
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
-          <span className="g3-home-eyebrow">{text.heroBadge}</span>
-          <h1 id="g3-home-title" className="g3-home-title" tabIndex="-1">{text.heroTitleLine}</h1>
+          <h1 id="g3-home-title" className="g3-home-title g3-wow-text" tabIndex="-1">{text.heroTitleLine}</h1>
           <p className="g3-home-sub">{text.heroSubLine}</p>
+          <div className="g3-home-benefits" aria-label={text.benefitsLabel}>
+            <p><strong>01</strong>{text.benefitOne}</p>
+            <p><strong>02</strong>{text.benefitTwo}</p>
+            <p><strong>03</strong>{text.benefitThree}</p>
+          </div>
 
           <div className="g3-home-cta-row">
             <button
-              className="g3-home-cta-primary"
+              className="g3-home-cta-primary g3-wow-button-primary"
               type="button"
-              onClick={() => navigateWithCue(scenePath(featured, 1), "confirm")}
+              onClick={() => {
+                setRegisterError(false);
+                setRegisterOpen(true);
+              }}
             >
               {text.ctaStart}<i aria-hidden="true">→</i>
             </button>
-            <button
-              className="g3-home-cta-secondary"
-              type="button"
-              onClick={() => navigateWithCue(levelPath("hsk1"), "tap")}
-            >
-              {text.ctaLevel}
-            </button>
           </div>
-          <span className="g3-home-free-tag">{text.noStorage}</span>
+          <p className="g3-home-free-tag">{text.noStorage}</p>
+          <p className="g3-home-howto"><strong>{text.howToLabel}</strong> {text.howToStart}</p>
         </div>
 
         {/* 5-Slide Manga Carousel — animated 2D frame-by-frame scenes */}
@@ -84,13 +143,38 @@ export function StoryHome({ language, navigate, lowData = false }) {
           lowData={lowData}
         />
       </section>
-
-      {/* One-line learning flow bar */}
-      <div className="g3-home-feature-bar" aria-label={language === "th" ? "ขั้นตอนการเรียนรู้" : language === "zh" ? "学习流程" : "Learning flow"}>
-        <span className="g3-home-feature"><Icon paths={headphonesIcon} />{text.featureListen}</span>
-        <span className="g3-home-feature"><Icon paths={bullseyeIcon} />{text.featureCheck}</span>
-        <span className="g3-home-feature"><Icon paths={cardsIcon} />{text.featureGame}</span>
-      </div>
+      {registerOpen && (
+        <div
+          className="g3-register-modal-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setRegisterOpen(false);
+          }}
+        >
+          <form className="g3-register-modal" role="dialog" aria-modal="true" aria-labelledby="g3-register-title" onSubmit={startPractice}>
+            <button className="g3-register-close" type="button" aria-label={text.registerClose} onClick={() => setRegisterOpen(false)}>×</button>
+            <p className="g3-home-section-label">{text.registerKicker}</p>
+            <h2 id="g3-register-title">{text.registerTitle}</h2>
+            <p>{text.registerPrompt}</p>
+            <label htmlFor="g3-learner-name">{text.registerNameLabel}</label>
+            <input
+              ref={nameInputRef}
+              id="g3-learner-name"
+              type="text"
+              value={learnerName}
+              onChange={(event) => {
+                setLearnerName(event.target.value);
+                setRegisterError(false);
+              }}
+              placeholder={text.registerNamePlaceholder}
+              autoComplete="name"
+              aria-invalid={registerError}
+            />
+            {registerError && <small className="g3-register-error">{text.registerNameRequired}</small>}
+            <button className="g3-register-submit" type="submit">{text.registerContinue}<i aria-hidden="true">→</i></button>
+          </form>
+        </div>
+      )}
     </main>
   );
 }
@@ -222,7 +306,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
           <nav ref={lessonIndexRef} className="g3-lesson-index" aria-label={language === "th" ? "เลือกบทเรียน" : language === "zh" ? "选择课文" : "Choose lesson"}>
             {levelLessons.map((item) => (
               <button type="button" className={item.id === activeLessonId ? "is-active" : ""} aria-current={item.id === activeLessonId ? "true" : undefined} key={item.id} onClick={() => selectLesson(item.id)}>
-                <span>{item.number}</span><small>{text.lessonLabel}</small><strong>{{ th: item.title.thAid, zh: item.title.zh, en: item.title.en }[language]}</strong>
+                <span>{item.number}</span><small>{text.lessonLabel}</small><strong>{{ th: item.title?.thAid, zh: item.title?.zh, en: item.title?.en }[language] || item.title?.zh || item.title?.en || item.title?.thAid || item.slug}</strong>
               </button>
             ))}
           </nav>

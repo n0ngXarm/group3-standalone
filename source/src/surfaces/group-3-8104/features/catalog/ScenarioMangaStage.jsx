@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Icon from "../../../../shared/components/ui/Icon.jsx";
 import { volumeIcon } from "../../../../shared/components/ui/iconPaths.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
-import { playUiCue } from "../../services/audio/index.js";
+import { playChineseTTS, playUiCue, stopChineseVoice } from "../../services/audio/index.js";
 
 export const SCENARIOS = [
   {
@@ -53,8 +53,8 @@ export const SCENARIOS = [
     backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-campus-stage-sharp.webp"),
     leftActor: {
       name: "李明 (Li Ming)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liming-idle-v1.webp"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liming-talk-v1.webp"),
       side: "left",
     },
     rightActor: {
@@ -94,14 +94,14 @@ export const SCENARIOS = [
     backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-restaurant-stage-sharp.webp"),
     leftActor: {
       name: "服务员 (Waiter)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-gesture-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-waiter-idle-v1.webp"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-waiter-talk-v1.webp"),
       side: "left",
     },
     rightActor: {
       name: "刘明 (Liu Ming)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-talk-v2.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liuming-idle-v1.webp"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liuming-talk-v1.webp"),
       side: "right",
     },
     dialogues: [
@@ -135,14 +135,14 @@ export const SCENARIOS = [
     backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-train-stage-sharp.webp"),
     leftActor: {
       name: "工作人员 (Officer)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-gesture-v2.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-officer-idle-v1.webp"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-officer-talk-v1.webp"),
       side: "left",
     },
     rightActor: {
       name: "王一雪 (Yixue)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-yixue-idle-v1.webp"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-yixue-talk-v1.webp"),
       side: "right",
     },
     dialogues: [
@@ -176,8 +176,8 @@ export const SCENARIOS = [
     backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-dumplings-stage-sharp.webp"),
     leftActor: {
       name: "张姐 (Zhang Jie)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-talk-v2.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-zhangjie-idle-v1.webp"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-zhangjie-talk-v1.webp"),
       side: "left",
     },
     rightActor: {
@@ -213,15 +213,10 @@ export const SCENARIOS = [
 ];
 
 function speak(text) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
   try {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "zh-CN";
-    u.rate = 0.88;
-    window.speechSynthesis.speak(u);
+    playChineseTTS(text);
   } catch {
-    // ignore
+    // fallback
   }
 }
 
@@ -229,9 +224,7 @@ const FRAME_MS = 2400;
 
 function ActorSprite({ actor, talking, speaking }) {
   // Optional multi-frame animation: frames = { idle: [url,...], talk: [url,...] }
-  // Cycles through the frame list like a manga panel cut-in. Falls back to the
-  // single idle/talk sprite when no frame set is supplied (swap in Gemini
-  // generated 2D frames later by filling `frames` on the scenario).
+  // Cycles through the frame list like a manga panel cut-in.
   const hasFrames = Boolean(actor.frames);
   const [frameIndex, setFrameIndex] = useState(0);
   const pose = talking ? "talk" : "idle";
@@ -250,7 +243,8 @@ function ActorSprite({ actor, talking, speaking }) {
     return () => clearInterval(timer);
   }, [count, pose]);
 
-  const src = frames ? frames[frameIndex] : (speaking || talking ? actor.talk : actor.idle);
+  const isActivelyTalking = Boolean(talking && (speaking !== undefined ? speaking : true));
+  const src = frames ? frames[frameIndex] : (isActivelyTalking ? actor.talk : actor.idle);
 
   return (
     <>
@@ -269,6 +263,7 @@ function ActorSprite({ actor, talking, speaking }) {
         </div>
       ) : (
         <img
+          key={`${actor.name}-${src}`}
           src={src}
           alt={talking ? "" : actor.name}
           width="360"
@@ -295,15 +290,20 @@ export function ScenarioMangaStage({
   const currentDialogue = scenario.dialogues[lineIndex] || scenario.dialogues[0];
   const isLeftSpeaker = currentDialogue.speaker === "left";
 
-  // Reset lineIndex when scenario changes
+  // Reset lineIndex and stop previous audio when scenario changes
   useEffect(() => {
+    stopChineseVoice();
     setLineIndex(0);
     setPanelKey((key) => key + 1);
+    return () => stopChineseVoice();
   }, [activeScenarioIndex]);
 
   // Live Auto-Play Sequence
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+      stopChineseVoice();
+      return;
+    }
     const dialogue = scenario.dialogues[lineIndex];
     if (!dialogue) return;
 
@@ -315,14 +315,21 @@ export function ScenarioMangaStage({
     }, 2200);
 
     const nextTimer = setTimeout(() => {
-      setLineIndex((prev) => (prev + 1) % scenario.dialogues.length);
+      const nextLine = lineIndex + 1;
+      if (nextLine >= scenario.dialogues.length) {
+        setLineIndex(0);
+        setTimeout(() => onSelectScenario?.((activeScenarioIndex + 1) % SCENARIOS.length), 0);
+        return;
+      }
+      setLineIndex(nextLine);
     }, 4200);
 
     return () => {
       clearTimeout(animTimer);
       clearTimeout(nextTimer);
+      stopChineseVoice();
     };
-  }, [isPlaying, lineIndex, scenario]);
+  }, [isPlaying, lineIndex, scenario, activeScenarioIndex, onSelectScenario]);
 
   const handleSpeakLine = (text) => {
     playUiCue("tap");
@@ -365,16 +372,13 @@ export function ScenarioMangaStage({
           </div>
         )}
 
-        {/* Ambient manga motion: drifting dust + speed lines */}
+        {/* Ambient manga motion: drifting dust */}
         {!lowData && (
-          <>
-            <div className="g3-manga-speed-lines" aria-hidden="true" />
-            <div className="g3-manga-dust" aria-hidden="true">
-              {[0, 1, 2, 3, 4, 5].map((i) => (
-                <i key={i} style={{ "--g3-dust-index": i }} />
-              ))}
-            </div>
-          </>
+          <div className="g3-manga-dust" aria-hidden="true">
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <i key={i} style={{ "--g3-dust-index": i }} />
+            ))}
+          </div>
         )}
 
         {/* Top Scenario Title Tag + Live Preview + Pause Toggle */}
@@ -469,25 +473,6 @@ export function ScenarioMangaStage({
         >
           ›
         </button>
-
-        {/* 5 Pagination Dots */}
-        <div className="g3-manga-dots" role="tablist" aria-label="Scenario Selector">
-          {SCENARIOS.map((s, idx) => (
-            <button
-              key={s.id}
-              type="button"
-              role="tab"
-              aria-selected={activeScenarioIndex === idx}
-              className={`g3-manga-dot${activeScenarioIndex === idx ? " is-active" : ""}`}
-              onClick={() => {
-                playUiCue("tap");
-                onSelectScenario?.(idx);
-              }}
-              aria-label={`สถานการณ์ที่ ${idx + 1}: ${s.title[language] || s.title.th}`}
-              title={s.title[language] || s.title.th}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );

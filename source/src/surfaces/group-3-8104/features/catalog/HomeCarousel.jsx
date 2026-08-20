@@ -2,40 +2,23 @@ import { useEffect } from "react";
 
 import { playUiCue } from "../../services/audio/index.js";
 import { lessonPath } from "../../routing/routes.js";
-import { GROUP3_LESSONS } from "../../content/registry.js";
+import { GROUP3_LESSONS, findLesson } from "../../content/registry.js";
 import { SCENARIOS, ScenarioMangaStage } from "./ScenarioMangaStage.jsx";
 
 // Map each preview scenario to the closest lesson so the vocab pill can
 // jump straight to that lesson's vocabulary page.
-const SCENARIO_LESSON_SLUG = {
-  market: "lesson-1",
-  restaurant: "lesson-1",
-  campus: "lesson-2",
-  train: "lesson-3",
-  dumplings: "lesson-4",
+const SCENARIO_LESSON_TARGETS = {
+  market: { level: "hsk1", slug: "lesson-1" },
+  campus: { level: "hsk1", slug: "lesson-2" },
+  restaurant: { level: "hsk2", slug: "lesson-1" },
+  train: { level: "hsk3", slug: "lesson-1" },
+  dumplings: { level: "hsk3", slug: "lesson-2" },
 };
 
 export function HomeCarousel({ language, navigate, activeScenario, onSelectScenario, lowData = false }) {
   const scenario = SCENARIOS[activeScenario] || SCENARIOS[0];
-  const lesson = GROUP3_LESSONS.find((item) => item.slug === SCENARIO_LESSON_SLUG[scenario.id]) || GROUP3_LESSONS[0];
-
-  // Speak the slide's opening line once on mount (manga panel reads itself).
-  useEffect(() => {
-    const dialogue = scenario.dialogues?.[0];
-    if (!dialogue || !("speechSynthesis" in window)) return undefined;
-    const timer = setTimeout(() => {
-      try {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(dialogue.zh);
-        utterance.lang = "zh-CN";
-        utterance.rate = 0.88;
-        window.speechSynthesis.speak(utterance);
-      } catch {
-        // ignore
-      }
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [activeScenario, scenario]);
+  const target = SCENARIO_LESSON_TARGETS[scenario.id] || { level: "hsk1", slug: "lesson-1" };
+  const lesson = findLesson(target.level, target.slug) || GROUP3_LESSONS[0];
 
   const openVocabulary = () => {
     playUiCue("tap");
@@ -44,6 +27,10 @@ export function HomeCarousel({ language, navigate, activeScenario, onSelectScena
 
   return (
     <div className="g3-home-carousel">
+      <div className="g3-home-preview-heading">
+        <p className="g3-home-section-label">{language === "th" ? "ตัวอย่างบทเรียน" : language === "zh" ? "课程示例" : "Lesson preview"}</p>
+        <p className="g3-home-preview-hint">{language === "th" ? "เลือกฉากเพื่อดูว่าในบทเรียนมีอะไรบ้าง" : language === "zh" ? "选择场景，看看课程内容" : "Choose a scene to see what you will practice"}</p>
+      </div>
       <div className="g3-home-carousel-stage">
         <ScenarioMangaStage
           activeScenarioIndex={activeScenario}

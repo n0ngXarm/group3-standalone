@@ -47,24 +47,23 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
             onClick={onHome}
             type="button"
           >
-            <span aria-hidden="true">读</span>
+            <img src={surfaceAssetPath(3, "/assets/group3/shared/home/brand-logo.png")} className="g3-brand-mark" alt="" aria-hidden="true" width="58" height="58" decoding="async" />
             <span>
               <strong>{text.brand}</strong>
-              <small>{text.group}</small>
+              {text.group ? <small>{text.group}</small> : null}
             </span>
           </button>
         </div>
-        <div />
+
         <nav className="g3-header-actions" aria-label={text.navigation}>
           <button
             type="button"
-            className="g3-home-header-btn"
+            className="g3-home-header-btn is-wide"
             onClick={() => onLanguage(nextLanguage)}
             aria-label={text.switchLanguage}
             title={`${text.switchLanguage} · ${languageLabel}`}
           >
-            <Icon paths={languageIcon} />
-            <small>{languageLabel}</small>
+            {languageLabel}
           </button>
           <button
             type="button"
@@ -103,10 +102,10 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
           onClick={onHome}
           type="button"
         >
-          <span aria-hidden="true">读</span>
+          <img src={surfaceAssetPath(3, "/assets/group3/shared/home/brand-logo.png")} className="g3-brand-mark" alt="" aria-hidden="true" width="58" height="58" decoding="async" />
           <span>
             <strong>{text.brand}</strong>
-            <small>{text.group}</small>
+            {text.group ? <small>{text.group}</small> : null}
           </span>
         </button>
       </div>
@@ -151,57 +150,6 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
 }
 
 
-export function MarketIllustration({ language, lowData = false }) {
-  const text = COPY[language];
-  const dialogueLines = {
-    th: [
-      ["g3-dialogue-label", "พนักงานขายถาม"],
-      ["g3-dialogue-main", "คุณต้องการซื้ออะไร?"],
-      ["g3-dialogue-sub", "您想买什么？ (Nín xiǎng mǎi shénme?)"],
-    ],
-    zh: [
-      ["g3-dialogue-label", "售货员问"],
-      ["g3-dialogue-main", "您想买什么？"],
-      ["g3-dialogue-sub", "Nín xiǎng mǎi shénme?"],
-    ],
-    en: [
-      ["g3-dialogue-label", "Seller asks"],
-      ["g3-dialogue-main", "What would you like to buy?"],
-      ["g3-dialogue-sub", "您想买什么？ (Nín xiǎng mǎi shénme?)"],
-    ],
-  }[language];
-  return (
-    <div className="g3-market-art g3-anime-hero-art" aria-hidden="true" data-low-data={lowData}>
-      {!lowData && (
-        <div className="g3-character-stage">
-          <img className="g3-market-insert" src={surfaceAssetPath(3, "/assets/group3/shared/backgrounds/hero-market-stage-v1.webp")} alt="" width="1536" height="1024" decoding="async" loading="eager" fetchPriority="high" />
-          <div className="g3-stage-actor is-seller">
-            <img className="g3-actor-frame is-idle" src={surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-idle-v1.webp")} alt="" width="768" height="1024" decoding="async" loading="eager" />
-            <img className="g3-actor-frame is-action" src={surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-gesture-v2.webp")} alt="" width="768" height="1024" decoding="async" loading="eager" />
-          </div>
-          <div className="g3-stage-actor is-student-male">
-            <img className="g3-actor-frame is-idle" src={surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-idle-v1.webp")} alt="" width="768" height="1024" decoding="async" loading="eager" />
-            <img className="g3-actor-frame is-action" src={surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-talk-v2.webp")} alt="" width="768" height="1024" decoding="async" loading="eager" />
-          </div>
-          <div className="g3-stage-actor is-student-female">
-            <img className="g3-actor-frame is-idle" src={surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-idle-v1.webp")} alt="" width="768" height="1024" decoding="async" loading="eager" />
-            <img className="g3-actor-frame is-action" src={surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-talk-v2.webp")} alt="" width="768" height="1024" decoding="async" loading="eager" />
-          </div>
-        </div>
-      )}
-      <div className="g3-market-image-shade" />
-      <div className="g3-anime-scene-mark">
-        <b>03</b>
-        <span><small>{text.marketLabel}</small><strong>{text.marketStartLine1} {text.marketStartLine2}</strong></span>
-      </div>
-      <div className="g3-anime-dialogue" key={language}>
-        {dialogueLines.map(([className, line], index) => (
-          <span className={className} style={{ "--g3-line-index": index }} key={className}>{line}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
  
 export function LessonNavigationBar({ language, lesson, navigate, currentSection = "overview" }) {
   const text = COPY[language];

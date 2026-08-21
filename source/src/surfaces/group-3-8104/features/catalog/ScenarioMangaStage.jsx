@@ -279,6 +279,22 @@ function ActorSprite({ actor, talking, speaking }) {
   );
 }
 
+function ActorNameLabel({ name, active }) {
+  return (
+    <span
+      className={`g3-manga-actor-label${active ? " is-active-speaker" : ""}`}
+      aria-current={active ? "true" : undefined}
+    >
+      {active && (
+        <span className="g3-manga-actor-label-indicator" aria-hidden="true">
+          <Icon paths={volumeIcon} />
+        </span>
+      )}
+      <span>{name}</span>
+    </span>
+  );
+}
+
 export function ScenarioMangaStage({
   activeScenarioIndex = 0,
   onSelectScenario,
@@ -385,7 +401,7 @@ export function ScenarioMangaStage({
         <div className="g3-manga-actors-layer">
           {/* Left Character */}
           <div className={`g3-manga-actor is-left${isLeftSpeaker ? " is-talking" : " is-idle"}`}>
-            <span className="g3-manga-actor-label">{scenario.leftActor.name}</span>
+            <ActorNameLabel name={scenario.leftActor.name} active={isLeftSpeaker} />
             <ActorSprite
               actor={scenario.leftActor}
               talking={isLeftSpeaker}
@@ -395,7 +411,7 @@ export function ScenarioMangaStage({
 
           {/* Right Character */}
           <div className={`g3-manga-actor is-right${!isLeftSpeaker ? " is-talking" : " is-idle"}`}>
-            <span className="g3-manga-actor-label">{scenario.rightActor.name}</span>
+            <ActorNameLabel name={scenario.rightActor.name} active={!isLeftSpeaker} />
             <ActorSprite
               actor={scenario.rightActor}
               talking={!isLeftSpeaker}

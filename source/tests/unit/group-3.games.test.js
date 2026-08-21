@@ -347,36 +347,25 @@ test("[P1] intro/HUD expose semantic timer, live status, native exit, and no inl
   assert.match(css, /\.g3-match-card\s*\{\s*transition:\s*none;/);
 });
 
-test("[P0] shared lifecycle invalidates frames, timers, and voice before result, replay, or exit", async () => {
+test("[P0] shared lifecycle separates session clocks from pausable round cleanup", async () => {
   const lifecycle = await readFile(path.join(GAME_SOURCE_ROOT, "shared/GameIntro.jsx"), "utf8");
-  assert.match(lifecycle, /frameIdsRef\.current\.forEach\(\(id\) => cancelAnimationFrame\(id\)\)/);
-  assert.match(lifecycle, /timeoutIdsRef\.current\.forEach\(\(id\) => window\.clearTimeout\(id\)\)/);
-  assert.match(lifecycle, /frameIdsRef\.current\.clear\(\)/);
-  assert.match(lifecycle, /timeoutIdsRef\.current\.clear\(\)/);
+  const timing = await readFile(path.join(GAME_SOURCE_ROOT, "shared/gameTiming.js"), "utf8");
+  assert.match(lifecycle, /export function useGameSession\(\)/);
+  assert.match(lifecycle, /export function usePausableScheduler\(paused\)/);
+  assert.match(lifecycle, /export function usePausableGameClock\(\{/);
   assert.match(lifecycle, /stopChineseVoice\(\)/);
-  assert.match(lifecycle, /mountedRef\.current && epochRef\.current === epoch/);
+  assert.match(timing, /export function createPausableClock/);
+  assert.match(timing, /export function createPausableScheduler/);
+  assert.match(timing, /tasks\.forEach\(clearTaskTimer\)/);
+  assert.match(timing, /if \(disposed\) return;/);
 
   for (const component of GAME_COMPONENTS) {
     const source = await readFile(path.join(GAME_SOURCE_ROOT, component), "utf8");
-    assert.match(source, /useGameLifecycle\(\)/, `${component}: uses lifecycle registry`);
-    const wrapper = [...source.matchAll(/const (\w+) = useCallback\(\(\) => \{([\s\S]*?)\n  \}, \[invalidate\]\);/g)]
-      .find((match) => /audioTokenRef\.current\s*\+=\s*1/.test(match[2]) && /return invalidate\(\)/.test(match[2]));
-    const cleanupName = wrapper?.[1] || "invalidate";
-    if (wrapper) {
-      assert.match(wrapper[2], /audioTokenRef\.current\s*\+=\s*1/, `${component}: async audio token is invalidated`);
-      assert.match(wrapper[2], /return invalidate\(\)/, `${component}: wrapper delegates to shared lifecycle invalidation`);
-    }
-
-    const callbackBody = (name) => source.match(new RegExp(`const ${name} = useCallback\\(\\(\\) => \\{([\\s\\S]*?)\\n  \\}, \\[`))?.[1] || "";
-    const cleanupCall = new RegExp(`\\b${cleanupName}\\(\\)`);
-    const resultsBody = callbackBody("enterResults");
-    const exitBody = callbackBody("exitGame");
-    const replayBody = callbackBody("prepareGame");
-    assert.match(resultsBody, cleanupCall, `${component}: cleanup before results`);
-    assert.match(resultsBody, /setStatus\("results"\)/, `${component}: result transition remains explicit`);
-    assert.match(exitBody, cleanupCall, `${component}: cleanup before exit`);
-    assert.match(exitBody, /onBack\(\)/, `${component}: exit returns to hub`);
-    assert.match(replayBody, cleanupCall, `${component}: cleanup before replay reset`);
+    assert.match(source, /useGameSession\(\)/, component + ": uses shared session reducer");
+    assert.match(source, /usePausableScheduler\(paused\)/, component + ": uses pausable round scheduler");
+    assert.match(source, /const enterResults = useCallback\(\(\) => \{[\s\S]*?invalidate(?:Audio)?\(\);[\s\S]*?complete\(\);/, component + ": cleans rounds before results");
+    assert.match(source, /const exitGame = useCallback\(\(\) => \{[\s\S]*?invalidate(?:Audio)?\(\);[\s\S]*?exit\(\);[\s\S]*?onBack\(\);/, component + ": cleans rounds before exit");
+    assert.match(source, /const prepareGame = useCallback\(\(\) => \{[\s\S]*?invalidate(?:Audio)?\(\);[\s\S]*?prepare\(\);/, component + ": cleans rounds before replay reset");
   }
 });
 
@@ -384,12 +373,12 @@ test("[P1] micro-screen (<= 320px) touch targets enforce >= 44px height and >= 8
   const css = await readFile(path.join(GROUP3_SOURCE_ROOT, "styles/games.css"), "utf8");
 
   assert.match(css, /\.g3-arcade-card\s*\{[\s\S]*?min-height:\s*48px;/);
-  assert.match(css, /\.g3-game-primary,\s*\n?\.g3-game-secondary,\s*\n?\.g3-game-exit\s*\{[\s\S]*?min-height:\s*48px;/);
+  assert.match(css, /\.g3-game-primary,\s*\n?\.g3-game-secondary,\s*\n?\.g3-game-pause,\s*\n?\.g3-game-exit\s*\{[\s\S]*?min-height:\s*48px;/);
   assert.match(css, /\.g3-game-option\s*\{[\s\S]*?min-height:\s*64px;/);
 
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*?\.g3-results-actions button,\s*\n?\s*\.g3-game-intro-actions button\s*\{\s*width:\s*100%;\s*min-height:\s*44px;/);
   assert.match(css, /@media \(max-width: 380px\)[\s\S]*?\.g3-game-option\s*\{\s*min-height:\s*48px;/);
-  assert.match(css, /@media \(max-width: 380px\)[\s\S]*?\.g3-game-primary,\s*\n?\s*\.g3-game-secondary,\s*\n?\s*\.g3-game-exit\s*\{\s*width:\s*100%;\s*min-height:\s*44px;/);
+  assert.match(css, /@media \(max-width: 380px\)[\s\S]*?\.g3-game-primary,\s*\n?\s*\.g3-game-secondary,\s*\n?\s*\.g3-game-pause,\s*\n?\s*\.g3-game-exit\s*\{\s*width:\s*100%;\s*min-height:\s*44px;/);
 
   assert.match(css, /\.g3-game-primary[\s\S]*?padding:\s*0\.7rem\s+1\.2rem;/);
   assert.match(css, /\.g3-game-option\s*\{[\s\S]*?padding:\s*0\.9rem\s+1rem;/);
@@ -452,6 +441,5 @@ test("[P1] GameResults sticky CTA button layout guarantees visible, full-width t
 
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*?\.g3-results-actions,\s*\n?\s*\.g3-game-intro-actions\s*\{\s*flex-direction:\s*column;\s*width:\s*100%;\s*\}/);
   assert.match(css, /@media \(max-width: 640px\)[\s\S]*?\.g3-results-actions button,\s*\n?\s*\.g3-game-intro-actions button\s*\{\s*width:\s*100%;\s*min-height:\s*44px;\s*\}/);
-  assert.match(css, /@media \(max-width: 380px\)[\s\S]*?\.g3-game-primary,\s*\n?\s*\.g3-game-secondary,\s*\n?\s*\.g3-game-exit\s*\{\s*width:\s*100%;\s*min-height:\s*44px;\s*\}/);
+  assert.match(css, /@media \(max-width: 380px\)[\s\S]*?\.g3-game-primary,\s*\n?\s*\.g3-game-secondary,\s*\n?\s*\.g3-game-pause,\s*\n?\s*\.g3-game-exit\s*\{\s*width:\s*100%;\s*min-height:\s*44px;\s*\}/);
 });
-

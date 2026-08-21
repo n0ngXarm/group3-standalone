@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { playSynthSound } from "../../../../../shared/features/games/gameSound.js";
 import { playChineseTTS, stopChineseVoice } from "../../../services/audio/index.js";
-import { buildListenQuestionSet, evaluateScore, GAME_COPY, GameFeedback, GameHud, GameIntro, GameResults, GameTimer, languageCopy, useGameLifecycle, useGameVisibilityPause } from "../shared/index.js";
+import { buildListenQuestionSet, evaluateScore, GAME_COPY, GAME_PHASES, GameFeedback, GameHud, GameIntro, GameResults, GameTimer, languageCopy, useGameSession, usePausableGameClock, usePausableScheduler } from "../shared/index.js";
 
 const SPRINT_TIME = 45000;
 
@@ -14,8 +14,6 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
   const [correctCount, setCorrectCount] = useState(0);
   const [attempted, setAttempted] = useState(0);
   const [lives, setLives] = useState(3);
-  const [status, setStatus] = useState("intro");
-  const [timeLeft, setTimeLeft] = useState(SPRINT_TIME);
   const [audioStatus, setAudioStatus] = useState("idle");
   const [selectedOption, setSelectedOption] = useState(null);
   const [feedback, setFeedback] = useState("");
@@ -23,25 +21,29 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
   const audioTokenRef = useRef(0);
   const answerStartRef = useRef(0);
   const speakerRef = useRef(null);
+  const answerLockRef = useRef(false);
+  const audioPlayLockRef = useRef(false);
   const copy = languageCopy(language);
   const game = (GAME_COPY[language] || GAME_COPY.th).games.sprint;
-  const paused = useGameVisibilityPause(status === "playing");
-  const { cancelFrame, capture, invalidate, isCurrent, requestFrame, schedule } = useGameLifecycle();
+  const { active, complete, exit, isPlaying, paused, phase, prepare, start, toggleManualPause } = useGameSession();
+  const { invalidate, schedule } = usePausableScheduler(paused);
 
   const invalidateAudio = useCallback(() => {
     audioTokenRef.current += 1;
+    stopChineseVoice();
     return invalidate();
   }, [invalidate]);
 
   const enterResults = useCallback(() => {
     invalidateAudio();
-    setStatus("results");
-  }, [invalidateAudio]);
+    complete();
+  }, [complete, invalidateAudio]);
 
   const exitGame = useCallback(() => {
     invalidateAudio();
+    exit();
     onBack();
-  }, [invalidateAudio, onBack]);
+  }, [exit, invalidateAudio, onBack]);
 
   const prepareGame = useCallback(() => {
     invalidateAudio();
@@ -53,13 +55,14 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
     setCorrectCount(0);
     setAttempted(0);
     setLives(3);
-    setTimeLeft(SPRINT_TIME);
     setAudioStatus("idle");
     setSelectedOption(null);
+    answerLockRef.current = false;
+    audioPlayLockRef.current = false;
     setFeedback("");
     setLiveStatus("");
-    setStatus("intro");
-  }, [invalidateAudio, lesson.vocabulary]);
+    prepare();
+  }, [invalidateAudio, lesson.vocabulary, prepare]);
 
   useEffect(() => {
     prepareGame();
@@ -73,53 +76,43 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
   useEffect(() => {
     if (!paused) return;
     audioTokenRef.current += 1;
+    audioPlayLockRef.current = false;
     setAudioStatus("idle");
   }, [paused]);
 
   useEffect(() => {
-    if (status === "playing" && selectedOption === null && audioStatus === "idle") speakerRef.current?.focus();
-  }, [audioStatus, currentIndex, selectedOption, status]);
+    if (phase === GAME_PHASES.PLAYING && selectedOption === null && audioStatus === "idle") speakerRef.current?.focus();
+  }, [audioStatus, currentIndex, phase, selectedOption]);
 
   const startGame = () => {
     invalidateAudio();
-    setStatus(questions.length ? "playing" : "results");
+    const readyQuestions = questions.length ? questions : buildListenQuestionSet(lesson.vocabulary);
+    if (!questions.length) setQuestions(readyQuestions);
+    prepare();
+    start();
+    if (!readyQuestions.length) complete();
   };
 
-  useEffect(() => {
-    if (status !== "playing" || paused) return undefined;
-    const epoch = capture();
-    let previous = performance.now();
-    let ended = false;
-    let frameId = 0;
-    const tick = (now) => {
-      const delta = now - previous;
-      previous = now;
-      setTimeLeft((value) => {
-        const next = Math.max(0, value - delta);
-        if (next <= 0 && !ended) {
-          ended = true;
-          schedule(enterResults, 0, epoch);
-        } else if (!ended) {
-          frameId = requestFrame(tick, epoch);
-        }
-        return next;
-      });
-    };
-    frameId = requestFrame(tick, epoch);
-    return () => cancelFrame(frameId);
-  }, [cancelFrame, capture, enterResults, paused, requestFrame, schedule, status]);
+  const { addTime, timeLeft } = usePausableGameClock({
+    active,
+    duration: SPRINT_TIME,
+    onExpire: enterResults,
+    paused,
+    resetKey: questions,
+  });
 
   const playSound = () => {
     const question = questions[currentIndex];
-    if (!question || paused || selectedOption !== null || audioStatus === "playing") return;
+    if (!question || audioPlayLockRef.current || paused || selectedOption !== null || audioStatus === "playing") return;
+    audioPlayLockRef.current = true;
     const token = audioTokenRef.current + 1;
-    const epoch = capture();
     audioTokenRef.current = token;
     setAudioStatus("playing");
     setFeedback(copy.soundPlaying);
     const playback = playChineseTTS(question.hanzi);
     playback.completion.then((result) => {
-      if (audioTokenRef.current !== token || !isCurrent(epoch) || status !== "playing") return;
+      if (audioTokenRef.current !== token || !isPlaying()) return;
+      audioPlayLockRef.current = false;
       if (result.status === "ended") {
         answerStartRef.current = performance.now();
         setAudioStatus("ready");
@@ -138,13 +131,16 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
     }
     setCurrentIndex((value) => value + 1);
     setSelectedOption(null);
+    answerLockRef.current = false;
+    audioPlayLockRef.current = false;
     setAudioStatus("idle");
     setFeedback("");
   }, [enterResults, questions.length]);
 
   const handleOption = (option, index) => {
-    if (selectedOption !== null || audioStatus !== "ready" || paused || status !== "playing") return;
-    const epoch = invalidateAudio();
+    if (answerLockRef.current || selectedOption !== null || audioStatus !== "ready" || paused || !isPlaying()) return;
+    answerLockRef.current = true;
+    invalidateAudio();
     setSelectedOption(index);
     const nextAttempted = attempted + 1;
     setAttempted(nextAttempted);
@@ -159,7 +155,7 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
       setMaxCombo((value) => Math.max(value, nextCombo));
       setCorrectCount((value) => value + 1);
       setScore(nextScore);
-      setTimeLeft((value) => Math.min(SPRINT_TIME, value + 1500));
+      addTime(1500, SPRINT_TIME);
       setFeedback(copy.correctStatus);
       setLiveStatus(`${copy.correctStatus}. ${copy.score}: ${nextScore}. ${copy.lives}: ${nextLives}/3. ${copy.progress}: ${nextAttempted}/${questions.length}`);
       playSynthSound("correct");
@@ -171,12 +167,12 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
       setLiveStatus(`${copy.wrongStatus}. ${copy.score}: ${score}. ${copy.lives}: ${nextLives}/3. ${copy.progress}: ${nextAttempted}/${questions.length}`);
       playSynthSound("wrong");
     }
-    schedule(() => nextQuestion(nextAttempted, nextLives), 750, epoch);
+    schedule(() => nextQuestion(nextAttempted, nextLives), 750);
   };
 
-  if (status === "intro") return <GameIntro game={{ id: "sprint", ...game }} language={language} onBack={exitGame} onStart={startGame} />;
+  if (phase === GAME_PHASES.IDLE || phase === GAME_PHASES.READY) return <GameIntro game={{ id: "sprint", ...game }} language={language} onBack={exitGame} onStart={startGame} />;
 
-  if (status === "results") {
+  if (phase === GAME_PHASES.COMPLETED) {
     return <GameResults gameId="sprint" correct={correctCount} total={questions.length} lesson={lesson} language={language} gameScore={score} stats={{ maxCombo, rounds: attempted }} onPlayAgain={prepareGame} onBack={exitGame} scoreData={evaluateScore(correctCount, questions.length, lesson.level)} />;
   }
 
@@ -186,7 +182,7 @@ export default function SoundSprintGame({ lesson, language, onBack }) {
   const soundLabel = audioStatus === "idle" ? copy.playSound : audioStatus === "ready" ? copy.replaySound : audioStatus === "playing" ? copy.soundPlaying : audioStatus === "blocked" ? copy.soundBlocked : copy.soundUnavailable;
   return (
     <main className="g3-arcade-game">
-      <GameHud gameTitle={game.title} language={language} liveStatus={liveStatus} onBack={exitGame} paused={paused}>
+      <GameHud gameTitle={game.title} language={language} liveStatus={liveStatus} onBack={exitGame} onPauseToggle={toggleManualPause} paused={paused}>
         <span>{copy.score}: <strong>{score.toLocaleString()}</strong></span>
         <span>{copy.combo}: <strong>{combo}</strong></span>
         <span>{copy.lives}: <strong>{lives}/3</strong></span>

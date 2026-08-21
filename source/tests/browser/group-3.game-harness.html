@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Group 3 game runtime harness</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" />
+    <script>
+      window.__g3BrowserErrors = [];
+      window.addEventListener("error", (event) => window.__g3BrowserErrors.push(String(event.error || event.message)));
+      window.addEventListener("unhandledrejection", (event) => window.__g3BrowserErrors.push(String(event.reason)));
+      window.__g3Speech = {
+        cancelCalls: 0,
+        speakCalls: 0,
+        getVoices: () => [{ lang: "zh-CN", name: "Harness Chinese Voice" }],
+        cancel() { this.cancelCalls += 1; },
+        speak(utterance) {
+          this.speakCalls += 1;
+          setTimeout(() => utterance.onend?.(), 20);
+        },
+        get speaking() { return false; },
+        get pending() { return false; },
+      };
+      window.SpeechSynthesisUtterance = class {
+        constructor(text) { this.text = text; this.onend = null; this.onerror = null; }
+      };
+      Object.defineProperty(window, "speechSynthesis", { configurable: true, value: window.__g3Speech });
+      Object.defineProperty(window, "AudioContext", { configurable: true, value: undefined });
+      Object.defineProperty(window, "webkitAudioContext", { configurable: true, value: undefined });
+
+      (() => {
+        const nativeSetTimeout = window.setTimeout.bind(window);
+        const nativeClearTimeout = window.clearTimeout.bind(window);
+        const nativeRaf = window.requestAnimationFrame.bind(window);
+        const nativeCancelRaf = window.cancelAnimationFrame.bind(window);
+        const timeouts = new Set();
+        const frames = new Set();
+        window.setTimeout = (callback, delay, ...args) => {
+          let id = 0;
+          id = nativeSetTimeout(() => {
+            timeouts.delete(id);
+            callback(...args);
+          }, delay);
+          timeouts.add(id);
+          return id;
+        };
+        window.clearTimeout = (id) => {
+          timeouts.delete(id);
+          nativeClearTimeout(id);
+        };
+        window.requestAnimationFrame = (callback) => {
+          let id = 0;
+          id = nativeRaf((time) => {
+            frames.delete(id);
+            callback(time);
+          });
+          frames.add(id);
+          return id;
+        };
+        window.cancelAnimationFrame = (id) => {
+          frames.delete(id);
+          nativeCancelRaf(id);
+        };
+        window.__g3ResourceSnapshot = () => ({ timeouts: timeouts.size, frames: frames.size });
+      })();
+    </script>
+    <style>
+      :root { color-scheme: light; font-family: system-ui, sans-serif; --color-text-primary: #17201c; --color-text-secondary: #37453e; --color-text-muted: #607068; --color-surface-primary: #fff; --color-surface-secondary: #f3f7f4; --color-surface-elevated: #fff; --color-border-medium: #bdc9c2; --color-border-strong: #6f8176; --color-accent: #176b52; --color-accent-hover: #0f5842; --color-accent-text: #fff; --color-accent-gold: #8a6400; --color-accent-jade: #176b52; --color-warning: #b77200; --color-error: #a32424; --color-error-bg: #fff0f0; --color-success: #197147; --color-success-bg: #e8f8ef; --g3-bg: #fff; --g3-bg-soft: #f3f7f4; --g3-ink: #17201c; --g3-muted: #607068; --g3-line: #bdc9c2; --g3-gold: #8a6400; --g3-jade: #176b52; --font-display: system-ui, sans-serif; --font-mono: ui-monospace, monospace; }
+      body { margin: 0; background: #fff; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./group-3.game-harness.jsx"></script>
+  </body>
+</html>

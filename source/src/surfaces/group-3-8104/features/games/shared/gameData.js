@@ -23,7 +23,9 @@ export const GAME_COPY = Object.freeze({
     start: "เริ่มเกม",
     rulesTitle: "กติกาและวิธีเล่น",
     readyHint: "ระบบจะเริ่มจับเวลาเมื่อกดเริ่มเล่น",
-    paused: "เกมหยุดชั่วคราวเมื่อแท็บถูกซ่อนไว้",
+    paused: "เกมหยุดชั่วคราว",
+    pause: "หยุดชั่วคราว",
+    resume: "เล่นต่อ",
     score: "คะแนน",
     lives: "หัวใจ",
     combo: "คอมโบ",
@@ -106,7 +108,9 @@ export const GAME_COPY = Object.freeze({
     start: "开始游戏",
     rulesTitle: "玩法",
     readyHint: "点击开始后才会计时",
-    paused: "页面隐藏时，游戏会暂停",
+    paused: "游戏已暂停",
+    pause: "暂停",
+    resume: "继续",
     score: "得分",
     lives: "机会",
     combo: "连击",
@@ -155,7 +159,9 @@ export const GAME_COPY = Object.freeze({
     start: "Start game",
     rulesTitle: "How to play",
     readyHint: "The timer starts after you press Start",
-    paused: "Game paused while this tab is hidden",
+    paused: "Game paused",
+    pause: "Pause",
+    resume: "Resume",
     score: "Score",
     lives: "Lives",
     combo: "Combo",
@@ -254,7 +260,9 @@ export function shuffle(array, rng = Math.random) {
   const arr = Array.isArray(array) ? [...array] : [];
   const random = typeof rng === "function" ? rng : Math.random;
   for (let index = arr.length - 1; index > 0; index -= 1) {
-    const swapIndex = clamp(Math.floor(random() * (index + 1)), 0, index);
+    const sample = Number(random());
+    const normalized = Number.isFinite(sample) ? clamp(sample, 0, 1 - Number.EPSILON) : 0;
+    const swapIndex = Math.floor(normalized * (index + 1));
     [arr[index], arr[swapIndex]] = [arr[swapIndex], arr[index]];
   }
   return arr;
@@ -412,6 +420,15 @@ export function saveHighScore(scope, scoreData) {
     // Private browsing and storage policies must not break game completion.
   }
   return scores;
+}
+
+export function resetHighScores(scope) {
+  try {
+    storage()?.removeItem(highScoreStorageKey(scope));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function loadPlayerName(fallback = "Learner") {

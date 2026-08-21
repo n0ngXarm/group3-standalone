@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { playSynthSound } from "../../../../../shared/features/games/gameSound.js";
 import { playChineseTTS, stopChineseVoice } from "../../../services/audio/index.js";
-import { buildMatchCards, evaluateScore, GAME_COPY, GameFeedback, GameHud, GameIntro, GameResults, languageCopy, useGameLifecycle, useGameVisibilityPause } from "../shared/index.js";
+import { buildMatchCards, evaluateScore, GAME_COPY, GAME_PHASES, GameFeedback, GameHud, GameIntro, GameResults, languageCopy, useGameSession, usePausableScheduler } from "../shared/index.js";
 
 export default function CardFrenzyGame({ lesson, language, onBack }) {
   const [cards, setCards] = useState([]);
@@ -11,26 +11,27 @@ export default function CardFrenzyGame({ lesson, language, onBack }) {
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
   const [moves, setMoves] = useState(0);
-  const [status, setStatus] = useState("intro");
   const [feedback, setFeedback] = useState("");
   const [liveStatus, setLiveStatus] = useState("");
   const gridRef = useRef(null);
   const copy = languageCopy(language);
   const game = (GAME_COPY[language] || GAME_COPY.th).games.frenzy;
-  const paused = useGameVisibilityPause(status === "playing");
   const pairCount = cards.length / 2;
   const completed = new Set(matchedPairs);
-  const { cancelTimer, capture, invalidate, schedule } = useGameLifecycle();
+  const { active, complete, exit, isPlaying, paused, phase, prepare, start, toggleManualPause } = useGameSession();
+  const { cancel, invalidate, schedule } = usePausableScheduler(paused);
 
   const enterResults = useCallback(() => {
     invalidate();
-    setStatus("results");
-  }, [invalidate]);
+    complete();
+  }, [complete, invalidate]);
 
   const exitGame = useCallback(() => {
     invalidate();
+    exit();
+    stopChineseVoice();
     onBack();
-  }, [invalidate, onBack]);
+  }, [exit, invalidate, onBack]);
 
   const prepareGame = useCallback(() => {
     invalidate();
@@ -43,8 +44,8 @@ export default function CardFrenzyGame({ lesson, language, onBack }) {
     setMoves(0);
     setFeedback("");
     setLiveStatus("");
-    setStatus("intro");
-  }, [invalidate, lesson.vocabulary]);
+    prepare();
+  }, [invalidate, lesson.vocabulary, prepare]);
 
   useEffect(() => {
     prepareGame();
@@ -52,16 +53,20 @@ export default function CardFrenzyGame({ lesson, language, onBack }) {
   }, [prepareGame]);
 
   useEffect(() => {
-    if (status === "playing") gridRef.current?.querySelector("button:not(:disabled)")?.focus();
-  }, [status]);
+    if (phase === GAME_PHASES.PLAYING) gridRef.current?.querySelector("button:not(:disabled)")?.focus();
+  }, [phase]);
 
   const startGame = () => {
     invalidate();
-    setStatus(cards.length ? "playing" : "results");
+    const readyCards = cards.length ? cards : buildMatchCards(lesson.vocabulary, 6);
+    if (!cards.length) setCards(readyCards);
+    prepare();
+    start();
+    if (!readyCards.length) complete();
   };
 
   useEffect(() => {
-    if (status !== "playing" || paused || selection.length !== 2) return undefined;
+    if (!active || selection.length !== 2) return undefined;
     const [firstId, secondId] = selection;
     const first = cards.find((card) => card.id === firstId);
     const second = cards.find((card) => card.id === secondId);
@@ -70,7 +75,6 @@ export default function CardFrenzyGame({ lesson, language, onBack }) {
       return undefined;
     }
     const matched = first.matchId === second.matchId;
-    const epoch = capture();
     const timerId = schedule(() => {
       if (matched) {
         const nextCombo = combo + 1;
@@ -100,28 +104,28 @@ export default function CardFrenzyGame({ lesson, language, onBack }) {
         setSelection([]);
         playSynthSound("wrong");
       }
-    }, matched ? 500 : 850, epoch);
-    return () => cancelTimer(timerId);
-  }, [cancelTimer, capture, cards, combo, copy.correctStatus, copy.moves, copy.progress, copy.score, copy.wrongStatus, enterResults, matchedPairs, moves, pairCount, paused, schedule, score, selection, status]);
+    }, matched ? 500 : 850);
+    return () => cancel(timerId);
+  }, [active, cancel, cards, combo, copy.correctStatus, copy.moves, copy.progress, copy.score, copy.wrongStatus, enterResults, matchedPairs, moves, pairCount, schedule, score, selection]);
 
   const chooseCard = (card) => {
-    if (status !== "playing" || paused || selection.length >= 2 || selection.includes(card.id) || matchedPairs.includes(card.matchId)) return;
+    if (!isPlaying() || paused || selection.length >= 2 || selection.includes(card.id) || matchedPairs.includes(card.matchId)) return;
     playSynthSound("pop");
     setFeedback("");
     if (selection.length === 1) setMoves((value) => value + 1);
     setSelection((current) => [...current, card.id]);
   };
 
-  if (status === "intro") return <GameIntro game={{ id: "frenzy", ...game }} language={language} onBack={exitGame} onStart={startGame} />;
+  if (phase === GAME_PHASES.IDLE || phase === GAME_PHASES.READY) return <GameIntro game={{ id: "frenzy", ...game }} language={language} onBack={exitGame} onStart={startGame} />;
 
-  if (status === "results") {
+  if (phase === GAME_PHASES.COMPLETED) {
     const safeMoves = Math.max(pairCount, moves);
     return <GameResults gameId="frenzy" correct={pairCount} total={safeMoves} lesson={lesson} language={language} gameScore={score} stats={{ maxCombo, rounds: moves }} onPlayAgain={prepareGame} onBack={exitGame} scoreData={evaluateScore(pairCount, safeMoves, lesson.level)} />;
   }
 
   return (
     <main className="g3-arcade-game">
-      <GameHud gameTitle={game.title} language={language} liveStatus={liveStatus} onBack={exitGame} paused={paused}>
+      <GameHud gameTitle={game.title} language={language} liveStatus={liveStatus} onBack={exitGame} onPauseToggle={toggleManualPause} paused={paused}>
         <span>{copy.score}: <strong>{score.toLocaleString()}</strong></span>
         <span>{copy.combo}: <strong>{combo}</strong></span>
         <span>{copy.moves}: <strong>{moves}</strong></span>

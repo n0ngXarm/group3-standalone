@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { playSynthSound } from "../../../../../shared/features/games/gameSound.js";
 import { playChineseTTS, stopChineseVoice } from "../../../services/audio/index.js";
-import { buildBlitzQuestions, evaluateScore, GAME_COPY, GameFeedback, GameHud, GameIntro, GameResults, GameTimer, languageCopy, useGameLifecycle, useGameVisibilityPause } from "../shared/index.js";
+import { buildBlitzQuestions, evaluateScore, GAME_COPY, GAME_PHASES, GameFeedback, GameHud, GameIntro, GameResults, GameTimer, languageCopy, useGameSession, usePausableGameClock, usePausableScheduler } from "../shared/index.js";
 
 const INITIAL_TIME = 5000;
 
@@ -14,27 +14,28 @@ export default function VocabBlitzGame({ lesson, language, onBack }) {
   const [lives, setLives] = useState(3);
   const [correctCount, setCorrectCount] = useState(0);
   const [attempted, setAttempted] = useState(0);
-  const [status, setStatus] = useState("intro");
-  const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [timerDuration, setTimerDuration] = useState(INITIAL_TIME);
   const [selectedOption, setSelectedOption] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [liveStatus, setLiveStatus] = useState("");
   const optionsRef = useRef(null);
+  const answerLockRef = useRef(false);
   const copy = languageCopy(language);
   const game = (GAME_COPY[language] || GAME_COPY.th).games.blitz;
-  const paused = useGameVisibilityPause(status === "playing");
-  const { cancelFrame, capture, invalidate, requestFrame, schedule } = useGameLifecycle();
+  const { active, complete, exit, isPlaying, paused, phase, prepare, start, toggleManualPause } = useGameSession();
+  const { invalidate, schedule } = usePausableScheduler(paused);
 
   const enterResults = useCallback(() => {
     invalidate();
-    setStatus("results");
-  }, [invalidate]);
+    complete();
+  }, [complete, invalidate]);
 
   const exitGame = useCallback(() => {
     invalidate();
+    exit();
+    stopChineseVoice();
     onBack();
-  }, [invalidate, onBack]);
+  }, [exit, invalidate, onBack]);
 
   const prepareGame = useCallback(() => {
     invalidate();
@@ -47,12 +48,12 @@ export default function VocabBlitzGame({ lesson, language, onBack }) {
     setCorrectCount(0);
     setAttempted(0);
     setTimerDuration(INITIAL_TIME);
-    setTimeLeft(INITIAL_TIME);
     setSelectedOption(null);
+    answerLockRef.current = false;
     setFeedback("");
     setLiveStatus("");
-    setStatus("intro");
-  }, [invalidate, lesson.vocabulary]);
+    prepare();
+  }, [invalidate, lesson.vocabulary, prepare]);
 
   useEffect(() => {
     prepareGame();
@@ -64,12 +65,16 @@ export default function VocabBlitzGame({ lesson, language, onBack }) {
   }, [currentIndex]);
 
   useEffect(() => {
-    if (status === "playing" && selectedOption === null) optionsRef.current?.querySelector("button")?.focus();
-  }, [currentIndex, selectedOption, status]);
+    if (phase === GAME_PHASES.PLAYING && selectedOption === null) optionsRef.current?.querySelector("button")?.focus();
+  }, [currentIndex, phase, selectedOption]);
 
   const startGame = () => {
     invalidate();
-    setStatus(questions.length ? "playing" : "results");
+    const readyQuestions = questions.length ? questions : buildBlitzQuestions(lesson.vocabulary);
+    if (!questions.length) setQuestions(readyQuestions);
+    prepare();
+    start();
+    if (!readyQuestions.length) complete();
   };
 
   const nextQuestion = useCallback((nextAttempted, nextLives) => {
@@ -81,16 +86,17 @@ export default function VocabBlitzGame({ lesson, language, onBack }) {
     const nextDuration = nextIndex >= 14 ? 3000 : nextIndex >= 9 ? 3500 : nextIndex >= 4 ? 4000 : INITIAL_TIME;
     setCurrentIndex(nextIndex);
     setTimerDuration(nextDuration);
-    setTimeLeft(nextDuration);
     setSelectedOption(null);
+    answerLockRef.current = false;
     setFeedback("");
   }, [currentIndex, enterResults, questions.length]);
 
   const handleTimeout = useCallback(() => {
-    if (selectedOption !== null || status !== "playing") return;
+    if (answerLockRef.current || selectedOption !== null || paused || !isPlaying()) return;
+    answerLockRef.current = true;
     const nextAttempted = attempted + 1;
     const nextLives = lives - 1;
-    const epoch = invalidate();
+    invalidate();
     setSelectedOption("timeout");
     setAttempted(nextAttempted);
     setLives(nextLives);
@@ -98,31 +104,21 @@ export default function VocabBlitzGame({ lesson, language, onBack }) {
     setFeedback(copy.timeoutStatus);
     setLiveStatus(`${copy.timeoutStatus}. ${copy.score}: ${score}. ${copy.lives}: ${nextLives}/3. ${copy.progress}: ${nextAttempted}/${questions.length}`);
     playSynthSound("wrong");
-    schedule(() => nextQuestion(nextAttempted, nextLives), 650, epoch);
-  }, [attempted, copy.lives, copy.progress, copy.score, copy.timeoutStatus, invalidate, lives, nextQuestion, questions.length, schedule, score, selectedOption, status]);
+    schedule(() => nextQuestion(nextAttempted, nextLives), 650);
+  }, [attempted, copy.lives, copy.progress, copy.score, copy.timeoutStatus, invalidate, isPlaying, lives, nextQuestion, paused, questions.length, schedule, score, selectedOption]);
 
-  useEffect(() => {
-    if (status !== "playing" || selectedOption !== null || paused) return undefined;
-    const epoch = capture();
-    let previous = performance.now();
-    let frameId = 0;
-    const tick = (now) => {
-      const delta = now - previous;
-      previous = now;
-      setTimeLeft((value) => {
-        const next = Math.max(0, value - delta);
-        if (next <= 0) schedule(handleTimeout, 0, epoch);
-        else frameId = requestFrame(tick, epoch);
-        return next;
-      });
-    };
-    frameId = requestFrame(tick, epoch);
-    return () => cancelFrame(frameId);
-  }, [cancelFrame, capture, handleTimeout, paused, requestFrame, schedule, selectedOption, status]);
+  const { timeLeft } = usePausableGameClock({
+    active: active && selectedOption === null,
+    duration: timerDuration,
+    onExpire: handleTimeout,
+    paused,
+    resetKey: currentIndex,
+  });
 
   const handleOption = (option, index) => {
-    if (selectedOption !== null || status !== "playing" || paused) return;
-    const epoch = invalidate();
+    if (answerLockRef.current || selectedOption !== null || !isPlaying() || paused) return;
+    answerLockRef.current = true;
+    invalidate();
     setSelectedOption(index);
     const nextAttempted = attempted + 1;
     setAttempted(nextAttempted);
@@ -150,12 +146,12 @@ export default function VocabBlitzGame({ lesson, language, onBack }) {
       setLiveStatus(`${copy.wrongStatus}. ${copy.score}: ${score}. ${copy.lives}: ${nextLives}/3. ${copy.progress}: ${nextAttempted}/${questions.length}`);
       playSynthSound("wrong");
     }
-    schedule(() => nextQuestion(nextAttempted, nextLives), 650, epoch);
+    schedule(() => nextQuestion(nextAttempted, nextLives), 650);
   };
 
-  if (status === "intro") return <GameIntro game={{ id: "blitz", ...game }} language={language} onBack={exitGame} onStart={startGame} />;
+  if (phase === GAME_PHASES.IDLE || phase === GAME_PHASES.READY) return <GameIntro game={{ id: "blitz", ...game }} language={language} onBack={exitGame} onStart={startGame} />;
 
-  if (status === "results") {
+  if (phase === GAME_PHASES.COMPLETED) {
     return <GameResults gameId="blitz" correct={correctCount} total={questions.length} lesson={lesson} language={language} gameScore={score} stats={{ maxCombo, rounds: attempted }} onPlayAgain={prepareGame} onBack={exitGame} scoreData={evaluateScore(correctCount, questions.length, lesson.level)} />;
   }
 
@@ -164,7 +160,7 @@ export default function VocabBlitzGame({ lesson, language, onBack }) {
 
   return (
     <main className="g3-arcade-game">
-      <GameHud gameTitle={game.title} language={language} liveStatus={liveStatus} onBack={exitGame} paused={paused}>
+      <GameHud gameTitle={game.title} language={language} liveStatus={liveStatus} onBack={exitGame} onPauseToggle={toggleManualPause} paused={paused}>
         <span>{copy.score}: <strong>{score.toLocaleString()}</strong></span>
         <span>{copy.combo}: <strong>{combo}</strong></span>
         <span>{copy.lives}: <strong>{lives}/3</strong></span>

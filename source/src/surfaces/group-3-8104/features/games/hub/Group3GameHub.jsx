@@ -51,7 +51,7 @@ export default function Group3GameHub({ activeGame = null, lesson, language, onB
       imageSrcSet: `${group3AssetPath(`${assetBase}-640w.webp`)} 640w, ${group3AssetPath(`${assetBase}-960w.webp`)} 960w`,
       topScore,
     };
-  }), [language, lesson.id, lesson.level, lesson.slug]);
+  }), [activeGame, language, lesson.id, lesson.level, lesson.slug]);
 
   if (activeGame && GAME_COMPONENTS[activeGame]) {
     const ActiveGame = GAME_COMPONENTS[activeGame];

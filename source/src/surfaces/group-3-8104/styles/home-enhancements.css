@@ -2329,16 +2329,36 @@
     content: none;
   }
 
-  .g3-home.is-single-screen .g3-manga-left-blend {
-    display: block;
-    width: clamp(90px, 8vw, 140px);
-    background: linear-gradient(
-      90deg,
-      var(--g3-bg) 0%,
-      color-mix(in srgb, var(--g3-bg) 74%, transparent) 34%,
-      color-mix(in srgb, var(--g3-bg) 30%, transparent) 70%,
-      transparent 100%
+  .g3-home.is-single-screen .g3-manga-viewport {
+    --g3-scene-edge-fade: clamp(100px, 9vw, 150px);
+  }
+
+  .g3-home.is-single-screen .g3-manga-backdrop,
+  .g3-home.is-single-screen .g3-manga-atmosphere {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      rgba(0, 0, 0, 0.25) 40px,
+      rgba(0, 0, 0, 0.75) 80px,
+      #000 var(--g3-scene-edge-fade),
+      #000 100%
     );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      rgba(0, 0, 0, 0.25) 40px,
+      rgba(0, 0, 0, 0.75) 80px,
+      #000 var(--g3-scene-edge-fade),
+      #000 100%
+    );
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  .g3-home.is-single-screen .g3-manga-left-blend {
+    display: none;
   }
 }
 

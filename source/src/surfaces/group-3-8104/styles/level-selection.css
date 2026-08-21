@@ -1,316 +1,390 @@
-/* Level Selection Namespace */
+/* Strict visual reference match */
 
 .g3-level-selection {
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* CRITICAL: Use viewport relative clamped height, no scrolling */
-  height: calc(100dvh - 70px);
-  min-height: 480px;
+  height: calc(100dvh - 70px); /* Strict no-scroll */
   padding: 0;
   background: var(--g3-bg);
   overflow: hidden;
   box-sizing: border-box;
 }
 
+.g3-level-selection-inner {
+  /* Using CSS variables to scale proportionally when space is tight */
+  --available-height: calc(100dvh - 70px - 97px); /* 97px is roughly the header padding/margin area */
+  --reference-scale: min(1, calc(var(--available-height) / 640px));
+  width: min(1180px, calc(100% - 44px));
+  margin: auto;
+  padding: calc(42px * var(--reference-scale)) 0 calc(55px * var(--reference-scale));
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .g3-level-selection-header {
   text-align: center;
-  padding: 1.5rem 1rem 1rem;
+  margin-bottom: calc(30px * var(--reference-scale));
   flex-shrink: 0;
 }
 
 .g3-level-selection-header .g3-kicker {
-  color: var(--g3-muted);
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0 0 0.4rem 0;
+  color: var(--g3-gold);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  margin: 0 0 8px 0;
 }
 
 .g3-level-selection-header h1 {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-size: clamp(32px, 4vw, 54px);
   color: var(--g3-ink);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.08;
+  font-weight: 500;
 }
 
-/* Mobile Tabs (Hidden on Desktop) */
+.g3-level-selection-header .g3-subtitle {
+  margin: 13px auto 0;
+  color: var(--g3-muted);
+  font-size: 14px;
+  max-width: 650px;
+}
+
 .g3-level-mobile-tabs {
   display: none;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0 1rem 1rem;
-  flex-shrink: 0;
-}
-
-.g3-level-mobile-tabs button {
-  background: transparent;
-  color: var(--g3-muted);
-  border: 1px solid var(--g3-line);
-  border-radius: 2rem;
-  padding: 0.4rem 1.2rem;
-  font-size: 0.9rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.g3-level-mobile-tabs button.is-active {
-  background: var(--g3-ink);
-  color: var(--g3-bg);
-  border-color: var(--g3-ink);
 }
 
 .g3-level-selection-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.45fr .82fr .82fr;
+  gap: 16px;
+  transition: grid-template-columns .38s cubic-bezier(.2,.8,.2,1);
   flex: 1;
-  gap: 1rem;
-  padding: 0 clamp(1rem, 4vw, 2rem);
-  margin-bottom: clamp(12px, 2vh, 20px); /* Breathing room at bottom */
-  min-height: 0;
+  min-height: 0; /* Important so it doesn't break out of flex container */
 }
+.g3-level-selection-grid.is-active-hsk2 { grid-template-columns: .82fr 1.45fr .82fr; }
+.g3-level-selection-grid.is-active-hsk3 { grid-template-columns: .82fr .82fr 1.45fr; }
 
 .g3-level-card {
+  --accent: #ef5845;
   position: relative;
-  /* Card Proportions: 1.25 for active, 0.875 for compact */
-  flex: 0.875;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  border-radius: 24px;
+  min-width: 0;
+  height: 100%;
   overflow: hidden;
-  transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  background: transparent;
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: var(--g3-bg-soft);
+  isolation: isolate;
+  box-shadow: 0 28px 70px rgba(0,0,0,.28);
+  transition: .35s ease;
   text-align: left;
 }
 
-.g3-level-card.is-active,
-.g3-level-card:focus-within {
-  flex: 1.25;
+:root[data-theme="light"] .g3-level-card {
+  border: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 28px 70px rgba(0,0,0,.08);
+}
+
+.g3-level-card.is-active {
+  border-color: color-mix(in srgb, var(--accent) 75%, white 10%);
+  box-shadow: 0 32px 90px rgba(0,0,0,.4), 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+:root[data-theme="light"] .g3-level-card.is-active {
+  box-shadow: 0 32px 90px rgba(0,0,0,.15), 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .g3-level-card-background {
   position: absolute;
   inset: 0;
-  z-index: 0;
-}
-
-.g3-level-card-background img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s ease;
-  filter: saturate(1.1) brightness(0.85);
+  z-index: -4;
+  transform: scale(1.02);
+  transition: transform .6s ease, filter .4s ease;
 }
 
-.g3-level-card.is-active .g3-level-card-background img,
-.g3-level-card:focus-within .g3-level-card-background img {
-  transform: scale(1.03);
+.g3-level-card:hover .g3-level-card-background,
+.g3-level-card.is-active .g3-level-card-background {
+  transform: scale(1.06);
 }
 
-:root[data-theme="light"] .g3-level-card-background img {
-  filter: saturate(1.1) brightness(1);
+.g3-level-card:not(.is-active) .g3-level-card-background {
+  filter: saturate(.78) brightness(.72);
+}
+:root[data-theme="light"] .g3-level-card:not(.is-active) .g3-level-card-background {
+  filter: saturate(1) brightness(0.85);
 }
 
 .g3-level-card-scrim {
   position: absolute;
   inset: 0;
-  z-index: 1;
-  /* ONE readability scrim at the bottom */
-  background: linear-gradient(180deg, transparent 40%, color-mix(in srgb, var(--g3-bg) 60%, transparent) 75%, var(--g3-bg) 100%);
-  pointer-events: none;
+  z-index: -3;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--g3-bg) 12%, transparent) 0%, color-mix(in srgb, var(--g3-bg) 20%, transparent) 28%, color-mix(in srgb, var(--g3-bg) 92%, transparent) 75%, var(--g3-bg) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 55%, transparent), color-mix(in srgb, var(--g3-bg) 5%, transparent) 75%);
 }
 
 .g3-level-card-character-layer {
   position: absolute;
-  z-index: 2;
-  bottom: var(--actor-y, 0%);
-  right: var(--actor-x, 0%);
-  height: 80%;
-  width: 100%;
-  pointer-events: none;
-  transform: scale(var(--actor-scale, 1));
-  transform-origin: bottom center;
+  z-index: -2;
+  right: -4%;
+  bottom: 0;
+  height: 88%;
+  width: auto;
+  transition: height .4s ease, right .4s ease, opacity .3s ease, transform .5s ease;
 }
 
-.g3-actor-idle,
-.g3-actor-talk {
+.g3-actor-idle, .g3-actor-talk {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 15px 22px rgba(0,0,0,.42));
   position: absolute;
   bottom: 0;
   right: 0;
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-  object-position: bottom right;
-  transition: opacity 280ms ease, transform 400ms cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 280ms ease;
+}
+:root[data-theme="light"] .g3-actor-idle,
+:root[data-theme="light"] .g3-actor-talk {
+  filter: drop-shadow(0 15px 22px rgba(0,0,0,.15));
 }
 
-.g3-actor-idle {
-  opacity: 1;
-  transform: translateY(0);
-}
+.g3-actor-talk { opacity: 0; }
+.g3-level-card.is-active .g3-actor-idle { opacity: 0; }
+.g3-level-card.is-active .g3-actor-talk { opacity: 1; }
 
-.g3-actor-talk {
-  opacity: 0;
-  transform: translateY(2px);
+.g3-level-card.is-active .g3-level-card-character-layer {
+  height: 92%;
+  right: 0;
+  transform: translateX(6%);
 }
-
-.g3-level-card.is-active .g3-actor-idle,
-.g3-level-card:focus-within .g3-actor-idle {
-  opacity: 0;
-  transform: translateY(2px);
-}
-
-.g3-level-card.is-active .g3-actor-talk,
-.g3-level-card:focus-within .g3-actor-talk {
-  opacity: 1;
-  transform: translateY(-2px) scale(1.02);
+.g3-level-card:not(.is-active) .g3-level-card-character-layer {
+  height: 78%;
+  right: -22%;
+  opacity: .88;
 }
 
 .g3-level-card-content {
   position: relative;
   z-index: 3;
-  padding: 1.5rem clamp(1rem, 2.5vw, 2rem);
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.g3-level-card-meta {
+  height: 100%;
+  padding: calc(30px * var(--reference-scale));
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.3rem;
-}
-
-.g3-level-card-number {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: var(--g3-gold);
-  line-height: 1;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .g3-level-card-badge {
-  background: color-mix(in srgb, var(--g3-bg) 80%, transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 65%, black));
+  padding: 10px 17px;
+  border-radius: 0 0 16px 0;
+  font-size: 11px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.g3-level-card-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 13px;
+}
+
+.g3-level-card-num {
+  width: 48px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  font: 800 16px var(--font-display);
+  color: #111;
+}
+
+.g3-level-card-code {
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .08em;
   color: var(--g3-ink);
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 0.15rem 0.5rem;
-  border-radius: 1rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .g3-level-card-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2vw, 1.8rem);
-  color: var(--g3-ink);
-  margin: 0;
+  font-size: clamp(25px, 2.3vw, 37px);
   line-height: 1.2;
-}
-
-.g3-level-card-details {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease 0.1s, margin-top 0.4s ease;
-}
-
-.g3-level-card.is-active .g3-level-card-details,
-.g3-level-card:focus-within .g3-level-card-details {
-  grid-template-rows: 1fr;
-  opacity: 1;
-  margin-top: 0.75rem;
-}
-
-.g3-level-card-details-inner {
-  overflow: hidden;
-}
-
-.g3-level-card-details p {
+  margin: 0 0 12px;
+  font-weight: 900;
+  max-width: 70%;
   color: var(--g3-ink);
-  font-size: clamp(0.85rem, 1.1vw, 1rem);
-  line-height: 1.4;
-  margin: 0 0 1rem 0;
-  max-width: 90%;
-  opacity: 0.85;
+}
+
+.g3-level-card-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--g3-muted);
+  margin: 0;
+  max-width: 68%;
+}
+
+.g3-level-card-meta {
+  margin-top: 17px;
+  padding-top: 15px;
+  border-top: 1px solid var(--g3-line);
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  color: var(--g3-muted);
+}
+
+.g3-level-card-meta b {
+  display: block;
+  color: var(--g3-ink);
+  font-size: 13px;
+  margin-top: 3px;
 }
 
 .g3-level-card-actions {
   display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+  max-width: 72%;
 }
 
-.g3-level-card-actions button {
-  border: 0;
-  font-family: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 0.4rem;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.g3-level-card-actions .g3-primary-action {
-  background: var(--g3-red);
-  color: #fff8e8;
-  padding: 0.6rem 1rem;
-  font-size: 0.95rem;
+.g3-primary-action, .g3-secondary-action {
+  height: 47px;
+  border-radius: 999px;
+  padding: 0 20px;
+  border: none;
+  font-weight: 900;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
 }
 
-.g3-level-card-actions .g3-primary-action:hover {
-  background: color-mix(in srgb, var(--g3-red) 85%, black);
-  transform: translateY(-2px);
+.g3-primary-action {
+  flex: 1;
+  background: var(--accent);
+  color: #fff;
+}
+.g3-primary-action:hover {
+  background: color-mix(in srgb, var(--accent) 80%, black);
 }
 
-.g3-level-card-actions .g3-secondary-action {
-  background: color-mix(in srgb, var(--g3-bg) 60%, transparent);
+.g3-secondary-action {
+  background: color-mix(in srgb, var(--g3-ink) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--g3-ink) 20%, transparent);
   color: var(--g3-ink);
-  padding: 0.6rem 1rem;
-  font-size: 0.85rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+}
+.g3-secondary-action:hover {
+  background: color-mix(in srgb, var(--g3-ink) 15%, transparent);
 }
 
-.g3-level-card-actions .g3-secondary-action:hover {
-  background: var(--g3-line);
+.g3-level-card.is-compact .g3-level-card-details {
+  display: none;
+}
+.g3-level-card.is-compact .g3-secondary-action {
+  display: none;
+}
+.g3-level-card.is-compact .g3-level-card-title {
+  max-width: 90%;
+  font-size: 30px;
+}
+.g3-level-card.is-compact .g3-level-card-actions {
+  max-width: 100%;
+}
+.g3-level-card.is-compact .g3-primary-action {
+  width: 100%;
+  flex: none;
 }
 
-/* Tablet & Mobile: ONE card + selector */
+/* Mobile Layout */
 @media (max-width: 900px) {
+  .g3-level-selection-inner {
+    width: min(720px, calc(100% - 26px));
+    padding-top: 28px;
+  }
   .g3-level-mobile-tabs {
     display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .g3-level-mobile-tabs button {
+    background: transparent;
+    color: var(--g3-muted);
+    border: 1px solid var(--g3-line);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .g3-level-mobile-tabs button.is-active {
+    background: var(--g3-ink);
+    color: var(--g3-bg);
+    border-color: var(--g3-ink);
   }
   
-  .g3-level-selection-grid {
-    flex-direction: column;
-    padding: 0 1rem;
+  .g3-level-selection-grid,
+  .g3-level-selection-grid.is-active-hsk2,
+  .g3-level-selection-grid.is-active-hsk3 {
+    grid-template-columns: 1fr;
+    min-height: 0;
   }
   
-  .g3-level-card {
-    /* Hide inactive cards completely to avoid scrolling */
+  .g3-level-card.is-compact {
     display: none;
-    flex: 1;
-    border-radius: 16px;
   }
   
-  .g3-level-card.is-active {
-    display: flex;
-  }
-  
-  .g3-level-card-details {
-    grid-template-rows: 1fr;
+  .g3-level-card:not(.is-active) .g3-level-card-character-layer,
+  .g3-level-card.is-active .g3-level-card-character-layer {
+    height: 86%;
+    right: -2%;
     opacity: 1;
-    margin-top: 0.75rem;
+    transform: translateX(5%);
   }
-  
+}
+
+@media (max-width: 560px) {
+  .g3-level-selection-inner {
+    width: calc(100% - 18px);
+  }
+  .g3-level-selection-header h1 {
+    font-size: 38px;
+  }
+  .g3-level-selection-header .g3-subtitle {
+    font-size: 12px;
+  }
+  .g3-level-card-content {
+    padding: 22px;
+  }
   .g3-level-card-character-layer {
-    right: 0 !important;
-    transform: none !important;
+    height: 76% !important;
+    right: -18% !important;
+    opacity: .8 !important;
+  }
+  .g3-level-card-title, .g3-level-card-desc {
+    max-width: 72% !important;
+  }
+  .g3-level-card-meta {
+    max-width: 70%;
+    gap: 12px;
+  }
+  .g3-level-card-actions {
+    max-width: 100%;
+    flex-direction: column;
+  }
+  .g3-secondary-action {
+    width: 100%;
   }
 }

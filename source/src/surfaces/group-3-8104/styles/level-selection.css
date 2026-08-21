@@ -76,7 +76,7 @@
   overflow: hidden;
   border-radius: 26px;
   border: 1px solid rgba(255,255,255,.15);
-  background: var(--g3-bg-soft);
+  background: transparent;
   isolation: isolate;
   box-shadow: 0 28px 70px rgba(0,0,0,.28);
   transition: .35s ease;
@@ -113,19 +113,22 @@
 }
 
 .g3-level-card:not(.is-active) .g3-level-card-background {
-  filter: saturate(.78) brightness(.72);
+  filter: saturate(.85) brightness(.85);
 }
 :root[data-theme="light"] .g3-level-card:not(.is-active) .g3-level-card-background {
-  filter: saturate(1) brightness(0.85);
+  filter: saturate(1) brightness(0.95);
 }
 
 .g3-level-card-scrim {
   position: absolute;
   inset: 0;
   z-index: -3;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--g3-bg) 12%, transparent) 0%, color-mix(in srgb, var(--g3-bg) 20%, transparent) 28%, color-mix(in srgb, var(--g3-bg) 92%, transparent) 75%, var(--g3-bg) 100%),
-    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 55%, transparent), color-mix(in srgb, var(--g3-bg) 5%, transparent) 75%);
+  background: linear-gradient(
+    to bottom,
+    transparent 35%,
+    color-mix(in srgb, var(--g3-bg) 15%, transparent) 55%,
+    color-mix(in srgb, var(--g3-bg) 45%, transparent) 100%
+  );
 }
 
 .g3-level-card-character-layer {
@@ -214,6 +217,7 @@
   font-weight: 900;
   letter-spacing: .08em;
   color: var(--g3-ink);
+  text-shadow: 0 1px 4px color-mix(in srgb, var(--g3-bg) 90%, transparent);
 }
 
 .g3-level-card-title {
@@ -223,6 +227,7 @@
   font-weight: 900;
   max-width: 70%;
   color: var(--g3-ink);
+  text-shadow: 0 2px 12px color-mix(in srgb, var(--g3-bg) 80%, transparent), 0 1px 3px color-mix(in srgb, var(--g3-bg) 90%, transparent);
 }
 
 .g3-level-card-desc {
@@ -231,17 +236,19 @@
   color: var(--g3-muted);
   margin: 0;
   max-width: 68%;
+  text-shadow: 0 1px 4px color-mix(in srgb, var(--g3-bg) 90%, transparent);
 }
 
 .g3-level-card-meta {
   margin-top: 17px;
   padding-top: 15px;
-  border-top: 1px solid var(--g3-line);
+  border-top: 1px solid color-mix(in srgb, var(--g3-ink) 12%, transparent);
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
   font-size: 10px;
   color: var(--g3-muted);
+  text-shadow: 0 1px 4px color-mix(in srgb, var(--g3-bg) 90%, transparent);
 }
 
 .g3-level-card-meta b {

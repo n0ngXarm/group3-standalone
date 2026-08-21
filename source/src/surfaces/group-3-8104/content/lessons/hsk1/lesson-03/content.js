@@ -31,6 +31,44 @@ export const LESSON_HSK1_L3 = {
   "thAid": "ซื้อเสื้อผ้าในห้าง ชิมอาหารจีนแสนอร่อย และนัดพบกันที่สนามบินต้าซิงเพื่อออกเดินทาง"
 },
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  characters: {
+    bai: {
+      hanzi: "白家月",
+      pinyin: "Bái Jiāyuè",
+      nameTh: "ไป๋เจียเยว่",
+      nameEn: "Bai Jiayue",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    shopAssistant: {
+      hanzi: "售货员",
+      pinyin: "shòuhuòyuán",
+      nameTh: "พนักงานขาย",
+      nameEn: "Shop assistant",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+    liWen: {
+      hanzi: "李文",
+      pinyin: "Lǐ Wén",
+      nameTh: "หลี่เหวิน",
+      nameEn: "Li Wen",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    teacherWang: {
+      hanzi: "王一飞",
+      pinyin: "Wáng Yīfēi",
+      nameTh: "อาจารย์หวังอี้เฟย",
+      nameEn: "Ms. Wang",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-03/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "50% center",
+    },
+  },
   objectives: [
   {
     "zh": "掌握第3课的核心词汇与日常对话。",

@@ -24,3 +24,189 @@
   font-family: monospace;
   margin-bottom: 2px;
 }
+
+/* Full-height home split screen. Keep the header over the two panels. */
+@media (min-width: 901px) {
+  .g3-header.is-home-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    background: color-mix(in srgb, var(--g3-bg) 85%, transparent);
+    border-bottom: 1px solid var(--g3-line);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .g3-home.is-single-screen {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .g3-home.is-single-screen .g3-home-hero {
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .g3-home.is-single-screen .g3-hero-copy {
+    grid-column: 1;
+    align-self: center;
+    justify-self: center;
+    width: min(100%, 40rem);
+    height: 100%;
+    justify-content: center;
+    padding: 2rem clamp(2rem, 5vw, 6rem);
+    box-sizing: border-box;
+  }
+
+  .g3-home.is-single-screen .g3-hero-copy::before {
+    display: none;
+  }
+
+  .g3-home.is-single-screen .g3-home-title {
+    opacity: 1;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel {
+    position: relative;
+    grid-column: 2;
+    align-self: stretch;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel::before { display: none; }
+
+  .g3-home.is-single-screen .g3-manga-top-bar {
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    width: 100%;
+    max-width: none;
+    min-height: 70px;
+    box-sizing: border-box;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0;
+    background: color-mix(in srgb, var(--g3-bg) 85%, transparent);
+    border-bottom: 1px solid var(--g3-line);
+    color: var(--g3-ink);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .g3-home.is-single-screen .g3-home-preview-heading {
+    position: absolute;
+    z-index: 12;
+    top: clamp(5.5rem, 10vh, 7rem);
+    right: 1.5rem;
+    left: 1.5rem;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .g3-home.is-single-screen .g3-home-preview-heading .g3-vocab-pill {
+    pointer-events: auto;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel-stage,
+  .g3-home.is-single-screen .g3-manga-stage-card,
+  .g3-home.is-single-screen .g3-manga-viewport {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .g3-home.is-single-screen .g3-manga-viewport {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .g3-home.is-single-screen .g3-manga-subtitle-box {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    transform: none;
+    box-sizing: border-box;
+    padding: 1.25rem clamp(1.25rem, 3vw, 2.5rem) max(1.25rem, env(safe-area-inset-bottom));
+    border: 0;
+    border-radius: 0;
+    background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--g3-bg) 82%, transparent) 34%, color-mix(in srgb, var(--g3-bg) 96%, transparent) 100%);
+    box-shadow: none;
+    backdrop-filter: none;
+    text-align: left;
+    animation: g3-subtitle-fade 280ms ease-out both;
+  }
+
+  .g3-home.is-single-screen .g3-manga-subtitle-header {
+    width: 100%;
+  }
+
+  .g3-home.is-single-screen .g3-manga-hanzi,
+  .g3-home.is-single-screen .g3-manga-pinyin,
+  .g3-home.is-single-screen .g3-manga-thai {
+    text-align: left;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel-dots {
+    position: absolute;
+    z-index: 12;
+    right: 0;
+    bottom: calc(var(--g3-subtitle-height, 0px) + 1rem);
+    left: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel-dots button {
+    pointer-events: auto;
+  }
+
+  .g3-home.is-single-screen .g3-manga-arrow {
+    top: calc((100% - var(--g3-subtitle-height, 0px)) / 2);
+  }
+
+  .g3-home.is-single-screen .g3-manga-speaker-tag {
+    flex: 0 0 auto;
+    max-width: none;
+    white-space: nowrap;
+    overflow: visible;
+  }
+}
+
+@keyframes g3-subtitle-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.g3-home.is-single-screen .g3-manga-bg-img {
+  filter: saturate(0.75) brightness(0.9);
+}
+
+.g3-home.is-single-screen .g3-manga-backdrop::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  content: "";
+  background: linear-gradient(135deg, color-mix(in srgb, var(--g3-bg) 65%, transparent), color-mix(in srgb, var(--g3-red) 30%, transparent));
+  background-blend-mode: multiply;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.g3-home.is-single-screen .g3-manga-bg-vignette {
+  z-index: 3;
+}

@@ -1,0 +1,125 @@
+ M .agents/ORIGINAL_REQUEST.md
+ M .agents/auditor_1/BRIEFING.md
+ M .agents/auditor_1/DISPATCH.md
+ M .agents/auditor_1/handoff.md
+ M .agents/reviewer_1/handoff.md
+ M .agents/reviewer_2/handoff.md
+ M .agents/sentinel/BRIEFING.md
+ M .agents/sentinel/handoff.md
+ D source/dist/assets/ThreeBackdrop-C6sGLcQx.js
+ D source/dist/assets/content-C4W9My7a.js
+ D source/dist/assets/content-CPnrJFzi.js
+ D source/dist/assets/content-D45LD8KN.js
+ D source/dist/assets/content-DXhkkHFk.js
+ D source/dist/assets/group3/character-fruit-vendor.webp
+ D source/dist/assets/group3/character-liu-ming.webp
+ D source/dist/assets/group3/character-shop-assistant.webp
+ D source/dist/assets/group3/character-wang-yixue.webp
+ D source/dist/assets/group3/shared/characters/character-fruit-vendor.webp
+ D source/dist/assets/group3/shared/characters/character-liu-ming.webp
+ D source/dist/assets/group3/shared/characters/character-shop-assistant.webp
+ D source/dist/assets/group3/shared/characters/character-wang-yixue.webp
+ D source/dist/assets/group3/shared/characters/hero-liming-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-liming-talk-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-liuming-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-liuming-talk-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-officer-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-officer-talk-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-seller-gesture-v2.webp
+ D source/dist/assets/group3/shared/characters/hero-seller-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-student-female-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-student-female-talk-v2.webp
+ D source/dist/assets/group3/shared/characters/hero-student-male-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-student-male-talk-v2.webp
+ D source/dist/assets/group3/shared/characters/hero-waiter-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-waiter-talk-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-yixue-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-yixue-talk-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-zhangjie-idle-v1.webp
+ D source/dist/assets/group3/shared/characters/hero-zhangjie-talk-v1.webp
+ D source/dist/assets/hub-AMxhIlhr.js
+ D source/dist/assets/index-CRaoiqpN.css
+ D source/dist/assets/index-Doz1Xn1k.js
+ D source/dist/assets/reader-Ts5PeYJa.js
+ D source/dist/assets/roleplay-L7EVX2f7.js
+ M source/dist/index.html
+ D source/public/assets/group3/character-fruit-vendor.webp
+ D source/public/assets/group3/character-liu-ming.webp
+ D source/public/assets/group3/character-shop-assistant.webp
+ D source/public/assets/group3/character-wang-yixue.webp
+ D source/public/assets/group3/shared/characters/character-fruit-vendor.webp
+ D source/public/assets/group3/shared/characters/character-liu-ming.webp
+ D source/public/assets/group3/shared/characters/character-shop-assistant.webp
+ D source/public/assets/group3/shared/characters/character-wang-yixue.webp
+ D source/public/assets/group3/shared/characters/hero-liming-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-liming-talk-v1.webp
+ D source/public/assets/group3/shared/characters/hero-liuming-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-liuming-talk-v1.webp
+ D source/public/assets/group3/shared/characters/hero-officer-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-officer-talk-v1.webp
+ D source/public/assets/group3/shared/characters/hero-seller-gesture-v2.webp
+ D source/public/assets/group3/shared/characters/hero-seller-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-student-female-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-student-female-talk-v2.webp
+ D source/public/assets/group3/shared/characters/hero-student-male-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-student-male-talk-v2.webp
+ D source/public/assets/group3/shared/characters/hero-waiter-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-waiter-talk-v1.webp
+ D source/public/assets/group3/shared/characters/hero-yixue-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-yixue-talk-v1.webp
+ D source/public/assets/group3/shared/characters/hero-zhangjie-idle-v1.webp
+ D source/public/assets/group3/shared/characters/hero-zhangjie-talk-v1.webp
+ M source/scripts/curate-dynamic-lessons.mjs
+ M source/src/surfaces/group-3-8104/Group3App.jsx
+ M source/src/surfaces/group-3-8104/config.js
+ M source/src/surfaces/group-3-8104/content/copy.js
+ M source/src/surfaces/group-3-8104/content/lessons/hsk1/lesson-01/content.js
+ M source/src/surfaces/group-3-8104/content/lessons/hsk1/lesson-02/content.js
+ M source/src/surfaces/group-3-8104/content/lessons/hsk1/lesson-03/content.js
+ M source/src/surfaces/group-3-8104/content/lessons/hsk2/lesson-01/content.js
+ M source/src/surfaces/group-3-8104/content/lessons/hsk2/lesson-02/content.js
+ M source/src/surfaces/group-3-8104/content/lessons/hsk3/lesson-01/content.js
+ M source/src/surfaces/group-3-8104/content/lessons/hsk3/lesson-02/content.js
+ M source/src/surfaces/group-3-8104/features/catalog/HomeCarousel.jsx
+ M source/src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx
+ M source/src/surfaces/group-3-8104/group-3-story.css
+ M source/src/surfaces/group-3-8104/shared/components/StoryLayout.jsx
+ M source/src/surfaces/group-3-8104/styles/home.css
+ M source/src/surfaces/group-3-8104/styles/responsive.css
+ M source/src/surfaces/group-3-8104/styles/tokens-shell.css
+ M source/src/surfaces/group-3-8104/styles/ui-polish.css
+?? .agents/VISUAL-NOVEL-BACKGROUND-PLACEMENT-SPEC.md
+?? .agents/WORKTREE-BEFORE-SESSION-MOVE.txt
+?? .agents/auditor_2/
+?? .agents/implementer_1/
+?? .agents/preview.html
+?? ".agents/report/image copy 3.png"
+?? .agents/reviewer_3/
+?? .agents/swe_1/
+?? .agents/victory_auditor_2/
+?? ORIGINAL_REQUEST.md
+?? process_images.sh
+?? source/AGY_VERIFICATION_REPORT.md
+?? source/FORENSIC_REPORT.txt
+?? source/RECONCILIATION_MATRIX.md
+?? source/RECONCILIATION_REPORT.md
+?? source/dist/assets/ThreeBackdrop-D-ZEuJwK.js
+?? source/dist/assets/content-BbFVu2P0.js
+?? source/dist/assets/content-D-dI_FeD.js
+?? source/dist/assets/content-DOVIjACu.js
+?? source/dist/assets/content-DlcjFO6o.js
+?? source/dist/assets/group3/shared/characters/visual-novel-backgrounds/
+?? source/dist/assets/group3/shared/characters/visual-novel-character-poses-talk/
+?? source/dist/assets/group3/shared/characters/visual-novel-characters-idle/
+?? source/dist/assets/hub-vdPCbtNf.js
+?? source/dist/assets/index-C71O_mRa.css
+?? source/dist/assets/index-Dj7CdPoD.js
+?? source/dist/assets/reader-DMyQyUQ-.js
+?? source/dist/assets/roleplay-Dvh86O1o.js
+?? source/fix.py
+?? source/fix_syntax.py
+?? source/public/assets/group3/shared/characters/visual-novel-backgrounds/
+?? source/public/assets/group3/shared/characters/visual-novel-character-poses-talk/
+?? source/public/assets/group3/shared/characters/visual-novel-characters-idle/
+?? source/src/surfaces/group-3-8104/styles/home-single-screen.css.bak
+?? update_home_enhancements.py

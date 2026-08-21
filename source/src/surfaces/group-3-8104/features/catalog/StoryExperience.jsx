@@ -10,7 +10,7 @@ import {
 import { group3AssetPath } from "../../config.js";
 import { COPY } from "../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
-import { GROUP3_VOICE_PROFILES, playUiCue } from "../../services/audio/index.js";
+import { GROUP3_VOICE_PROFILES } from "../../services/audio/index.js";
 import { levelPath, lessonPath, scenePath } from "../../routing/routes.js";
 import { SourceStamp } from "../../shared/components/index.js";
 
@@ -37,30 +37,62 @@ function profileName(profile, language) {
 import { HomeCarousel } from "./HomeCarousel.jsx";
 
 export function LevelPicker({ language, navigate }) {
+  const [activeCard, setActiveCard] = useState("hsk1");
   const text = COPY[language];
   const levels = [
-    { id: "hsk1", number: "01", title: text.hsk1Title, body: text.hsk1Body },
-    { id: "hsk2", number: "02", title: text.hsk2Title, body: text.hsk2Body },
-    { id: "hsk3", number: "03", title: text.hsk3Title, body: text.hsk3Body },
+    { id: "hsk1", number: "01", title: text.hsk1Title, body: text.hsk1Body, img: group3AssetPath("/assets/group3/shared/level-paths/hsk1-path-v2-1440w.webp") },
+    { id: "hsk2", number: "02", title: text.hsk2Title, body: text.hsk2Body, img: group3AssetPath("/assets/group3/shared/level-paths/hsk2-path-v2-1440w.webp") },
+    { id: "hsk3", number: "03", title: text.hsk3Title, body: text.hsk3Body, img: group3AssetPath("/assets/group3/shared/level-paths/hsk3-path-v2-1440w.webp") },
   ];
 
+  const startLevel = (levelId) => {
+    navigate(levelPath(levelId));
+  };
+  const previewLevel = (levelId) => {
+    const firstLesson = GROUP3_LESSONS
+      .filter((item) => item.level === levelId)
+      .sort((first, second) => Number(first.number) - Number(second.number))[0];
+    navigate(firstLesson ? lessonPath(firstLesson, "overview") : levelPath(levelId));
+  };
+
   return (
-    <main className="g3-level-picker" aria-labelledby="g3-level-picker-title">
-      <section className="g3-level-picker-intro">
+    <main className="g3-level-picker g3-no-scroll" aria-labelledby="g3-level-picker-title">
+      <section className="g3-level-picker-header">
         <p className="g3-home-section-label">{text.levelPickerKicker}</p>
         <h1 id="g3-level-picker-title">{text.levelPickerTitle}</h1>
-        <p>{text.levelPickerBody}</p>
       </section>
-      <section className="g3-level-picker-options" aria-label={text.levelPickerTitle}>
-        {levels.map((level) => (
-          <button key={level.id} type="button" className="g3-level-picker-option" onClick={() => navigate(levelPath(level.id))}>
-            <span>{level.number}</span>
-            <strong>{level.id.toUpperCase()}</strong>
-            <b>{level.title}</b>
-            <small>{level.body}</small>
-            <i aria-hidden="true">→</i>
-          </button>
-        ))}
+      <section className="g3-level-picker-cards" aria-label={text.levelPickerTitle}>
+        {levels.map((level) => {
+          const isActive = activeCard === level.id;
+          return (
+            <article 
+              className={`g3-level-picker-card ${isActive ? "is-active" : ""}`} 
+              key={level.id}
+              onClick={() => setActiveCard(level.id)}
+            >
+              <img src={level.img} alt="" className="g3-level-card-bg" />
+              <div className="g3-level-card-overlay"></div>
+              <div className="g3-level-card-content">
+                <div className="g3-level-card-header">
+                  <span className="g3-level-card-number">{level.number}</span>
+                  <strong className="g3-level-card-id">{level.id.toUpperCase()}</strong>
+                </div>
+                <h2 className="g3-level-card-title">{level.title}</h2>
+                <div className="g3-level-card-reveal">
+                  <p className="g3-level-card-body">{level.body}</p>
+                  <div className="g3-level-card-actions">
+                    <button type="button" className="g3-btn-start" onClick={(e) => { e.stopPropagation(); startLevel(level.id); }}>
+                      {text.startLearning}<i aria-hidden="true">→</i>
+                    </button>
+                    <button type="button" className="g3-btn-preview" onClick={(e) => { e.stopPropagation(); previewLevel(level.id); }}>
+                      {text.previewContent}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </section>
     </main>
   );
@@ -74,9 +106,9 @@ export function StoryHome({ language, navigate, lowData = false }) {
   const nameInputRef = useRef(null);
   const text = COPY[language];
   const featured = FEATURED_LESSON;
-  const navigateWithCue = (path, cue = "tap") => {
-    playUiCue(cue);
-    navigate(path);
+  const featuredPath = scenePath(featured, 1);
+  const navigateWithCue = (path) => {
+    navigate(path || featuredPath);
   };
 
   useEffect(() => {
@@ -103,14 +135,25 @@ export function StoryHome({ language, navigate, lowData = false }) {
       // Continue even when browser storage is unavailable.
     }
     setRegisterOpen(false);
-    navigateWithCue("/home/levels/", "confirm");
+    navigateWithCue("/home/levels/");
   };
 
   return (
     <main className="g3-home is-single-screen">
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
-          <h1 id="g3-home-title" className="g3-home-title g3-wow-text" tabIndex="-1">{text.heroTitleLine}</h1>
+          <h1 id="g3-home-title" className="g3-home-title g3-wow-text" tabIndex="-1">
+            {language === "th" ? (
+              <>
+                <span className="g3-home-title-phrase">
+                  ฟังจีนจาก<span style={{ whiteSpace: "nowrap" }}>สถานการณ์จริง</span>
+                </span>{" "}
+                <span className="g3-home-title-phrase">แล้วตอบให้ทัน</span>
+              </>
+            ) : (
+              text.heroTitleLine
+            )}
+          </h1>
           <p className="g3-home-sub">{text.heroSubLine}</p>
           <div className="g3-home-benefits" aria-label={text.benefitsLabel}>
             <p><strong>01</strong>{text.benefitOne}</p>
@@ -131,7 +174,6 @@ export function StoryHome({ language, navigate, lowData = false }) {
             </button>
           </div>
           <p className="g3-home-free-tag">{text.noStorage}</p>
-          <p className="g3-home-howto"><strong>{text.howToLabel}</strong> {text.howToStart}</p>
         </div>
 
         {/* 5-Slide Manga Carousel — animated 2D frame-by-frame scenes */}

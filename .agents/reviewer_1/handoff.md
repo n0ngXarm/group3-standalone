@@ -1,114 +1,45 @@
-# Handoff Report — Reviewer 1 (Group 3 Standalone Home Page Fixes)
+# Adversarial Review & Handoff Report — Group 3 Home Page UI/UX Regressions
 
-## 1. Observation
+> Status: COMPLETED
+> Verdict: APPROVED (with QA Fixes applied)
+> Reviewer: reviewer_1 (Adversarial QA / Reviewer)
 
-Direct observations from codebase inspection, file audits, and build/test executions:
+## 1. What the prior attempt got wrong
+- **Finding**: Character Name Tag Suppression on Manga Stage.
+- **Input**: Render 2D Manga Stage actors on the Home Page (`ScenarioMangaStage.jsx`).
+- **Expected**: Actor name tags ("王老师 (Seller)", "大卫 (David)") render visibly without faint white borders.
+- **Actual**: Actor name tags were hidden by `display: none` in `home-single-screen.css` because `home-enhancements.css` lacked an explicit `display` override property.
+- **Root Cause**: Leftover `.g3-manga-actor-name { display: none; }` in `home-single-screen.css` masked the element from rendering in the browser.
 
-### R1. Layout Geometry & Viewport Bounds
-1. **Header Offset & Single-Screen Height**:
-   - `source/src/surfaces/group-3-8104/styles/home-single-screen.css` line 223:
-     `.g3-home.is-single-screen { height: calc(100svh - 88px); min-height: 480px; display: flex; flex-direction: column; overflow: hidden; }`
-   - `source/src/surfaces/group-3-8104/styles/home-enhancements.css` lines 496–498:
-     `.g3-home.is-single-screen { height: calc(100dvh - 88px); max-height: calc(100dvh - 88px); overflow: hidden; padding: 0.75rem 1.75rem; ... }`
-2. **Carousel Stage Scaling & Aspect Ratio**:
-   - `source/src/surfaces/group-3-8104/styles/home-single-screen.css` lines 516–520:
-     `.g3-manga-viewport { width: 100%; height: 100%; min-height: 320px; max-height: min(56vh, 460px); aspect-ratio: 16 / 10; ... }`
-3. **Single-Row Grid Track & Hero Grid**:
-   - `source/src/surfaces/group-3-8104/styles/home-enhancements.css` line 508:
-     `grid-template-rows: 1fr;`
-   - `source/src/surfaces/group-3-8104/styles/home-single-screen.css` line 233:
-     `grid-template-rows: none; grid-template-columns: minmax(21rem, 0.95fr) minmax(25rem, 1.05fr);`
-4. **Copy Margins & Spacing**:
-   - `source/src/surfaces/group-3-8104/styles/home-single-screen.css` line 277 & `home-enhancements.css` line 541:
-     `.g3-home.is-single-screen .g3-home-sub { margin: 0; }`
-   - `source/src/surfaces/group-3-8104/styles/home-single-screen.css` line 289 & `home-enhancements.css` line 545:
-     `.g3-home.is-single-screen .g3-home-cta-row { margin-top: 0.35rem; }`
-5. **Pagination Dots & Interactive Elements**:
-   - `source/src/surfaces/group-3-8104/features/catalog/HomeCarousel.jsx` lines 41–56: renders `.g3-home-carousel-dots` with accessible tablist and `.g3-home-carousel-dot.is-active`.
-   - `source/src/surfaces/group-3-8104/styles/home-single-screen.css` lines 1062–1083: styles active gold/red pill (`width: 2rem`, `border-radius: 999px`, active gradient) with full Dark and Light theme token support.
-6. **Stylesheet Line Limit Compliance**:
-   - `home-enhancements.css`: 1046 lines (limit <= 2300 lines) -> **PASS**
-   - `home-single-screen.css`: 1113 lines (limit <= 1200 lines) -> **PASS**
+## 2. What I changed
+1. **`source/src/surfaces/group-3-8104/styles/home-single-screen.css`**:
+   - Removed `.g3-manga-actor-name { display: none; }` block.
+2. **`source/src/surfaces/group-3-8104/styles/home-enhancements.css`**:
+   - Added `display: inline-block; border: none; white-space: nowrap; pointer-events: none;` to `.g3-manga-actor-name`.
 
-### R2. Group 3 Branding & Eyebrow Label Removal
-1. **Eyebrow DOM Element Removal**:
-   - `source/src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx` lines 47–76: `<div className="g3-hero-copy">` contains solely the `h1` (`g3-home-title`), `p` (`g3-home-sub`), and `div` (`g3-home-cta-row`). `<p className="g3-home-eyebrow">` is completely removed.
-   - Grep search for `g3-home-eyebrow` across `source/src` confirms 0 occurrences in any JSX file (only retained as internal CSS selector).
-2. **Copy Dictionary Branding Removal (`source/src/surfaces/group-3-8104/content/copy.js`)**:
-   - `heroBadge`: `""` across `th` (line 21), `zh` (line 197), and `en` (line 373).
-   - `group`: `""` across `th` (line 9), `zh` (line 185), and `en` (line 361).
-   - `footerCourse`: `"หลักสูตร New HSK ระดับ 1–3"` (th, line 131), `"新 HSK 1–3 课程"` (zh, line 307), `"New HSK Levels 1–3"` (en, line 483).
-   - `footerMembersTitle`: `"ทีมพัฒนา"` (th, line 132), `"开发团队"` (zh, line 308), `"Development team"` (en, line 484).
-   - Brand string searches across all copy and components confirm zero remaining occurrences of `"HSK 1–3 · สถานการณ์จำลอง"`, `"HSK 1–3 · 情景模拟"`, `"HSK 1–3 · Scenario Practice"`, `"GROUP 03 · LEARN BY SITUATION"`, `"กลุ่มที่ 3"`, `"第 3 组"`, or `"Development team (Group 3)"`.
-3. **Header/Footer Template Cleanliness (`StoryLayout.jsx`)**:
-   - Lines 53 & 108: `{text.group ? <small>{text.group}</small> : null}` cleanly suppresses rendering when empty.
-   - Lines 253–272: footer references `text.routeLabels.home` and `新HSK教程 1–3` without hardcoded group attributions.
+## 3. Requirements & Acceptance Criteria Verification Matrix
 
-### R3. Automated Test Suite & Build
-1. **Unit Test Suite**:
-   - Command: `cd /home/pisitpong/group3-standalone/source && npm test`
-   - Output: `ℹ tests 104`, `ℹ suites 4`, `ℹ pass 104`, `ℹ fail 0`, `ℹ cancelled 0`, `ℹ duration_ms 2163ms`.
-2. **Vite Production Build**:
-   - Command: `cd /home/pisitpong/group3-standalone/source && npm run build`
-   - Output: `✓ 84 modules transformed.`, `✓ built in 2.38s`, `exit code 0`.
+| ID | Requirement & Acceptance Criteria | Status | Verification Detail |
+|---|---|---|---|
+| **R1** | Remove `white-space: nowrap` from `.g3-home-title-phrase`. Wrap `สถานการณ์จริง` in `StoryExperience.jsx` with `<span style={{ whiteSpace: "nowrap" }}>`. | **PASS** | `StoryExperience.jsx` wraps `<span style={{ whiteSpace: "nowrap" }}>สถานการณ์จริง</span>` inside `.g3-home-title-phrase`. Natural wrap verified across desktop and mobile screens. |
+| **R2** | Remove native scrollbar on `.g3-manga-top-bar` and restore `.g3-manga-audio-btn` in `ScenarioMangaStage.jsx`. | **PASS** | `home-enhancements.css` / `home-single-screen.css` have `scrollbar-width: none; ::-webkit-scrollbar { display: none; }`. Speaker audio button restored with `volumeIcon` and speech synthesis trigger. |
+| **R3** | Update `heroSubLine` (TH) copy in `copy.js`. | **PASS** | `copy.js` line 22 updated to `"ออกแบบสำหรับผู้เรียน HSK 1-3 จำลองบทสนทนาโต้ตอบพร้อมเสียงเจ้าของภาษา ให้คุณมั่นใจทุกการสื่อสาร"`. |
+| **R4** | Delete `span:last-child::after` pseudo-element underline and apply native `text-decoration`. | **PASS** | `ui-polish.css` applies native `text-decoration: underline; text-decoration-skip-ink: auto; text-underline-offset: 0.15em; text-decoration-thickness: 0.12em; text-decoration-color: var(--g3-red, #cf3a27);`. |
+| **R5** | Remove faint white border from `.g3-manga-actor-name`. | **PASS** | `border: 1px solid rgba(255, 255, 255, 0.2);` removed. `border: none; display: inline-block;` set in `home-enhancements.css`. Residual `display: none` removed from `home-single-screen.css`. |
 
----
+## 4. Verification Record
+- **Deep Verification (Ran Actual Tests)**:
+  - `npm test`: 104 / 104 tests passing across 4 test suites (0 failures, 0 regressions, ~1.2s).
+  - `npm run check` (vite build): 84 modules transformed, build succeeded in 1.57s.
+  - Empirical mobile responsive suite: 9/9 tests pass across iPhone SE (320px), iPhone 8 (375px), iPhone 12/13 Pro (390px), iPhone XR (414px), Android Compact (360px).
+- **Shallow Verification (Manual/Visual Review)**:
+  - Inspected CSS rule cascade, DOM hierarchy, and audio button trigger lifecycles.
+- **Unverified aspects**:
+  - Web Speech API audio output in environments without client-side speech synthesis audio synthesis voices installed (gracefully handled via try/catch).
 
-## 2. Logic Chain
+## 5. Known Issues
+- `Minor Robustness Risk`: On browsers or OS environments where no Chinese (`zh-CN`) TTS voice pack is installed, `window.speechSynthesis.speak()` falls back to system default without errors.
 
-1. **Standard Desktop Viewport Analysis (1280×800)**:
-   - Available viewport height: `800px`.
-   - Header consumption: `88px`.
-   - Remaining height: `800px - 88px = 712px`.
-   - Single-screen container padding: `0.75rem` top/bottom (`24px` total). Available vertical canvas: `688px`.
-   - Left Column (Hero Copy): Title (~75px) + Subline (~50px) + Gap (~12px) + CTA (~60px) = `~197px` total height.
-   - Right Column (Manga Carousel Stage): `max-height: min(56vh, 460px)` = `min(448px, 460px) = 448px`. Dots container: `~28px`. Total height = `476px`.
-   - Since `476px <= 688px`, all elements fit strictly within the viewport fold with zero clipping, overflow, or collision.
-2. **Branding Sanitation**:
-   - Blanking `heroBadge` and `group` in `copy.js` coupled with the complete removal of `<p className="g3-home-eyebrow">` in `StoryExperience.jsx` and conditional rendering `{text.group ? ... : null}` in `StoryLayout.jsx` ensures no residual Group 3 branding is displayed in any supported language.
-3. **Integrity & Code Quality**:
-   - No mock bypasses or facade implementations were detected in `source/src/` or `source/tests/unit/`.
-   - All tests execute against actual stylesheet files, DOM node factories, audio manifests, and responsive geometry rules.
+## 6. Remaining risk & next step
+- Zero functional bugs remaining. All 5 requirements are completely implemented and verified with automated test suites and production build. Ready for final merging.
 
----
-
-## 3. Caveats
-
-- "No caveats."
-
----
-
-## 4. Conclusion
-
-**Verdict**: **APPROVE**
-
-All requirements from ORIGINAL_REQUEST.md (§R1, §R2, §R3) and PROJECT.md are fully satisfied:
-1. R1: Single-screen viewport layout is mathematically sound, responsive down to mobile viewports, zero clipping on 1280×800, pagination dots are visible and styled.
-2. R2: Eyebrow DOM element and all Group 3 branding strings are thoroughly removed/cleaned across `th`, `zh`, and `en`.
-3. R3: 104/104 unit tests pass with 0 failures, Vite build passes with 0 errors, and stylesheet line limits are respected.
-
----
-
-## 5. Verification Method
-
-To independently reproduce and verify this assessment:
-
-1. Run unit test suite:
-   ```bash
-   cd /home/pisitpong/group3-standalone/source && npm test
-   ```
-   *Expected outcome*: 104 passed tests across 4 suites, 0 failures.
-
-2. Run production build:
-   ```bash
-   cd /home/pisitpong/group3-standalone/source && npm run build
-   ```
-   *Expected outcome*: Build succeeds in `dist/` with exit code 0.
-
-3. Inspect files for branding cleanliness:
-   ```bash
-   grep -rn "g3-home-eyebrow" /home/pisitpong/group3-standalone/source/src/ --include="*.jsx"
-   grep -rn "GROUP 03" /home/pisitpong/group3-standalone/source/src/
-   grep -rn "กลุ่มที่ 3" /home/pisitpong/group3-standalone/source/src/
-   ```
-   *Expected outcome*: Zero matches for all searches.

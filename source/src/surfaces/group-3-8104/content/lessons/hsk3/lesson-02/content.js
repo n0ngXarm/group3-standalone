@@ -31,6 +31,53 @@ export const LESSON_HSK3_L2 = {
   "thAid": "ร่วมมือกันแก้ปัญหาในที่ทำงาน และร่วมกันห่อเกี๊ยวฉลองตรุษจีนกับครอบครัวชาวจีนอย่างอบอุ่น"
 },
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  characters: {
+    wang: {
+      hanzi: "王一雪",
+      pinyin: "Wáng Yīxuě",
+      nameTh: "หวังอี้เสวี่ย",
+      nameEn: "Wang Yixue",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    yang: {
+      hanzi: "杨同乐",
+      pinyin: "Yáng Tónglè",
+      nameTh: "หยางถงเล่อ",
+      nameEn: "Yang Tongle",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+    bai: {
+      hanzi: "白家月",
+      pinyin: "Bái Jiāyuè",
+      nameTh: "ไป๋เจียเยว่",
+      nameEn: "Bai Jiayue",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    liUncle: {
+      hanzi: "李叔叔",
+      pinyin: "Lǐ Shūshu",
+      nameTh: "ลุงหลี่",
+      nameEn: "Uncle Li",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+    zhangAunt: {
+      hanzi: "张阿姨",
+      pinyin: "Zhāng Āyí",
+      nameTh: "ป้าจาง",
+      nameEn: "Aunt Zhang",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-02/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "50% center",
+    },
+  },
   objectives: [
   {
     "zh": "掌握第2课的核心词汇与日常对话。",

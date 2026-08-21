@@ -137,30 +137,30 @@
 
   .g3-preface-lead,
   .g3-objective-page {
-    padding: 2rem 1.3rem;
+    padding: 1.5rem 1.2rem;
   }
 
   .g3-preface-lead {
-    min-height: 32rem;
+    min-height: 0;
     border-right: 0;
-    border-bottom: 1px solid rgba(79, 58, 41, 0.13);
+    border-bottom: 1px solid var(--g3-line);
   }
 
-  .g3-preface-lead h1 { font-size: 3rem; }
-  .g3-objective-page > header > span { font-size: 2.5rem; }
+  .g3-preface-lead h1 { font-size: clamp(1.3rem, 5vw, 1.8rem); line-height: 1.25; }
+  .g3-objective-page > header > span { font-size: 2rem; }
 
   .g3-book-spread.is-single-page {
     min-height: 0;
-    padding: 1.5rem 1.1rem;
+    padding: 1.2rem 1rem;
   }
 
   .g3-front-title {
     gap: 0.8rem;
-    padding-bottom: 1.2rem;
+    padding-bottom: 1rem;
   }
 
-  .g3-front-title h1 { font-size: 2.7rem; }
-  .g3-front-title > b { font-size: 4rem; }
+  .g3-front-title h1 { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+  .g3-front-title > b { font-size: 2.8rem; }
 
   .g3-toc-lines > button,
   .g3-toc-lines > div {

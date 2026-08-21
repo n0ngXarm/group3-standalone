@@ -74,7 +74,7 @@
 }
 
 .g3-hero-copy h1 {
-  max-width: 11ch;
+  max-width: none;
   margin: 0.85rem 0 1rem;
   font-size: clamp(3.15rem, min(5vw, 7.5vh), 4.8rem);
   letter-spacing: -0.045em;
@@ -365,17 +365,12 @@
   width: fit-content;
 }
 
-.g3-hero-copy h1 span:last-child::after {
-  position: absolute;
-  z-index: -1;
-  right: -0.08em;
-  bottom: 0.05em;
-  left: -0.08em;
-  height: 0.18em;
-  border-radius: 99px 22px 99px 18px;
-  content: "";
-  background: color-mix(in srgb, var(--g3-red) 62%, transparent);
-  transform: rotate(-1.5deg) skewX(-14deg);
+.g3-hero-copy h1 span:last-child {
+  text-decoration: underline;
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 0.12em;
+  text-decoration-color: var(--g3-red, #cf3a27);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -879,7 +874,7 @@
   }
 
   .g3-hero-copy h1 {
-    max-width: 10ch;
+    max-width: none;
     font-size: clamp(2.6rem, 12vw, 3.2rem);
     line-height: 1.18;
   }

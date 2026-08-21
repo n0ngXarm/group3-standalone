@@ -31,6 +31,35 @@ export const LESSON_HSK1_L1 = {
   "thAid": "วันเปิดเรียนวันแรก เรียนรู้การทักทายในออฟฟิศและห้องเรียน ทำความรู้จักเพื่อนใหม่หลี่เหวินและผู้ช่วยสอน AI เสี่ยวหวี่"
 },
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  characters: {
+    teacherWang: {
+      hanzi: "王一飞",
+      pinyin: "Wáng Yīfēi",
+      nameTh: "อาจารย์หวังอี้เฟย",
+      nameEn: "Ms. Wang",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    xiaoyu: {
+      hanzi: "小语",
+      pinyin: "Xiǎoyǔ",
+      nameTh: "เสี่ยวหวี่ (AI)",
+      nameEn: "AI Xiaoyu",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+    students: {
+      hanzi: "学生们",
+      pinyin: "xuéshengmen",
+      nameTh: "นักเรียนทั้งชั้น",
+      nameEn: "The students",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-01/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+  },
   objectives: [
   {
     "zh": "掌握第1课的核心词汇与日常对话。",

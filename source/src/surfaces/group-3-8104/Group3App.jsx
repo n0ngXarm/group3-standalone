@@ -93,6 +93,15 @@ export default function Group3App() {
   const retryLesson = useCallback(() => setLessonLoadAttempt((attempt) => attempt + 1), []);
   const routeNeedsLesson = LESSON_ROUTE_NAMES.has(route.name);
 
+  
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("theme") !== theme) {
+      url.searchParams.set("theme", theme);
+      window.history.replaceState(window.history.state, "", url);
+    }
+  }, [theme]);
+
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     document.documentElement.dataset.experience = "group3-reading";
@@ -242,7 +251,7 @@ export default function Group3App() {
       <div id="g3-main" tabIndex="-1" aria-busy={routeNeedsLesson && lessonStatus === "loading" ? "true" : undefined}>
         {mainSuspense}
       </div>
-      {route.name !== "reader" && route.name !== "catalog" && route.name !== "home" && (
+      {route.name !== "reader" && route.name !== "catalog" && route.name !== "home" && route.name !== "levels" && (
         <StoryFooter language={language} lesson={lesson} route={route} />
       )}
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} language={language} />

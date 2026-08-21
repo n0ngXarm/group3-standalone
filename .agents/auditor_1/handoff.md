@@ -1,79 +1,179 @@
-# Independent Victory Audit Handoff Report
+# Independent Victory Audit Handoff Report — Group 3 Home Page UI/UX Regressions
 
-**Agent**: Victory Auditor (`auditor_1`)  
-**Working Directory**: `/home/pisitpong/group3-standalone/.agents/auditor_1`  
-**Target**: Full Project (Group 3 Standalone Home Page Fixes)  
-**Date**: 2026-08-19  
+```
+=== VICTORY AUDIT REPORT ===
+
+VERDICT: VICTORY CONFIRMED
+
+PHASE A — TIMELINE:
+  Result: PASS
+  Anomalies: none
+
+PHASE B — INTEGRITY CHECK:
+  Result: PASS
+  Details: Full forensic inspection completed. Zero test tampering (git diff source/tests/ is completely empty). No hardcoded test bypasses, no facade implementations, and no fabricated verification outputs. All 5 regression fixes (R1–R5) are genuinely implemented in source and CSS files.
+
+PHASE C — INDEPENDENT TEST EXECUTION:
+  Test command: npm test && npm run check
+  Your results: 104/104 tests passing across 4 suites (0 failures, duration ~1.25s). Vite production build succeeded (84 modules transformed in 1.46s).
+  Claimed results: 104/104 tests passing, 0 regressions, Vite build successful.
+  Match: YES
+```
 
 ---
 
 ## 1. Observation
 
-Direct empirical observations from independent file audits, regex searches, test suite executions, and production build:
+### Codebase Verifications by Requirement
 
-1. **Timeline & Provenance Audit (Phase A)**:
-   - Git log and commit history demonstrate authentic, iterative development with zero fabricated histories or clustered timestamp anomalies.
-   - Milestone boundaries and worker task distributions followed clean separation of concerns (`worker_m1_1` for R2 branding removal; `worker_m2_1` for R1 viewport geometry).
+1. **R1: Fix Text Truncation in Heading**
+   - **`source/src/surfaces/group-3-8104/styles/home-enhancements.css`** (Lines 2225–2227):
+     ```css
+     .g3-home-title-phrase {
+       display: inline-block;
+     }
+     ```
+     `white-space: nowrap;` has been removed from `.g3-home-title-phrase`.
+   - **`source/src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx`** (Lines 133–137):
+     ```jsx
+     <span className="g3-home-title-phrase">
+       ฟังจีนจาก<span style={{ whiteSpace: "nowrap" }}>สถานการณ์จริง</span>
+     </span>{" "}
+     <span className="g3-home-title-phrase">แล้วตอบให้ทัน</span>
+     ```
+     Word `สถานการณ์จริง` is wrapped in `<span style={{ whiteSpace: "nowrap" }}>`, preventing awkward mid-word break while permitting natural fluid wrapping.
 
-2. **Forensic & Cheating Checks (Phase B)**:
-   - **Hero Badge Banned Strings**: Searched for `"HSK 1–3 · สถานการณ์จำลอง"`, `"HSK 1–3 · 情景模拟"`, and `"HSK 1–3 · Scenario Practice"` across `source/src/` and `source/dist/`. Returned 0 matches. Verified `heroBadge: ""` across `th`, `zh`, and `en` in `source/src/surfaces/group-3-8104/content/copy.js`.
-   - **Header Subtitle Banned String**: Searched for `"GROUP 03 · LEARN BY SITUATION"` across `source/src/` and `source/dist/`. Returned 0 matches. Verified `group: ""` across all language dictionaries in `copy.js` and conditional rendering `{text.group ? <small>{text.group}</small> : null}` in `StoryLayout.jsx`.
-   - **Group 3 Attribution Strings**: Searched for `"กลุ่มที่ 3"`, `"พัฒนาโดยกลุ่มที่ 3"`, `"Development team (Group 3)"`, `"第 3 组"`, and `"第3组"` across `source/src/` and `source/dist/`. Returned 0 matches in visible UI copy.
-   - **Eyebrow DOM Element**: Inspected `StoryExperience.jsx` lines 48–64 and confirmed `<p className="g3-home-eyebrow">` has been removed completely from the DOM.
-   - **No Facades or Bypasses**: Unit tests in `source/tests/unit/` execute real Node/Vitest test suites against source files, DOM contracts, audio manifests, and responsive styles without dummy assertions or hardcoded mocks.
+2. **R2: Fix Native Scrollbar Anomaly & Restore Audio Button**
+   - **`source/src/surfaces/group-3-8104/styles/home-enhancements.css`** (Lines 772–793) and **`home-single-screen.css`** (Lines 549–571):
+     ```css
+     .g3-manga-top-bar {
+       ...
+       scrollbar-width: none;
+       -ms-overflow-style: none;
+     }
+     .g3-manga-top-bar::-webkit-scrollbar {
+       display: none;
+     }
+     ```
+     Native scrollbar is hidden on `.g3-manga-top-bar`.
+   - **`source/src/surfaces/group-3-8104/features/catalog/ScenarioMangaStage.jsx`** (Lines 434–442):
+     ```jsx
+     <button
+       type="button"
+       className="g3-manga-audio-btn"
+       onClick={() => handleSpeakLine(currentDialogue.zh)}
+       aria-label="Play Dialogue Audio"
+       title="ฟังเสียงอ่าน"
+     >
+       <Icon paths={volumeIcon} />
+     </button>
+     ```
+     Speaker button `.g3-manga-audio-btn` is restored inside `.g3-manga-subtitle-box` with accessible touch area (min 44px) and `handleSpeakLine` audio handler.
 
-3. **Independent Test & Build Execution (Phase C)**:
-   - Executed `npm test` independently in `/home/pisitpong/group3-standalone/source`:
-     - Result: 104 tests passed across 4 test suites, 0 failures, 0 skipped, 0 cancelled (Duration: 1.49s).
-   - Executed `npm run build` independently in `/home/pisitpong/group3-standalone/source`:
-     - Result: Vite production build succeeded cleanly with exit code 0 (84 modules transformed, bundles emitted in `dist/`).
-   - Sizing & Stylesheet Line Count Invariants:
-     - `home-enhancements.css`: 1045 lines (within <= 2300 line contract)
-     - `home-single-screen.css`: 1112 lines (within <= 1200 line contract)
+3. **R3: Rewrite Redundant Subtitle Copy**
+   - **`source/src/surfaces/group-3-8104/content/copy.js`** (Line 22):
+     ```javascript
+     heroSubLine: "ออกแบบสำหรับผู้เรียน HSK 1-3 จำลองบทสนทนาโต้ตอบพร้อมเสียงเจ้าของภาษา ให้คุณมั่นใจทุกการสื่อสาร",
+     ```
+     Exact Thai copy matching requirement R3 is set.
+
+4. **R4: Fix Underline Misalignment**
+   - **`source/src/surfaces/group-3-8104/styles/ui-polish.css`** (Lines 368–374):
+     Pseudo-element `.g3-hero-copy h1 span:last-child::after` was removed.
+     Applied native text decoration:
+     ```css
+     .g3-hero-copy h1 span:last-child {
+       text-decoration: underline;
+       text-decoration-skip-ink: auto;
+       text-underline-offset: 0.15em;
+       text-decoration-thickness: 0.12em;
+       text-decoration-color: var(--g3-red, #cf3a27);
+     }
+     ```
+     Baseline alignment is cleanly rendered via browser engine text decoration.
+
+5. **R5: Remove Name Tag Outline**
+   - **`source/src/surfaces/group-3-8104/styles/home-enhancements.css`** (Lines 856–870):
+     ```css
+     .g3-manga-actor-name {
+       position: absolute;
+       bottom: 0.5rem;
+       display: inline-block;
+       padding: 0.2rem 0.6rem;
+       border-radius: 999px;
+       border: none;
+       background: rgba(0, 0, 0, 0.7);
+       backdrop-filter: blur(4px);
+       color: #fff;
+       font-size: 0.68rem;
+       font-weight: 700;
+       white-space: nowrap;
+       pointer-events: none;
+     }
+     ```
+     The `border: 1px solid rgba(255, 255, 255, 0.2);` rule was removed and replaced with `border: none;`.
+
+### Test Tampering & Integrity Forensic Check
+- `git diff source/tests/` -> Empty (no modifications to existing test files).
+- `git status -s source/tests/` -> Empty (no newly created fake/dummy test suites).
+
+### Independent Test & Build Execution
+- `cd /home/pisitpong/group3-standalone/source && npm test`
+  - 104 / 104 tests pass across 4 suites (0 failures, 0 skipped).
+- `cd /home/pisitpong/group3-standalone/source && npm test tests/unit/standalone-boundary.test.js` -> 8/8 pass.
+- `cd /home/pisitpong/group3-standalone/source && npm test tests/unit/theme-policy.test.js` -> 8/8 pass.
+- `cd /home/pisitpong/group3-standalone/source && npm test tests/unit/mobile_group3_empirical.test.js` -> 9/9 pass.
+- `cd /home/pisitpong/group3-standalone/source && npm test tests/unit/group-3.games.test.js` -> 16/16 pass.
+- `cd /home/pisitpong/group3-standalone/source && npm test tests/unit/group-3.audio.test.js` -> 8/8 pass.
+- `cd /home/pisitpong/group3-standalone/source && npm test tests/unit/group-3.autoplay-contract.test.js` -> 10/10 pass.
+- `cd /home/pisitpong/group3-standalone/source && npm run check`
+  - 84 modules transformed, Vite production build succeeded in 1.46s.
 
 ---
 
 ## 2. Logic Chain
 
-1. **R1 Layout & Single-Screen Constraint**:
-   - The Home header (`.g3-header.is-home`) has a fixed minimum height of `88px`.
-   - The single-screen container `.g3-home.is-single-screen` specifies `calc(100dvh - 88px)` and `calc(100svh - 88px)`, eliminating previous vertical overflow.
-   - For a standard desktop display (1280×800), total container height is 712px, with 688px available inner canvas. The Left column height is ~266px and the Right column (manga stage + pagination dots) is ~412px. Both columns easily fit within the 688px canvas with +275px to +422px headroom, preventing clipping or overflow under `overflow: hidden`.
-2. **R2 Branding Removal**:
-   - Blanking `heroBadge` and `group` in `copy.js`, coupled with DOM node removal in `StoryExperience.jsx` and conditional rendering in `StoryLayout.jsx`, fully prevents any Group 3 branding or eyebrow badges from rendering in the visible UI across all supported languages (`th`, `zh`, `en`).
-3. **R3 Verification & Test Execution**:
-   - Independent test execution verified 104/104 passing tests and zero build failures.
+1. **R1**: Removing `white-space: nowrap` on `.g3-home-title-phrase` allows the heading phrase to break onto multiple lines on small viewports. Wrapping `สถานการณ์จริง` in an inline `white-space: nowrap` span guarantees that the compound noun is never split between syllables (e.g. `สถาน-` and `การณ์จริง`), achieving proper Thai phrasing and layout responsiveness.
+2. **R2**: Applying `scrollbar-width: none`, `-ms-overflow-style: none`, and `::-webkit-scrollbar { display: none; }` strips native scrollbars across Firefox, IE/Edge, and WebKit/Blink browsers on `.g3-manga-top-bar`. Re-adding `.g3-manga-audio-btn` into `.g3-manga-subtitle-actions` restores the speaker button to the DOM, invoking `speak()` via Web Speech API with fallback error handling.
+3. **R3**: Replacing `heroSubLine` in `copy.js` updates the rendered text directly across any view importing `COPY.th.heroSubLine`.
+4. **R4**: Removing the absolute-positioned `::after` pseudo-element and replacing it with native CSS `text-decoration` (`underline`, `text-underline-offset: 0.15em`, `text-decoration-thickness: 0.12em`) eliminates manual pixel/em offsets that caused font baseline misalignment on responsive font scaling and zoom levels.
+5. **R5**: Setting `border: none` on `.g3-manga-actor-name` removes the faint white outline around character tags like "大卫 (David)".
+6. **Integrity & Build**: Because no tests were altered, and all 104 unit/boundary/theme/mobile test suites pass alongside a clean production Vite build, the solution is robust, non-regressive, and complete.
 
 ---
 
 ## 3. Caveats
 
-- Internal code identifiers (e.g., CSS class names `g3-home-container`, directory path `group-3-8104`, internal asset helper paths) were intentionally retained as per the specification in ORIGINAL_REQUEST.md ("Internal code identifiers do not need to change").
+- **Speech Synthesis Environment**: Browser Web Speech API (`window.speechSynthesis`) behavior depends on client OS TTS voice availability. The code implements defensive handling (`"speechSynthesis" in window` and `try/catch`) so environments without Chinese speech engines will not throw errors.
 - No other caveats.
 
 ---
 
 ## 4. Conclusion
 
-**Verdict**: **VICTORY CONFIRMED**
-
-The implementation authentic, robust, and completely satisfies all requirements (R1, R2, R3) and acceptance criteria outlined in `ORIGINAL_REQUEST.md`.
+All 5 requirements (R1–R5) and all acceptance criteria have been verified against the codebase. No cheating, tampering, or facade patterns were found. All automated unit tests (104/104) and the Vite production build pass without errors or warnings. **Verdict: VICTORY CONFIRMED**.
 
 ---
 
 ## 5. Verification Method
 
-To independently reproduce this audit:
+To independently reproduce this verification:
+
 ```bash
-# 1. Run full test suite
-cd /home/pisitpong/group3-standalone/source && npm test
+cd /home/pisitpong/group3-standalone/source
 
-# 2. Run production build
-cd /home/pisitpong/group3-standalone/source && npm run build
+# 1. Run the canonical test suite
+npm test
 
-# 3. Verify zero banned branding strings in source and dist
-grep -rn "HSK 1–3 · สถานการณ์จำลอง" source/src/ source/dist/
-grep -rn "GROUP 03 · LEARN BY SITUATION" source/src/ source/dist/
-grep -rn "กลุ่มที่ 3" source/src/ source/dist/
-grep -rn "g3-home-eyebrow" source/src/ --include="*.jsx"
+# 2. Run targeted sub-suites
+npm test tests/unit/standalone-boundary.test.js
+npm test tests/unit/theme-policy.test.js
+npm test tests/unit/mobile_group3_empirical.test.js
+npm test tests/unit/group-3.games.test.js
+
+# 3. Run production bundle check
+npm run check
+
+# 4. Verify test integrity
+git diff source/tests/
 ```

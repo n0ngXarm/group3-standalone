@@ -33,68 +33,15 @@ export function SourceStamp({ compact = false, lesson = null, route = null }) {
 
 export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout }) {
   const text = COPY[language];
+  const isHome = route?.name === "home";
+  const routeLabel = route?.name === "reader"
+    ? `${text.stage} 0${(route.scene || 0) + 1}`
+    : route?.name && !isHome
+      ? text.routeLabels[route.name] || text.routeLabels.home
+      : null;
 
-  // Home keeps a minimal header: brand left, 3 round utility buttons right.
-  if (route?.name === "home") {
-    const nextLanguage = { th: "zh", zh: "en", en: "th" }[language];
-    const languageLabel = { th: "TH", zh: "中", en: "EN" }[language];
-    return (
-      <header className="g3-header is-home">
-        <div className="group-title-dropdown-wrap">
-          <button
-            aria-label={text.routeLabels.home}
-            className="g3-brand"
-            onClick={onHome}
-            type="button"
-          >
-            <img src={surfaceAssetPath(3, "/assets/group3/shared/home/brand-logo.png")} className="g3-brand-mark" alt="" aria-hidden="true" width="58" height="58" decoding="async" />
-            <span>
-              <strong>{text.brand}</strong>
-              {text.group ? <small>{text.group}</small> : null}
-            </span>
-          </button>
-        </div>
-
-        <nav className="g3-header-actions" aria-label={text.navigation}>
-          <button
-            type="button"
-            className="g3-home-header-btn is-wide"
-            onClick={() => onLanguage(nextLanguage)}
-            aria-label={text.switchLanguage}
-            title={`${text.switchLanguage} · ${languageLabel}`}
-          >
-            {languageLabel}
-          </button>
-          <button
-            type="button"
-            className="g3-home-header-btn"
-            onClick={onTheme}
-            aria-label={theme === "dark" ? text.light : text.dark}
-            title={theme === "dark" ? text.light : text.dark}
-          >
-            <Icon paths={theme === "dark" ? sunIcon : moonIcon} />
-          </button>
-          {onAbout && (
-            <button
-              type="button"
-              className="g3-home-header-btn"
-              onClick={onAbout}
-              aria-label={text.about}
-              title={text.about}
-            >
-              <Icon paths={circleInfoIcon} />
-            </button>
-          )}
-        </nav>
-      </header>
-    );
-  }
-
-  const routeLabel = route.name === "reader"
-    ? `${text.stage} 0${route.scene + 1}`
-    : text.routeLabels[route.name] || text.routeLabels.home;
   return (
-    <header className="g3-header">
+    <header className={`g3-header${isHome ? " is-home-header" : ""}`}>
       <div className="group-title-dropdown-wrap">
         <button
           aria-label={text.routeLabels.home}
@@ -110,10 +57,14 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
         </button>
       </div>
 
-      <div className="g3-route-mark" aria-hidden="true">
-        <span>{routeLabel}</span>
-      </div>
-      <SourceStamp compact lesson={lesson} route={route} />
+      {routeLabel ? (
+        <div className="g3-route-mark" aria-hidden="true">
+          <span>{routeLabel}</span>
+        </div>
+      ) : (
+        <div className="g3-route-mark-spacer" />
+      )}
+      {!isHome && <SourceStamp compact lesson={lesson} route={route} />}
 
       <nav className="g3-header-actions" aria-label={text.navigation}>
         <button type="button" onClick={onTheme} aria-label={theme === "dark" ? text.light : text.dark} title={theme === "dark" ? text.light : text.dark}>

@@ -807,6 +807,27 @@ const DYNAMIC_SPEC = [
     ],
   },
 ];
+// Character profile registry (names reused from the original curated lessons;
+// hanzi/pinyin/nameTh/nameEn keep the original values, images are the
+// canonical per-lesson scene images with the line-level visual focus).
+const CHARACTER_PROFILES = {
+  teacherWang: { hanzi: "王一飞", pinyin: "Wáng Yīfēi", nameTh: "อาจารย์หวังอี้เฟย", nameEn: "Ms. Wang" },
+  xiaoyu: { hanzi: "小语", pinyin: "Xiǎoyǔ", nameTh: "เสี่ยวหวี่ (AI)", nameEn: "AI Xiaoyu" },
+  students: { hanzi: "学生们", pinyin: "xuéshengmen", nameTh: "นักเรียนทั้งชั้น", nameEn: "The students" },
+  chen: { hanzi: "陈天中", pinyin: "Chén Tiānzhōng", nameTh: "เฉินเทียนจง", nameEn: "Chen Tianzhong" },
+  bai: { hanzi: "白家月", pinyin: "Bái Jiāyuè", nameTh: "ไป๋เจียเยว่", nameEn: "Bai Jiayue" },
+  liWen: { hanzi: "李文", pinyin: "Lǐ Wén", nameTh: "หลี่เหวิน", nameEn: "Li Wen" },
+  annie: { hanzi: "安妮", pinyin: "Ānnī", nameTh: "แอนนี่", nameEn: "Annie" },
+  wang: { hanzi: "王一雪", pinyin: "Wáng Yīxuě", nameTh: "หวังอี้เสวี่ย", nameEn: "Wang Yixue" },
+  liu: { hanzi: "刘明", pinyin: "Liú Míng", nameTh: "หลิวหมิง", nameEn: "Liu Ming" },
+  liuXiaoxue: { hanzi: "刘小雪", pinyin: "Liú Xiǎoxuě", nameTh: "หลิวเสี่ยวเสวี่ย", nameEn: "Liu Xiaoxue" },
+  yang: { hanzi: "杨同乐", pinyin: "Yáng Tónglè", nameTh: "หยางถงเล่อ", nameEn: "Yang Tongle" },
+  shopAssistant: { hanzi: "售货员", pinyin: "shòuhuòyuán", nameTh: "พนักงานขาย", nameEn: "Shop assistant" },
+  restaurantServer: { hanzi: "餐馆服务员", pinyin: "cānguǎn fúwùyuán", nameTh: "พนักงานร้านอาหาร", nameEn: "Restaurant server" },
+  liUncle: { hanzi: "李叔叔", pinyin: "Lǐ Shūshu", nameTh: "ลุงหลี่", nameEn: "Uncle Li" },
+  zhangAunt: { hanzi: "张阿姨", pinyin: "Zhāng Āyí", nameTh: "ป้าจาง", nameEn: "Aunt Zhang" },
+};
+
 
 async function run() {
   console.log("Building dynamic curated 7 lessons (HSK1: 3, HSK2: 2, HSK3: 2)...");
@@ -872,7 +893,9 @@ async function run() {
         ["机场", "jīchǎng", "n.", "airport", "สนามบิน"],
         ["北京", "Běijīng", "n.", "Beijing", "ปักกิ่ง"],
         ["高兴", "gāoxìng", "adj.", "happy", "ดีใจ / มีความสุข"],
-      ];
+];
+
+
       vocabList = defaultWords.map(([hanzi, pinyin, type, en, th], idx) => ({
         index: idx + 1,
         hanzi,
@@ -983,6 +1006,30 @@ async function run() {
       };
     });
 
+    const charactersMap = {};
+    const charactersSource = spec.scenes
+      .flatMap((sc, sceneIndex) => sc.characters.map((c) => ({ ...c, sceneIndex })))
+      .map((c) => {
+        if (charactersMap[c.profile]) return null;
+        const base = CHARACTER_PROFILES[c.profile] || {};
+        const sceneNum = pad(c.sceneIndex + 1);
+        const focus = spec.scenes[c.sceneIndex].lines.find((l) => l.role === c.role)?.visual?.focus || "50% center";
+        charactersMap[c.profile] = true;
+        const small = `/assets/group3/lessons/${spec.targetLevel}/lesson-${pad(spec.targetNum)}/scenes/scene-${sceneNum}-720w.webp`;
+        const full = `/assets/group3/lessons/${spec.targetLevel}/lesson-${pad(spec.targetNum)}/scenes/scene-${sceneNum}-1400w.webp`;
+        return `    ${c.profile}: {
+      hanzi: ${JSON.stringify(base.hanzi || "")},
+      pinyin: ${JSON.stringify(base.pinyin || "")},
+      nameTh: ${JSON.stringify(base.nameTh || "")},
+      nameEn: ${JSON.stringify(base.nameEn || "")},
+      image: group3AssetPath(${JSON.stringify(full)}),
+      imageSrcSet: \`\${group3AssetPath(${JSON.stringify(small)})} 720w, \${group3AssetPath(${JSON.stringify(full)})} 1400w\`,
+      imageFocus: ${JSON.stringify(focus)},
+    },`;
+      })
+      .filter(Boolean)
+      .join("\n");
+
     const contentJsSource = `// Auto-generated dynamic Group 3 lesson content
 import { group3AssetPath } from "../../../../config.js";
 
@@ -1007,6 +1054,9 @@ export const ${spec.exportName} = {
   title: ${JSON.stringify(spec.title, null, 2)},
   summary: ${JSON.stringify(spec.summary, null, 2)},
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  characters: {
+${charactersSource}
+  },
   objectives: ${JSON.stringify(objectivesList, null, 2)},
   contents: ${JSON.stringify(contentsList, null, 2)},
   vocabulary: ${JSON.stringify(vocabList, null, 2)},

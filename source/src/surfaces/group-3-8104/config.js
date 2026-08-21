@@ -47,11 +47,17 @@ export function group3SceneMedia(lesson, sceneIndex) {
   if (!Number.isInteger(sceneNumber) || sceneNumber < 1) {
     throw new TypeError("Group 3 scene media requires a zero-based scene index");
   }
-  const scene = `scene-${String(sceneNumber).padStart(2, "0")}`;
-  const small = group3LessonAssetPath(lesson, `scenes/${scene}-720w.webp`);
-  const full = group3LessonAssetPath(lesson, `scenes/${scene}-1400w.webp`);
+  const sceneData = lesson?.scenes?.[sceneIndex] || {};
+  const sceneFile = `scene-${String(sceneNumber).padStart(2, "0")}`;
+  const small = group3LessonAssetPath(lesson, `scenes/${sceneFile}-720w.webp`);
+  const full = group3LessonAssetPath(lesson, `scenes/${sceneFile}-1400w.webp`);
   return {
     image: full,
     imageSrcSet: `${small} 720w, ${full} 1400w`,
+    imageAlt: {
+      th: sceneData.contextTh || sceneData.titleTh || "",
+      zh: sceneData.context || sceneData.title || "",
+      en: sceneData.contextEn || sceneData.titleEn || sceneData.title || "",
+    },
   };
 }

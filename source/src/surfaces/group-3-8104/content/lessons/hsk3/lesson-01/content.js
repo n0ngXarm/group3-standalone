@@ -31,6 +31,53 @@ export const LESSON_HSK3_L1 = {
   "thAid": "ลิ้มลองอาหารจีนรสเลิศในร้านอาหาร และสัมผัสประสบการณ์นั่งรถไฟความเร็วสูงสั่งเดลิเวอรีแสนสะดวก"
 },
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  characters: {
+    liWen: {
+      hanzi: "李文",
+      pinyin: "Lǐ Wén",
+      nameTh: "หลี่เหวิน",
+      nameEn: "Li Wen",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    bai: {
+      hanzi: "白家月",
+      pinyin: "Bái Jiāyuè",
+      nameTh: "ไป๋เจียเยว่",
+      nameEn: "Bai Jiayue",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+    restaurantServer: {
+      hanzi: "餐馆服务员",
+      pinyin: "cānguǎn fúwùyuán",
+      nameTh: "พนักงานร้านอาหาร",
+      nameEn: "Restaurant server",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "50% center",
+    },
+    wang: {
+      hanzi: "王一雪",
+      pinyin: "Wáng Yīxuě",
+      nameTh: "หวังอี้เสวี่ย",
+      nameEn: "Wang Yixue",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    liu: {
+      hanzi: "刘明",
+      pinyin: "Liú Míng",
+      nameTh: "หลิวหมิง",
+      nameEn: "Liu Ming",
+      image: group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk3/lesson-01/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+  },
   objectives: [
   {
     "zh": "掌握第1课的核心词汇与日常对话。",

@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文练习 — เลือกระดับ HSK</title>
+<style>
+:root{
+  --bg:#111515;--panel:#181c1e;--text:#f7f3ea;--muted:#bbb9b2;
+  --line:rgba(255,255,255,.12);--gold:#efbd61;--red:#ee5845;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,"Noto Sans Thai","Noto Sans SC",system-ui,sans-serif;background:#111515;color:var(--text)}
+button{font:inherit}
+body{
+  background:
+    radial-gradient(circle at 50% 22%,rgba(239,189,97,.1),transparent 35%),
+    linear-gradient(180deg,#121717 0%,#101414 100%);
+}
+header{
+  height:72px;padding:0 42px;display:flex;align-items:center;gap:18px;
+  border-bottom:1px solid var(--line);background:rgba(18,22,23,.94);backdrop-filter:blur(18px);
+  position:sticky;top:0;z-index:50;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:47px;height:47px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid rgba(239,189,97,.5);color:var(--gold);
+  background:radial-gradient(circle at 40% 30%,#184b56,#0a1e25 68%);
+  font:800 24px/1 serif;
+}
+.brand strong{display:block;font:600 20px/1.1 serif}
+.brand small{display:block;color:#54c3d1;letter-spacing:.15em;font-size:10px;margin-top:6px}
+.sep{width:1px;height:34px;background:var(--line)}
+.home{color:#45b8c8;font-size:13px;font-weight:800;letter-spacing:.08em}
+.spacer{flex:1}
+.controls{display:flex;gap:7px}
+.control{
+  height:38px;min-width:42px;padding:0 12px;border-radius:13px;
+  border:1px solid var(--line);background:#171b1d;color:#ddd;display:grid;place-items:center
+}
+.control.active{background:var(--red);border-color:transparent;color:#fff;font-weight:800}
+
+main{width:min(1180px,calc(100% - 44px));margin:auto;padding:42px 0 55px}
+.hero{text-align:center;margin-bottom:30px}
+.eyebrow{color:var(--gold);font-size:13px;font-weight:900;letter-spacing:.08em;margin-bottom:8px}
+h1{font:500 clamp(40px,4vw,60px)/1.08 serif;margin:0}
+.hero p{margin:13px auto 0;color:#c3c0b9;font-size:14px;max-width:650px}
+
+.level-grid{
+  display:grid;grid-template-columns:1.45fr .82fr .82fr;gap:16px;
+  transition:grid-template-columns .38s cubic-bezier(.2,.8,.2,1);
+  min-height:535px;
+}
+.level-grid[data-active="2"]{grid-template-columns:.82fr 1.45fr .82fr}
+.level-grid[data-active="3"]{grid-template-columns:.82fr .82fr 1.45fr}
+
+.card{
+  --accent:#ef5845;
+  position:relative;min-width:0;min-height:535px;overflow:hidden;border-radius:26px;
+  border:1px solid rgba(255,255,255,.15);background:#171b1d;isolation:isolate;
+  box-shadow:0 28px 70px rgba(0,0,0,.28);
+  transition:.35s ease;
+}
+.card.active{
+  border-color:color-mix(in srgb,var(--accent) 75%,white 10%);
+  box-shadow:0 32px 90px rgba(0,0,0,.4),0 0 0 1px color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.scene-bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-4;
+  transform:scale(1.02);transition:transform .6s ease,filter .4s ease;
+}
+.card:hover .scene-bg,.card.active .scene-bg{transform:scale(1.06)}
+.card:not(.active) .scene-bg{filter:saturate(.78) brightness(.72)}
+.scrim{
+  position:absolute;inset:0;z-index:-3;
+  background:
+    linear-gradient(180deg,rgba(6,9,10,.12) 0%,rgba(7,10,11,.2) 28%,rgba(7,10,11,.92) 75%,rgba(7,10,11,.98) 100%),
+    linear-gradient(90deg,rgba(6,9,10,.55),rgba(6,9,10,.05) 75%);
+}
+.character{
+  position:absolute;z-index:-2;right:-4%;bottom:0;height:88%;width:auto;
+  object-fit:contain;object-position:bottom center;
+  filter:drop-shadow(0 15px 22px rgba(0,0,0,.42));
+  transition:height .4s ease,right .4s ease,opacity .3s ease,transform .5s ease;
+}
+.card.active .character{height:92%;right:0;transform:translateX(6%)}
+.card:not(.active) .character{height:78%;right:-22%;opacity:.88}
+.content{
+  position:relative;z-index:3;height:100%;min-height:535px;padding:30px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.badge{
+  position:absolute;top:0;left:0;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 65%,black));
+  padding:10px 17px;border-radius:0 0 16px 0;font-size:11px;font-weight:900
+}
+.level-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.num{
+  width:48px;height:32px;border-radius:999px;background:var(--accent);
+  display:grid;place-items:center;font:800 16px serif;color:#111;
+}
+.level-code{font-size:14px;font-weight:900;letter-spacing:.08em}
+.title{font-size:clamp(25px,2.3vw,37px);line-height:1.2;margin:0 0 12px;font-weight:900;max-width:70%}
+.desc{font-size:13px;line-height:1.7;color:#d3d0c9;margin:0;max-width:68%}
+.meta{
+  margin-top:17px;padding-top:15px;border-top:1px solid rgba(255,255,255,.16);
+  display:flex;gap:24px;flex-wrap:wrap;font-size:10px;color:#c9c6c0;
+}
+.meta b{display:block;color:#fff;font-size:13px;margin-top:3px}
+.actions{display:flex;gap:10px;margin-top:18px;max-width:72%}
+.primary,.secondary{
+  height:47px;border-radius:999px;padding:0 20px;border:none;font-weight:900;
+  display:flex;align-items:center;justify-content:center;gap:8px
+}
+.primary{flex:1;background:var(--accent);color:#fff}
+.secondary{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#eee}
+.card.compact .desc,.card.compact .meta,.card.compact .secondary{display:none}
+.card.compact .title{max-width:90%;font-size:30px}
+.card.compact .actions{max-width:100%}
+.card.compact .primary{width:100%;flex:none}
+.card.compact .character{opacity:.68}
+
+.features{
+  margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);border-radius:20px;background:rgba(23,28,29,.75);overflow:hidden
+}
+.feature{padding:16px 18px;display:flex;align-items:center;gap:11px}
+.feature+.feature{border-left:1px solid var(--line)}
+.fi{
+  width:40px;height:40px;border:1px solid rgba(239,189,97,.32);border-radius:50%;
+  display:grid;place-items:center;color:var(--gold);font-weight:900;flex:0 0 auto
+}
+.feature b{display:block;font-size:12px}
+.feature span span{display:block;font-size:10px;color:#aaa8a2;margin-top:4px}
+.toast{
+  position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);
+  opacity:0;transition:.25s;z-index:100;background:#f5f1e8;color:#171a1a;
+  border-radius:999px;padding:11px 18px;font-size:12px;font-weight:900;pointer-events:none
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:900px){
+  header{padding:0 18px}.sep,.home{display:none}
+  main{width:min(720px,calc(100% - 26px));padding-top:28px}
+  .level-grid,.level-grid[data-active="2"],.level-grid[data-active="3"]{grid-template-columns:1fr;min-height:0}
+  .card,.content{min-height:450px}
+  .card.compact .desc,.card.compact .meta,.card.compact .secondary{display:flex}
+  .card.compact .desc{display:block}
+  .card.compact .title{max-width:70%;font-size:30px}
+  .card.compact .actions{max-width:72%}
+  .card:not(.active) .character,.card.active .character{height:86%;right:-2%;opacity:1;transform:translateX(5%)}
+  .features{grid-template-columns:1fr 1fr}
+  .feature:nth-child(3){border-left:none;border-top:1px solid var(--line)}
+  .feature:nth-child(4){border-top:1px solid var(--line)}
+}
+@media(max-width:560px){
+  header{height:64px}.brand small{display:none}.controls .control:first-child{display:none}
+  main{width:calc(100% - 18px)}
+  h1{font-size:38px}.hero p{font-size:12px}
+  .card,.content{min-height:500px}
+  .content{padding:22px}
+  .character{height:76%!important;right:-18%!important;opacity:.8!important}
+  .title,.desc{max-width:72%!important}
+  .meta{max-width:70%;gap:12px}
+  .actions,.card.compact .actions{max-width:100%;flex-direction:column}
+  .secondary{width:100%}
+  .features{grid-template-columns:1fr}
+  .feature+.feature{border-left:none;border-top:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">中</div><div><strong>中文练习</strong><small>Zhōngwén Liànxí</small></div></div>
+  <div class="sep"></div><div class="home">หน้าหลัก</div><div class="spacer"></div>
+  <div class="controls">
+    <button class="control">☼</button><button class="control active">🇹🇭 TH</button>
+    <button class="control">🇨🇳 中</button><button class="control">🇬🇧 EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">เลือกเส้นทางการเรียน</div>
+    <h1>คุณต้องการเริ่มจากระดับไหน</h1>
+    <p>เลือกระดับตามพื้นฐานของคุณ แล้วเริ่มเรียนผ่านบทสนทนา คำศัพท์ และสถานการณ์ที่นำไปใช้ได้จริง</p>
+  </section>
+
+  <section class="level-grid" id="grid" data-active="1">
+    <article class="card active" data-level="1" style="--accent:#ef5845">
+      <img class="scene-bg" src="assets/hsk1-bg.webp" alt="ตลาดผลไม้และร้านน้ำชา">
+      <div class="scrim"></div>
+      <img class="character" src="assets/hsk1-char.webp" alt="David">
+      <div class="content">
+        <div class="badge">★ แนะนำสำหรับผู้เริ่มต้น</div>
+        <div class="level-head"><div class="num">01</div><div class="level-code">HSK1</div></div>
+        <h2 class="title">เริ่มต้นพื้นฐาน</h2>
+        <p class="desc">คำศัพท์และประโยคง่าย ๆ สำหรับการสื่อสารในชีวิตประจำวัน เหมาะสำหรับผู้เริ่มเรียนภาษาจีน</p>
+        <div class="meta"><span>คำศัพท์<b>150+ คำ</b></span><span>สถานการณ์<b>ง่ายมาก</b></span><span>ความยาก<b>★☆☆☆☆</b></span></div>
+        <div class="actions"><button class="primary" data-start="1">เริ่มเรียนเลย →</button><button class="secondary" data-preview="1">ดูเนื้อหาก่อน</button></div>
+      </div>
+    </article>
+
+    <article class="card compact" data-level="2" style="--accent:#64a85c">
+      <img class="scene-bg" src="assets/hsk2-bg.webp" alt="ภัตตาคารจีน">
+      <div class="scrim"></div>
+      <img class="character" src="assets/hsk2-char.webp" alt="Liu Ming">
+      <div class="content">
+        <div class="level-head"><div class="num">02</div><div class="level-code">HSK2</div></div>
+        <h2 class="title">ฝึกใช้ในชีวิตประจำวัน</h2>
+        <p class="desc">เพิ่มคลังคำศัพท์และฝึกบทสนทนาที่เจอจริง เช่น ร้านอาหาร การซื้อของ และการเดินทาง</p>
+        <div class="meta"><span>คำศัพท์<b>300+ คำ</b></span><span>สถานการณ์<b>ทั่วไป</b></span><span>ความยาก<b>★★☆☆☆</b></span></div>
+        <div class="actions"><button class="primary" data-start="2">เริ่มเรียนเลย →</button><button class="secondary" data-preview="2">ดูเนื้อหาก่อน</button></div>
+      </div>
+    </article>
+
+    <article class="card compact" data-level="3" style="--accent:#4f8fd5">
+      <img class="scene-bg" src="assets/hsk3-bg.webp" alt="สถานีรถไฟความเร็วสูง">
+      <div class="scrim"></div>
+      <img class="character" src="assets/hsk3-char.webp" alt="Wang Yixue">
+      <div class="content">
+        <div class="level-head"><div class="num">03</div><div class="level-code">HSK3</div></div>
+        <h2 class="title">ต่อยอดการสื่อสาร</h2>
+        <p class="desc">เข้าใจบทสนทนาที่ยาวขึ้น ใช้คำศัพท์หลากหลาย และฝึกตอบโต้ได้มั่นใจในหลายสถานการณ์</p>
+        <div class="meta"><span>คำศัพท์<b>600+ คำ</b></span><span>สถานการณ์<b>หลากหลาย</b></span><span>ความยาก<b>★★★☆☆</b></span></div>
+        <div class="actions"><button class="primary" data-start="3">เริ่มเรียนเลย →</button><button class="secondary" data-preview="3">ดูเนื้อหาก่อน</button></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="features">
+    <div class="feature"><div class="fi">◎</div><span><b>เส้นทางการเรียนชัดเจน</b><span>เรียนเป็นขั้นตอน เข้าใจง่าย</span></span></div>
+    <div class="feature"><div class="fi">↗</div><span><b>พัฒนาต่อเนื่อง</b><span>เห็นความก้าวหน้าของตัวเอง</span></span></div>
+    <div class="feature"><div class="fi">♜</div><span><b>พร้อมสอบ HSK</b><span>ปูพื้นฐานไปถึงการสอบ</span></span></div>
+    <div class="feature"><div class="fi">◇</div><span><b>ใช้ภาพจริงจากโปรเจกต์</b><span>ฉากและตัวละครที่สร้างไว้แล้ว</span></span></div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ROUTES={1:"#hsk1",2:"#hsk2",3:"#hsk3"};
+const PREVIEWS={1:"#preview-hsk1",2:"#preview-hsk2",3:"#preview-hsk3"};
+const grid=document.getElementById("grid");
+const cards=[...document.querySelectorAll(".card")];
+const toast=document.getElementById("toast");
+
+function selectLevel(level){
+  grid.dataset.active=level;
+  cards.forEach(c=>{
+    const on=c.dataset.level===String(level);
+    c.classList.toggle("active",on);
+    c.classList.toggle("compact",!on);
+  });
+}
+cards.forEach(c=>{
+  c.addEventListener("mouseenter",()=>{if(innerWidth>900)selectLevel(c.dataset.level)});
+  c.addEventListener("click",e=>{if(!e.target.closest("button"))selectLevel(c.dataset.level)});
+});
+function route(url,msg){
+  if(url.startsWith("#")){
+    history.replaceState(null,"",url);
+    toast.textContent=msg+" — Agent เปลี่ยน ROUTES ให้ตรงโปรเจกต์จริงได้";
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),2200);
+  }else location.href=url;
+}
+document.querySelectorAll("[data-start]").forEach(b=>b.onclick=()=>route(ROUTES[b.dataset.start],`เลือก HSK${b.dataset.start}`));
+document.querySelectorAll("[data-preview]").forEach(b=>b.onclick=()=>route(PREVIEWS[b.dataset.preview],`ดู HSK${b.dataset.preview}`));
+</script>
+</body>
+</html>

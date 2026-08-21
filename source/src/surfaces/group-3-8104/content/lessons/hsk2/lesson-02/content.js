@@ -31,6 +31,35 @@ export const LESSON_HSK2_L2 = {
   "thAid": "เดินช้อปปิ้งในห้าง ซื้อชานมไข่มุก ฉลองวันเกิดเสี่ยวเสวี่ย และเล่นบาสเกตบอลออกกำลังกาย"
 },
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  characters: {
+    wang: {
+      hanzi: "王一雪",
+      pinyin: "Wáng Yīxuě",
+      nameTh: "หวังอี้เสวี่ย",
+      nameEn: "Wang Yixue",
+      image: group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    liu: {
+      hanzi: "刘明",
+      pinyin: "Liú Míng",
+      nameTh: "หลิวหมิง",
+      nameEn: "Liu Ming",
+      image: group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+    liuXiaoxue: {
+      hanzi: "刘小雪",
+      pinyin: "Liú Xiǎoxuě",
+      nameTh: "หลิวเสี่ยวเสวี่ย",
+      nameEn: "Liu Xiaoxue",
+      image: group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-02-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-02-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk2/lesson-02/scenes/scene-02-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+  },
   objectives: [
   {
     "zh": "掌握第2课的核心词汇与日常对话。",

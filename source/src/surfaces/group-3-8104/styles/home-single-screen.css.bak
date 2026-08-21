@@ -1,0 +1,843 @@
+/* ============================================================
+   Home single-screen mode + Home views (About / Report)
+   Group 3 · 中文练习 (Zhōngwén Liànxí)
+   Desktop: squeeze the existing home content into one viewport.
+   Mobile (<901px): keep the natural scrolling layout as fallback.
+   ============================================================ */
+
+/* ---------- Home views (About / Report) ---------- */
+
+.g3-home-view {
+  display: grid;
+  min-height: calc(100svh - 70px);
+  place-items: center;
+  padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 3vw, 2rem);
+  animation: g3-home-view-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes g3-home-view-in {
+  from { opacity: 0; transform: translateY(0.6rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.g3-home-view-panel {
+  width: min(100% - 2rem, 46rem);
+  max-height: calc(100svh - 10rem);
+  overflow: auto;
+  padding: clamp(1.6rem, 3vw, 2.6rem);
+  border: 1px solid color-mix(in srgb, var(--g3-gold) 30%, var(--g3-line));
+  border-top: 4px solid var(--g3-gold);
+  border-radius: 1.6rem 1.6rem 0.6rem 0.6rem;
+  background: var(--g3-bg-soft);
+  box-shadow: 0 1.4rem 3.5rem color-mix(in srgb, var(--g3-bg) 30%, transparent);
+}
+
+.g3-home-view-panel h1 {
+  margin: 0.5rem 0 0.9rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.g3-home-view-panel .g3-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.g3-home-view-panel .g3-kicker .ui-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.g3-home-view-desc {
+  margin: 0;
+  color: var(--g3-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.g3-about-view-block {
+  margin-top: 1.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--g3-line);
+}
+
+.g3-about-view-block h2 {
+  margin: 0 0 0.8rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.g3-about-view-members {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.g3-about-view-members li {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--g3-line);
+  border-radius: 0.8rem;
+  background: color-mix(in srgb, var(--g3-bg) 70%, transparent);
+  font-weight: 700;
+}
+
+.g3-about-view-course {
+  display: block;
+  margin-top: 1.2rem;
+  color: var(--g3-muted);
+  font-size: 0.82rem;
+}
+
+/* ---------- Report form ---------- */
+
+.g3-report-form {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1.4rem;
+}
+
+.g3-report-field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.g3-report-label {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.g3-report-label b {
+  color: var(--g3-red);
+}
+
+.g3-report-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.g3-report-chips button {
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border: 1.5px solid var(--g3-line);
+  border-radius: 999px;
+  color: var(--g3-ink);
+  background: color-mix(in srgb, var(--g3-bg) 72%, transparent);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 140ms ease;
+}
+
+.g3-report-chips button:hover {
+  border-color: color-mix(in srgb, var(--g3-gold) 60%, var(--g3-line));
+  transform: translateY(-1px);
+}
+
+.g3-report-chips button.is-active {
+  border-color: var(--g3-gold);
+  background: color-mix(in srgb, var(--g3-gold) 16%, transparent);
+  box-shadow: 0 0.35rem 0.9rem color-mix(in srgb, var(--g3-gold) 18%, transparent);
+}
+
+.g3-report-field textarea {
+  width: 100%;
+  min-height: 7rem;
+  padding: 0.8rem 0.9rem;
+  border: 1.5px solid var(--g3-line);
+  border-radius: 0.8rem;
+  color: var(--g3-ink);
+  background: color-mix(in srgb, var(--g3-bg) 72%, transparent);
+  font: inherit;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.g3-report-field textarea:focus {
+  outline: 3px solid color-mix(in srgb, var(--g3-gold) 34%, transparent);
+  border-color: var(--g3-gold);
+}
+
+.g3-report-hint {
+  color: var(--g3-muted);
+  font-size: 0.76rem;
+}
+
+.g3-report-hint span {
+  font-weight: 700;
+}
+
+.g3-report-error {
+  color: var(--g3-red);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.g3-home-view-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.6rem;
+}
+
+.g3-report-success {
+  margin-top: 1.6rem;
+  padding: 1.8rem;
+  border: 1px solid color-mix(in srgb, var(--g3-jade) 34%, var(--g3-line));
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--g3-jade) 9%, var(--g3-bg-soft));
+  text-align: center;
+}
+
+.g3-report-success .ui-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--g3-jade);
+}
+
+.g3-report-success h2 {
+  margin: 0.7rem 0 0.4rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.g3-report-success p {
+  margin: 0;
+  color: var(--g3-muted);
+  line-height: 1.6;
+}
+
+.g3-report-success .g3-home-view-actions {
+  justify-content: center;
+}
+
+/* ---------- Single-viewport home layout (expanded, responsive) ---------- */
+
+.g3-home.is-single-screen {
+  min-height: calc(100svh - 88px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.g3-home.is-single-screen .g3-home-hero {
+  flex: 1;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 0;
+  grid-template-rows: none;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  align-items: center;
+  padding: 0;
+}
+
+.g3-home.is-single-screen .g3-hero-copy {
+  align-self: center;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.6rem, 1.2vh, 1rem);
+}
+
+.g3-home.is-single-screen .g3-hero-copy::before {
+  top: 1rem;
+  bottom: 1rem;
+}
+
+.g3-home-title {
+  margin: 0;
+  font-family: Georgia, "Noto Serif Thai", serif;
+  font-size: clamp(2.6rem, 3.8vw, 4.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.g3-home-sub {
+  margin: 0.5rem 0 0;
+  max-width: 36rem;
+  color: var(--color-text-secondary);
+  font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.g3-home.is-single-screen .g3-home-sub {
+  margin: 0;
+}
+
+.g3-home-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 1.25rem;
+}
+
+.g3-home.is-single-screen .g3-home-cta-row {
+  margin-top: 0.6rem;
+}
+
+.g3-home-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3.85rem;
+  min-width: 14rem;
+  padding: 0 2.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1.12rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: filter 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 0.5rem 1.4rem color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+.g3-home-cta-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+}
+
+.g3-home-cta-secondary {
+  min-height: 3.85rem;
+  padding: 0 2rem;
+  border: 0;
+  border-radius: 999px;
+  background: #9b2018;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+
+.g3-home-cta-secondary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.g3-home-free-tag {
+  color: var(--g3-muted);
+  font-size: 0.88rem;
+}
+
+/* ---------- Home manga carousel ---------- */
+
+.g3-home-carousel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.g3-home-carousel-stage {
+  position: relative;
+  flex: 1 1 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.g3-vocab-pill {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 12;
+  border: 0;
+  border-radius: 999px;
+  background: #6e120d;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0 1rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+  box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.35);
+  transition: transform 150ms ease, filter 150ms ease, box-shadow 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.g3-vocab-pill:hover {
+  transform: translateY(-1px) scale(1.03);
+  filter: brightness(1.1);
+  box-shadow: 0 0.5rem 1.2rem color-mix(in srgb, var(--g3-red) 45%, transparent);
+}
+
+.g3-home-carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.g3-home-carousel-dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(207, 58, 39, 0.35);
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.g3-home-carousel-dot.is-active {
+  background: var(--color-accent);
+}
+
+/* ---------- Mobile fallback (natural scroll) ---------- */
+
+@media (max-width: 900px) {
+  .g3-home.is-single-screen {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .g3-home.is-single-screen .g3-home-hero {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    gap: 1.4rem;
+    padding: 1.2rem 1rem;
+  }
+
+  .g3-home.is-single-screen .g3-hero-copy {
+    padding: 0.5rem 0.25rem 0;
+  }
+
+  .g3-home-carousel {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .g3-manga-viewport {
+    min-height: 360px;
+    border-radius: 1.2rem;
+  }
+
+  .g3-manga-actors-layer {
+    padding: 0 0.5rem 110px;
+  }
+
+  .g3-manga-actor {
+    width: clamp(90px, 30vw, 150px);
+  }
+
+  .g3-manga-actor-sprite {
+    max-height: clamp(150px, 30vh, 240px);
+  }
+
+  .g3-manga-subtitle-box {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: calc(100% - 1rem);
+    max-width: 480px;
+    bottom: 0.5rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.95rem;
+  }
+
+  .g3-manga-hanzi {
+    font-size: 1.08rem;
+  }
+
+  .g3-manga-pinyin {
+    font-size: 0.8rem;
+  }
+
+  .g3-manga-thai {
+    font-size: 0.78rem;
+  }
+
+  .g3-manga-top-bar {
+    top: 0.55rem;
+    left: 0.55rem;
+    font-size: 0.75rem;
+    max-width: calc(100% - 7.5rem);
+  }
+
+  .g3-manga-scenario-title {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .g3-vocab-pill {
+    top: 0.55rem;
+    right: 0.55rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.72rem;
+    min-height: 38px;
+  }
+
+  .g3-home-cta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+  }
+
+  .g3-home-cta-primary,
+  .g3-home-cta-secondary {
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+    padding: 0.65rem 0.8rem;
+  }
+}
+
+.g3-manga-pause-btn {
+  background: color-mix(in srgb, var(--g3-bg-soft) 80%, transparent);
+  border: 1px solid var(--g3-line);
+  color: var(--g3-ink);
+  border-radius: 999px;
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-left: 0.4rem;
+  transition: all 160ms ease;
+}
+
+.g3-manga-pause-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
+}
+
+.g3-manga-subtitle-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.g3-manga-line-counter {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--g3-muted);
+  background: color-mix(in srgb, var(--g3-bg-soft) 80%, transparent);
+  border: 1px solid var(--g3-line);
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+}
+
+
+
+
+/* ---------- Light theme: 60-30-10 balance ----------
+   60% warm neutrals (bg/surfaces) / 30% text+borders / 10% accent.
+   Accent = muted brick; the CTA is the single solid accent element.
+   Soft tints for tags/pill so red stays a 10% accent. */
+
+:root[data-theme="light"] .g3-story-shell .g3-home-cta-primary {
+  color: #fff8ea;
+}
+
+:root[data-theme="light"] .g3-home-cta-primary {
+  box-shadow: none;
+}
+
+:root[data-theme="light"] .g3-home-cta-secondary:hover {
+  border-color: var(--color-accent);
+}
+
+:root[data-theme="light"] .g3-story-shell .g3-vocab-pill {
+  color: var(--color-accent);
+}
+
+:root[data-theme="light"] .g3-vocab-pill {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent-border);
+  box-shadow: none;
+}
+
+:root[data-theme="light"] .g3-vocab-pill:hover {
+  box-shadow: none;
+  filter: brightness(1.03);
+}
+
+:root[data-theme="light"] .g3-manga-tag {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+}
+
+:root[data-theme="light"] .g3-manga-speaker-tag {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent-border);
+  box-shadow: none;
+}
+
+:root[data-theme="light"] .g3-manga-live-badge {
+  background: color-mix(in srgb, var(--g3-jade) 14%, transparent);
+  color: var(--g3-jade);
+  border-color: color-mix(in srgb, var(--g3-jade) 32%, transparent);
+}
+
+:root[data-theme="light"] .g3-pulse-dot {
+  background: var(--g3-jade);
+  box-shadow: 0 0 0.5rem var(--g3-jade);
+}
+
+:root[data-theme="light"] .g3-manga-audio-btn {
+  color: #7d4400;
+  background: color-mix(in srgb, #7d4400 18%, transparent);
+}
+
+:root[data-theme="light"] .g3-home-carousel-dot.is-active {
+  box-shadow: none;
+}
+
+/* ============================================================
+   PREMIUM POLISH — presentation pass (prototype-level, token-based)
+   Light: warm editorial (parchment + deep red + gold hairlines)
+   Dark:  luminous slate (glowing red/gold on deep charcoal)
+   ============================================================ */
+
+/* ---------- Hero ambient atmosphere (per theme) ---------- */
+
+.g3-home.is-single-screen .g3-home-hero {
+  background:
+    radial-gradient(circle at 10% 24%, color-mix(in srgb, var(--g3-gold) 10%, transparent), transparent 22rem),
+    radial-gradient(circle at 92% 82%, color-mix(in srgb, var(--g3-red) 8%, transparent), transparent 26rem),
+    radial-gradient(circle at 68% 12%, color-mix(in srgb, var(--g3-jade) 7%, transparent), transparent 18rem);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-home-hero {
+  background-color: #f0e9dc; /* Deeper warm cream */
+  background-image:
+    radial-gradient(circle at 10% 24%, color-mix(in srgb, var(--g3-gold) 18%, transparent), transparent 22rem),
+    radial-gradient(circle at 92% 82%, color-mix(in srgb, var(--g3-red) 12%, transparent), transparent 26rem),
+    var(--g3-reading-background, none);
+  background-size: cover, cover, cover;
+  background-position: center, center, center;
+  background-blend-mode: normal, normal, multiply;
+}
+
+/* ---------- Title: refined editorial serif ---------- */
+
+.g3-home-title {
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+:root[data-theme="light"] .g3-wow-text {
+  background: linear-gradient(120deg, #8f2414 0%, #b27216 55%, #8f2414 100%);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: g3-gradient-shift 9s ease-in-out infinite;
+  text-shadow: none;
+}
+
+:root[data-theme="dark"] .g3-wow-text {
+  background: linear-gradient(120deg, #f06752 0%, #e5b45b 50%, #f7efe2 100%);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: g3-gradient-shift 9s ease-in-out infinite;
+  text-shadow: 0 0.4rem 1.6rem rgba(229, 180, 91, 0.18);
+}
+
+/* ---------- Sub description ---------- */
+
+.g3-home-sub {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Premium CTA (single action) ---------- */
+
+.g3-home-cta-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 3.75rem;
+  padding: 0 2.3rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 55%, rgba(255, 255, 255, 0.42));
+  border-radius: 999px;
+  font-size: 1.04rem;
+  letter-spacing: 0.015em;
+  background: linear-gradient(135deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 64%, #5c0d05));
+  box-shadow:
+    0 0.7rem 1.8rem color-mix(in srgb, var(--color-accent) 34%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 200ms ease, box-shadow 200ms ease;
+}
+
+.g3-home-cta-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -170%;
+  width: 55%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-24deg);
+  pointer-events: none;
+  transition: left 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.g3-home-cta-primary:hover {
+  filter: brightness(1.07);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.g3-home-cta-primary:hover::after {
+  left: 170%;
+}
+
+.g3-home-cta-primary:active {
+  transform: translateY(0) scale(0.99);
+}
+
+:root[data-theme="light"] .g3-home-cta-primary {
+  background: linear-gradient(135deg, #cf3a27, #8f2414);
+  box-shadow:
+    0 0.6rem 1.5rem rgba(143, 36, 20, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+:root[data-theme="dark"] .g3-home-cta-primary {
+  box-shadow:
+    0 0.7rem 1.9rem rgba(226, 83, 62, 0.32),
+    0 0 1.7rem color-mix(in srgb, var(--g3-gold) 16%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- Entrance choreography (reduced-motion safe) ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .g3-hero-copy > * {
+    opacity: 0;
+    animation: g3-premium-rise 750ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .g3-hero-copy > :nth-child(1) { animation-delay: 60ms; }
+  .g3-hero-copy > :nth-child(2) { animation-delay: 160ms; }
+  .g3-hero-copy > :nth-child(3) { animation-delay: 260ms; }
+  .g3-hero-copy > :nth-child(4) { animation-delay: 360ms; }
+}
+
+@keyframes g3-premium-rise {
+  from { opacity: 0; transform: translateY(1.1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Manga stage: premium mat + gold hairline frame ---------- */
+
+.g3-manga-viewport {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+
+/* ---------- Carousel dots: gold pill on active ---------- */
+
+.g3-home-carousel-dot {
+  width: 0.62rem;
+  height: 0.62rem;
+  background: color-mix(in srgb, var(--g3-gold) 40%, transparent);
+  transition: all 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.g3-home-carousel-dot.is-active {
+  width: 2rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--g3-red), var(--g3-gold));
+  box-shadow: 0 0.25rem 0.7rem color-mix(in srgb, var(--g3-gold) 42%, transparent);
+}
+
+:root[data-theme="dark"] .g3-home-carousel-dot {
+  background: color-mix(in srgb, var(--g3-gold) 55%, transparent);
+}
+
+:root[data-theme="dark"] .g3-home-carousel-dot.is-active {
+  background: linear-gradient(90deg, var(--g3-red), var(--g3-gold));
+}
+
+/* ---------- Vocab pill: gold identity (dark) / soft accent (light) ---------- */
+
+:root[data-theme="dark"] .g3-vocab-pill {
+  background: linear-gradient(135deg, #b27216, #d99a2b);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff8e8;
+}
+
+:root[data-theme="dark"] .g3-vocab-pill:hover {
+  filter: brightness(1.1);
+}
+
+/* ---------- Mobile: single CTA goes full width ---------- */
+
+@media (max-width: 640px) {
+  .g3-home-cta-row {
+    grid-template-columns: 1fr;
+  }
+
+  .g3-home-cta-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Light Theme Left Content Polish */
+:root[data-theme="light"] .g3-hero-copy {
+  color: #111; /* Sharper ink */
+}
+:root[data-theme="light"] .g3-hero-copy p {
+  color: #333; /* Sharper subtle text */
+  font-weight: 500;
+}
+:root[data-theme="light"] .g3-home-title {
+  color: #050505;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Light Theme Arrow Polish */
+:root[data-theme="light"] .g3-manga-arrow {
+  background: rgba(0,0,0,0.75); /* Darker for light mode */
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Light Theme Hero Fade Polish */
+:root[data-theme="light"] .g3-manga-viewport {
+  mask-image: linear-gradient(to right, transparent 0%, black 3%, black 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 100%);
+}
+
+:root[data-theme="light"] .g3-home-benefits p {
+  color: #222 !important; /* Fix numbered feature rows */
+  font-weight: 500;
+}
+:root[data-theme="light"] .g3-hero-copy p {
+  color: #222 !important; /* Fix description */
+}
+:root[data-theme="light"] .g3-home-description {
+  color: #222 !important;
+}

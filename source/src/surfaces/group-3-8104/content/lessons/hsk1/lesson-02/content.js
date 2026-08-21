@@ -31,6 +31,26 @@ export const LESSON_HSK1_L2 = {
   "thAid": "เรียนรู้เรื่องสมาชิกในครอบครัว ตารางเวลาในชีวิตประจำวัน อาชีพและสถานที่ทำงาน พร้อมแลกเปลี่ยนเบอร์ติดต่อ"
 },
   translationPolicy: { kind: "editorial-aid", labelTh: "คำแปลไทยเพื่อช่วยเรียน เรียบเรียงจากต้นฉบับ" },
+  characters: {
+    wang: {
+      hanzi: "王一雪",
+      pinyin: "Wáng Yīxuě",
+      nameTh: "หวังอี้เสวี่ย",
+      nameEn: "Wang Yixue",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-02/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-02/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-02/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "26% center",
+    },
+    liu: {
+      hanzi: "刘明",
+      pinyin: "Liú Míng",
+      nameTh: "หลิวหมิง",
+      nameEn: "Liu Ming",
+      image: group3AssetPath("/assets/group3/lessons/hsk1/lesson-02/scenes/scene-01-1400w.webp"),
+      imageSrcSet: `${group3AssetPath("/assets/group3/lessons/hsk1/lesson-02/scenes/scene-01-720w.webp")} 720w, ${group3AssetPath("/assets/group3/lessons/hsk1/lesson-02/scenes/scene-01-1400w.webp")} 1400w`,
+      imageFocus: "74% center",
+    },
+  },
   objectives: [
   {
     "zh": "掌握第2课的核心词汇与日常对话。",

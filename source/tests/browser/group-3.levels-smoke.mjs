@@ -247,7 +247,8 @@ function assertGeometry(snapshot, mobile = false) {
   assert.ok(active.talk.opacity >= 0.99 && active.idle.opacity <= 0.01, "active card does not show talk/gesture sprite");
   assertVisibleIntersection(active.talk.rect, active.rect, "active talk/gesture sprite");
   for (const card of snapshot.cards.filter((item) => !item.active && item.visible)) {
-    assert.ok(card.idle.opacity >= 0.99 && card.talk.opacity <= 0.01, "inactive card does not show idle sprite");
+    assert.ok(card.idle.opacity >= 0.60 && card.idle.opacity <= 0.95, "inactive idle sprite is not visible but subdued");
+    assert.ok(card.talk.opacity <= 0.01, "inactive card does not hide talk/gesture sprite");
     assertVisibleIntersection(card.idle.rect, card.rect, "inactive idle sprite");
   }
   if (!mobile) {

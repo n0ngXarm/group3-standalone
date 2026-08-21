@@ -47,7 +47,7 @@
 
 .g3-level-selection-header {
   text-align: center;
-  margin-bottom: calc(30px * var(--reference-scale));
+  margin-bottom: calc(34px * var(--reference-scale));
   flex-shrink: 0;
 }
 
@@ -84,7 +84,8 @@
   grid-template-columns: 1.45fr .82fr .82fr;
   gap: 16px;
   transition: grid-template-columns .38s cubic-bezier(.2,.8,.2,1);
-  flex: 1;
+  flex: 1 1 535px;
+  max-height: 537px;
   min-height: 0; /* Important so it doesn't break out of flex container */
 }
 .g3-level-selection-grid.is-active-hsk2 { grid-template-columns: .82fr 1.45fr .82fr; }
@@ -147,12 +148,15 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 35%,
-    color-mix(in srgb, var(--g3-bg) 15%, transparent) 55%,
-    color-mix(in srgb, var(--g3-bg) 45%, transparent) 100%
-  );
+  background:
+    linear-gradient(180deg, transparent 32%, color-mix(in srgb, var(--g3-bg) 10%, transparent) 55%, color-mix(in srgb, var(--g3-bg) 40%, transparent) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 18%, transparent), transparent 72%);
+}
+
+:root[data-theme="light"] .g3-level-card-scrim {
+  background:
+    linear-gradient(180deg, transparent 38%, color-mix(in srgb, var(--g3-bg) 8%, transparent) 62%, color-mix(in srgb, var(--g3-bg) 28%, transparent) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 12%, transparent), transparent 72%);
 }
 
 .g3-level-card-character-layer {
@@ -193,7 +197,7 @@
   right: -22%;
 }
 
-.g3-level-card:not(.is-active) .g3-actor-idle { opacity: 0.88; }
+.g3-level-card:not(.is-active) .g3-actor-idle { opacity: 0.68; }
 .g3-level-card:not(.is-active) .g3-actor-talk { opacity: 0; }
 .g3-level-card.is-active .g3-actor-idle { opacity: 0; }
 .g3-level-card.is-active .g3-actor-talk { opacity: 1; }
@@ -213,9 +217,10 @@
   top: 0;
   left: 0;
   background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 65%, black));
-  padding: 10px 17px;
+  padding: 10px 19px;
   border-radius: 0 0 16px 0;
   font-size: 11px;
+  line-height: 18px;
   font-weight: 900;
   color: #fff;
 }
@@ -259,6 +264,7 @@
 .g3-level-card-desc {
   font-size: 13px;
   line-height: 1.7;
+  min-height: 44px;
   color: var(--g3-muted);
   margin: 0;
   max-width: 68%;
@@ -287,12 +293,16 @@
 .g3-level-card-actions {
   display: flex;
   gap: 10px;
+  align-items: center;
+  flex-wrap: nowrap;
   margin-top: 18px;
   max-width: 72%;
 }
 
-.g3-primary-action, .g3-secondary-action {
+.g3-level-card-actions .g3-primary-action,
+.g3-level-card-actions .g3-secondary-action {
   height: 47px;
+  min-height: 47px;
   border-radius: 999px;
   padding: 0 20px;
   border: none;
@@ -304,21 +314,27 @@
   cursor: pointer;
 }
 
-.g3-primary-action {
-  flex: 1;
+.g3-level-card-actions .g3-primary-action {
+  flex: 1 1 auto;
+  min-width: 0;
   background: var(--accent);
   color: #fff;
+  box-shadow: none;
 }
-.g3-primary-action:hover {
+.g3-level-card-actions .g3-primary-action:hover {
   background: color-mix(in srgb, var(--accent) 80%, black);
+  transform: none;
 }
 
-.g3-secondary-action {
+.g3-level-card-actions .g3-secondary-action {
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
   background: color-mix(in srgb, var(--g3-ink) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--g3-ink) 20%, transparent);
   color: var(--g3-ink);
 }
-.g3-secondary-action:hover {
+.g3-level-card-actions .g3-secondary-action:hover {
   background: color-mix(in srgb, var(--g3-ink) 15%, transparent);
 }
 

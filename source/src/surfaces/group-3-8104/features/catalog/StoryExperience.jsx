@@ -39,6 +39,38 @@ import { HomeCarousel } from "./HomeCarousel.jsx";
 export function LevelPicker({ language, navigate }) {
   const [activeCard, setActiveCard] = useState("hsk1");
   const text = COPY[language];
+  const presentation = {
+    th: {
+      recommendation: "★ แนะนำสำหรับผู้เริ่มต้น",
+      situationLabel: "สถานการณ์",
+      difficultyLabel: "ความยาก",
+      levels: {
+        hsk1: { vocabulary: "150+ คำ", situation: "ง่ายมาก", difficulty: "★☆☆☆☆" },
+        hsk2: { vocabulary: "300+ คำ", situation: "ทั่วไป", difficulty: "★★☆☆☆" },
+        hsk3: { vocabulary: "600+ คำ", situation: "หลากหลาย", difficulty: "★★★☆☆" },
+      },
+    },
+    zh: {
+      recommendation: "★ 推荐给初学者",
+      situationLabel: "场景",
+      difficultyLabel: "难度",
+      levels: {
+        hsk1: { vocabulary: "150+ 词", situation: "基础", difficulty: "★☆☆☆☆" },
+        hsk2: { vocabulary: "300+ 词", situation: "日常", difficulty: "★★☆☆☆" },
+        hsk3: { vocabulary: "600+ 词", situation: "多样", difficulty: "★★★☆☆" },
+      },
+    },
+    en: {
+      recommendation: "★ Recommended for beginners",
+      situationLabel: "Situations",
+      difficultyLabel: "Difficulty",
+      levels: {
+        hsk1: { vocabulary: "150+ words", situation: "Essential", difficulty: "★☆☆☆☆" },
+        hsk2: { vocabulary: "300+ words", situation: "Everyday", difficulty: "★★☆☆☆" },
+        hsk3: { vocabulary: "600+ words", situation: "Varied", difficulty: "★★★☆☆" },
+      },
+    },
+  }[language];
   const levels = [
     { 
       id: "hsk1", 
@@ -60,7 +92,7 @@ export function LevelPicker({ language, navigate }) {
       bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-03-chinese-restaurant.png"),
       charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/06-liu-ming-idle.png"),
       charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/06-liu-ming-talk.png"),
-      accent: "#ef5845"
+      accent: "#64a85c"
     },
     { 
       id: "hsk3", 
@@ -71,7 +103,7 @@ export function LevelPicker({ language, navigate }) {
       bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-04-high-speed-rail-station.png"),
       charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/08-wang-yixue-idle.png"),
       charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/08-wang-yixue-talk.png"),
-      accent: "#ef5845"
+      accent: "#4f8fd5"
     },
   ];
 
@@ -129,7 +161,7 @@ export function LevelPicker({ language, navigate }) {
                 </div>
                 
                 <div className="g3-level-card-content">
-                  <div className="g3-level-card-badge">{level.code}</div>
+                  {level.id === "hsk1" && <div className="g3-level-card-badge">{presentation.recommendation}</div>}
                   
                   <div className="g3-level-card-head">
                     <div className="g3-level-card-num">{level.number}</div>
@@ -141,13 +173,15 @@ export function LevelPicker({ language, navigate }) {
                   <div className="g3-level-card-details">
                     <p className="g3-level-card-desc">{level.body}</p>
                     <div className="g3-level-card-meta">
-                      <span>{text.vocabularyLabel} <b>150+</b></span>
+                      <span>{text.vocabularyLabel}<b>{presentation.levels[level.id].vocabulary}</b></span>
+                      <span>{presentation.situationLabel}<b>{presentation.levels[level.id].situation}</b></span>
+                      <span>{presentation.difficultyLabel}<b>{presentation.levels[level.id].difficulty}</b></span>
                     </div>
                   </div>
                   
                   <div className="g3-level-card-actions">
                     <button type="button" className="g3-primary-action" onClick={() => startLevel(level.id)} tabIndex={isActive ? 0 : -1}>
-                      {text.startLearning}
+                      {text.startLearning}<span aria-hidden="true">→</span>
                     </button>
                     <button type="button" className="g3-secondary-action" onClick={() => previewLevel(level.id)} tabIndex={isActive ? 0 : -1}>
                       {text.previewContent}

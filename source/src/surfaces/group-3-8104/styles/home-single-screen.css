@@ -367,9 +367,6 @@
   flex-direction: column;
   justify-content: center;
   z-index: 1;
-  /* Left transition fade mask */
-  -webkit-mask-image: linear-gradient(to right, transparent 0, black 120px);
-  mask-image: linear-gradient(to right, transparent 0, black 120px);
 }
 
 .g3-home-carousel-stage {
@@ -453,8 +450,6 @@
     position: relative;
     width: 100%;
     flex: 1 1 auto;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 60px);
-    mask-image: linear-gradient(to bottom, transparent 0, black 60px);
   }
 }
 

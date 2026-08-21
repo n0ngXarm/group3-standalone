@@ -32,6 +32,7 @@ const ReadingTheatre = lazy(() => import("./features/reader/index.js").then((mod
 })));
 
 const LESSON_ROUTE_NAMES = new Set(["reader", "preface", "contents", "vocabulary", "games", "game"]);
+const HSK_COURSE_LEVELS = new Set(["hsk1", "hsk2", "hsk3"]);
 
 export default function Group3App() {
   const [route, setRoute] = useState(routeFromLocation);
@@ -39,6 +40,7 @@ export default function Group3App() {
   const [language, setLanguage] = useState("th");
   const [aboutOpen, setAboutOpen] = useState(false);
   const [homeView, setHomeView] = useState("home");
+  const isHskCourseRoute = HSK_COURSE_LEVELS.has(route.level);
 
   const lowData = useMemo(() => {
     const policy = getBrowserAdaptiveThreePolicy();
@@ -106,7 +108,7 @@ export default function Group3App() {
     document.documentElement.dataset.theme = theme;
     document.documentElement.dataset.experience = "group3-reading";
     document.documentElement.dataset.lowData = String(lowData);
-    if (lowData) {
+    if (lowData || isHskCourseRoute) {
       document.documentElement.style.removeProperty("--g3-reading-background");
     } else {
       document.documentElement.style.setProperty(
@@ -119,7 +121,7 @@ export default function Group3App() {
       delete document.documentElement.dataset.lowData;
       document.documentElement.style.removeProperty("--g3-reading-background");
     };
-  }, [lowData, theme]);
+  }, [isHskCourseRoute, lowData, theme]);
 
   useEffect(() => {
     document.documentElement.lang = { th: "th", zh: "zh-CN", en: "en" }[language];

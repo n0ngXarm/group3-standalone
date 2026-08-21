@@ -2,24 +2,36 @@ import { useEffect, useState } from "react";
 import Icon from "../../../../shared/components/ui/Icon.jsx";
 import { volumeIcon } from "../../../../shared/components/ui/iconPaths.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
-import { playChineseTTS, playUiCue, stopChineseVoice } from "../../services/audio/index.js";
+
+function speak(text) {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "zh-CN";
+    u.rate = 0.88;
+    window.speechSynthesis.speak(u);
+  } catch {
+    // ignore
+  }
+}
 
 export const SCENARIOS = [
   {
     id: "market",
     title: { th: "1. ตลาดผลไม้ & ร้านน้ำชา", zh: "1. 水果市场与茶馆", en: "1. Fruit Market & Tea Shop" },
     tag: "HSK 1",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-market-stage-sharp.webp"),
+    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-01-market-tea.png"),
     leftActor: {
       name: "王老师 (Seller)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-seller-gesture-v2.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/01-wang-laoshi-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/01-wang-laoshi-talk.png"),
       side: "left",
     },
     rightActor: {
       name: "大卫 (David)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-talk-v2.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
       side: "right",
     },
     dialogues: [
@@ -50,17 +62,17 @@ export const SCENARIOS = [
     id: "campus",
     title: { th: "2. ห้องเรียนมหาวิทยาลัย", zh: "2. 大学课堂与问候", en: "2. Campus & Classroom" },
     tag: "HSK 1",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-campus-stage-sharp.webp"),
+    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-02-university-classroom.png"),
     leftActor: {
       name: "李明 (Li Ming)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liming-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liming-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/03-li-ming-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/03-li-ming-talk.png"),
       side: "left",
     },
     rightActor: {
       name: "玛丽 (Mary)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-female-talk-v2.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/04-mary-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/04-mary-talk.png"),
       side: "right",
     },
     dialogues: [
@@ -91,17 +103,17 @@ export const SCENARIOS = [
     id: "restaurant",
     title: { th: "3. ภัตตาคาร & สั่งอาหาร", zh: "3. 北京餐馆与点餐", en: "3. Beijing Restaurant" },
     tag: "HSK 2",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-restaurant-stage-sharp.webp"),
+    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-03-chinese-restaurant.png"),
     leftActor: {
       name: "服务员 (Waiter)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-waiter-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-waiter-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/05-waiter-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/05-waiter-talk.png"),
       side: "left",
     },
     rightActor: {
       name: "刘明 (Liu Ming)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liuming-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-liuming-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/06-liu-ming-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/06-liu-ming-talk.png"),
       side: "right",
     },
     dialogues: [
@@ -132,17 +144,17 @@ export const SCENARIOS = [
     id: "train",
     title: { th: "4. รถไฟความเร็วสูง", zh: "4. 高铁车站与出行", en: "4. High-Speed Train" },
     tag: "HSK 3",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-train-stage-sharp.webp"),
+    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-04-high-speed-rail-station.png"),
     leftActor: {
       name: "工作人员 (Officer)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-officer-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-officer-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/07-rail-officer-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/07-rail-officer-talk.png"),
       side: "left",
     },
     rightActor: {
       name: "王一雪 (Yixue)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-yixue-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-yixue-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/08-wang-yixue-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/08-wang-yixue-talk.png"),
       side: "right",
     },
     dialogues: [
@@ -173,17 +185,17 @@ export const SCENARIOS = [
     id: "dumplings",
     title: { th: "5. งานเลี้ยงห่อเกี๊ยวตรุษจีน", zh: "5. 除夕夜包饺子", en: "5. Dumpling New Year" },
     tag: "HSK 3",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/home/hero-dumplings-stage-sharp.webp"),
+    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-05-cny-dumpling-party.png"),
     leftActor: {
       name: "张姐 (Zhang Jie)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-zhangjie-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-zhangjie-talk-v1.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/09-zhang-jie-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/09-zhang-jie-talk.png"),
       side: "left",
     },
     rightActor: {
       name: "大卫 (David)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-idle-v1.webp"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/hero-student-male-talk-v2.webp"),
+      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle.png"),
+      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
       side: "right",
     },
     dialogues: [
@@ -211,14 +223,6 @@ export const SCENARIOS = [
     ],
   },
 ];
-
-function speak(text) {
-  try {
-    playChineseTTS(text);
-  } catch {
-    // fallback
-  }
-}
 
 const FRAME_MS = 2400;
 
@@ -280,6 +284,7 @@ export function ScenarioMangaStage({
   onSelectScenario,
   language = "th",
   lowData = false,
+  openVocabulary,
 }) {
   const scenario = SCENARIOS[activeScenarioIndex] || SCENARIOS[0];
   const [lineIndex, setLineIndex] = useState(0);
@@ -290,25 +295,19 @@ export function ScenarioMangaStage({
   const currentDialogue = scenario.dialogues[lineIndex] || scenario.dialogues[0];
   const isLeftSpeaker = currentDialogue.speaker === "left";
 
-  // Reset lineIndex and stop previous audio when scenario changes
   useEffect(() => {
-    stopChineseVoice();
     setLineIndex(0);
     setPanelKey((key) => key + 1);
-    return () => stopChineseVoice();
   }, [activeScenarioIndex]);
 
-  // Live Auto-Play Sequence
   useEffect(() => {
     if (!isPlaying) {
-      stopChineseVoice();
       return;
     }
     const dialogue = scenario.dialogues[lineIndex];
     if (!dialogue) return;
 
     setIsSpeakingAnim(true);
-    speak(dialogue.zh);
 
     const animTimer = setTimeout(() => {
       setIsSpeakingAnim(false);
@@ -327,26 +326,22 @@ export function ScenarioMangaStage({
     return () => {
       clearTimeout(animTimer);
       clearTimeout(nextTimer);
-      stopChineseVoice();
     };
   }, [isPlaying, lineIndex, scenario, activeScenarioIndex, onSelectScenario]);
 
   const handleSpeakLine = (text) => {
-    playUiCue("tap");
     setIsSpeakingAnim(true);
     speak(text);
     setTimeout(() => setIsSpeakingAnim(false), 2200);
   };
 
   const handlePrevScenario = () => {
-    playUiCue("tap");
     const total = SCENARIOS.length;
     const prev = (activeScenarioIndex - 1 + total) % total;
     onSelectScenario?.(prev);
   };
 
   const handleNextScenario = () => {
-    playUiCue("tap");
     const total = SCENARIOS.length;
     const next = (activeScenarioIndex + 1) % total;
     onSelectScenario?.(next);
@@ -356,111 +351,65 @@ export function ScenarioMangaStage({
     <div className="g3-manga-stage-card" aria-label="2D Visual Novel Stage">
       {/* 2D Stage Frame */}
       <div className="g3-manga-viewport" key={panelKey}>
-        {/* Stage Backdrop with slow manga-panel pan */}
+        
+        {/* z0 Scene Background */}
         {!lowData && (
           <div className="g3-manga-backdrop">
             <img
               src={scenario.backdrop}
               alt=""
-              width="1024"
-              height="572"
               decoding="async"
               loading="eager"
               className="g3-manga-bg-img"
             />
-            <div className="g3-manga-bg-vignette" />
           </div>
         )}
 
-        {/* Ambient manga motion: drifting dust */}
+        {/* z1 Scene atmospheric treatment (Vignette & Dust) */}
         {!lowData && (
-          <div className="g3-manga-dust" aria-hidden="true">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <i key={i} style={{ "--g3-dust-index": i }} />
-            ))}
+          <div className="g3-manga-atmosphere">
+            <div className="g3-manga-bg-vignette"></div>
+            <div className="g3-manga-dust" aria-hidden="true">
+              <i style={{"--g3-dust-index": 1}}></i>
+              <i style={{"--g3-dust-index": 2}}></i>
+              <i style={{"--g3-dust-index": 3}}></i>
+              <i style={{"--g3-dust-index": 4}}></i>
+            </div>
           </div>
         )}
 
-        {/* Top Scenario Title Tag + Live Preview + Pause Toggle */}
-        <div className="g3-manga-top-bar">
-          <span className="g3-manga-live-badge">
-            <i className="g3-pulse-dot" aria-hidden="true" /> LIVE PREVIEW
-          </span>
-          <span className="g3-manga-tag">{scenario.tag}</span>
-          <strong className="g3-manga-scenario-title">
-            {scenario.title[language] || scenario.title.th}
-          </strong>
-          <button
-            type="button"
-            className="g3-manga-pause-btn"
-            onClick={() => setIsPlaying((p) => !p)}
-            aria-label={isPlaying ? "พักการเล่นอัตโนมัติ" : "เล่นอัตโนมัติ"}
-            title={isPlaying ? "พักการเล่นอัตโนมัติ" : "เล่นอัตโนมัติ"}
-          >
-            {isPlaying ? "⏸" : "▶"}
-          </button>
-        </div>
+        {/* z2 Left Blend */}
+        <div className="g3-manga-left-blend"></div>
 
-        {/* 2D Actors with Animated Frame Pose Swapping */}
+        {/* z3 Actors Layer */}
         <div className="g3-manga-actors-layer">
           {/* Left Character */}
-          <div
-            className={`g3-manga-actor is-left${isLeftSpeaker ? " is-talking" : " is-idle"}`}
-          >
+          <div className={`g3-manga-actor is-left${isLeftSpeaker ? " is-talking" : " is-idle"}`}>
+            <span className="g3-manga-actor-label">{scenario.leftActor.name}</span>
             <ActorSprite
               actor={scenario.leftActor}
               talking={isLeftSpeaker}
               speaking={isSpeakingAnim}
             />
-            <span className="g3-manga-actor-name">{scenario.leftActor.name}</span>
           </div>
 
           {/* Right Character */}
-          <div
-            className={`g3-manga-actor is-right${!isLeftSpeaker ? " is-talking" : " is-idle"}`}
-          >
+          <div className={`g3-manga-actor is-right${!isLeftSpeaker ? " is-talking" : " is-idle"}`}>
+            <span className="g3-manga-actor-label">{scenario.rightActor.name}</span>
             <ActorSprite
               actor={scenario.rightActor}
               talking={!isLeftSpeaker}
               speaking={isSpeakingAnim}
             />
-            <span className="g3-manga-actor-name">{scenario.rightActor.name}</span>
           </div>
         </div>
 
-        {/* Visual Novel Bottom Subtitle Bar (Hanzi + Pinyin + Thai) */}
-        <div className="g3-manga-subtitle-box" role="region" aria-label="Dialogue Subtitle">
-          <div className="g3-manga-subtitle-header">
-            <span className="g3-manga-speaker-tag">
-              {isLeftSpeaker ? scenario.leftActor.name : scenario.rightActor.name}
-            </span>
-            <div className="g3-manga-subtitle-actions">
-              <span className="g3-manga-line-counter">
-                {lineIndex + 1}/{scenario.dialogues.length}
-              </span>
-              <button
-                type="button"
-                className="g3-manga-audio-btn"
-                onClick={() => handleSpeakLine(currentDialogue.zh)}
-                aria-label="Play Dialogue Audio"
-                title="ฟังเสียงอ่านซ้ำ"
-              >
-                <Icon paths={volumeIcon} />
-              </button>
-            </div>
-          </div>
-          <p className="g3-manga-hanzi">{currentDialogue.zh}</p>
-          <p className="g3-manga-pinyin">{currentDialogue.py}</p>
-          <p className="g3-manga-thai">{language === "en" ? currentDialogue.en : currentDialogue.th}</p>
-        </div>
-
-        {/* Scenario Carousel Navigation Arrows */}
+        {/* z4 Navigation Layer */}
         <button
           type="button"
           className="g3-manga-arrow is-prev"
           onClick={handlePrevScenario}
           aria-label="Previous Scenario"
-          title="สถานการณ์ก่อนหน้า"
         >
           ‹
         </button>
@@ -469,13 +418,53 @@ export function ScenarioMangaStage({
           className="g3-manga-arrow is-next"
           onClick={handleNextScenario}
           aria-label="Next Scenario"
-          title="สถานการณ์ถัดไป"
         >
           ›
         </button>
+
+        {/* z5 Dialogue + Audio Layer */}
+        <div className="g3-manga-dialogue-layer">
+          <div className="g3-manga-subtitle-box" role="region" aria-label="Dialogue Subtitle">
+            <div className="g3-manga-subtitle-content">
+              <div className="g3-manga-subtitle-header">
+                <span className="g3-manga-speaker-tag">
+                  {isLeftSpeaker ? scenario.leftActor.name : scenario.rightActor.name}
+                </span>
+                <div className="g3-manga-subtitle-actions">
+                  <button
+                    type="button"
+                    className="g3-manga-audio-btn"
+                    onClick={() => handleSpeakLine(currentDialogue.zh)}
+                    aria-label="Play Dialogue Audio"
+                  >
+                    <Icon paths={volumeIcon} />
+                  </button>
+                </div>
+              </div>
+              <p className="g3-manga-hanzi">{currentDialogue.zh}</p>
+              <p className="g3-manga-pinyin">{currentDialogue.py}</p>
+              <p className="g3-manga-thai">{language === "en" ? currentDialogue.en : currentDialogue.th}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* z6 Pagination Layer */}
+        <div className="g3-home-carousel-dots" role="tablist">
+          {SCENARIOS.map((slide, index) => (
+            <button
+              key={slide.id}
+              type="button"
+              role="tab"
+              aria-selected={activeScenarioIndex === index}
+              aria-label={slide.title[language] || slide.title.th}
+              className={`g3-home-carousel-dot ${activeScenarioIndex === index ? "is-active" : ""}`}
+              onClick={() => {
+                onSelectScenario?.(index);
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
-
-

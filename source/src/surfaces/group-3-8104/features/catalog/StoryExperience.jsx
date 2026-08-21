@@ -245,11 +245,11 @@ export function StoryHome({ language, navigate, lowData = false }) {
             {text.heroTitleLine}
           </h1>
           <p className="g3-home-sub">{text.heroSubLine}</p>
-          <div className="g3-home-benefits" aria-label={text.benefitsLabel}>
-            <p><strong>01 {text.benefitOne.includes(':') ? text.benefitOne.split(':')[0] : ''}</strong>{text.benefitOne.includes(':') ? <br/> : ''}{text.benefitOne.includes(':') ? text.benefitOne.split(':')[1] : text.benefitOne}</p>
-            <p><strong>02 {text.benefitTwo.includes(':') ? text.benefitTwo.split(':')[0] : ''}</strong>{text.benefitTwo.includes(':') ? <br/> : ''}{text.benefitTwo.includes(':') ? text.benefitTwo.split(':')[1] : text.benefitTwo}</p>
-            <p><strong>03 {text.benefitThree.includes(':') ? text.benefitThree.split(':')[0] : ''}</strong>{text.benefitThree.includes(':') ? <br/> : ''}{text.benefitThree.includes(':') ? text.benefitThree.split(':')[1] : text.benefitThree}</p>
-          </div>
+          <ul className="g3-home-benefits" aria-label={text.benefitsLabel}>
+            <li>{text.benefitOne}</li>
+            <li>{text.benefitTwo}</li>
+            <li>{text.benefitThree}</li>
+          </ul>
 
           <div className="g3-home-cta-row">
             <button

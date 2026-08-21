@@ -1271,42 +1271,32 @@
   font-weight: 850;
   letter-spacing: -0.02em;
   line-height: 1.15;
+  white-space: pre-line;
 }
 
 .g3-home-sub {
   max-width: 36rem;
   font-size: clamp(1.05rem, 1.25vw, 1.25rem);
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .g3-home-benefits {
   display: grid;
-  gap: 0.75rem;
+  gap: clamp(0.55rem, 1.1vh, 0.85rem);
   max-width: 36rem;
-  margin: 0.75rem 0 0.35rem;
+  margin: 0.45rem 0 0.25rem;
+  padding: 0;
+  list-style: none;
 }
 
-.g3-home-benefits p {
-  display: flex;
-  align-items: baseline;
-  gap: 0.85rem;
+.g3-home-benefits li {
   margin: 0;
-  color: var(--g3-muted);
-  font-size: clamp(0.95rem, 1.05vw, 1.12rem);
-  line-height: 1.5;
-}
-
-.g3-home-benefits strong {
-  flex: 0 0 auto;
-  color: var(--g3-gold);
-  font-family: "Noto Serif SC", Georgia, serif;
-  font-size: 0.95rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  padding: 0.1rem 0.45rem;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--g3-gold) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--g3-gold) 32%, transparent);
+  padding: 0;
+  color: color-mix(in srgb, var(--g3-ink) 76%, var(--g3-muted));
+  font-size: clamp(0.92rem, 1vw, 1.05rem);
+  font-weight: 620;
+  line-height: 1.48;
 }
 
 .g3-home.is-single-screen .g3-home-cta-row {
@@ -1918,7 +1908,7 @@
     margin-top: 0.25rem;
   }
 
-  .g3-home-benefits p {
+  .g3-home-benefits li {
     font-size: 0.78rem;
   }
 }
@@ -2320,15 +2310,15 @@
   }
 
   .g3-home.is-single-screen .g3-hero-copy {
-    flex: 0 0 50%;
-    width: 50%;
+    flex: 0 0 46%;
+    width: 46%;
     padding: 2rem 4rem;
   }
 
   .g3-home.is-single-screen .g3-home-carousel {
     position: absolute;
     inset: 0 0 0 auto;
-    width: 50%;
+    width: 54%;
     height: 100%;
     min-height: 0;
     -webkit-mask-image: none;
@@ -2336,20 +2326,64 @@
   }
 
   .g3-home.is-single-screen .g3-home-carousel::before {
-    position: absolute;
-    z-index: 6;
-    top: 0;
-    bottom: 0;
-    left: -74px;
-    width: 90px;
-    content: "";
-    background: linear-gradient(90deg, var(--g3-bg), color-mix(in srgb, var(--g3-bg) 72%, transparent) 46%, transparent);
-    pointer-events: none;
+    content: none;
   }
 
   .g3-home.is-single-screen .g3-manga-left-blend {
-    display: none;
+    display: block;
+    width: clamp(90px, 8vw, 140px);
+    background: linear-gradient(
+      90deg,
+      var(--g3-bg) 0%,
+      color-mix(in srgb, var(--g3-bg) 74%, transparent) 34%,
+      color-mix(in srgb, var(--g3-bg) 30%, transparent) 70%,
+      transparent 100%
+    );
   }
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-home-hero {
+  --g3-stage-bottom-overlay: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--g3-bg) 52%, transparent) 0%,
+    color-mix(in srgb, var(--g3-bg) 28%, transparent) 55%,
+    transparent 100%
+  );
+  background:
+    radial-gradient(circle at 16% 42%, color-mix(in srgb, var(--g3-jade) 10%, transparent), transparent 38%),
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 98%, transparent) 0 48%, transparent 64%);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-home-hero {
+  --g3-stage-bottom-overlay: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--g3-bg) 52%, transparent) 0%,
+    color-mix(in srgb, var(--g3-bg) 24%, transparent) 55%,
+    transparent 100%
+  );
+  background:
+    radial-gradient(circle at 18% 38%, color-mix(in srgb, var(--g3-gold) 13%, transparent), transparent 42%),
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 94%, transparent) 0 48%, transparent 64%);
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-bg-img {
+  filter: brightness(0.84) contrast(1.08) saturate(0.96);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-bg-img {
+  filter: brightness(1.04) contrast(1.01) saturate(1.04);
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-bg-vignette {
+  background:
+    radial-gradient(circle at center, transparent 48%, color-mix(in srgb, var(--g3-bg) 48%, transparent) 100%),
+    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--g3-bg) 46%, transparent) 100%);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-bg-vignette {
+  background:
+    radial-gradient(circle at center, transparent 62%, color-mix(in srgb, var(--g3-gold) 10%, transparent) 100%),
+    linear-gradient(180deg, transparent 66%, color-mix(in srgb, var(--g3-ink) 10%, transparent) 100%);
 }
 
 @media (prefers-reduced-motion: no-preference) {

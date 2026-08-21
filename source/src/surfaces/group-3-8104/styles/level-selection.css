@@ -1,0 +1,280 @@
+/* Level Selection Namespace */
+
+.g3-level-selection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  padding: 0;
+  padding-top: 70px;
+  background: var(--g3-bg);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.g3-level-selection-header {
+  text-align: center;
+  padding: 1.5rem 1rem 1rem;
+  flex-shrink: 0;
+}
+
+.g3-level-selection-header .g3-kicker {
+  color: var(--g3-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem 0;
+}
+
+.g3-level-selection-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--g3-ink);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.g3-level-selection-grid {
+  display: flex;
+  flex: 1;
+  gap: 1rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  margin-bottom: 1rem;
+  min-height: 0;
+}
+
+.g3-level-card {
+  position: relative;
+  flex: 0.82;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: flex 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+  background: var(--g3-bg-soft);
+  text-align: left;
+}
+
+.g3-level-card:hover,
+.g3-level-card:focus-within {
+  flex: 1.45;
+}
+
+.g3-level-card-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.g3-level-card-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease, filter 0.5s ease;
+  filter: saturate(0.85) brightness(0.7);
+}
+
+.g3-level-card:hover .g3-level-card-background img,
+.g3-level-card:focus-within .g3-level-card-background img {
+  transform: scale(1.05);
+  filter: saturate(1.1) brightness(0.9);
+}
+
+:root[data-theme="light"] .g3-level-card-background img {
+  filter: saturate(0.9) brightness(0.9);
+}
+:root[data-theme="light"] .g3-level-card:hover .g3-level-card-background img,
+:root[data-theme="light"] .g3-level-card:focus-within .g3-level-card-background img {
+  filter: saturate(1.1) brightness(1.05);
+}
+
+.g3-level-card-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 20%, color-mix(in srgb, var(--g3-bg) 80%, transparent) 60%, var(--g3-bg) 100%);
+  transition: opacity 0.5s ease;
+}
+
+.g3-level-card:hover .g3-level-card-scrim,
+.g3-level-card:focus-within .g3-level-card-scrim {
+  background: linear-gradient(180deg, transparent 10%, color-mix(in srgb, var(--g3-bg) 90%, transparent) 50%, var(--g3-bg) 100%);
+}
+
+.g3-level-card-character {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: 5%;
+  height: 75%;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom right;
+  transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.3s ease;
+  transform: translateX(10%);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.g3-level-card:hover .g3-level-card-character,
+.g3-level-card:focus-within .g3-level-card-character {
+  transform: translateX(0) scale(1.03);
+  opacity: 1;
+}
+
+.g3-level-card-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem clamp(1.5rem, 3vw, 2.5rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.g3-level-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.g3-level-card-number {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--g3-gold);
+  line-height: 1;
+}
+
+.g3-level-card-badge {
+  background: var(--g3-line);
+  color: var(--g3-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1rem;
+}
+
+.g3-level-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  color: var(--g3-ink);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.g3-level-card-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.4s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.3s ease 0.1s, margin-top 0.4s ease;
+}
+
+.g3-level-card:hover .g3-level-card-details,
+.g3-level-card:focus-within .g3-level-card-details {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+.g3-level-card-details-inner {
+  overflow: hidden;
+}
+
+.g3-level-card-details p {
+  color: var(--g3-muted);
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+  max-width: 95%;
+}
+
+.g3-level-card-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.g3-level-card-actions button {
+  border: 0;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.g3-level-card-actions .g3-primary-action {
+  background: var(--g3-red);
+  color: #fff8e8;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.g3-level-card-actions .g3-primary-action:hover {
+  background: color-mix(in srgb, var(--g3-red) 85%, black);
+  transform: translateY(-2px);
+}
+
+.g3-level-card-actions .g3-secondary-action {
+  background: var(--g3-faint);
+  color: var(--g3-ink);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+}
+.g3-level-card-actions .g3-secondary-action:hover {
+  background: var(--g3-line);
+}
+
+.g3-level-selection-feature-strip {
+  text-align: center;
+  padding: 0.5rem 1.5rem 1.5rem;
+  color: var(--g3-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.g3-level-selection-feature-strip .g3-dot {
+  color: var(--g3-line);
+}
+
+/* Tablet & Mobile */
+@media (max-width: 900px) {
+  .g3-level-selection {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+  .g3-level-selection-grid {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  .g3-level-card {
+    flex: none;
+    min-height: 380px;
+  }
+  .g3-level-card-details {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 1rem;
+  }
+  .g3-level-card-character {
+    opacity: 1;
+    transform: none;
+    right: 0;
+  }
+  .g3-level-card-background img {
+    filter: saturate(1) brightness(0.9);
+  }
+  .g3-level-selection-feature-strip {
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+  }
+}

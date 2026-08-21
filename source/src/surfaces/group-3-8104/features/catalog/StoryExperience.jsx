@@ -37,12 +37,35 @@ function profileName(profile, language) {
 import { HomeCarousel } from "./HomeCarousel.jsx";
 
 export function LevelPicker({ language, navigate }) {
-  const [activeCard, setActiveCard] = useState("hsk1");
   const text = COPY[language];
   const levels = [
-    { id: "hsk1", number: "01", title: text.hsk1Title, body: text.hsk1Body, img: group3AssetPath("/assets/group3/shared/level-paths/hsk1-path-v2-1440w.webp") },
-    { id: "hsk2", number: "02", title: text.hsk2Title, body: text.hsk2Body, img: group3AssetPath("/assets/group3/shared/level-paths/hsk2-path-v2-1440w.webp") },
-    { id: "hsk3", number: "03", title: text.hsk3Title, body: text.hsk3Body, img: group3AssetPath("/assets/group3/shared/level-paths/hsk3-path-v2-1440w.webp") },
+    { 
+      id: "hsk1", 
+      number: "01", 
+      code: "HSK1", 
+      title: text.hsk1Title, 
+      body: text.hsk1Body, 
+      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-01-market-tea.png"),
+      charImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/03-li-ming-idle.png")
+    },
+    { 
+      id: "hsk2", 
+      number: "02", 
+      code: "HSK2", 
+      title: text.hsk2Title, 
+      body: text.hsk2Body, 
+      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-03-chinese-restaurant.png"),
+      charImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/05-waiter-idle.png")
+    },
+    { 
+      id: "hsk3", 
+      number: "03", 
+      code: "HSK3", 
+      title: text.hsk3Title, 
+      body: text.hsk3Body, 
+      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-04-high-speed-rail-station.png"),
+      charImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/07-rail-officer-idle.png")
+    },
   ];
 
   const startLevel = (levelId) => {
@@ -56,44 +79,59 @@ export function LevelPicker({ language, navigate }) {
   };
 
   return (
-    <main className="g3-level-picker g3-no-scroll" aria-labelledby="g3-level-picker-title">
-      <section className="g3-level-picker-header">
-        <p className="g3-home-section-label">{text.levelPickerKicker}</p>
-        <h1 id="g3-level-picker-title">{text.levelPickerTitle}</h1>
-      </section>
-      <section className="g3-level-picker-cards" aria-label={text.levelPickerTitle}>
-        {levels.map((level) => {
-          const isActive = activeCard === level.id;
-          return (
-            <article 
-              className={`g3-level-picker-card ${isActive ? "is-active" : ""}`} 
-              key={level.id}
-              onClick={() => setActiveCard(level.id)}
-            >
-              <img src={level.img} alt="" className="g3-level-card-bg" />
-              <div className="g3-level-card-overlay"></div>
-              <div className="g3-level-card-content">
-                <div className="g3-level-card-header">
-                  <span className="g3-level-card-number">{level.number}</span>
-                  <strong className="g3-level-card-id">{level.id.toUpperCase()}</strong>
-                </div>
-                <h2 className="g3-level-card-title">{level.title}</h2>
-                <div className="g3-level-card-reveal">
-                  <p className="g3-level-card-body">{level.body}</p>
+    <main className="g3-level-selection g3-no-scroll" aria-labelledby="g3-level-selection-title">
+      <header className="g3-level-selection-header">
+        <p className="g3-kicker">{text.shelfKicker}</p>
+        <h1 id="g3-level-selection-title">{text.shelfTitle}</h1>
+      </header>
+      
+      <div className="g3-level-selection-grid" role="list" aria-label={text.shelfTitle}>
+        {levels.map((level) => (
+          <article 
+            key={level.id}
+            className="g3-level-card"
+            role="listitem"
+            tabIndex="-1"
+          >
+            <div className="g3-level-card-background">
+               <img src={level.bgImg} alt="" role="presentation" decoding="async" />
+               <div className="g3-level-card-scrim"></div>
+            </div>
+            
+            <img className="g3-level-card-character" src={level.charImg} alt="" role="presentation" decoding="async" />
+            
+            <div className="g3-level-card-content">
+              <div className="g3-level-card-meta">
+                <span className="g3-level-card-number">{level.number}</span>
+                <span className="g3-level-card-badge">{level.code}</span>
+              </div>
+              <h2 className="g3-level-card-title">{level.title}</h2>
+              
+              <div className="g3-level-card-details">
+                <div className="g3-level-card-details-inner">
+                  <p>{level.body}</p>
                   <div className="g3-level-card-actions">
-                    <button type="button" className="g3-btn-start" onClick={(e) => { e.stopPropagation(); startLevel(level.id); }}>
-                      {text.startLearning}<i aria-hidden="true">→</i>
+                    <button type="button" className="g3-primary-action" onClick={() => startLevel(level.id)}>
+                      {text.startLearning} <span aria-hidden="true">→</span>
                     </button>
-                    <button type="button" className="g3-btn-preview" onClick={(e) => { e.stopPropagation(); previewLevel(level.id); }}>
+                    <button type="button" className="g3-secondary-action" onClick={() => previewLevel(level.id)}>
                       {text.previewContent}
                     </button>
                   </div>
                 </div>
               </div>
-            </article>
-          );
-        })}
-      </section>
+            </div>
+          </article>
+        ))}
+      </div>
+      
+      <div className="g3-level-selection-feature-strip">
+         <span>{text.benefitOne}</span>
+         <span className="g3-dot" aria-hidden="true">·</span>
+         <span>{text.benefitTwo}</span>
+         <span className="g3-dot" aria-hidden="true">·</span>
+         <span>{text.benefitThree}</span>
+      </div>
     </main>
   );
 }

@@ -2351,7 +2351,7 @@
   );
   background:
     radial-gradient(circle at 16% 42%, color-mix(in srgb, var(--g3-jade) 10%, transparent), transparent 38%),
-    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 98%, transparent) 0 48%, transparent 64%);
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 58%, transparent) 0 48%, transparent 64%);
 }
 
 :root[data-theme="light"] .g3-home.is-single-screen .g3-home-hero {
@@ -2363,7 +2363,7 @@
   );
   background:
     radial-gradient(circle at 18% 38%, color-mix(in srgb, var(--g3-gold) 13%, transparent), transparent 42%),
-    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 94%, transparent) 0 48%, transparent 64%);
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 42%, transparent) 0 48%, transparent 64%);
 }
 
 :root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-bg-img {

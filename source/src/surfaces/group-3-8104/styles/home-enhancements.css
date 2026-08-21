@@ -1699,12 +1699,8 @@
 }
 
 .g3-home.is-single-screen .g3-manga-viewport {
-  border-radius: 1.6rem;
-  box-shadow:
-    0 0 0 0.35rem var(--g3-paper),
-    0 0 0 0.46rem color-mix(in srgb, var(--g3-gold) 34%, transparent),
-    0 0 0 0.56rem color-mix(in srgb, var(--g3-bg) 88%, transparent),
-    0 1.8rem 3.8rem rgba(0, 0, 0, 0.32);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .g3-home.is-single-screen .g3-vocab-pill {

@@ -242,22 +242,13 @@ export function StoryHome({ language, navigate, lowData = false }) {
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
           <h1 id="g3-home-title" className="g3-home-title g3-wow-text" tabIndex="-1">
-            {language === "th" ? (
-              <>
-                <span className="g3-home-title-phrase">
-                  ฟังจีนจาก<span style={{ whiteSpace: "nowrap" }}>สถานการณ์จริง</span>
-                </span>{" "}
-                <span className="g3-home-title-phrase">แล้วตอบให้ทัน</span>
-              </>
-            ) : (
-              text.heroTitleLine
-            )}
+            {text.heroTitleLine}
           </h1>
           <p className="g3-home-sub">{text.heroSubLine}</p>
           <div className="g3-home-benefits" aria-label={text.benefitsLabel}>
-            <p><strong>01</strong>{text.benefitOne}</p>
-            <p><strong>02</strong>{text.benefitTwo}</p>
-            <p><strong>03</strong>{text.benefitThree}</p>
+            <p><strong>01 {text.benefitOne.includes(':') ? text.benefitOne.split(':')[0] : ''}</strong>{text.benefitOne.includes(':') ? <br/> : ''}{text.benefitOne.includes(':') ? text.benefitOne.split(':')[1] : text.benefitOne}</p>
+            <p><strong>02 {text.benefitTwo.includes(':') ? text.benefitTwo.split(':')[0] : ''}</strong>{text.benefitTwo.includes(':') ? <br/> : ''}{text.benefitTwo.includes(':') ? text.benefitTwo.split(':')[1] : text.benefitTwo}</p>
+            <p><strong>03 {text.benefitThree.includes(':') ? text.benefitThree.split(':')[0] : ''}</strong>{text.benefitThree.includes(':') ? <br/> : ''}{text.benefitThree.includes(':') ? text.benefitThree.split(':')[1] : text.benefitThree}</p>
           </div>
 
           <div className="g3-home-cta-row">

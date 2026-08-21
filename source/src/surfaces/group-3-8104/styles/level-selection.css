@@ -1,10 +1,26 @@
 /* Strict visual reference match */
 
+.g3-story-shell:has(.g3-level-selection) {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+.g3-story-shell:has(.g3-level-selection) #g3-main {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
 .g3-level-selection {
   display: flex;
   flex-direction: column;
+  flex: 1;
   width: 100%;
-  height: calc(100dvh - 70px); /* Strict no-scroll */
+  min-height: 0;
   padding: 0;
   background: var(--g3-bg);
   overflow: hidden;
@@ -12,8 +28,14 @@
 }
 
 .g3-level-selection-inner {
-  /* Using CSS variables to scale proportionally when space is tight */
-  --available-height: calc(100dvh - 70px - 97px); /* 97px is roughly the header padding/margin area */
+  /* The parent #g3-main now flexes to fill exactly the remaining space.
+     We use a container query or a simpler dvh fallback, but since we are within 
+     a flex container that is perfectly sized, we can use 100% of the container. 
+     Wait, we cannot use 100% in calc if it's not a known length.
+     Let's just use 100dvh - 150px as an approximation for the scale factor,
+     since scale factor doesn't need to be pixel perfect to prevent scroll, 
+     as long as it shrinks it enough. */
+  --available-height: calc(100dvh - 160px); 
   --reference-scale: min(1, calc(var(--available-height) / 640px));
   width: min(1180px, calc(100% - 44px));
   margin: auto;
@@ -135,45 +157,46 @@
 
 .g3-level-card-character-layer {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   pointer-events: none;
-  right: -4%;
-  bottom: 0;
-  height: 88%;
-  width: auto;
-  transition: height .4s ease, right .4s ease, opacity .3s ease, transform .5s ease;
 }
 
 .g3-actor-idle, .g3-actor-talk {
-  height: 100%;
+  position: absolute;
+  bottom: 0;
+  right: -4%;
+  height: 88%;
   width: auto;
+  max-width: none;
   object-fit: contain;
   object-position: bottom center;
   filter: drop-shadow(0 15px 22px rgba(0,0,0,.42));
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  transition: opacity 280ms ease;
+  transition: height .4s ease, right .4s ease, opacity .3s ease, transform .5s ease;
 }
 :root[data-theme="light"] .g3-actor-idle,
 :root[data-theme="light"] .g3-actor-talk {
   filter: drop-shadow(0 15px 22px rgba(0,0,0,.15));
 }
 
-.g3-actor-talk { opacity: 0; }
-.g3-level-card.is-active .g3-actor-idle { opacity: 0; }
-.g3-level-card.is-active .g3-actor-talk { opacity: 1; }
-
-.g3-level-card.is-active .g3-level-card-character-layer {
+.g3-level-card.is-active .g3-actor-idle,
+.g3-level-card.is-active .g3-actor-talk {
   height: 92%;
   right: 0;
   transform: translateX(6%);
 }
-.g3-level-card:not(.is-active) .g3-level-card-character-layer {
+.g3-level-card:not(.is-active) .g3-actor-idle,
+.g3-level-card:not(.is-active) .g3-actor-talk {
   height: 78%;
   right: -22%;
-  opacity: .88;
 }
+
+.g3-level-card:not(.is-active) .g3-actor-idle { opacity: 0.88; }
+.g3-level-card:not(.is-active) .g3-actor-talk { opacity: 0; }
+.g3-level-card.is-active .g3-actor-idle { opacity: 0; }
+.g3-level-card.is-active .g3-actor-talk { opacity: 1; }
 
 .g3-level-card-content {
   position: relative;
@@ -356,13 +379,15 @@
     display: none;
   }
   
-  .g3-level-card:not(.is-active) .g3-level-card-character-layer,
-  .g3-level-card.is-active .g3-level-card-character-layer {
-    height: 86%;
-    right: -2%;
-    opacity: 1;
-    transform: translateX(5%);
+  .g3-level-card:not(.is-active) .g3-actor-idle,
+  .g3-level-card:not(.is-active) .g3-actor-talk,
+  .g3-level-card.is-active .g3-actor-idle,
+  .g3-level-card.is-active .g3-actor-talk {
+    height: 86% !important;
+    right: -2% !important;
+    transform: translateX(5%) !important;
   }
+  .g3-level-card:not(.is-active) .g3-actor-idle { opacity: 1 !important; }
 }
 
 @media (max-width: 560px) {
@@ -379,8 +404,13 @@
     padding: 22px;
   }
   .g3-level-card-character-layer {
+    /* container stays inset: 0 */
+  }
+  .g3-actor-idle, .g3-actor-talk {
     height: 76% !important;
     right: -18% !important;
+  }
+  .g3-level-card:not(.is-active) .g3-actor-idle {
     opacity: .8 !important;
   }
   .g3-level-card-title, .g3-level-card-desc {

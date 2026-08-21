@@ -89,7 +89,7 @@ export function LevelPicker({ language, navigate }) {
         <header className="g3-level-selection-header">
           <p className="g3-kicker">{text.shelfKicker}</p>
           <h1 id="g3-level-selection-title">{text.shelfTitle}</h1>
-          <p className="g3-subtitle">เลือกระดับตามพื้นฐานของคุณ แล้วเริ่มเรียนผ่านบทสนทนา คำศัพท์ และสถานการณ์ที่นำไปใช้ได้จริง</p>
+          <p className="g3-subtitle">{text.levelPickerBody}</p>
         </header>
         
         {/* Mobile Selector */}
@@ -141,8 +141,7 @@ export function LevelPicker({ language, navigate }) {
                   <div className="g3-level-card-details">
                     <p className="g3-level-card-desc">{level.body}</p>
                     <div className="g3-level-card-meta">
-                      <span>Vocabulary <b>150+</b></span>
-                      <span>Difficulty <b>Beginner</b></span>
+                      <span>{text.vocabularyLabel} <b>150+</b></span>
                     </div>
                   </div>
                   

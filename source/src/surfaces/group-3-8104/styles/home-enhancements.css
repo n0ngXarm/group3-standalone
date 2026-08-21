@@ -819,24 +819,26 @@
   position: relative;
   width: clamp(140px, 20vw, 220px);
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease;
-  transform: scale(1);
+  transform-origin: bottom center;
+  transform: translate(var(--g3-actor-x, 0), var(--g3-actor-y, 0)) scale(var(--g3-actor-scale, 1));
 }
 
 .g3-manga-actor.is-talking {
-  transform: scale(1.05);
+  transform: translate(var(--g3-actor-x, 0), var(--g3-actor-y, 0)) scale(calc(var(--g3-actor-scale, 1) * 1.03));
   z-index: 2;
 }
 
 .g3-manga-actor.is-idle {
-  opacity: 0.82;
-  filter: brightness(0.88);
+  opacity: 0.85;
+  filter: brightness(0.92);
 }
 
 .g3-manga-actor-label {
   position: absolute;
   top: -1.5rem;
   left: 50%;
-  transform: translateX(-50%);
+  transform-origin: bottom center;
+  transform: translateX(-50%) scale(calc(1 / var(--g3-actor-scale, 1)));
   white-space: nowrap;
   padding: 0.15rem 0.6rem;
   background: var(--g3-stage-label-bg);
@@ -2506,7 +2508,8 @@
 
 :root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-actor-label.is-active-speaker,
 :root[data-theme="light"] .g3-home.is-single-screen .g3-manga-actor-label.is-active-speaker {
-  transform: translateX(-50%) translateY(-1px);
+  transform-origin: bottom center;
+  transform: translateX(-50%) translateY(-1px) scale(calc(1 / (var(--g3-actor-scale, 1) * 1.03)));
   background: var(--g3-vn-speaker-active-bg);
   border-color: var(--g3-vn-speaker-active);
   box-shadow:

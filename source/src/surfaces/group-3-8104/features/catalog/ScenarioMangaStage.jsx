@@ -27,12 +27,18 @@ export const SCENARIOS = [
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/01-wang-laoshi-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/01-wang-laoshi-talk.png"),
       side: "left",
+      scale: 1.08,
+      x: "-1%",
+      y: "1%",
     },
     rightActor: {
       name: "大卫 (David)",
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
       side: "right",
+      scale: 1.1,
+      x: "1%",
+      y: "1%",
     },
     dialogues: [
       {
@@ -68,12 +74,18 @@ export const SCENARIOS = [
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/03-li-ming-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/03-li-ming-talk.png"),
       side: "left",
+      scale: 1.09,
+      x: "-1%",
+      y: "1%",
     },
     rightActor: {
       name: "玛丽 (Mary)",
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/04-mary-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/04-mary-talk.png"),
       side: "right",
+      scale: 1.07,
+      x: "1%",
+      y: "1%",
     },
     dialogues: [
       {
@@ -109,12 +121,18 @@ export const SCENARIOS = [
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/05-waiter-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/05-waiter-talk.png"),
       side: "left",
+      scale: 1.08,
+      x: "-1%",
+      y: "1%",
     },
     rightActor: {
       name: "刘明 (Liu Ming)",
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/06-liu-ming-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/06-liu-ming-talk.png"),
       side: "right",
+      scale: 1.09,
+      x: "1%",
+      y: "1%",
     },
     dialogues: [
       {
@@ -150,12 +168,18 @@ export const SCENARIOS = [
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/07-rail-officer-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/07-rail-officer-talk.png"),
       side: "left",
+      scale: 1.09,
+      x: "-1%",
+      y: "1%",
     },
     rightActor: {
       name: "王一雪 (Yixue)",
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/08-wang-yixue-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/08-wang-yixue-talk.png"),
       side: "right",
+      scale: 1.09,
+      x: "1%",
+      y: "1%",
     },
     dialogues: [
       {
@@ -191,12 +215,18 @@ export const SCENARIOS = [
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/09-zhang-jie-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/09-zhang-jie-talk.png"),
       side: "left",
+      scale: 1.09,
+      x: "-1%",
+      y: "1%",
     },
     rightActor: {
       name: "大卫 (David)",
       idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle.png"),
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
       side: "right",
+      scale: 1.1,
+      x: "1%",
+      y: "1%",
     },
     dialogues: [
       {
@@ -400,7 +430,14 @@ export function ScenarioMangaStage({
         {/* z3 Actors Layer */}
         <div className="g3-manga-actors-layer">
           {/* Left Character */}
-          <div className={`g3-manga-actor is-left${isLeftSpeaker ? " is-talking" : " is-idle"}`}>
+          <div
+            className={`g3-manga-actor is-left${isLeftSpeaker ? " is-talking" : " is-idle"}`}
+            style={{
+              "--g3-actor-scale": scenario.leftActor.scale || 1,
+              "--g3-actor-x": scenario.leftActor.x || "0px",
+              "--g3-actor-y": scenario.leftActor.y || "0px"
+            }}
+          >
             <ActorNameLabel name={scenario.leftActor.name} active={isLeftSpeaker} />
             <ActorSprite
               actor={scenario.leftActor}
@@ -410,7 +447,14 @@ export function ScenarioMangaStage({
           </div>
 
           {/* Right Character */}
-          <div className={`g3-manga-actor is-right${!isLeftSpeaker ? " is-talking" : " is-idle"}`}>
+          <div
+            className={`g3-manga-actor is-right${!isLeftSpeaker ? " is-talking" : " is-idle"}`}
+            style={{
+              "--g3-actor-scale": scenario.rightActor.scale || 1,
+              "--g3-actor-x": scenario.rightActor.x || "0px",
+              "--g3-actor-y": scenario.rightActor.y || "0px"
+            }}
+          >
             <ActorNameLabel name={scenario.rightActor.name} active={!isLeftSpeaker} />
             <ActorSprite
               actor={scenario.rightActor}

@@ -37,6 +37,7 @@ function profileName(profile, language) {
 import { HomeCarousel } from "./HomeCarousel.jsx";
 
 export function LevelPicker({ language, navigate }) {
+  const [activeCard, setActiveCard] = useState("hsk1");
   const text = COPY[language];
   const levels = [
     { 
@@ -46,7 +47,10 @@ export function LevelPicker({ language, navigate }) {
       title: text.hsk1Title, 
       body: text.hsk1Body, 
       bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-01-market-tea.png"),
-      charImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/03-li-ming-idle.png")
+      bgPosition: "35% center",
+      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/03-li-ming-idle.png"),
+      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/03-li-ming-talk.png"),
+      actorStyle: { "--actor-x": "15%", "--actor-y": "0%", "--actor-scale": "1.05" }
     },
     { 
       id: "hsk2", 
@@ -55,7 +59,10 @@ export function LevelPicker({ language, navigate }) {
       title: text.hsk2Title, 
       body: text.hsk2Body, 
       bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-03-chinese-restaurant.png"),
-      charImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/05-waiter-idle.png")
+      bgPosition: "center",
+      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/05-waiter-idle.png"),
+      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/05-waiter-talk.png"),
+      actorStyle: { "--actor-x": "5%", "--actor-y": "0%", "--actor-scale": "1" }
     },
     { 
       id: "hsk3", 
@@ -64,13 +71,14 @@ export function LevelPicker({ language, navigate }) {
       title: text.hsk3Title, 
       body: text.hsk3Body, 
       bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-04-high-speed-rail-station.png"),
-      charImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/07-rail-officer-idle.png")
+      bgPosition: "65% center",
+      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/07-rail-officer-idle.png"),
+      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/07-rail-officer-talk.png"),
+      actorStyle: { "--actor-x": "-2%", "--actor-y": "0%", "--actor-scale": "1.02" }
     },
   ];
 
-  const startLevel = (levelId) => {
-    navigate(levelPath(levelId));
-  };
+  const startLevel = (levelId) => navigate(levelPath(levelId));
   const previewLevel = (levelId) => {
     const firstLesson = GROUP3_LESSONS
       .filter((item) => item.level === levelId)
@@ -85,52 +93,68 @@ export function LevelPicker({ language, navigate }) {
         <h1 id="g3-level-selection-title">{text.shelfTitle}</h1>
       </header>
       
-      <div className="g3-level-selection-grid" role="list" aria-label={text.shelfTitle}>
+      {/* Mobile Selector */}
+      <nav className="g3-level-mobile-tabs" aria-label="Level Selector">
         {levels.map((level) => (
-          <article 
-            key={level.id}
-            className="g3-level-card"
-            role="listitem"
-            tabIndex="-1"
+          <button 
+            key={`tab-${level.id}`}
+            type="button"
+            className={activeCard === level.id ? "is-active" : ""}
+            onClick={() => setActiveCard(level.id)}
+            aria-current={activeCard === level.id ? "true" : undefined}
           >
-            <div className="g3-level-card-background">
-               <img src={level.bgImg} alt="" role="presentation" decoding="async" />
-               <div className="g3-level-card-scrim"></div>
-            </div>
-            
-            <img className="g3-level-card-character" src={level.charImg} alt="" role="presentation" decoding="async" />
-            
-            <div className="g3-level-card-content">
-              <div className="g3-level-card-meta">
-                <span className="g3-level-card-number">{level.number}</span>
-                <span className="g3-level-card-badge">{level.code}</span>
+            {level.code}
+          </button>
+        ))}
+      </nav>
+
+      <div className="g3-level-selection-grid" role="list" aria-label={text.shelfTitle}>
+        {levels.map((level) => {
+          const isActive = activeCard === level.id;
+          return (
+            <article 
+              key={level.id}
+              className={`g3-level-card ${isActive ? "is-active" : ""}`}
+              role="listitem"
+              onMouseEnter={() => setActiveCard(level.id)}
+              onFocus={() => setActiveCard(level.id)}
+              tabIndex="-1"
+              style={level.actorStyle}
+            >
+              <div className="g3-level-card-background">
+                 <img src={level.bgImg} alt="" role="presentation" decoding="async" style={{ objectPosition: level.bgPosition }} />
               </div>
-              <h2 className="g3-level-card-title">{level.title}</h2>
+              <div className="g3-level-card-scrim"></div>
               
-              <div className="g3-level-card-details">
-                <div className="g3-level-card-details-inner">
-                  <p>{level.body}</p>
-                  <div className="g3-level-card-actions">
-                    <button type="button" className="g3-primary-action" onClick={() => startLevel(level.id)}>
-                      {text.startLearning} <span aria-hidden="true">→</span>
-                    </button>
-                    <button type="button" className="g3-secondary-action" onClick={() => previewLevel(level.id)}>
-                      {text.previewContent}
-                    </button>
+              <div className="g3-level-card-character-layer">
+                <img className="g3-actor-idle" src={level.charIdle} alt="" role="presentation" decoding="async" />
+                <img className="g3-actor-talk" src={level.charTalk} alt="" role="presentation" decoding="async" />
+              </div>
+              
+              <div className="g3-level-card-content">
+                <div className="g3-level-card-meta">
+                  <span className="g3-level-card-number">{level.number}</span>
+                  <span className="g3-level-card-badge">{level.code}</span>
+                </div>
+                <h2 className="g3-level-card-title">{level.title}</h2>
+                
+                <div className="g3-level-card-details">
+                  <div className="g3-level-card-details-inner">
+                    <p>{level.body}</p>
+                    <div className="g3-level-card-actions">
+                      <button type="button" className="g3-primary-action" onClick={() => startLevel(level.id)} tabIndex={isActive ? 0 : -1}>
+                        {text.startLearning} <span aria-hidden="true">→</span>
+                      </button>
+                      <button type="button" className="g3-secondary-action" onClick={() => previewLevel(level.id)} tabIndex={isActive ? 0 : -1}>
+                        {text.previewContent}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </article>
-        ))}
-      </div>
-      
-      <div className="g3-level-selection-feature-strip">
-         <span>{text.benefitOne}</span>
-         <span className="g3-dot" aria-hidden="true">·</span>
-         <span>{text.benefitTwo}</span>
-         <span className="g3-dot" aria-hidden="true">·</span>
-         <span>{text.benefitThree}</span>
+            </article>
+          );
+        })}
       </div>
     </main>
   );

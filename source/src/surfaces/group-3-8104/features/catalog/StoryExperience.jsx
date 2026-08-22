@@ -241,17 +241,18 @@ export function StoryHome({ language, navigate, lowData = false }) {
     <main className="g3-home is-single-screen">
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
-          <h1 id="g3-home-title" className="g3-home-title g3-wow-text" tabIndex="-1">
-            {text.heroTitleLine}
-          </h1>
-          <p className="g3-home-sub">{text.heroSubLine}</p>
+          <div className="g3-hero-title-wrapper">
+            <span className="g3-hero-badge">✨ NEW HSK 1-3</span>
+            <h1 id="g3-home-title" className="g3-home-title g3-wow-text" tabIndex="-1" dangerouslySetInnerHTML={{ __html: text.heroTitleLine.replace(/\n/g, "<br/>") }} />
+          </div>
+          <p className="g3-home-sub" dangerouslySetInnerHTML={{ __html: text.heroSubLine.replace(/\n/g, "<br/>") }} />
           <ul className="g3-home-benefits" aria-label={text.benefitsLabel}>
             <li>{text.benefitOne}</li>
             <li>{text.benefitTwo}</li>
             <li>{text.benefitThree}</li>
           </ul>
 
-          <div className="g3-home-cta-row">
+          <div className="g3-home-cta-row is-centered">
             <button
               className="g3-home-cta-primary g3-wow-button-primary"
               type="button"

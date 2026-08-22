@@ -242,7 +242,16 @@ export function StoryHome({ language, navigate, lowData = false }) {
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
           <div className="g3-hero-title-wrapper">
-            <span className="g3-hero-badge">✨ NEW HSK 1-3</span>
+            <div className="g3-hanging-sign" aria-hidden="true">
+              <div className="g3-sign-rope g3-rope-left"></div>
+              <div className="g3-sign-rope g3-rope-right"></div>
+              <div className="g3-sign-board">
+                <span className="g3-sign-deco left"></span>
+                สถานการณ์จำลอง
+                <span className="g3-sign-deco right"></span>
+              </div>
+              <div className="g3-sign-tassel"></div>
+            </div>
             <h1 id="g3-home-title" className="g3-home-title g3-wow-text" tabIndex="-1" dangerouslySetInnerHTML={{ __html: text.heroTitleLine.replace(/\n/g, "<br/>") }} />
           </div>
           <p className="g3-home-sub" dangerouslySetInnerHTML={{ __html: text.heroSubLine.replace(/\n/g, "<br/>") }} />

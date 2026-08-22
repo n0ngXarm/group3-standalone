@@ -2588,34 +2588,118 @@
   align-items: flex-start;
 }
 
-.g3-hero-badge {
-  display: inline-block;
-  padding: 0.3rem 0.8rem;
-  margin-bottom: 0.8rem;
-  background: linear-gradient(135deg, var(--g3-color-primary) 0%, var(--g3-color-primary-dark) 100%);
-  color: white;
-  font-size: 0.85rem;
-  font-weight: 800;
-  border-radius: 20px;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 12px rgba(var(--g3-color-primary-rgb, 0,0,0), 0.3);
+.g3-hanging-sign {
   position: relative;
-  overflow: hidden;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  margin-top: 1rem;
+  z-index: 5;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+  animation: g3-sign-swing 6s ease-in-out infinite;
+  transform-origin: top center;
 }
 
-.g3-hero-badge::after {
+@keyframes g3-sign-swing {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1deg); }
+  75% { transform: rotate(-1deg); }
+}
+
+.g3-sign-rope {
+  position: absolute;
+  bottom: 100%;
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, #c89551);
+}
+.g3-rope-left { left: 18%; }
+.g3-rope-right { right: 18%; }
+
+.g3-sign-rope::after {
   content: '';
   position: absolute;
-  top: 0; left: -100%; width: 50%; height: 100%;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-  transform: skewX(-20deg);
-  animation: badge-shine 3s infinite;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid #ffda75;
+  border-radius: 50%;
+  background: #3e1208;
+  z-index: 2;
 }
 
-@keyframes badge-shine {
-  0% { left: -100%; }
-  20% { left: 200%; }
-  100% { left: 200%; }
+.g3-sign-board {
+  background: linear-gradient(to bottom, #7a1f11, #420f06);
+  border: 2px solid #e2b35a;
+  border-radius: 3px;
+  padding: 0.35rem 1.1rem;
+  color: #ffda75;
+  font-weight: 800;
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  letter-spacing: 0.06em;
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Noto Serif Thai", serif;
+  position: relative;
+  z-index: 1;
+}
+
+.g3-sign-deco {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: #e2b35a;
+  transform: rotate(45deg);
+  opacity: 0.8;
+}
+
+.g3-sign-tassel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 35px;
+  background: #d6321c;
+  z-index: 0;
+  opacity: 0.9;
+}
+.g3-sign-tassel::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 6px;
+  background: #11805e;
+  border-radius: 4px;
+}
+.g3-sign-tassel::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 18px;
+  background: repeating-linear-gradient(90deg, #d6321c, #d6321c 1px, transparent 1px, transparent 2px);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+:root[data-theme="light"] .g3-sign-board {
+  background: linear-gradient(to bottom, #9d2b18, #6d1a0b);
+  border-color: #ffd043;
+  color: #ffea99;
+}
+:root[data-theme="light"] .g3-sign-rope {
+  background: linear-gradient(to bottom, transparent, #8a5717);
 }
 
 .g3-home.is-single-screen .g3-home-cta-row.is-centered {

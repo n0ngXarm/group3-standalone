@@ -242,25 +242,33 @@ export function StoryHome({ language, navigate, lowData = false }) {
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
           <div className="sign-wrap g3-premium-entrance">
+            <div className="sign-anchor"></div>
+            <svg className="sign-triangle-ropes" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <line x1="50" y1="0" x2="5" y2="100" stroke="url(#ropeGrad)" strokeWidth="1.5" />
+              <line x1="50" y1="0" x2="95" y2="100" stroke="url(#ropeGrad)" strokeWidth="1.5" />
+              <defs>
+                <linearGradient id="ropeGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#cfa05d" />
+                  <stop offset="100%" stopColor="#7a5426" />
+                </linearGradient>
+              </defs>
+            </svg>
             <div className="sign-bar"></div>
             <div className="sign-ropes">
-              <span></span>
               <span></span>
               <span></span>
             </div>
             <div className="sign">
               <h1 id="g3-home-title" className="title" tabIndex="-1" dangerouslySetInnerHTML={{ __html: text.heroTitleLine.replace(/\n/g, "<br/>") }} />
-              <div className="seal"></div>
             </div>
-            <div className="tassel"></div>
-            <div className="tassel right"></div>
+            <div className="sign-tassel left"></div>
+            <div className="sign-tassel right"></div>
           </div>
-          <p className="g3-home-sub" dangerouslySetInnerHTML={{ __html: text.heroSubLine.replace(/\n/g, "<br/>") }} />
-          <ul className="g3-home-benefits" aria-label={text.benefitsLabel}>
-            <li>{text.benefitOne}</li>
-            <li>{text.benefitTwo}</li>
-            <li>{text.benefitThree}</li>
-          </ul>
+          <div className="g3-home-copy-zone">
+            <p className="g3-home-lead">{text.heroSubLead}</p>
+            <p className="g3-home-expl">{text.heroSubExpl}</p>
+            <p className="g3-home-meta">{text.benefitOne}</p>
+          </div>
 
           <div className="g3-home-cta-row is-centered">
             <button
@@ -274,7 +282,7 @@ export function StoryHome({ language, navigate, lowData = false }) {
               {text.ctaStart}<i aria-hidden="true">→</i>
             </button>
           </div>
-          <p className="g3-home-free-tag">{text.noStorage}</p>
+          
         </div>
 
         {/* 5-Slide Manga Carousel — animated 2D frame-by-frame scenes */}

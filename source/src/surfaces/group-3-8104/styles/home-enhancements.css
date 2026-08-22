@@ -1041,16 +1041,7 @@
 }
 
 /* z6 Pagination Layer */
-.g3-home-carousel-dots {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0;
-}
+
 
 .g3-home-carousel-dot {
   width: 0.6rem;
@@ -2469,9 +2460,7 @@
 }
 
 @media (min-width: 901px) {
-  .g3-home.is-single-screen .g3-manga-actor {
-    width: clamp(210px, 30vh, 320px);
-  }
+  
 
   .g3-home.is-single-screen .g3-manga-actor-frames {
     height: clamp(300px, 46vh, 480px);
@@ -2670,29 +2659,6 @@
   letter-spacing: 0.01em;
 }
 
-.seal {
-  position: absolute;
-  bottom: 12px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
-  background: #bd2317;
-  border: 1.5px solid #73130b;
-  border-radius: 3px;
-  opacity: 0.85;
-  transform: rotate(-6deg);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.seal::before {
-  content: '汉';
-  color: #fff;
-  font-size: 18px;
-  font-family: "Noto Serif SC", serif;
-  font-weight: bold;
-}
 
 .tassel {
   position: absolute;
@@ -2743,4 +2709,490 @@
 }
 :root[data-theme="light"] .sign-bar {
   background: linear-gradient(to bottom, #753324, #4a1d13);
+}
+
+/* === HANGING SIGN REBUILD (APPENDED) === */
+.sign-anchor {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #f9d877 0%, #cfa05d 40%, #7a5426 100%);
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5), inset 0 -2px 5px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 10;
+  margin-bottom: -5px;
+  margin: 0 auto -5px auto;
+}
+
+.sign-triangle-ropes {
+  width: 90%;
+  height: 40px;
+  display: block;
+  z-index: 1;
+  overflow: visible;
+  filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.5));
+  margin: 0 auto;
+}
+
+.sign-tassel {
+  position: absolute;
+  top: 90%;
+  width: 6px;
+  height: 50px;
+  background: linear-gradient(to bottom, #a02816, #d93d25 20%, #7a1508 100%);
+  border-radius: 3px;
+  z-index: -1;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+}
+.sign-tassel::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: -4px;
+  width: 14px;
+  height: 25px;
+  background: repeating-linear-gradient(90deg, #d93d25, #d93d25 1px, #7a1508 1px, #7a1508 2px);
+  border-radius: 2px 2px 5px 5px;
+}
+.sign-tassel.left { left: 10%; }
+.sign-tassel.right { right: 10%; }
+
+.g3-hero-copy .sign {
+  width: fit-content !important;
+  max-width: 95% !important;
+  padding: 1rem 2rem !important;
+}
+
+.g3-hero-copy .sign .title {
+  white-space: pre-wrap !important;
+  word-break: keep-all !important;
+  font-size: clamp(1.4rem, 3.5vw, 2.3rem) !important;
+}
+
+/* Hide the old tassel just in case */
+.tassel { display: none !important; }
+
+
+/* ==========================================================================
+   DESKTOP COMPOSITION & RESPONSIVE REBUILD
+   ========================================================================== */
+
+/* --------------------------------------------------
+   1. CSS VARIABLES (Desktop Defaults)
+   -------------------------------------------------- */
+:root {
+  --home-sign-scale: 1;
+  --home-copy-scale: 1;
+  --home-actor-scale: 1;
+  --home-vn-typo-scale: 1;
+  
+  --home-copy-y: 42%;
+  --home-cta-y: 62%;
+    
+  --home-left-width: 46%;
+  --home-right-width: 54%;
+}
+
+/* --------------------------------------------------
+   2. DESKTOP BASELINE (>= 1280px)
+   -------------------------------------------------- */
+@media (min-width: 1280px) {
+  /* Prevent 100dvh from pushing things out of bounds if parent is flex */
+  /* The g3-home-hero parent is MAIN. We ensure it fits the viewport. */
+  .g3-home.is-single-screen .g3-home-hero {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important;
+    display: block !important;
+    flex: 0 0 var(--home-left-width) !important;
+    width: var(--home-left-width) !important;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 var(--home-right-width) !important;
+    width: var(--home-right-width) !important;
+    height: 100% !important;
+  }
+
+  /* ABSOLUTE ZONES */
+  /* The anchor should be at top: 0 relative to g3-hero-copy.
+     Wait, the old offset was top: calc(-1 * 10px). Let's use top: 0 to sit exactly at the top edge. */
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    max-width: 580px !important;
+    transform: scale(var(--home-sign-scale)) !important;
+    transform-origin: top center !important;
+  }
+
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    max-width: 480px !important;
+  }
+
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+}
+
+/* --------------------------------------------------
+   3. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------- */
+
+/* Compact Laptop / Tablet Landscape (900px - 1279px) */
+@media (min-width: 900px) and (max-width: 1279px) {
+  :root {
+    --home-left-width: 44%;
+    --home-right-width: 56%;
+    --home-sign-scale: 0.85;
+    --home-copy-scale: 0.9;
+    --home-actor-scale: 0.85;
+    --home-vn-typo-scale: 0.85;
+    --home-copy-y: 44%;
+    --home-cta-y: 65%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important;
+    display: block !important;
+    flex: 0 0 var(--home-left-width) !important;
+    width: var(--home-left-width) !important;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 var(--home-right-width) !important;
+    width: var(--home-right-width) !important;
+    height: 100% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* Tablet Portrait (600px - 899px) */
+@media (min-width: 600px) and (max-width: 899px) and (orientation: portrait) {
+  :root {
+    --home-sign-scale: 0.85;
+    --home-copy-scale: 0.9;
+    --home-actor-scale: 0.7;
+    --home-vn-typo-scale: 0.8;
+    --home-copy-y: 52%;
+    --home-cta-y: 80%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important; display: block !important;
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important; padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* Mobile Portrait (<= 599px) */
+@media (max-width: 599px) {
+  :root {
+    --home-sign-scale: 0.7;
+    --home-copy-scale: 0.85;
+    --home-actor-scale: 0.5;
+    --home-vn-typo-scale: 0.7;
+    --home-copy-y: 55%;
+    --home-cta-y: 85%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important; display: block !important;
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important; padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* Mobile Landscape (<= 899px, Landscape) */
+@media (max-width: 899px) and (orientation: landscape) {
+  :root {
+    --home-sign-scale: 0.6;
+    --home-copy-scale: 0.8;
+    --home-actor-scale: 0.35;
+    --home-vn-typo-scale: 0.55;
+    --home-copy-y: 55%;
+    --home-cta-y: 88%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important; display: block !important;
+    flex: 0 0 44% !important; width: 44% !important; height: 100% !important; padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 56% !important; width: 56% !important; height: 100% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* --------------------------------------------------
+   4. TYPOGRAPHY SCALING UPGRADES (Global + Clamp)
+   -------------------------------------------------- */
+
+/* Supporting Copy */
+.g3-home.is-single-screen .g3-hero-copy .g3-home-lead {
+  font-size: clamp(1.6rem, 2.5vw, 2.1rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.01em !important;
+}
+.g3-home.is-single-screen .g3-hero-copy .g3-home-expl {
+  font-size: clamp(1.3rem, 1.8vw, 1.5rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.01em !important;
+  opacity: 0.85 !important;
+}
+.g3-home.is-single-screen .g3-hero-copy .g3-home-meta {
+  font-size: clamp(1.1rem, 1.4vw, 1.2rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* CTA Inner Alignment & Size */
+.g3-home-cta-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.6rem !important;
+  font-size: 1.35rem !important;
+  padding: 0 2.5rem !important;
+  min-height: 4.2rem !important;
+}
+.g3-home-cta-primary i {
+  margin-top: 2px !important;
+}
+
+/* VN SUBTITLES (User Requested Readable Targets) */
+.g3-home.is-single-screen .g3-manga-hanzi {
+  font-size: calc(clamp(30px, 2.35vw, 40px) * var(--home-vn-typo-scale)) !important;
+  line-height: 1.15 !important;
+}
+.g3-home.is-single-screen .g3-manga-pinyin {
+  font-size: calc(clamp(17px, 1.25vw, 21px) * var(--home-vn-typo-scale)) !important;
+  line-height: 1.35 !important;
+}
+.g3-home.is-single-screen .g3-manga-thai {
+  font-size: calc(clamp(15px, 1.05vw, 18px) * var(--home-vn-typo-scale)) !important;
+  font-family: "IBM Plex Sans Thai", "Noto Sans Thai", sans-serif !important;
+  line-height: 1.4 !important;
+}
+
+/* --------------------------------------------------
+   5. ACTOR SAFETY AND VN LAYER FIXES
+   -------------------------------------------------- */
+
+
+
+
+
+/* Prevent inactive wrapper filters from destroying child label readability */
+.g3-home.is-single-screen .g3-manga-actor.is-idle {
+  filter: none !important;
+  opacity: 1 !important;
+}
+.g3-home.is-single-screen .g3-manga-actor.is-idle .g3-manga-actor-sprite,
+.g3-home.is-single-screen .g3-manga-actor.is-idle .g3-manga-actor-frames {
+  opacity: 0.75 !important;
+  filter: brightness(0.85) grayscale(20%) !important;
+}
+.g3-home.is-single-screen .g3-manga-actor-label {
+  filter: none !important;
+}
+
+/* --------------------------------------------------
+   6. PAGINATION DOTS RESTORE
+   -------------------------------------------------- */
+/* Ensure pagination dots have sufficient z-index and are visible */
+
+
+
+/* ==========================================================================
+   BOUNDED RECOVERY: VN LAYOUT & PAGINATION
+   ========================================================================== */
+
+/* 1. Structural Flex Sizing (No hardcoded 100dvh math) */
+.g3-story-shell {
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+.g3-header {
+    flex: 0 0 auto !important;
+}
+
+#g3-main {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Ensure Hero consumes the available #g3-main height */
+.g3-home-hero {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* 2. Fix VN Viewport and Pagination Coordinates */
+.g3-manga-viewport {
+    position: relative !important;
+    height: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+/* Ensure pagination resolves against the VN viewport */
+.g3-home-carousel-dots {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 20px !important;
+    z-index: 50 !important;
+}
+
+/* 3. Speaker Label (Active vs Inactive) */
+.g3-manga-actor-label {
+    filter: none !important;
+}
+.g3-manga-actor.is-idle {
+    opacity: 1 !important;
+    filter: none !important;
+}
+.g3-manga-actor.is-idle .g3-manga-actor-sprite,
+.g3-manga-actor.is-idle .g3-manga-actor-frames {
+    opacity: 0.75 !important;
+    filter: brightness(0.85) grayscale(20%) !important;
 }

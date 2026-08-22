@@ -241,13 +241,19 @@ export function StoryHome({ language, navigate, lowData = false }) {
     <main className="g3-home is-single-screen">
       <section className="g3-home-hero" aria-labelledby="g3-home-title">
         <div className="g3-hero-copy">
-          <div className="g3-hanging-sign">
-            <div className="g3-sign-rope g3-rope-left"></div>
-            <div className="g3-sign-rope g3-rope-right"></div>
-            <div className="g3-sign-board">
-              <h1 id="g3-home-title" className="g3-home-title" tabIndex="-1" dangerouslySetInnerHTML={{ __html: text.heroTitleLine.replace(/\n/g, "<br/>") }} />
+          <div className="sign-wrap g3-premium-entrance">
+            <div className="sign-bar"></div>
+            <div className="sign-ropes">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
-            <div className="g3-sign-tassel"></div>
+            <div className="sign">
+              <h1 id="g3-home-title" className="title" tabIndex="-1" dangerouslySetInnerHTML={{ __html: text.heroTitleLine.replace(/\n/g, "<br/>") }} />
+              <div className="seal"></div>
+            </div>
+            <div className="tassel"></div>
+            <div className="tassel right"></div>
           </div>
           <p className="g3-home-sub" dangerouslySetInnerHTML={{ __html: text.heroSubLine.replace(/\n/g, "<br/>") }} />
           <ul className="g3-home-benefits" aria-label={text.benefitsLabel}>

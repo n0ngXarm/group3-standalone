@@ -28,7 +28,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/01-wang-laoshi-talk.png"),
       side: "left",
       scale: 1.3,
-      x: "-1%",
+      x: "25%",
       y: "4%",
     },
     rightActor: {
@@ -37,7 +37,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
       side: "right",
       scale: 1.34,
-      x: "1%",
+      x: "-25%",
       y: "4%",
     },
     dialogues: [
@@ -75,7 +75,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/03-li-ming-talk.png"),
       side: "left",
       scale: 1.32,
-      x: "-1%",
+      x: "25%",
       y: "4%",
     },
     rightActor: {
@@ -84,7 +84,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/04-mary-talk.png"),
       side: "right",
       scale: 1.3,
-      x: "1%",
+      x: "-25%",
       y: "4%",
     },
     dialogues: [
@@ -122,7 +122,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/05-waiter-talk.png"),
       side: "left",
       scale: 1.3,
-      x: "-1%",
+      x: "25%",
       y: "4%",
     },
     rightActor: {
@@ -131,7 +131,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/06-liu-ming-talk.png"),
       side: "right",
       scale: 1.32,
-      x: "1%",
+      x: "-25%",
       y: "4%",
     },
     dialogues: [
@@ -169,7 +169,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/07-rail-officer-talk.png"),
       side: "left",
       scale: 1.32,
-      x: "-1%",
+      x: "25%",
       y: "4%",
     },
     rightActor: {
@@ -178,7 +178,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/08-wang-yixue-talk.png"),
       side: "right",
       scale: 1.32,
-      x: "1%",
+      x: "-25%",
       y: "4%",
     },
     dialogues: [
@@ -216,7 +216,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/09-zhang-jie-talk.png"),
       side: "left",
       scale: 1.32,
-      x: "-1%",
+      x: "25%",
       y: "4%",
     },
     rightActor: {
@@ -225,7 +225,7 @@ export const SCENARIOS = [
       talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
       side: "right",
       scale: 1.34,
-      x: "1%",
+      x: "-25%",
       y: "4%",
     },
     dialogues: [

@@ -1,0 +1,15 @@
+export const PRACTICE_ERROR_CODES = Object.freeze({
+  ASR_ERROR: "ASR_ERROR",
+  ASR_TIMEOUT: "ASR_TIMEOUT",
+  ASR_UNSUPPORTED: "ASR_UNSUPPORTED",
+  EVALUATION_ERROR: "EVALUATION_ERROR",
+  EXERCISE_SOURCE_NOT_FOUND: "EXERCISE_SOURCE_NOT_FOUND",
+  INVALID_SESSION: "INVALID_SESSION",
+  INVALID_TARGET: "INVALID_TARGET",
+  MIC_PERMISSION_DENIED: "MIC_PERMISSION_DENIED",
+  NO_SPEECH: "NO_SPEECH",
+});
+
+export function practiceError(code, details = undefined) {
+  return details === undefined ? { code } : { code, details };
+}

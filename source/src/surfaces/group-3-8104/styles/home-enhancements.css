@@ -2593,7 +2593,7 @@
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 2rem;
   margin-top: 1rem;
   z-index: 5;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
@@ -2633,20 +2633,29 @@
 
 .g3-sign-board {
   background: linear-gradient(to bottom, #7a1f11, #420f06);
-  border: 2px solid #e2b35a;
-  border-radius: 3px;
-  padding: 0.35rem 1.1rem;
-  color: #ffda75;
-  font-weight: 800;
-  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
-  letter-spacing: 0.06em;
-  box-shadow: inset 0 0 12px rgba(0,0,0,0.6);
+  border: 4px solid #e2b35a;
+  border-radius: 4px;
+  padding: 1.2rem 2.5rem;
+  box-shadow: inset 0 0 16px rgba(0,0,0,0.7);
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-family: "Noto Serif Thai", serif;
+  justify-content: center;
   position: relative;
   z-index: 1;
+}
+
+.g3-hanging-sign .g3-home-title {
+  color: #ffda75;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.6);
+  margin: 0;
+  text-align: center;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  line-height: 1.2;
+}
+
+:root[data-theme="light"] .g3-hanging-sign .g3-home-title {
+  color: #ffea99;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
 .g3-sign-deco {

@@ -19,6 +19,7 @@ import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.
 import { ContentsPage, PrefacePage, VocabularyPage } from "./features/lesson/index.js";
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
 import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
+import { PracticeExercisePlaceholder, PracticeHub } from "./features/practice/index.js";
 
 const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
 
@@ -170,6 +171,8 @@ export default function Group3App() {
           : `${text.brand}`
       : route.name === "reader"
         ? `${sceneTitle} · ${text.brand}`
+        : route.name === "practice" || route.name === "practice-exercise"
+          ? `${route.level?.toUpperCase()} · ${text.practiceHubTitle} · ${text.brand}`
         : route.name === "catalog"
           ? `${route.level ? route.level.toUpperCase() + " · " : ""}${text.catalogTitle} · ${text.brand}`
           : frontTitles[route.name]
@@ -215,6 +218,8 @@ export default function Group3App() {
     }
     if (route.name === "reader") return <ReadingTheatre key={lesson.id} initialLessonId={lesson.id} initialScene={route.scene} language={language} lesson={lesson} navigate={navigate} lowData={lowData} level={route.level} />;
     if (route.name === "levels") return <LevelPicker language={language} navigate={navigate} />;
+    if (route.name === "practice") return <PracticeHub language={language} level={route.level} navigate={navigate} />;
+    if (route.name === "practice-exercise") return <PracticeExercisePlaceholder exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
     if (route.name === "catalog") return <StoryCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
     if (route.name === "preface") {
       return <PrefacePage key={`${lesson.id}-preface`} language={language} lesson={lesson} navigate={navigate} />;
@@ -253,7 +258,7 @@ export default function Group3App() {
       <div id="g3-main" tabIndex="-1" aria-busy={routeNeedsLesson && lessonStatus === "loading" ? "true" : undefined}>
         {mainSuspense}
       </div>
-      {route.name !== "reader" && route.name !== "catalog" && route.name !== "home" && route.name !== "levels" && (
+      {route.name !== "reader" && route.name !== "catalog" && route.name !== "practice" && route.name !== "practice-exercise" && route.name !== "home" && route.name !== "levels" && (
         <StoryFooter language={language} lesson={lesson} route={route} />
       )}
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} language={language} />

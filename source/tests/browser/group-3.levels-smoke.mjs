@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 
 const port = Number(process.env.G3_CDP_PORT || 9223);
 const origin = process.env.G3_LEVELS_ORIGIN || "http://127.0.0.1:4179";
+const routeTimeout = Number(process.env.G3_ROUTE_TIMEOUT || 15_000);
 const levelsPath = "/group3/home/levels/";
 const tolerance = 2;
 const viewports = [
-  [1920, 1080],
   [1600, 900],
   [1366, 768],
+  [1280, 800],
   [1024, 768],
   [768, 1024],
   [390, 844],
@@ -280,7 +281,7 @@ async function assertRoute(levelIndex, action, theme) {
   await activateCard(levelIndex, levelIndex === 2 ? "focus" : "hover");
   const actionClass = action === "primary" ? ".g3-primary-action" : ".g3-secondary-action";
   await clickAt(`.g3-level-card:nth-child(${levelIndex + 1}) ${actionClass}`);
-  await waitFor(action === "primary" ? ".g3-catalog" : ".g3-front-matter");
+  await waitFor(action === "primary" ? ".g3-catalog" : ".g3-practice-hub", routeTimeout);
   await sleep(150);
   const state = await evaluate(`({
     pathname: location.pathname,
@@ -292,13 +293,44 @@ async function assertRoute(levelIndex, action, theme) {
   const level = levels[levelIndex];
   const expected = action === "primary"
     ? `/group3/home/${level}/`
-    : `/group3/home/${level}/lessons/lesson-01/overview/`;
+    : `/group3/home/${level}/practice/`;
   assert.equal(state.pathname, expected, `${level} ${action} CTA did not navigate via the canonical route`);
   assert.equal(state.hash, "", `${level} ${action} CTA used a hash route`);
   assert.equal(state.queryTheme, theme, `${level} ${action} CTA dropped the theme query`);
   assert.equal(state.appliedTheme, theme, `${level} ${action} CTA reset the applied theme`);
   assert.equal(state.headerCount, 1, `${level} ${action} destination duplicated the header`);
   return { level, action, ...state };
+}
+
+async function assertPracticeExerciseRoute(levelIndex, exerciseIndex, exerciseType, theme) {
+  await setViewport(1366, 768);
+  await navigate(levelsPath, theme);
+  await activateCard(levelIndex, "focus");
+  await clickAt(`.g3-level-card:nth-child(${levelIndex + 1}) .g3-secondary-action`);
+  await waitFor(".g3-practice-hub", routeTimeout);
+  await clickAt(`.g3-practice-entry:nth-child(${exerciseIndex + 1})`);
+  await waitFor(".g3-practice-placeholder", routeTimeout);
+  const state = await evaluate(`({
+    pathname: location.pathname,
+    queryTheme: new URLSearchParams(location.search).get('theme'),
+    placeholder: Boolean(document.querySelector('.g3-practice-placeholder')),
+  })`);
+  assert.equal(state.pathname, `/group3/home/${levels[levelIndex]}/practice/${exerciseType}/`);
+  assert.equal(state.queryTheme, theme);
+  assert.equal(state.placeholder, true);
+  return { level: levels[levelIndex], exerciseType, ...state };
+}
+
+async function assertKeyboardAction(levelIndex, action, theme) {
+  await setViewport(1366, 768);
+  await navigate(levelsPath, theme);
+  await activateCard(levelIndex, "focus");
+  const selector = `.g3-level-card:nth-child(${levelIndex + 1}) .g3-${action}-action`;
+  assert.equal(await evaluate(`(() => { const button = document.querySelector(${JSON.stringify(selector)}); button.focus(); return document.activeElement === button && button.tabIndex === 0; })()`), true);
+  await send("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "Enter", code: "Enter", nativeVirtualKeyCode: 13, windowsVirtualKeyCode: 13 });
+  await send("Input.dispatchKeyEvent", { type: "char", key: "Enter", code: "Enter", text: "\r", unmodifiedText: "\r" });
+  await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", nativeVirtualKeyCode: 13, windowsVirtualKeyCode: 13 });
+  await waitFor(action === "primary" ? ".g3-catalog" : ".g3-practice-hub", routeTimeout);
 }
 
 async function languageSnapshot(index, language) {
@@ -312,6 +344,7 @@ async function languageSnapshot(index, language) {
       activeLanguage: [...document.querySelectorAll('.g3-language-control button')].findIndex((button) => button.getAttribute('aria-pressed') === 'true'),
       heading: document.querySelector('.g3-level-selection-header h1').textContent.trim(),
       titles: [...document.querySelectorAll('.g3-level-card-title')].map((item) => item.textContent.trim()),
+      actions: [...document.querySelectorAll('.g3-level-card.is-active .g3-level-card-actions button')].map((item) => item.textContent.trim()),
       invalidText: invalidText.test(main.textContent),
       unexpectedThai: ${JSON.stringify(language !== "th")} && /[\u0E00-\u0E7F]/.test(main.textContent),
       overflowX: document.documentElement.scrollWidth - innerWidth,
@@ -319,11 +352,17 @@ async function languageSnapshot(index, language) {
     };
   })()`);
   const expectedLanguage = { th: "th", zh: "zh-CN", en: "en" }[language];
-  const expectedHeading = { th: "เลือกระดับที่ต้องการเรียน", zh: "选择想学的等级", en: "Choose a learning level" }[language];
+  const expectedHeading = { th: "สามารถเลือกระดับที่ต้องการได้เลย", zh: "选择想学的等级", en: "Choose a learning level" }[language];
+  const expectedActions = {
+    th: ["เข้าสู่บทเรียน→", "บททำแบบฝึกหัด"],
+    zh: ["进入课程→", "练习"],
+    en: ["Enter lessons→", "Practice exercises"],
+  }[language];
   if (state.language !== expectedLanguage) failures.push(`language ${language}: document lang is ${state.language}, expected ${expectedLanguage}`);
   if (state.activeLanguage !== index) failures.push(`language ${language}: control did not activate`);
   if (state.heading !== expectedHeading) failures.push(`language ${language}: heading did not use localized copy`);
   if (state.titles.length !== 3 || !state.titles.every(Boolean)) failures.push(`language ${language}: card text is incomplete`);
+  if (JSON.stringify(state.actions) !== JSON.stringify(expectedActions)) failures.push(`language ${language}: action labels are incorrect`);
   if (state.invalidText) failures.push(`language ${language}: rendered undefined, object, or missing-key text`);
   if (state.unexpectedThai) failures.push(`language ${language}: retained Thai-only text in the Levels surface`);
   if (state.overflowX > tolerance || state.overflowY > tolerance) failures.push(`language ${language}: text introduced overflow`);
@@ -372,6 +411,22 @@ try {
       assertGeometry(snapshot, false);
     } catch (error) {
       failures.push(`desktop ${levels[index]}: ${error.message}`);
+    }
+  }
+
+  for (const action of ["primary", "secondary"]) {
+    try {
+      await assertKeyboardAction(0, action, "light");
+    } catch (error) {
+      failures.push(`keyboard hsk1 ${action}: ${error.message}`);
+    }
+  }
+
+  for (const [exerciseIndex, exerciseType] of ["repeat-sentence", "image-description", "question-response"].entries()) {
+    try {
+      report.routes.push(await assertPracticeExerciseRoute(0, exerciseIndex, exerciseType, "dark"));
+    } catch (error) {
+      failures.push(`practice route hsk1 ${exerciseType}: ${error.message}`);
     }
   }
 

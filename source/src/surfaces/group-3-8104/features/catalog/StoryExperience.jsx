@@ -11,7 +11,7 @@ import { group3AssetPath } from "../../config.js";
 import { COPY } from "../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { GROUP3_VOICE_PROFILES } from "../../services/audio/index.js";
-import { levelPath, lessonPath, scenePath } from "../../routing/routes.js";
+import { levelPath, lessonPath, practicePath, scenePath } from "../../routing/routes.js";
 import { SourceStamp } from "../../shared/components/index.js";
 
 function sceneTitle(scene, language) {
@@ -108,12 +108,7 @@ export function LevelPicker({ language, navigate }) {
   ];
 
   const startLevel = (levelId) => navigate(levelPath(levelId));
-  const previewLevel = (levelId) => {
-    const firstLesson = GROUP3_LESSONS
-      .filter((item) => item.level === levelId)
-      .sort((first, second) => Number(first.number) - Number(second.number))[0];
-    navigate(firstLesson ? lessonPath(firstLesson, "overview") : levelPath(levelId));
-  };
+  const openPractice = (levelId) => navigate(practicePath(levelId));
 
   return (
     <main className="g3-level-selection g3-no-scroll" aria-labelledby="g3-level-selection-title">
@@ -181,10 +176,10 @@ export function LevelPicker({ language, navigate }) {
                   
                   <div className="g3-level-card-actions">
                     <button type="button" className="g3-primary-action" onClick={() => startLevel(level.id)} tabIndex={isActive ? 0 : -1}>
-                      {text.startLearning}<span aria-hidden="true">→</span>
+                      {text.lessonEntry}<span aria-hidden="true">→</span>
                     </button>
-                    <button type="button" className="g3-secondary-action" onClick={() => previewLevel(level.id)} tabIndex={isActive ? 0 : -1}>
-                      {text.previewContent}
+                    <button type="button" className="g3-secondary-action" onClick={() => openPractice(level.id)} tabIndex={isActive ? 0 : -1}>
+                      {text.exerciseEntry}
                     </button>
                   </div>
                 </div>

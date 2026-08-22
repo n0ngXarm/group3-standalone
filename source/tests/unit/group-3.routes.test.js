@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { GROUP3_LESSONS, findLesson } from "../../src/surfaces/group-3-8104/content/registry.js";
+import * as routes from "../../src/surfaces/group-3-8104/routing/routes.js";
 import {
   GROUP3_GAME_SLUGS,
   canonicalPathForRoute,
@@ -81,6 +82,43 @@ test("canonical parser supports gateway mounts and lesson sections", () => {
   );
 });
 
+test("practice routes stay level scoped and reject unknown exercise types", () => {
+  const { GROUP3_PRACTICE_TYPES, practiceExercisePath, practicePath } = routes;
+  assert.equal(typeof practicePath, "function");
+  assert.equal(typeof practiceExercisePath, "function");
+  assert.deepEqual(GROUP3_PRACTICE_TYPES, [
+    "repeat-sentence",
+    "image-description",
+    "question-response",
+  ]);
+  for (const level of ["hsk1", "hsk2", "hsk3"]) {
+    assert.equal(practicePath(level), `/home/${level}/practice/`);
+    assert.deepEqual(routeFromLocation({ pathname: `/group3/home/${level}/practice/`, search: "" }), {
+      level,
+      name: "practice",
+    });
+    for (const exerciseType of GROUP3_PRACTICE_TYPES) {
+      const path = `/home/${level}/practice/${exerciseType}/`;
+      assert.equal(practiceExercisePath(level, exerciseType), path);
+      assert.deepEqual(routeFromLocation({ pathname: `/group3${path}`, search: "" }), {
+        exerciseType,
+        level,
+        name: "practice-exercise",
+      });
+      assert.equal(canonicalPathForRoute({ exerciseType, level, name: "practice-exercise" }), path);
+    }
+    assert.equal(practiceExercisePath(level, "unknown"), `/home/${level}/practice/`);
+    assert.deepEqual(routeFromLocation({ pathname: `/home/${level}/practice/unknown/`, search: "" }), {
+      level,
+      name: "practice",
+    });
+  }
+  assert.equal(practicePath("hsk9"), "/home/levels/");
+  assert.deepEqual(routeFromLocation({ pathname: "/home/hsk9/practice/", search: "" }), {
+    name: "levels",
+  });
+});
+
 test("legacy lesson URLs map to canonical resources without losing lesson identity", () => {
   const legacyReader = routeFromLocation({
     pathname: "/group3/home/hsk1/lesson-2/",
@@ -114,7 +152,7 @@ test("unknown lessons fall back to their level catalog", () => {
   );
 });
 
-test("locationForRoute preserves live theme, hash, and gateway mount", () => {
+test("locationForRoute preserves the validated theme with the gateway mount", () => {
   const location = {
     hash: "#old",
     hostname: "www.nongmodels.com",

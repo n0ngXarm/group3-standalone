@@ -7,9 +7,15 @@ export const GROUP3_GAME_SLUGS = Object.freeze([
   "sound-sprint",
   "pinyin-dash",
 ]);
+export const GROUP3_PRACTICE_TYPES = Object.freeze([
+  "repeat-sentence",
+  "image-description",
+  "question-response",
+]);
 
 const LEVELS = new Set(GROUP3_LEVELS);
 const GAMES = new Set(GROUP3_GAME_SLUGS);
+const PRACTICE_TYPES = new Set(GROUP3_PRACTICE_TYPES);
 const GROUP3_SCENE_COUNT = 3;
 
 function pathParts(pathname = "/") {
@@ -61,6 +67,17 @@ export function levelPath(level) {
   return `/home/${level}/`;
 }
 
+export function practicePath(level) {
+  return LEVELS.has(level) ? `/home/${level}/practice/` : "/home/levels/";
+}
+
+export function practiceExercisePath(level, exerciseType) {
+  const base = practicePath(level);
+  return LEVELS.has(level) && PRACTICE_TYPES.has(exerciseType)
+    ? `${base}${exerciseType}/`
+    : base;
+}
+
 export function lessonBasePath(lesson) {
   return `/home/${lesson.level}/lessons/${lessonSegment(lesson)}/`;
 }
@@ -96,9 +113,17 @@ export function routeFromLocation(location = window.location) {
   const [home, level] = parts;
   if (home !== "home") return { name: "home" };
   if (level === "levels") return { name: "levels" };
+  if (parts[2] === "practice" && !LEVELS.has(level)) return { name: "levels" };
   if (!LEVELS.has(level)) return { name: "home" };
   if (parts.length === 2) {
     return { level, name: "catalog" };
+  }
+
+  if (parts[2] === "practice") {
+    const exerciseType = parts[3];
+    return exerciseType && PRACTICE_TYPES.has(exerciseType)
+      ? { exerciseType, level, name: "practice-exercise" }
+      : { level, name: "practice" };
   }
 
   if (parts[2] === "lessons") {
@@ -154,6 +179,8 @@ export function canonicalPathForRoute(route) {
   if (route.name === "home") return "/home/";
   if (route.name === "levels") return "/home/levels/";
   if (route.name === "catalog") return levelPath(route.level);
+  if (route.name === "practice") return practicePath(route.level);
+  if (route.name === "practice-exercise") return practiceExercisePath(route.level, route.exerciseType);
   const lesson = routeLesson(route);
   if (!lesson) return levelPath(route.level);
   if (route.name === "reader") return scenePath(lesson, Number(route.scene) + 1);

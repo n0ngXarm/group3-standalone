@@ -3060,52 +3060,92 @@
    -------------------------------------------------- */
 
 /* Supporting Copy */
-.g3-home.is-single-screen .g3-hero-copy .g3-home-lead {
-  font-size: clamp(1.6rem, 2.5vw, 2.1rem) !important;
-  font-weight: 600 !important;
-  line-height: 1.3 !important;
-  letter-spacing: -0.01em !important;
-}
-.g3-home.is-single-screen .g3-hero-copy .g3-home-expl {
-  font-size: clamp(1.3rem, 1.8vw, 1.5rem) !important;
-  font-weight: 400 !important;
-  line-height: 1.5 !important;
-  letter-spacing: 0.01em !important;
-  opacity: 0.85 !important;
-}
-.g3-home.is-single-screen .g3-hero-copy .g3-home-meta {
-  font-size: clamp(1.1rem, 1.4vw, 1.2rem) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.03em !important;
+@media (min-width: 900px) {
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: 47.5% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: 67.5% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+  }
 }
 
+.g3-home.is-single-screen .g3-hero-copy .g3-home-lead {
+  font-size: clamp(23px, 1.65vw, 31px) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.005em !important;
+  font-family: "IBM Plex Sans Thai", sans-serif !important;
+}
+.g3-home.is-single-screen .g3-hero-copy .g3-home-expl {
+  font-size: clamp(17px, 1.2vw, 22px) !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-hero-copy .g3-home-expl {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.g3-home.is-single-screen .g3-hero-copy .g3-home-meta {
+  font-size: clamp(15px, 1.05vw, 19px) !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+}
+.g3-home.is-single-screen .g3-home-copy-zone {
+  width: min(100%, 520px) !important;
+  max-width: 520px !important;
+  text-align: center !important;
+  text-wrap: balance !important;
+}
 /* CTA Inner Alignment & Size */
 .g3-home-cta-primary {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 0.6rem !important;
-  font-size: 1.35rem !important;
+  font-size: clamp(19px, 1.25vw, 23px) !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
   padding: 0 2.5rem !important;
   min-height: 4.2rem !important;
 }
 .g3-home-cta-primary i {
-  margin-top: 2px !important;
+  transform: translateY(1px) !important;
 }
 
 /* VN SUBTITLES (User Requested Readable Targets) */
+.g3-home.is-single-screen .g3-manga-subtitle-box {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 61px !important;
+  transform: translateX(-50%) !important;
+  width: min(78%, 760px) !important;
+  max-width: 760px !important;
+  margin: 0 !important;
+  z-index: 40 !important;
+}
 .g3-home.is-single-screen .g3-manga-hanzi {
-  font-size: calc(clamp(30px, 2.35vw, 40px) * var(--home-vn-typo-scale)) !important;
+  font-size: calc(clamp(32px, 2.4vw, 42px) * var(--home-vn-typo-scale, 1)) !important;
   line-height: 1.15 !important;
+  font-weight: 700 !important;
+  text-wrap: balance !important;
 }
 .g3-home.is-single-screen .g3-manga-pinyin {
-  font-size: calc(clamp(17px, 1.25vw, 21px) * var(--home-vn-typo-scale)) !important;
-  line-height: 1.35 !important;
+  font-size: calc(clamp(18px, 1.3vw, 23px) * var(--home-vn-typo-scale, 1)) !important;
+  line-height: 1.3 !important;
+  font-weight: 500 !important;
 }
 .g3-home.is-single-screen .g3-manga-thai {
-  font-size: calc(clamp(15px, 1.05vw, 18px) * var(--home-vn-typo-scale)) !important;
+  font-size: calc(clamp(16px, 1.1vw, 20px) * var(--home-vn-typo-scale, 1)) !important;
+  line-height: 1.35 !important;
+  font-weight: 400 !important;
   font-family: "IBM Plex Sans Thai", "Noto Sans Thai", sans-serif !important;
-  line-height: 1.4 !important;
 }
 
 /* --------------------------------------------------

@@ -24,10 +24,13 @@ test("capability detection reports standard and prefixed browser APIs without si
 
   assert.deepEqual(detectSpeakingCapabilities(environment), {
     audioContext: true,
+    asrErrorCode: null,
+    captureErrorCode: null,
     mediaRecorder: true,
     microphoneCapture: true,
     secureContext: true,
     speechRecognition: true,
+    speechRecognitionUsable: true,
     speechRecognitionPrefix: "standard",
     supportedRecordingMimeTypes: ["audio/webm;codecs=opus", "audio/mp4"],
   });
@@ -40,10 +43,13 @@ test("capability detection handles missing APIs, insecure contexts, and unavaila
   const { detectSpeakingCapabilities } = await import(capabilitiesModule);
   assert.deepEqual(detectSpeakingCapabilities({ isSecureContext: false, navigator: {} }), {
     audioContext: false,
+    asrErrorCode: "INSECURE_CONTEXT",
+    captureErrorCode: "INSECURE_CONTEXT",
     mediaRecorder: false,
     microphoneCapture: false,
     secureContext: false,
     speechRecognition: false,
+    speechRecognitionUsable: false,
     speechRecognitionPrefix: null,
     supportedRecordingMimeTypes: [],
   });
@@ -52,6 +58,36 @@ test("capability detection handles missing APIs, insecure contexts, and unavaila
     navigator: { mediaDevices: { getUserMedia() {} } },
     webkitAudioContext: class Context {},
   }).supportedRecordingMimeTypes, []);
+});
+
+test("an insecure origin reports browser APIs separately from whether speech can be used", async () => {
+  const { detectSpeakingCapabilities } = await import(capabilitiesModule);
+  class Recognition {}
+  class Recorder {}
+  const capabilities = detectSpeakingCapabilities({
+    isSecureContext: false,
+    MediaRecorder: Recorder,
+    webkitSpeechRecognition: Recognition,
+    navigator: {},
+  });
+
+  assert.equal(capabilities.speechRecognition, true);
+  assert.equal(capabilities.speechRecognitionUsable, false);
+  assert.equal(capabilities.asrErrorCode, "INSECURE_CONTEXT");
+  assert.equal(capabilities.captureErrorCode, "INSECURE_CONTEXT");
+});
+
+test("a secure browser without media devices distinguishes device unavailability from recorder support", async () => {
+  const { detectSpeakingCapabilities } = await import(capabilitiesModule);
+  const capabilities = detectSpeakingCapabilities({
+    isSecureContext: true,
+    MediaRecorder: class Recorder {},
+    SpeechRecognition: class Recognition {},
+    navigator: {},
+  });
+
+  assert.equal(capabilities.captureErrorCode, "MEDIA_DEVICE_UNAVAILABLE");
+  assert.equal(capabilities.asrErrorCode, null);
 });
 
 test("speech recognizer translates browser callbacks into stable internal events", async () => {

@@ -9,7 +9,7 @@ import { createSpeechRecognizer } from "../audio/speechRecognition.js";
 import { evaluateFreeSpeakingResponse } from "../evaluation/freeSpeaking.js";
 import { PracticeExerciseShell } from "./PracticeExerciseShell.jsx";
 import { savePracticeResult } from "../sessionStore.js";
-import { localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
+import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
 
 export function FreeSpeakingExercise({ exerciseType, language, level, navigate }) {
   const text = COPY[language] || COPY.th;
@@ -32,6 +32,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   const recognizerRef = useRef(null);
   const intervalRef = useRef(null);
   const startedAtRef = useRef(0);
+  const transcriptionUnavailableRef = useRef(false);
   const capabilities = useMemo(() => detectSpeakingCapabilities(typeof window === "undefined" ? {} : window), []);
 
   const setPhase = useCallback((value) => {
@@ -70,7 +71,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   }, []);
 
   const startRecognitionCycle = useCallback(() => {
-    if (!capabilities.speechRecognition || phaseRef.current !== "recording") return;
+    if (!capabilities.speechRecognitionUsable || phaseRef.current !== "recording") return;
     const recognizer = createSpeechRecognizer({
       interimResults: true,
       locale: "zh-CN",
@@ -83,20 +84,27 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
           setInterim("");
         }
         if (event.type === "noSpeech") setErrorCode("NO_SPEECH");
-        if (event.type === "error" && event.error?.code !== "NO_SPEECH") setErrorCode(event.error?.code || "ASR_ERROR");
+        if (event.type === "error" && event.error?.code !== "NO_SPEECH") {
+          const code = event.error?.code || "ASR_ERROR";
+          transcriptionUnavailableRef.current = isAutomaticEvaluationUnavailable(code);
+          setErrorCode(code);
+        }
         if (event.type === "ended" && phaseRef.current === "recording") {
           window.setTimeout(() => startRecognitionCycle(), 180);
         }
       },
     });
     recognizerRef.current = recognizer;
-    try { recognizer.start(); } catch { setErrorCode("ASR_ERROR"); }
-  }, [capabilities.speechRecognition]);
+    try { recognizer.start(); } catch {
+      transcriptionUnavailableRef.current = true;
+      setErrorCode("ASR_ERROR");
+    }
+  }, [capabilities.speechRecognitionUsable]);
 
   const handleRecorderEvent = useCallback((event) => {
     if (event.type === "error") {
       setErrorCode(event.error?.code || "ASR_ERROR");
-      if (!capabilities.speechRecognition) setPhase("ready");
+      setPhase("ready");
     }
     if (event.type === "completed") {
       phaseRef.current = "review";
@@ -105,7 +113,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
       clearTicker();
       stopRecognizer();
     }
-  }, [capabilities.speechRecognition, clearTicker, setPhase, stopRecognizer]);
+  }, [clearTicker, setPhase, stopRecognizer]);
 
   const startSpeaking = async () => {
     if (!current || phaseRef.current !== "ready") return;
@@ -116,19 +124,22 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     transcriptRef.current = "";
     setInterim("");
     setErrorCode("");
+    transcriptionUnavailableRef.current = !capabilities.speechRecognitionUsable;
     startedAtRef.current = performance.now();
     setRemainingMs(current.timing.responseWindowMs);
+
+    if (capabilities.captureErrorCode) {
+      setErrorCode(capabilities.captureErrorCode);
+      return;
+    }
 
     const recorder = createAudioRecorder({
       durationLimitMs: current.timing.responseWindowMs,
       onEvent: handleRecorderEvent,
     });
     recorderRef.current = recorder;
-    let recorderStarted = false;
-    if (recorder.supported) recorderStarted = await recorder.start();
-    else setErrorCode("MEDIARECORDER_UNSUPPORTED");
-
-    if (!recorderStarted && !capabilities.speechRecognition) return;
+    const recorderStarted = await recorder.start();
+    if (!recorderStarted) return;
     setPhase("recording");
     startRecognitionCycle();
     const deadline = performance.now() + current.timing.responseWindowMs;
@@ -155,7 +166,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     const durationMs = Math.max(0, performance.now() - startedAtRef.current);
     const recognized = transcriptRef.current.trim();
     let evalResult = null;
-    if (!capabilities.speechRecognition) {
+    if (transcriptionUnavailableRef.current) {
       evalResult = { status: "self-review" };
     } else {
       evalResult = evaluateFreeSpeakingResponse({
@@ -178,6 +189,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     transcriptRef.current = "";
     setInterim("");
     setErrorCode("");
+    transcriptionUnavailableRef.current = !capabilities.speechRecognitionUsable;
     setPhase("ready");
   };
 
@@ -188,6 +200,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     setTranscript("");
     transcriptRef.current = "";
     setErrorCode("");
+    transcriptionUnavailableRef.current = !capabilities.speechRecognitionUsable;
     if (index === definitions.length - 1) setPhase("completed");
     else {
       setIndex((value) => value + 1);
@@ -205,6 +218,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     setTranscript("");
     transcriptRef.current = "";
     setErrorCode("");
+    transcriptionUnavailableRef.current = !capabilities.speechRecognitionUsable;
     setPhase("ready");
   };
 
@@ -245,20 +259,20 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
             <ul className="g3-practice-hints" aria-label={text.recommendedWords}>{current.hints.map((hint) => <li key={hint.hanzi}><strong>{hint.hanzi}</strong><span>{hint.pinyin}</span></li>)}</ul>
           </div>
 
-          {phase === "ready" && <div className="g3-free-speaking-controls"><p>{text.preparationTime}: 15 {text.secondsShort}</p><button className="g3-practice-primary" type="button" onClick={startSpeaking}>● {text.startSpeaking}</button>{!capabilities.speechRecognition && <p className="g3-practice-notice">{text.asrUnsupportedSelfReview}</p>}</div>}
+          {phase === "ready" && <div className="g3-free-speaking-controls"><p>{text.preparationTime}: 15 {text.secondsShort}</p><button className="g3-practice-primary" type="button" onClick={startSpeaking} disabled={Boolean(capabilities.captureErrorCode)}>● {text.startSpeaking}</button>{capabilities.captureErrorCode ? <p className="g3-practice-notice">{text[practiceErrorCopyKey(capabilities.captureErrorCode)]}</p> : !capabilities.speechRecognitionUsable && <p className="g3-practice-notice">{text.asrUnsupportedSelfReview}</p>}</div>}
 
           {phase === "recording" && <div className="g3-free-speaking-controls"><div className="g3-practice-recording-state"><i aria-hidden="true" /><strong>{text.recordingStatus}</strong><span>{Math.ceil(remainingMs / 1000)} {text.secondsShort}</span></div><p className="g3-practice-transcript">{interim || transcript || (capabilities.speechRecognition ? text.readyToSpeak : text.selfReviewResult)}</p><button className="g3-practice-primary is-stop" type="button" onClick={stopSpeaking}>{text.stopSpeaking}</button></div>}
 
           {phase === "review" && <div className="g3-free-speaking-review">
             {recording?.playbackUrl && <div><span>{text.recordingPlayback}</span><audio controls preload="metadata" src={recording.playbackUrl}>{text.playRecording}</audio></div>}
             <p><span>{text.recognizedTranscript}</span><strong lang="zh-CN">{transcript || text.transcriptUnavailable}</strong></p>
-            {!capabilities.speechRecognition && <p className="g3-practice-notice">{text.selfReviewResult}</p>}
+            {!capabilities.speechRecognitionUsable && <p className="g3-practice-notice">{text.selfReviewResult}</p>}
             <div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={retry}>{text.tryAgain}</button><button className="g3-practice-primary" type="button" onClick={submit}>{text.submitAnswer}</button></div>
           </div>}
 
           {phase === "result" && <div className="g3-free-speaking-result">
             <h3>{text.preliminaryResult}</h3>
-            {result?.status === "self-review" ? <p>{text.selfReviewResult}</p> : <>
+            {result?.status === "self-review" ? <><p>{text.automaticEvaluationUnavailable}</p><p>{text.selfReviewResult}</p></> : <>
               <p><span>{text.recognizedTranscript}</span><strong lang="zh-CN">{transcript || text.transcriptUnavailable}</strong></p>
               <dl><div><dt>{text.speechContentAmount}</dt><dd>{result?.metrics.chineseCharacterCount}</dd></div><div><dt>{text.keywordCoverage}</dt><dd>{percent(result?.metrics.keywordCoverage)}</dd></div><div><dt>{text.responseDuration}</dt><dd>{result?.metrics.responseDurationSeconds} {text.secondsShort}</dd></div><div><dt>{text.baselineScore}</dt><dd>{result?.baselineScore} / 100</dd></div></dl>
               <p><span>{text.mentionedKeywords}</span><strong>{result?.mentionedConceptIds.length || 0}</strong></p>

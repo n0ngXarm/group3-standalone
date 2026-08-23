@@ -8,6 +8,7 @@ const REQUIRED_KEYS = [
   "startSpeaking", "stopSpeaking", "submitAnswer", "tryAgain", "nextExercise",
   "recognizedTranscript", "contentAccuracy", "completionMetric", "preliminaryResult",
   "asrUnsupportedSelfReview", "mediaRecorderUnsupported", "micPermissionDenied",
+  "insecureContextMessage", "mediaDeviceUnavailable", "automaticEvaluationUnavailable",
   "noSpeechDetected", "repeatSummaryTitle", "averageContentAccuracy", "averageCompletion",
   "overallDeterministicScore", "practiceAgain", "recordingPlayback", "preparationTime",
   "speakingTime", "speechContentAmount", "mentionedKeywords", "recommendedWords",

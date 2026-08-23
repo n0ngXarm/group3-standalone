@@ -26,6 +26,7 @@ function createEnvironment({ permissionError = null } = {}) {
   }
   const environment = {
     Blob,
+    isSecureContext: true,
     MediaRecorder: FakeMediaRecorder,
     navigator: { mediaDevices: { getUserMedia: async () => {
       if (permissionError) throw permissionError;
@@ -89,9 +90,44 @@ test("duration limit stops recording once and cleanup remains idempotent", async
 test("unsupported MediaRecorder returns a localized error code contract", async () => {
   const { createAudioRecorder } = await import(modulePath);
   const events = [];
-  const recorder = createAudioRecorder({ environment: { navigator: { mediaDevices: {} } }, onEvent: (event) => events.push(event) });
+  const recorder = createAudioRecorder({ environment: { isSecureContext: true, navigator: { mediaDevices: { getUserMedia() {} } } }, onEvent: (event) => events.push(event) });
 
   assert.equal(recorder.supported, false);
   assert.equal(await recorder.start(), false);
   assert.equal(events.at(-1).error.code, "MEDIARECORDER_UNSUPPORTED");
+});
+
+test("insecure origin is not misreported as a permission denial", async () => {
+  const { createAudioRecorder } = await import(modulePath);
+  const events = [];
+  const recorder = createAudioRecorder({
+    environment: { isSecureContext: false, MediaRecorder: class Recorder {}, navigator: {} },
+    onEvent: (event) => events.push(event),
+  });
+
+  assert.equal(recorder.supported, false);
+  assert.equal(await recorder.start(), false);
+  assert.equal(events.at(-1).error.code, "INSECURE_CONTEXT");
+});
+
+test("missing media devices is reported independently from user permission", async () => {
+  const { createAudioRecorder } = await import(modulePath);
+  const events = [];
+  const recorder = createAudioRecorder({
+    environment: { isSecureContext: true, MediaRecorder: class Recorder {}, navigator: {} },
+    onEvent: (event) => events.push(event),
+  });
+
+  assert.equal(await recorder.start(), false);
+  assert.equal(events.at(-1).error.code, "MEDIA_DEVICE_UNAVAILABLE");
+});
+
+test("missing physical microphone is not classified as permission denial", async () => {
+  const { createAudioRecorder } = await import(modulePath);
+  const fixture = createEnvironment({ permissionError: Object.assign(new Error("not found"), { name: "NotFoundError" }) });
+  const events = [];
+  const recorder = createAudioRecorder({ environment: fixture.environment, onEvent: (event) => events.push(event) });
+
+  assert.equal(await recorder.start(), false);
+  assert.equal(events.at(-1).error.code, "MEDIA_DEVICE_UNAVAILABLE");
 });

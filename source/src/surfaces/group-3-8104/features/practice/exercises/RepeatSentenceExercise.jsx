@@ -9,7 +9,7 @@ import { createSpeechRecognizer } from "../audio/speechRecognition.js";
 import { evaluateRepeatSentence } from "../evaluation/deterministic.js";
 import { aggregateRepeatResults, createRepeatSession, repeatSessionReducer } from "../session/repeatSession.js";
 import { PracticeExerciseShell } from "./PracticeExerciseShell.jsx";
-import { localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
+import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
 import { savePracticeResult } from "../sessionStore.js";
 
 const RESPONSE_WINDOW_MS = 10_000;
@@ -111,6 +111,16 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
     send({ type: "PROCESS_SUCCESS", attemptId, result });
   }, [clearListeningTimers, current?.hanzi, send]);
 
+  const finishUnscoredAttempt = useCallback((attemptId) => {
+    clearListeningTimers();
+    recognizerRef.current = null;
+    setSelfReviewSpeaking(false);
+    setLastTranscript("");
+    setInterimTranscript("");
+    send({ type: "TRANSCRIPT_FINAL", attemptId, transcript: "" });
+    send({ type: "PROCESS_SUCCESS", attemptId, result: { metrics: {}, score: null, status: "self-review" } });
+  }, [clearListeningTimers, send]);
+
   const startTimer = useCallback((attemptId, onTimeout) => {
     const deadline = performance.now() + RESPONSE_WINDOW_MS;
     setRemainingMs(RESPONSE_WINDOW_MS);
@@ -126,7 +136,8 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
     attemptStartedAtRef.current = performance.now();
     send({ type: "RECORD_START", attemptId });
 
-    if (!capabilities.speechRecognition) {
+    if (!capabilities.speechRecognitionUsable) {
+      setErrorCode(capabilities.asrErrorCode || "ASR_UNSUPPORTED");
       setSelfReviewSpeaking(true);
       startTimer(attemptId, (id) => {
         send({ type: "TRANSCRIPT_FINAL", attemptId: id, transcript: "" });
@@ -153,8 +164,12 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
           settle("");
         }
         if (event.type === "error") {
-          setErrorCode(event.error?.code || "ASR_ERROR");
-          settle("");
+          const code = event.error?.code || "ASR_ERROR";
+          setErrorCode(code);
+          if (isAutomaticEvaluationUnavailable(code)) {
+            settled = true;
+            finishUnscoredAttempt(attemptId);
+          } else settle("");
         }
         if (event.type === "ended" && !settled) {
           setErrorCode("NO_SPEECH");
@@ -171,7 +186,8 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
       });
     } catch {
       setErrorCode("ASR_ERROR");
-      settle("");
+      settled = true;
+      finishUnscoredAttempt(attemptId);
     }
   };
 
@@ -219,7 +235,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
             <div><dt>{text.completedCount}</dt><dd>{liveSession.results.length} / {definitions.length}</dd></div>
             {scored.length > 0 && <><div><dt>{text.averageContentAccuracy}</dt><dd>{percent(summary.averageAccuracy)}</dd></div><div><dt>{text.averageCompletion}</dt><dd>{percent(summary.averageCompletion)}</dd></div><div><dt>{text.overallDeterministicScore}</dt><dd>{Math.round(summary.overallScore)} / 100</dd></div></>}
           </dl>
-          {!capabilities.speechRecognition && <p>{text.selfReviewResult}</p>}
+          {!capabilities.speechRecognitionUsable && <p>{text.selfReviewResult}</p>}
           <div className="g3-practice-actions">
   <button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button>
   <button type="button" onClick={restart}>{text.practiceAgain}</button>
@@ -250,7 +266,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
               {liveSession.phase === "ready" && <button className="g3-practice-primary" type="button" onClick={startSpeaking}>● {text.startSpeaking}</button>}
               {selfReviewSpeaking && <button className="g3-practice-primary" type="button" onClick={finishSelfReview}>{text.finishSpeaking}</button>}
             </div>
-            {!capabilities.speechRecognition && <p className="g3-practice-notice">{text.asrUnsupportedSelfReview}</p>}
+            {!capabilities.speechRecognitionUsable && <p className="g3-practice-notice">{text[practiceErrorCopyKey(capabilities.asrErrorCode || "ASR_UNSUPPORTED")]}</p>}
             {(interimTranscript || liveSession.phase === "processing") && <p className="g3-practice-transcript">{interimTranscript || text.processingSpeech}</p>}
           </>}
 
@@ -260,7 +276,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
               <p><span>{text.recognizedTranscript}</span><strong lang="zh-CN">{lastTranscript || text.transcriptUnavailable}</strong></p>
               <dl><div><dt>{text.contentAccuracy}</dt><dd>{percent(currentResult.metrics?.transcriptAccuracy)}</dd></div><div><dt>{text.completionMetric}</dt><dd>{percent(currentResult.metrics?.completion)}</dd></div></dl>
               {(currentResult.evidence?.missing?.length > 0 || currentResult.evidence?.extra?.length > 0) && <p className="g3-repeat-evidence"><span>− {currentResult.evidence.missing.map((item) => item.character).join(" ") || "—"}</span><span>+ {currentResult.evidence.extra.map((item) => item.character).join(" ") || "—"}</span></p>}
-            </> : <p>{text.selfReviewResult}</p>}
+            </> : <><p>{text.automaticEvaluationUnavailable}</p><p>{text.selfReviewResult}</p></>}
             <div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={retry}>{text.tryAgain}</button><button className="g3-practice-primary" type="button" onClick={() => send({ type: "NEXT" })}>{text.nextExercise} →</button></div>
           </div>}
         </div>

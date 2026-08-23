@@ -1,4 +1,4 @@
-import { RECORDING_MIME_TYPE_CANDIDATES } from "./browserCapabilities.js";
+import { detectSpeakingCapabilities, RECORDING_MIME_TYPE_CANDIDATES } from "./browserCapabilities.js";
 import { PRACTICE_ERROR_CODES, practiceError } from "../errors.js";
 
 function stopTracks(stream) {
@@ -17,7 +17,8 @@ export function createAudioRecorder({
 } = {}) {
   const Recorder = environment?.MediaRecorder;
   const getUserMedia = environment?.navigator?.mediaDevices?.getUserMedia;
-  const supported = typeof Recorder === "function" && typeof getUserMedia === "function";
+  const capabilities = detectSpeakingCapabilities(environment);
+  const supported = capabilities.captureErrorCode === null;
   const mimeType = typeof Recorder?.isTypeSupported === "function"
     ? RECORDING_MIME_TYPE_CANDIDATES.find((type) => Recorder.isTypeSupported(type)) || ""
     : "";
@@ -65,7 +66,7 @@ export function createAudioRecorder({
     mimeType,
     async start() {
       if (!supported) {
-        onEvent({ type: "error", error: practiceError(PRACTICE_ERROR_CODES.MEDIARECORDER_UNSUPPORTED) });
+        onEvent({ type: "error", error: practiceError(capabilities.captureErrorCode) });
         return false;
       }
       if (recorder && recorder.state !== "inactive") return false;
@@ -79,7 +80,7 @@ export function createAudioRecorder({
         recorder.ondataavailable = (event) => {
           if (event?.data?.size > 0) chunks.push(event.data);
         };
-        recorder.onerror = () => onEvent({ type: "error", error: practiceError(PRACTICE_ERROR_CODES.ASR_ERROR) });
+        recorder.onerror = () => onEvent({ type: "error", error: practiceError(PRACTICE_ERROR_CODES.MEDIA_DEVICE_UNAVAILABLE) });
         recorder.onstop = () => {
           clearTimer();
           const durationMs = Math.max(0, now() - startedAt);
@@ -103,7 +104,9 @@ export function createAudioRecorder({
         return true;
       } catch (error) {
         releaseStream();
-        const code = permissionError(error) ? PRACTICE_ERROR_CODES.MIC_PERMISSION_DENIED : PRACTICE_ERROR_CODES.ASR_ERROR;
+        const code = permissionError(error)
+          ? PRACTICE_ERROR_CODES.MIC_PERMISSION_DENIED
+          : PRACTICE_ERROR_CODES.MEDIA_DEVICE_UNAVAILABLE;
         onEvent({ type: "error", error: practiceError(code) });
         return false;
       }

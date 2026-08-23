@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { COPY } from "../../../content/copy.js";
+import { buildRepeatSessionDefinitions } from "../../../content/practice/repeatAdapter.js";
 import { practicePath } from "../../../routing/routes.js";
 import { speakChinese, stopChineseVoice } from "../../../services/audio/index.js";
 import { detectSpeakingCapabilities } from "../audio/browserCapabilities.js";

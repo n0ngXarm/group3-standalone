@@ -21,6 +21,7 @@ import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.
 import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
 import { PracticeExercise, PracticeHub } from "./features/practice/index.js";
 import { getLearnerSession, endLearnerSession, hasLearnerSession } from "./shared/session.js";
+import { clearAllPracticeResults } from "./features/practice/sessionStore.js";
 
 const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
 
@@ -135,9 +136,25 @@ export default function Group3App() {
   }, [language, route.gameSlug, route.name, route.scene]);
 
   useEffect(() => {
+    let initial = routeFromLocation();
+    const isReload = performance.getEntriesByType("navigation")[0]?.type === "reload";
+
+    if (isReload) {
+      endLearnerSession();
+      clearAllPracticeResults();
+      if (initial.name !== "home") {
+        history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, "/home/", { theme: getInitialTheme() }));
+        initial = routeFromLocation();
+      }
+    } else if (initial.name !== "home" && !hasLearnerSession()) {
+      history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, "/home/", { theme: getInitialTheme() }));
+      initial = routeFromLocation();
+    }
+
     const sync = () => setRoute(routeFromLocation());
-    const initial = routeFromLocation();
     setRoute(initial);
+    
+    // Only rewrite history again if we didn't just replace it above for security redirects
     history.replaceState(
       { ...(history.state || {}), g3: true },
       "",
@@ -218,6 +235,7 @@ export default function Group3App() {
 
   const goHome = () => {
     endLearnerSession();
+    clearAllPracticeResults();
     setHomeView("home");
     navigate("/home/");
   };

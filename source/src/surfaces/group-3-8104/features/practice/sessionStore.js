@@ -30,3 +30,11 @@ export function clearPracticeResults(level) {
     window.sessionStorage.removeItem(`huayun_practice_${level}`);
   } catch (e) {}
 }
+
+export function clearAllPracticeResults() {
+  try {
+    ["hsk1", "hsk2", "hsk3"].forEach(level => {
+      window.sessionStorage.removeItem(`huayun_practice_${level}`);
+    });
+  } catch (e) {}
+}

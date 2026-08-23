@@ -1,0 +1,27 @@
+--- source/src/surfaces/group-3-8104/features/practice/exercises/FreeSpeakingExercise.jsx
++++ source/src/surfaces/group-3-8104/features/practice/exercises/FreeSpeakingExercise.jsx
+@@ -218,14 +218,21 @@
+     );
+   }
+ 
+-  const translation = exerciseType === "question-response" ? localizedValue(current.question.translations, language) : "";
++  const translation = exerciseType === "question-response" ? (current.question.translations?.th || localizedValue(current.question.translations, "th")) : "";
+   return (
+     <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
+       <article className={`g3-free-speaking-panel is-${exerciseType}`}>
+         {exerciseType === "image-description" && <figure className="g3-free-speaking-image"><img src={current.image} srcSet={current.imageSrcSet || undefined} sizes="(max-width: 720px) 100vw, 48vw" alt={current.imageAlt?.[language] || current.imageAlt?.zh || ""} /></figure>}
+         <div className="g3-free-speaking-content">
+           <div className="g3-free-speaking-prompt">
+-            <span>{instruction}</span>
+-            {exerciseType === "question-response" && <><h2 lang="zh-CN">{current.question.hanzi}</h2><p className="g3-practice-pinyin">{current.question.pinyin}</p>{translation && <p>{translation}</p>}</>}
++            {exerciseType === "image-description" ? (
++              <>
++                <h2 lang="zh-CN">请用中文描述这张图片。</h2>
++                <p className="g3-practice-pinyin">Qǐng yòng Zhōngwén miáoshù zhè zhāng túpiàn.</p>
++                <p>กรุณาบรรยายภาพนี้เป็นภาษาจีน</p>
++              </>
++            ) : (
++              <><h2 lang="zh-CN">{current.question.hanzi}</h2><p className="g3-practice-pinyin">{current.question.pinyin}</p>{translation && <p>{translation}</p>}</>
++            )}
+             <ul className="g3-practice-hints" aria-label={text.recommendedWords}>{current.hints.map((hint) => <li key={hint.hanzi}><strong>{hint.hanzi}</strong><span>{hint.pinyin}</span></li>)}</ul>
+           </div>

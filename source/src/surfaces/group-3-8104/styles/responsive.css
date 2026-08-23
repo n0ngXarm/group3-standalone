@@ -84,7 +84,7 @@
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .g3-story-shell {
     width: 100%;
     padding-inline: 0.25rem;

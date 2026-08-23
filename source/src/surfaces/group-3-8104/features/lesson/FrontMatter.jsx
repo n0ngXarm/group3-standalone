@@ -5,61 +5,6 @@ import { speakChinese } from "../../services/audio/index.js";
 import { lessonPath, scenePath } from "../../routing/routes.js";
 import { BookPageControls, FrontMatterIndex, LessonNavigationBar, SourceStamp } from "../../shared/components/index.js";
 
-export function PrefacePage({ language, lesson, navigate }) {
-  const text = COPY[language];
-  const source = lesson.source;
-  return (
-    <main className="g3-front-matter g3-preface-page">
-      <LessonNavigationBar language={language} lesson={lesson} navigate={navigate} currentSection="overview" />
-      <FrontMatterIndex current="preface" language={language} lesson={lesson} navigate={navigate} />
-      <article className="g3-book-spread" data-source-ref={source.sourceRef}>
-        <section className="g3-preface-lead">
-          <span className="g3-book-corner">{text.lessonLabel} <b>{lesson.number}</b></span>
-          <p className="g3-kicker">{text.frontMatterKicker}</p>
-          <h1 tabIndex="-1">{text.prefaceTitle}</h1>
-          <strong>{lesson.title.zh}</strong>
-          <em>{lesson.title.pinyin}</em>
-          <p>{{ th: lesson.summary.thAid, zh: lesson.summary.zh, en: lesson.summary.en }[language]}</p>
-          <div className="g3-hero-actions" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
-            <button className="g3-primary-action" type="button" onClick={() => navigate(scenePath(lesson, 1))}>
-              {language === "th" ? "เริ่มเรียนบทนี้ (ฉากที่ 1)" : language === "zh" ? "进入本课学习 (第1幕)" : "Start Lesson (Scene 1)"} <i aria-hidden="true">→</i>
-            </button>
-          </div>
-          <small>{text.bookSourceNote} · {text.printedPage} {source.printedPages.split("–")[0]}</small>
-          {language === "th" && <small className="g3-editorial-aid">{lesson.translationPolicy.labelTh}</small>}
-        </section>
-        <section className="g3-objective-page">
-          <header><span>目标</span><div><p>{text.objectivesLabel}</p><h2>{text.objectiveTitle}</h2></div></header>
-          <ol>
-            {lesson.objectives.map((objective, index) => (
-              <li key={objective.zh} data-source-ref={objective.sourceRef}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  <strong>{objective.zh}</strong>
-                  <p>{{ th: objective.thAid || objective.th, zh: objective.zh, en: objective.en || text.educationalUnavailable }[language]}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <SourceStamp compact lesson={lesson} />
-        </section>
-      </article>
-      {lesson.grammarFocus.length > 0 && (
-        <section className="g3-grammar-ledger" aria-labelledby="g3-grammar-title">
-          <div className="g3-section-heading"><p>{text.languageFocusLabel} · 语法</p><h2 id="g3-grammar-title">{language === "th" ? "ไวยากรณ์และโครงสร้างสำคัญในบทนี้" : language === "zh" ? "本课语言点" : "Language focus"}</h2></div>
-          {lesson.grammarFocus.map((grammar, index) => (
-            <article key={grammar.title} data-source-ref={grammar.sourceRef}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div><h3>{grammar.title}</h3><em>{grammar.titleEn}</em><p>{{ th: grammar.thAid, zh: grammar.explanationZh, en: grammar.explanationEn }[language]}</p><ul>{grammar.examples.map((example) => <li key={example}>{example}</li>)}</ul></div>
-            </article>
-          ))}
-        </section>
-      )}
-      <BookPageControls language={language} navigate={navigate} backPath="/home/" backLabel={text.home} nextPath={lessonPath(lesson, "contents")} nextLabel={text.contentsTitle} />
-    </main>
-  );
-}
-
 export function ContentsPage({ language, lesson, navigate }) {
   const text = COPY[language];
   const source = lesson.source;
@@ -82,7 +27,7 @@ export function ContentsPage({ language, lesson, navigate }) {
             }[language];
             const targetPath = item.scene
               ? scenePath(lesson, item.scene)
-              : item.route ? lessonPath(lesson, "overview") : null;
+              : null;
             const content = <><span className="g3-toc-number">{item.number}</span><span className="g3-toc-copy"><strong>{title}</strong><small>{supportingTitle}</small></span><i aria-hidden="true" /><span className="g3-toc-page">{item.pages}</span></>;
             return targetPath
               ? <button type="button" key={item.number} onClick={() => navigate(targetPath)}>{content}</button>
@@ -91,7 +36,7 @@ export function ContentsPage({ language, lesson, navigate }) {
         </div>
         <p className="g3-page-source">{source.title} · {source.lesson} · {text.printedPage} {source.printedPages}</p>
       </article>
-      <BookPageControls language={language} navigate={navigate} backPath={lessonPath(lesson, "preface")} backLabel={text.prefaceTitle} nextPath={lessonPath(lesson, "vocabulary")} nextLabel={text.vocabularyTitle} />
+      <BookPageControls language={language} navigate={navigate} backPath="/home/" backLabel={text.home} nextPath={lessonPath(lesson, "vocabulary")} nextLabel={text.vocabularyTitle} />
     </main>
   );
 }

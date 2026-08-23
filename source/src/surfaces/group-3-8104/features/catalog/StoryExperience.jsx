@@ -406,7 +406,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
       return;
     }
     if (!lessonReady) return;
-    navigate(sceneNumber === null ? lessonPath(lesson, "overview") : scenePath(lesson, sceneNumber));
+    navigate(sceneNumber === null ? lessonPath(lesson, "contents") : scenePath(lesson, sceneNumber));
   };
   const moveSceneFocus = (event, index) => {
     const scenes = lesson.scenes || [loadingScene];

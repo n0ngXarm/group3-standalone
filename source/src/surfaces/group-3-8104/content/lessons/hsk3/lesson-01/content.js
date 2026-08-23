@@ -102,7 +102,7 @@ export const LESSON_HSK3_L1 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk3/lessons/lesson-01/overview/",
+    "route": "/home/hsk3/lessons/lesson-01/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
   },
   {

@@ -517,7 +517,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
   return (
     <main className={`g3-reader${roleplayActive ? " is-roleplay" : ""}`} data-status={playbackStatus}>
       <aside className="g3-reader-rail" aria-label={text.catalogTitle}>
-        <button className="g3-reader-exit" type="button" onClick={() => navigate(lessonPath(lesson, "overview"))} aria-label={text.exitReader}>←<span>{text.exitReader}</span></button>
+        <button className="g3-reader-exit" type="button" onClick={() => navigate(lessonPath(lesson, "contents"))} aria-label={text.exitReader}>←<span>{text.exitReader}</span></button>
         <div className="g3-rail-scenes">
           {scenes.map((item, index) => (
             <button type="button" key={item.id} className={sceneIndex === index ? "active" : ""} onClick={() => selectScene(index)}>
@@ -614,7 +614,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
                     ? <button className="is-primary" data-g3-scene-complete-primary type="button" onClick={() => selectScene(sceneIndex + 1)}>{text.continueScene} →</button>
                     : (
                       <>
-                        <button type="button" onClick={() => navigate(lessonPath(lesson, "overview"))}>{text.back}</button>
+                        <button type="button" onClick={() => navigate(lessonPath(lesson, "contents"))}>{text.back}</button>
                         <button type="button" onClick={() => navigate(levelPath(lesson.hsk))}>{text.hskLevel || "เลือกระดับ HSK"}</button>
                       </>
                     )}

@@ -86,8 +86,8 @@ export function lessonBasePath(lesson) {
   return `/home/${lesson.level}/lessons/${lessonSegment(lesson)}/`;
 }
 
-export function lessonPath(lesson, section = "overview") {
-  const normalized = section === "preface" ? "overview" : String(section || "overview").replace(/^\/+|\/+$/g, "");
+export function lessonPath(lesson, section = "contents") {
+  const normalized = section === "preface" ? "overview" : String(section || "contents").replace(/^\/+|\/+$/g, "");
   return `${lessonBasePath(lesson)}${normalized}/`;
 }
 
@@ -106,9 +106,8 @@ export function gamePath(lesson, gameSlug) {
 
 export function frontMatterRoutes(lesson) {
   return [
-    { name: "preface", path: lessonPath(lesson, "overview"), number: "I" },
-    { name: "contents", path: lessonPath(lesson, "contents"), number: "II" },
-    { name: "vocabulary", path: lessonPath(lesson, "vocabulary"), number: "III" },
+    { name: "contents", path: lessonPath(lesson, "contents"), number: "I" },
+    { name: "vocabulary", path: lessonPath(lesson, "vocabulary"), number: "II" },
   ];
 }
 
@@ -138,14 +137,14 @@ export function routeFromLocation(location = window.location) {
     const lesson = slug ? findLesson(level, slug) : null;
     if (!lesson) return { level, name: "catalog" };
 
-    const section = parts[4] || "overview";
-    if (section === "overview") return { level, lessonSlug: slug, name: "preface" };
+    const section = parts[4] || "contents";
+    if (section === "overview" || section === "preface") return { level, lessonSlug: slug, name: "contents", redirect: true };
     if (section === "contents") return { level, lessonSlug: slug, name: "contents" };
     if (section === "vocabulary") return { level, lessonSlug: slug, name: "vocabulary" };
     if (section === "scenes") {
       const scene = sceneIndex(parts[5], lesson.scenes?.length);
       return scene === null
-        ? { level, lessonSlug: slug, name: "preface" }
+        ? { level, lessonSlug: slug, name: "contents" }
         : { level, lessonSlug: slug, name: "reader", scene };
     }
     if (section === "games") {
@@ -154,7 +153,7 @@ export function routeFromLocation(location = window.location) {
         ? { gameSlug, level, lessonSlug: slug, name: "game" }
         : { level, lessonSlug: slug, name: "games" };
     }
-    return { level, lessonSlug: slug, name: "preface" };
+    return { level, lessonSlug: slug, name: "contents" };
   }
 
   const legacySlug = lessonSlug(parts[2]);
@@ -162,7 +161,7 @@ export function routeFromLocation(location = window.location) {
     const lesson = findLesson(level, legacySlug);
     if (!lesson) return { name: "catalog" };
     const leaf = parts[3];
-    if (leaf === "preface" || leaf === "overview") return { level, lessonSlug: legacySlug, name: "preface" };
+    if (leaf === "preface" || leaf === "overview") return { level, lessonSlug: legacySlug, name: "contents", redirect: true };
     if (leaf === "contents") return { level, lessonSlug: legacySlug, name: "contents" };
     if (leaf === "vocabulary") return { level, lessonSlug: legacySlug, name: "vocabulary" };
     if (leaf === "games") {
@@ -196,7 +195,7 @@ export function canonicalPathForRoute(route) {
   if (route.name === "vocabulary") return lessonPath(lesson, "vocabulary");
   if (route.name === "games") return gamesPath(lesson);
   if (route.name === "game") return gamePath(lesson, route.gameSlug);
-  return lessonPath(lesson, "overview");
+  return lessonPath(lesson, "contents");
 }
 
 export function locationForRoute(path, { hash = "", location = window.location, theme = "" } = {}) {

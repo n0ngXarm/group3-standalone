@@ -72,23 +72,13 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
           const initial = name.charAt(0).toUpperCase();
           const levelText = route?.level ? route.level.toUpperCase() : "ผู้เรียน";
           return (
-            <div className="g3-learner-identity" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-              <span style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--g3-color-primary-base, #cfa05d)',
-                color: 'white',
-                fontWeight: 'bold'
-              }}>
+            <div className="g3-topbar-learner">
+              <span className="g3-learner-avatar">
                 {initial}
               </span>
-              <span style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.2' }}>
-                <b style={{ color: 'var(--g3-color-text-primary)' }}>{name}</b>
-                <small style={{ color: 'var(--g3-color-text-secondary)', fontSize: '11px' }}>{levelText}</small>
+              <span className="g3-learner-details">
+                <b>{name}</b>
+                <small>{levelText}</small>
               </span>
             </div>
           );
@@ -131,7 +121,7 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
 
 
 
-export function LessonNavigationBar({ language, lesson, navigate, currentSection = "overview" }) {
+export function LessonNavigationBar({ language, lesson, navigate, currentSection = "contents" }) {
   const text = COPY[language];
   const levelLessons = GROUP3_LESSONS
     .filter((item) => item.level === lesson.level)
@@ -153,7 +143,7 @@ export function LessonNavigationBar({ language, lesson, navigate, currentSection
   }, [activeLessonIndex]);
 
   const selectLesson = (targetLesson) => {
-    const targetSection = currentSection === "reader" ? "overview" : currentSection;
+    const targetSection = currentSection === "reader" ? "contents" : currentSection;
     navigate(lessonPath(targetLesson, targetSection));
   };
 

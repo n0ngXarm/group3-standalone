@@ -16,7 +16,7 @@ import {
 } from "./routing/routes.js";
 import { stopChineseVoice } from "./services/audio/index.js";
 import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.js";
-import { ContentsPage, PrefacePage, VocabularyPage } from "./features/lesson/index.js";
+import { ContentsPage, VocabularyPage } from "./features/lesson/index.js";
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
 import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
 import { PracticeExercise, PracticeHub } from "./features/practice/index.js";
@@ -267,8 +267,10 @@ export default function Group3App() {
   useEffect(() => {
     if (route.name === "home" && hasLearnerSession()) {
       navigate("/home/levels/", { replace: true });
+    } else if (route.redirect) {
+      navigate(canonicalPathForRoute(route), { replace: true });
     }
-  }, [route.name]);
+  }, [route.name, route.redirect]);
 
   const content = useMemo(() => {
     if (routeNeedsLesson && lessonStatus !== "ready") {
@@ -280,9 +282,7 @@ export default function Group3App() {
     if (route.name === "practice-summary") return <PracticeSummaryPage language={language} level={route.level} navigate={navigate} />;
     if (route.name === "practice-exercise") return <PracticeExercise exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
     if (route.name === "catalog") return <StoryCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
-    if (route.name === "preface") {
-      return <PrefacePage key={`${lesson.id}-preface`} language={language} lesson={lesson} navigate={navigate} />;
-    }
+    
     if (route.name === "contents") {
       return <ContentsPage key={`${lesson.id}-contents`} language={language} lesson={lesson} navigate={navigate} />;
     }

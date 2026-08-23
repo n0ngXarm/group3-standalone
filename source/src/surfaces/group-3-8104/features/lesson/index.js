@@ -1,1 +1,1 @@
-export { ContentsPage, PrefacePage, VocabularyPage } from "./FrontMatter.jsx";
+export { ContentsPage, VocabularyPage } from "./FrontMatter.jsx";

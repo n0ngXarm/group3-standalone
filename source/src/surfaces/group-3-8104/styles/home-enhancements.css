@@ -3238,23 +3238,16 @@
 }
 
 
-:root[lang="th"] h1,
-:root[lang="th"] h2,
-:root[lang="th"] h3,
-:root[lang="th"] h4,
-:root[lang="th"] h5,
-:root[lang="th"] h6,
-:root[lang="th"] .g3-hero-copy .sign .title {
+
+:root[lang="th"] .g3-catalog h1, :root[lang="th"] .g3-catalog h2, :root[lang="th"] .g3-catalog h3, :root[lang="th"] .g3-catalog h4, :root[lang="th"] .g3-catalog h5, :root[lang="th"] .g3-catalog h6,
+:root[lang="th"] .g3-front-matter h1, :root[lang="th"] .g3-front-matter h2, :root[lang="th"] .g3-front-matter h3, :root[lang="th"] .g3-front-matter h4, :root[lang="th"] .g3-front-matter h5, :root[lang="th"] .g3-front-matter h6,
+:root[lang="th"] .g3-reader h1, :root[lang="th"] .g3-reader h2, :root[lang="th"] .g3-reader h3, :root[lang="th"] .g3-reader h4, :root[lang="th"] .g3-reader h5, :root[lang="th"] .g3-reader h6 {
   word-break: normal !important;
   line-height: 1.45 !important;
 }
 
-:root[lang="en"] h1,
-:root[lang="en"] h2,
-:root[lang="en"] h3,
-:root[lang="en"] h4,
-:root[lang="en"] h5,
-:root[lang="en"] h6,
-:root[lang="en"] .g3-hero-copy .sign .title {
+:root[lang="en"] .g3-catalog h1, :root[lang="en"] .g3-catalog h2, :root[lang="en"] .g3-catalog h3, :root[lang="en"] .g3-catalog h4, :root[lang="en"] .g3-catalog h5, :root[lang="en"] .g3-catalog h6,
+:root[lang="en"] .g3-front-matter h1, :root[lang="en"] .g3-front-matter h2, :root[lang="en"] .g3-front-matter h3, :root[lang="en"] .g3-front-matter h4, :root[lang="en"] .g3-front-matter h5, :root[lang="en"] .g3-front-matter h6,
+:root[lang="en"] .g3-reader h1, :root[lang="en"] .g3-reader h2, :root[lang="en"] .g3-reader h3, :root[lang="en"] .g3-reader h4, :root[lang="en"] .g3-reader h5, :root[lang="en"] .g3-reader h6 {
   word-break: normal !important;
 }

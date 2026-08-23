@@ -225,6 +225,34 @@ test("Group 3 lazy routes always render a non-null StoryCatalog fallback", async
   assert.doesNotMatch(app, /<Suspense fallback=\{null\}>\{content\}<\/Suspense>/);
 });
 
+test("lesson reader binds dialogue speakers by scene role and renders profile Pinyin", async () => {
+  const reader = await group3Source("features/reader/ReadingTheatre.jsx");
+
+  assert.match(reader, /scene\.characters\.find\(\(item\) => item\.role === currentLine\.role\)/);
+  assert.match(reader, /scene\.characters\.find\(\(item\) => item\.role === line\.role\)/);
+  assert.match(reader, /supportingProfileName\(profile, language\)/);
+  assert.doesNotMatch(reader, /`\$\{line\.speaker\} · \$\{line\.pinyin\}`/);
+});
+
+test("lesson catalog and reader expose existing place and lesson-title Pinyin", async () => {
+  const catalog = await group3Source("features/catalog/StoryExperience.jsx");
+  const reader = await group3Source("features/reader/ReadingTheatre.jsx");
+
+  assert.match(catalog, /item\.title\?\.pinyin/);
+  assert.match(catalog, /scene\.placePy/);
+  assert.match(reader, /scene\.placePy/);
+});
+
+test("HSK3 lesson 1 keeps corrected visible Pinyin and a grammatical QTE distractor", async () => {
+  const lesson = GROUP3_LESSONS.find((item) => item.id === "hsk3-l1");
+  const tasteLine = lesson.scenes[0].lines.find((line) => line.hanzi.includes("真好吃"));
+  const trainOptions = lesson.scenes[1].qte.options;
+
+  assert.match(tasteLine.pinyin, /zhēn hǎochī/);
+  assert.ok(trainOptions.some((option) => option.zh === "可以看电影" && option.pinyin === "Kěyǐ kàn diànyǐng"));
+  assert.ok(trainOptions.every((option) => option.zh !== "可以看电影院"));
+});
+
 test("StoryCatalog catches stale loads and exposes retry plus loading semantics", async () => {
   const story = await group3Source("features/catalog/StoryExperience.jsx");
 

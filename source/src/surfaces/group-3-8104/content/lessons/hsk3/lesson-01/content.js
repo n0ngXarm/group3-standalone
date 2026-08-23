@@ -1411,7 +1411,7 @@ export const LESSON_HSK3_L1 = {
       {
         "role": "B",
         "speaker": "白家月",
-        "pinyin": "zhège cài de wèidao hǎo jí le, zhēn hào chī",
+        "pinyin": "zhège cài de wèidao hǎo jí le, zhēn hǎochī",
         "hanzi": "这个菜的味道好极了，真好吃！",
         "reading": "Zhè ge cài de wèidao hǎo jí le, zhēn hǎochī!",
         "en": "The taste of this dish is wonderful, so delicious!",
@@ -1610,10 +1610,10 @@ export const LESSON_HSK3_L1 = {
           "th": "ว่ายน้ำได้"
         },
         {
-          "value": "可以看电影院",
-          "zh": "可以看电影院",
-          "pinyin": "Kěyǐ kàn diànyǐngyuàn",
-          "th": "มีโรงหนังให้ดู"
+          "value": "可以看电影",
+          "zh": "可以看电影",
+          "pinyin": "Kěyǐ kàn diànyǐng",
+          "th": "ดูภาพยนตร์ได้"
         }
       ],
       "correct": "可以点外卖",

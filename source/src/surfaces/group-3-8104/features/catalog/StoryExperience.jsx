@@ -452,7 +452,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
           <nav ref={lessonIndexRef} className="g3-lesson-index" aria-label={language === "th" ? "เลือกบทเรียน" : language === "zh" ? "选择课文" : "Choose lesson"}>
             {levelLessons.map((item) => (
               <button type="button" className={item.id === activeLessonId ? "is-active" : ""} aria-current={item.id === activeLessonId ? "true" : undefined} key={item.id} onClick={() => selectLesson(item.id)}>
-                <span>{item.number}</span><small>{text.lessonLabel}</small><strong>{{ th: item.title?.thAid, zh: item.title?.zh, en: item.title?.en }[language] || item.title?.zh || item.title?.en || item.title?.thAid || item.slug}</strong>
+                <span>{item.number}</span><small>{text.lessonLabel}</small><strong>{{ th: item.title?.thAid, zh: item.title?.zh, en: item.title?.en }[language] || item.title?.zh || item.title?.en || item.title?.thAid || item.slug}</strong><em>{item.title?.pinyin}</em>
               </button>
             ))}
           </nav>
@@ -479,7 +479,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
             <figcaption><span>{text.sceneLabel} {scene.number}</span><i>{scene.glyph}</i><small>{scene.source}</small></figcaption>
           </figure>
           <div className="g3-catalog-feature-copy">
-            <p>{{ th: scene.placeTh, zh: scene.place, en: scene.place }[language]} · TEXT {activeScene + 1}</p>
+            <p>{{ th: scene.placeTh, zh: scene.place, en: scene.place }[language]}{scene.placePy && <span className="g3-place-pinyin"> · {scene.placePy}</span>} · TEXT {activeScene + 1}</p>
             <h2>{sceneTitle(scene, language)}</h2>
             <strong>{sceneSupportingTitle(scene, language, text)}</strong>
             <blockquote>{sceneContext(scene, language)}</blockquote>

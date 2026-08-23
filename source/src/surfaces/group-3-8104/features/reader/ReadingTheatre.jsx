@@ -90,7 +90,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
   const visibleLines = lineIndex < 0 ? [] : scene.lines.slice(0, lineIndex + 1);
   const currentLine = lineIndex >= 0 ? scene.lines[lineIndex] : null;
   const currentCharacter = currentLine
-    ? scene.characters.find((item) => characterProfiles[item.profile].hanzi === currentLine.speaker)
+    ? scene.characters.find((item) => item.role === currentLine.role)
     : null;
   const currentVoiceProfile = currentCharacter?.profile || "wang";
   const currentProfile = currentCharacter ? characterProfiles[currentCharacter.profile] : null;
@@ -528,7 +528,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
           <>
             <header className="g3-stage-heading">
               <div>
-                <p>{text.stage} {scene.number} · {{ th: scene.placeTh, zh: scene.place, en: scene.place }[language]}</p>
+                <p>{text.stage} {scene.number} · {{ th: scene.placeTh, zh: scene.place, en: scene.place }[language]}{scene.placePy && <span className="g3-place-pinyin"> · {scene.placePy}</span>}</p>
                 <h1 id="g3-scene-title" tabIndex="-1">{sceneTitle(scene, language)}</h1>
                 <strong>{sceneSupportingTitle(scene, language)}</strong>
               </div>
@@ -563,7 +563,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
 
             <div className="g3-dialogue-stage">
               {visibleLines.map((line, index) => {
-                const character = scene.characters.find((item) => characterProfiles[item.profile].hanzi === line.speaker);
+                const character = scene.characters.find((item) => item.role === line.role);
                 const voiceProfile = line.voiceProfiles?.[0] || character?.profile || "wang";
                 const profile = character ? characterProfiles[character.profile] : characterProfiles[voiceProfile];
                 const voice = GROUP3_VOICE_PROFILES[voiceProfile];
@@ -580,7 +580,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
                       {profile && !lowData && <img src={profile.image} srcSet={profile.imageSrcSet} alt="" width="640" height="640" loading="lazy" decoding="async" style={{ objectPosition: profile.imageFocus }} />}
                       <span>{line.role}</span>
                       <strong>{profile ? profileName(profile, language) : line.speaker}</strong>
-                      <small>{{ th: `${line.speaker} · ${line.pinyin}`, zh: line.pinyin, en: line.speaker }[language]}</small>
+                      <small>{profile ? supportingProfileName(profile, language) : line.speaker}</small>
                     </div>
                     <div className="g3-line-copy">
                       <button type="button" onClick={() => {

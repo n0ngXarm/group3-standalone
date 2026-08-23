@@ -14,6 +14,16 @@ test("nginx is static-only and has no backend or API proxy", async () => {
   assert.match(nginx, /location \/home/);
 });
 
+test("nginx CSP permits the Google Fonts resources declared by the application shell", async () => {
+  const nginx = await readFile(path.join(sourceRoot, "nginx.conf"), "utf8");
+  const html = await readFile(path.join(sourceRoot, "index.html"), "utf8");
+
+  assert.match(html, /https:\/\/fonts\.googleapis\.com/);
+  assert.match(html, /https:\/\/fonts\.gstatic\.com/);
+  assert.match(nginx, /style-src[^;]*https:\/\/fonts\.googleapis\.com/);
+  assert.match(nginx, /font-src[^;]*https:\/\/fonts\.gstatic\.com/);
+});
+
 test("compose exposes only the standalone frontend", async () => {
   const compose = await readFile(path.join(packageRoot, "compose.yaml"), "utf8");
   assert.match(compose, /group3-standalone:20260817/);

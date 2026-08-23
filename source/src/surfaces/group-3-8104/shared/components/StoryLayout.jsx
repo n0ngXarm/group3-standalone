@@ -7,6 +7,8 @@ import {
   moonIcon,
   sunIcon,
 } from "../../../../shared/components/ui/iconPaths.js";
+import { COPY } from "../../content/copy.js";
+import { GROUP3_LESSONS } from "../../content/registry.js";
 import { frontMatterRoutes, lessonContentsPath, lessonVocabularyPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
 import { getLearnerSession } from "../../shared/session.js";

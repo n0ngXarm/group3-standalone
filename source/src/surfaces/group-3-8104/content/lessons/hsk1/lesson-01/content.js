@@ -1593,6 +1593,7 @@ export const LESSON_HSK1_L1 = {
       "prompt": {
         "th": "อาจารย์หวังอี้เฟยทักทายใคร?",
         "zh": "王一飞跟谁打招呼？",
+        "pinyin": "Wáng Yīfēi gēn shéi dǎ zhāohu?",
         "en": "Who does Wang Yifei greet?"
       },
       "options": [
@@ -1750,6 +1751,7 @@ export const LESSON_HSK1_L1 = {
       "prompt": {
         "th": "นักเรียนทักทายคุณครูอย่างไร?",
         "zh": "学生们怎样跟老师打招呼？",
+        "pinyin": "Xuéshēngmen zěnyàng gēn lǎoshī dǎ zhāohu?",
         "en": "How do the students greet the teacher?"
       },
       "options": [

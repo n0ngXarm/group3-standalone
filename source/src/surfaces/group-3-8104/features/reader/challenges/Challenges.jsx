@@ -119,6 +119,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   const [status, setStatus] = useState("active");
   const [choice, setChoice] = useState("");
   const [wrongAttempts, setWrongAttempts] = useState(0);
+  const [wrongChoices, setWrongChoices] = useState([]);
   const { dialogRef, headingRef } = useChallengeDialog(QTE_FOCUS_FALLBACKS);
 
   const armTimer = () => {
@@ -127,6 +128,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
     setPaused(false);
     setStatus("active");
     setChoice("");
+    setWrongChoices([]);
     if (!duration) return;
     deadlineRef.current = Date.now() + duration * 1000;
     intervalRef.current = window.setInterval(() => {
@@ -134,7 +136,13 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
       setRemaining(next);
       if (next <= 0) {
         window.clearInterval(intervalRef.current);
-        setStatus("timeout");
+        setStatus(currentStatus => {
+          if (currentStatus === "active") {
+            setWrongAttempts(w => w + 1);
+            return "timeout";
+          }
+          return currentStatus;
+        });
       }
     }, 100);
   };
@@ -149,7 +157,9 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
 
   useEffect(() => {
     armTimer();
-    return () => window.clearInterval(intervalRef.current);
+    return () => {
+      window.clearInterval(intervalRef.current);
+    };
   }, [challenge]);
 
   const togglePause = () => {
@@ -161,7 +171,13 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
         setRemaining(next);
         if (next <= 0) {
           window.clearInterval(intervalRef.current);
-          setStatus("timeout");
+          setStatus(currentStatus => {
+            if (currentStatus === "active") {
+              setWrongAttempts(w => w + 1);
+              return "timeout";
+            }
+            return currentStatus;
+          });
         }
       }, 100);
       setPaused(false);
@@ -172,18 +188,46 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   };
 
   const pick = (option) => {
-    setChoice(option.value);
     if (option.value === challenge.answer) {
+      setChoice(option.value);
       window.clearInterval(intervalRef.current);
       setStatus("correct");
       setWrongAttempts(0);
     } else {
-      setStatus("wrong");
+      // Wrong answer
+      setChoice(option.value);
       setWrongAttempts((w) => w + 1);
+      setWrongChoices((current) => [...current, option.value]);
+      // Remove visual selection of the wrong choice after brief delay
       window.setTimeout(() => {
-        if (status === "active") setChoice("");
+        setChoice("");
       }, 800);
     }
+  };
+
+  const retryTimeout = () => {
+    // restart timer from 15s without clearing wrongAttempts
+    window.clearInterval(intervalRef.current);
+    setRemaining(duration || 15);
+    setPaused(false);
+    setStatus("active");
+    setChoice("");
+    if (!duration) return;
+    deadlineRef.current = Date.now() + duration * 1000;
+    intervalRef.current = window.setInterval(() => {
+      const next = Math.max(0, (deadlineRef.current - Date.now()) / 1000);
+      setRemaining(next);
+      if (next <= 0) {
+        window.clearInterval(intervalRef.current);
+        setStatus(currentStatus => {
+          if (currentStatus === "active") {
+            setWrongAttempts(w => w + 1);
+            return "timeout";
+          }
+          return currentStatus;
+        });
+      }
+    }, 100);
   };
 
   const progress = duration ? (remaining / duration) * 100 : 100;
@@ -198,8 +242,8 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
 
   const promptZh = challenge.prompt?.zh || genericPromptZh;
   const promptTh = challenge.prompt?.th || genericPromptTh;
-  const promptPinyin = challenge.prompt?.zh ? "" : genericPromptPinyin;
-  
+  const promptPinyin = challenge.prompt?.pinyin || (challenge.prompt?.zh ? "" : genericPromptPinyin);
+
   const qteTitle = language === "th" ? "🎯 เลือกคำตอบที่ถูกต้อง" : language === "zh" ? "🎯 选择正确答案" : "🎯 Choose the correct answer";
   const instruction = language === "th" ? "แตะตัวเลือกที่ถูกต้องที่สุด" : language === "zh" ? "点击最正确的选项" : "Tap the most correct option";
 
@@ -224,17 +268,18 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
         <div className="g3-qte-options">
           {challenge.options.map((option, index) => {
             const isHintDisabled = showStrongHint && option.value === wrongOptionToDisable;
+            const isWrongGuess = wrongChoices.includes(option.value);
             return (
-              <button 
-                type="button" 
-                key={option.value} 
-                onClick={() => pick(option)} 
-                disabled={status !== "active" || paused || isHintDisabled} 
-                className={`${choice === option.value ? "is-selected" : ""} ${isHintDisabled ? "is-wrong-hint" : ""}`.trim()}
+              <button
+                type="button"
+                key={option.value}
+                onClick={() => pick(option)}
+                disabled={status !== "active" || paused || isHintDisabled || isWrongGuess}
+                className={`${choice === option.value ? "is-selected" : ""} ${isHintDisabled || isWrongGuess ? "is-wrong-hint" : ""}`.trim()}
               >
                 <span>{String.fromCharCode(65 + index)}</span>
                 <span className="g3-qte-option-copy">
-                  <strong>{option.zh}</strong>
+                  <strong>{isWrongGuess ? "✕ " : ""}{option.zh}</strong>
                   <small className="g3-word-pinyin">{option.pinyin}</small>
                   {option.th && <em>{option.th}</em>}
                 </span>
@@ -250,7 +295,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
             </div>
             {wrongAttempts === 3 && (
               <div className="g3-qte-hint-text">
-                {language === "th" ? "💡 ลองดูคำแต่ละคำอีกครั้ง" : "💡 Look at each word again"}
+                {language === "th" ? "💡 ลองเลือกคำตอบใหม่อีกครั้ง" : "💡 Try selecting another answer"}
               </div>
             )}
             {wrongAttempts >= 4 && sourceLine && (
@@ -264,16 +309,21 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
           </div>
         )}
 
-        {status !== "active" && (
+        {status === "timeout" && (
           <div className="g3-challenge-result" aria-live="polite">
-            {status === "correct" ? (
-              <><strong>{text.builderCorrect || "🎉 ถูกต้อง!"}</strong></>
-            ) : (
-              <><strong>{text.builderWrong || "⚠️ หมดเวลา"}</strong><p>{text.retry}</p></>
-            )}
+            <strong>{language === "th" ? "⚠️ หมดเวลา" : language === "zh" ? "⚠️ 时间到了" : "⚠️ Time's up"}</strong>
+            <p>{language === "th" ? "ลองตอบข้อนี้อีกครั้ง" : language === "zh" ? "请再试一次" : "Try this question again"}</p>
+            <button type="button" onClick={retryTimeout}>{language === "th" ? "ลองอีกครั้ง" : "Try again"}</button>
           </div>
         )}
-        {status === "timeout" && onRestart && (
+
+        {status === "correct" && (
+          <div className="g3-challenge-result" aria-live="polite">
+            <strong>{text.builderCorrect || "🎉 ถูกต้อง!"}</strong>
+          </div>
+        )}
+
+        {status === "timeout" && onRestart && false && (
           <div className="g3-qte-restart">
             <button type="button" onClick={onRestart}><Icon paths={rotateLeftIcon} />{text.qteRestart}</button>
           </div>
@@ -281,25 +331,23 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
       </section>
     </div>
   );
-}
-
-export function SentenceChallenge({ challenge, language, level = "hsk2", onResolve, onRestart, sourceLine }) {
+}export function SentenceChallenge({ challenge, language, level = "hsk2", onResolve, onRestart, sourceLine }) {
   const text = COPY[language];
   const [selected, setSelected] = useState([]);
   const [status, setStatus] = useState("active");
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const { dialogRef, headingRef } = useChallengeDialog(BUILDER_FOCUS_FALLBACKS);
   const [builtSentence, setBuiltSentence] = useState({ answer: [], tiles: [] });
-  
+
   useEffect(() => {
     setSelected([]);
     setStatus("active");
     setWrongAttempts(0);
-    
+
     const hanzi = sourceLine ? sourceLine.hanzi : challenge.answer.join("");
     const pinyin = sourceLine ? sourceLine.pinyin : "";
     const result = buildQteTokens({ hanzi, pinyin, level });
-    
+
     const answer = [];
     let tileIndex = 0;
     challenge.answer.forEach(part => {
@@ -351,15 +399,15 @@ export function SentenceChallenge({ challenge, language, level = "hsk2", onResol
   };
 
   const isInstruction = challenge.prompt?.zh?.startsWith("重组");
-  
+
   const genericPromptZh = "这句话应该怎么排列？";
   const genericPromptPinyin = "Zhè jù huà yīnggāi zěnme páiliè?";
   const genericPromptTh = "ประโยคนี้ควรเรียงอย่างไร?";
 
   const promptZh = (!challenge.prompt?.zh || isInstruction) ? genericPromptZh : challenge.prompt.zh;
   const promptTh = (!challenge.prompt?.th || isInstruction) ? genericPromptTh : challenge.prompt.th;
-  const promptPinyin = (!challenge.prompt?.zh || isInstruction) ? genericPromptPinyin : "";
-  
+  const promptPinyin = (!challenge.prompt?.zh || isInstruction) ? genericPromptPinyin : (challenge.prompt.pinyin || "");
+
   return (
     <div className="g3-challenge-backdrop">
       <section ref={dialogRef} className={`g3-challenge g3-builder is-${status}`} role="dialog" aria-modal="true" aria-labelledby="g3-builder-title">
@@ -389,7 +437,7 @@ export function SentenceChallenge({ challenge, language, level = "hsk2", onResol
             </button>
           ))}
         </div>
-        
+
         {wrongAttempts > 0 && status === "active" && (
           <div className="g3-qte-feedback-block">
             <div className="g3-qte-wrong-count">

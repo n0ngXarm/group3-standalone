@@ -1278,6 +1278,7 @@ export const LESSON_HSK1_L2 = {
       "prompt": {
         "th": "王一雪家有几口人?",
         "zh": "王一雪家有几口人？",
+        "pinyin": "Wáng Yīxuě jiā yǒu jǐ kǒu rén?",
         "en": "How many people in Wang Yixue's family?"
       },
       "options": [
@@ -1428,6 +1429,7 @@ export const LESSON_HSK1_L2 = {
       "prompt": {
         "th": "王一雪晚上几点下班?",
         "zh": "王一雪晚上几点下班？",
+        "pinyin": "Wáng Yīxuě wǎnshang jǐ diǎn xiàbān?",
         "en": "When does Wang Yixue finish work?"
       },
       "options": [

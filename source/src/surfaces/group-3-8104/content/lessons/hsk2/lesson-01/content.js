@@ -964,6 +964,7 @@ export const LESSON_HSK2_L1 = {
       "prompt": {
         "th": "วันนี้หลี่เหวินเลี้ยงอะไรทุกคน?",
         "zh": "李文今天请大家吃什么？",
+        "pinyin": "Lǐ Wén jīntiān qǐng dàjiā chī shénme?",
         "en": "What does Li Wen treat everyone to eat?"
       },
       "options": [
@@ -1121,6 +1122,7 @@ export const LESSON_HSK2_L1 = {
       "prompt": {
         "th": "หลิวหมิงเตรียมอาหารกลางวันแสนอร่อยอะไรไว้?",
         "zh": "刘明准备了什么美味午饭？",
+        "pinyin": "Liú Míng zhǔnbèi le shénme měiwèi wǔfàn?",
         "en": "What lunch dishes did Liu Ming prepare?"
       },
       "options": [

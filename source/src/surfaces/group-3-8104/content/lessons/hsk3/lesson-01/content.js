@@ -1444,6 +1444,7 @@ export const LESSON_HSK3_L1 = {
       "prompt": {
         "th": "ไป๋เจียเยว่คิดว่าอาหารจานนี้มีรสชาติเป็นอย่างไร?",
         "zh": "白家月觉得这个菜的味道怎么样？",
+        "pinyin": "Bái Jiāyuè juéde zhège cài de wèidao zěnmeyàng?",
         "en": "How does Bai Jiayue find the food taste?"
       },
       "options": [
@@ -1594,6 +1595,7 @@ export const LESSON_HSK3_L1 = {
       "prompt": {
         "th": "บนรถไฟความเร็วสูงมีบริการอำนวยความสะดวกอะไรบ้าง?",
         "zh": "在高铁上有什么便捷的服务？",
+        "pinyin": "Zài gāotiě shàng yǒu shénme biànjié de fúwù?",
         "en": "What convenient service is on the high-speed train?"
       },
       "options": [

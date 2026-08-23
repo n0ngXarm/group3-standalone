@@ -1497,6 +1497,7 @@ export const LESSON_HSK3_L2 = {
       "prompt": {
         "th": "杨同乐帮王一雪解决了什么问题?",
         "zh": "杨同乐帮王一雪解决了什么问题？",
+        "pinyin": "Yáng Tónglè bāng Wáng Yīxuě jiějué le shénme wèntí?",
         "en": "What problem did Yang Tongle help Wang Yixue solve?"
       },
       "options": [
@@ -1654,6 +1655,7 @@ export const LESSON_HSK3_L2 = {
       "prompt": {
         "th": "过年的时候大家一起做什么?",
         "zh": "过年的时候大家一起做什么？",
+        "pinyin": "Guònián de shíhou dàjiā yìqǐ zuò shénme?",
         "en": "What does everyone do together during New Year?"
       },
       "options": [

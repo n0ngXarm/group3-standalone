@@ -1044,6 +1044,7 @@ export const LESSON_HSK1_L3 = {
       "prompt": {
         "th": "白家月买了什么颜色的衣服?",
         "zh": "白家月买了什么颜色的衣服？",
+        "pinyin": "Bái Jiāyuè mǎi le shénme yánsè de yīfu?",
         "en": "What color clothes did Bai Jiayue buy?"
       },
       "options": [
@@ -1201,6 +1202,7 @@ export const LESSON_HSK1_L3 = {
       "prompt": {
         "th": "大家约好明天在哪里见?",
         "zh": "大家约好明天在哪里见？",
+        "pinyin": "Dàjiā yuē hǎo míngtiān zài nǎli jiàn?",
         "en": "Where did everyone agree to meet tomorrow?"
       },
       "options": [

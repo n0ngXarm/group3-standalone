@@ -1167,6 +1167,7 @@ export const LESSON_HSK2_L2 = {
       "prompt": {
         "th": "刘明去买什么饮品?",
         "zh": "刘明去买什么饮品？",
+        "pinyin": "Liú Míng qù mǎi shénme yǐnpǐn?",
         "en": "What drink did Liu Ming go to buy?"
       },
       "options": [
@@ -1324,6 +1325,7 @@ export const LESSON_HSK2_L2 = {
       "prompt": {
         "th": "爸爸妈妈送给小雪什么生日礼物?",
         "zh": "爸爸妈妈送给小雪什么生日礼物？",
+        "pinyin": "Bàba māma sòng gěi Xiǎoxuě shénme shēngrì lǐwù?",
         "en": "What birthday gift did parents give to Xiaoxue?"
       },
       "options": [

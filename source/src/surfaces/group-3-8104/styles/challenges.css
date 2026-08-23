@@ -174,12 +174,10 @@
   color: var(--color-text-primary);
 }
 
-.g3-qte-option-copy strong,
-.g3-qte-option-copy small,
-.g3-qte-option-copy b { display: block; }
-.g3-qte-option-copy { color: var(--color-text-primary); }
-.g3-qte-option-copy small { margin-top: 0.15rem; color: var(--color-text-muted); font-size: 0.84rem; font-weight: 600; }
-.g3-qte-option-copy small b { display: inline; margin-right: 0.4rem; color: var(--color-text-primary); font-family: "Noto Serif SC", serif; font-size: 0.96rem; font-weight: 800; }
+.g3-qte-option-copy { color: var(--color-text-primary); text-align: left; }
+.g3-qte-option-copy strong { display: block; font-family: "Noto Serif SC", serif; font-size: 1.15rem; }
+.g3-qte-option-copy small.g3-word-pinyin { display: block; margin-top: 0.1rem; color: var(--color-accent); font-size: 0.84rem; font-weight: 600; font-family: "Noto Sans Thai", sans-serif; }
+.g3-qte-option-copy em { display: block; margin-top: 0.15rem; color: var(--color-text-muted); font-size: 0.75rem; font-style: normal; font-family: "Noto Sans Thai", sans-serif; }
 
 .g3-challenge-result {
   padding: 14px 22px 18px;
@@ -416,7 +414,8 @@
 }
 
 .g3-word-bank button:disabled {
-  opacity: 0.6;
+  opacity: 0.85;
+  filter: grayscale(0.5);
   cursor: default;
   background: rgba(255, 255, 255, 0.4);
 }
@@ -551,3 +550,21 @@
 .g3-sentence-track > span b { font-size: 1.15rem; }
 .g3-sentence-track > span small.g3-word-pinyin { position: static; color: var(--color-accent); font-weight: 600; font-size: 0.8rem; margin-top: 0.1rem; }
 .g3-sentence-track > span em { font-style: normal; color: var(--color-text-muted); font-size: 0.75rem; }
+
+.g3-word-bank button.is-hint-highlight {
+  border-color: var(--color-warning, #e6a23c);
+  background: color-mix(in srgb, var(--color-warning, #e6a23c) 15%, #fff);
+  box-shadow: 0 0 0 2px var(--color-warning, #e6a23c);
+  animation: pulse-hint 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-hint {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.g3-qte-options button.is-wrong-hint {
+  opacity: 0.3;
+  pointer-events: none;
+  filter: grayscale(1);
+}

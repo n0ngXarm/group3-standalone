@@ -662,7 +662,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
           sourceLine={currentLine}
         />
       )}
-      {challenge?.type === "builder" && <SentenceChallenge challenge={challenge.data} language={language} onResolve={resolveChallenge} onRestart={restartScene} sourceLine={currentLine} />}
+      {challenge?.type === "builder" && <SentenceChallenge challenge={challenge.data} language={language} level={lesson.level} onResolve={resolveChallenge} onRestart={restartScene} sourceLine={currentLine} />}
 
       {roleplayActive && createPortal(
         <Suspense fallback={null}>

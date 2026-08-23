@@ -4,6 +4,7 @@ import Icon from "../../../../../shared/components/ui/Icon.jsx";
 import { pauseIcon, playIcon, rotateLeftIcon } from "../../../../../shared/components/ui/iconPaths.js";
 import { COPY } from "../../../content/copy.js";
 import PINYIN_MAP from "../../../data/pinyin-map.json";
+import { buildQteTokens } from "./tokenizer.js";
 
 const FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -196,7 +197,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   const ratio = duration ? Math.max(0, remaining / duration) : 1;
   const tone = ratio > 0.5 ? "ok" : ratio > 0.25 ? "warn" : "low";
   const wrongOptionToDisable = challenge.options.find(o => o.value !== challenge.correct)?.value;
-  const showHint = wrongAttempts >= 3;
+  const showStrongHint = wrongAttempts >= 6;
 
   return (
     <div className="g3-challenge-backdrop">
@@ -222,7 +223,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
 
         <div className="g3-qte-options">
           {challenge.options.map((option, index) => {
-            const isHintDisabled = showHint && option.value === wrongOptionToDisable;
+            const isHintDisabled = showStrongHint && option.value === wrongOptionToDisable;
             return (
               <button 
                 type="button" 
@@ -233,8 +234,9 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
               >
                 <span>{String.fromCharCode(65 + index)}</span>
                 <span className="g3-qte-option-copy">
-                  <strong>{option.th}</strong>
-                  <small><b>{option.zh}</b>{option.pinyin}</small>
+                  <strong>{option.zh}</strong>
+                  <small className="g3-word-pinyin">{option.pinyin}</small>
+                  {option.th && <em>{option.th}</em>}
                 </span>
               </button>
             );
@@ -247,11 +249,16 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
         {wrongAttempts > 0 && status === "active" && (
           <div className="g3-qte-feedback-block">
             <div className="g3-qte-wrong-count">
-              {language === "th" ? `ผิด ${wrongAttempts} / 3` : language === "zh" ? `错误 ${wrongAttempts} / 3` : `Wrong ${wrongAttempts} / 3`}
+              {language === "th" ? `ตอบผิด ${wrongAttempts} ครั้ง` : language === "zh" ? `错误 ${wrongAttempts} 次` : `Wrong ${wrongAttempts} times`}
             </div>
-            {showHint && (
+            {wrongAttempts >= 4 && (
               <div className="g3-qte-hint-text">
-                {language === "th" ? "คำใบ้: ตัดตัวเลือกที่ผิดออก 1 ข้อ" : language === "zh" ? "提示：排除一个错误选项" : "Hint: One wrong option removed"}
+                {language === "th" && wrongAttempts === 4 ? "💡 คำใบ้: ลองดูความหมายภาษาไทย" : ""}
+                {language === "th" && wrongAttempts === 5 ? "💡 คำใบ้: สังเกตพินอินให้ดี" : ""}
+                {language === "th" && wrongAttempts >= 6 ? "💡 คำใบ้: ตัดตัวเลือกที่ผิดออก 1 ข้อ" : ""}
+                
+                {language !== "th" && wrongAttempts >= 6 ? "💡 Hint: One wrong option removed" : ""}
+                {language !== "th" && wrongAttempts < 6 ? "💡 Hint: Check the translation and pinyin" : ""}
               </div>
             )}
           </div>
@@ -283,20 +290,35 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   );
 }
 
-export function SentenceChallenge({ challenge, language, onResolve, onRestart, sourceLine }) {
+export function SentenceChallenge({ challenge, language, level = "hsk2", onResolve, onRestart, sourceLine }) {
   const text = COPY[language];
   const prompt = { th: challenge.prompt.th, zh: challenge.prompt.zh, en: challenge.prompt.en || text.educationalUnavailable }[language];
   const [selected, setSelected] = useState([]);
   const [status, setStatus] = useState("active");
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const { dialogRef, headingRef } = useChallengeDialog(BUILDER_FOCUS_FALLBACKS);
-  const sentence = selected.map((index) => challenge.tiles[index]);
-
+  const [builtSentence, setBuiltSentence] = useState({ answer: [], tiles: [] });
+  
   useEffect(() => {
     setSelected([]);
     setStatus("active");
     setWrongAttempts(0);
-  }, [challenge]);
+    
+    const hanzi = sourceLine ? sourceLine.hanzi : challenge.answer.join("");
+    const pinyin = sourceLine ? sourceLine.pinyin : "";
+    const result = buildQteTokens({ hanzi, pinyin, level });
+    
+    // If tokenizer fails or returns empty, fallback to static chunks
+    let answerTokens = result.tokens;
+    if (!answerTokens || answerTokens.length === 0) {
+      answerTokens = challenge.answer.map(text => ({ text, pinyin: PINYIN_MAP[text] || "", id: Math.random().toString(36).substring(2) }));
+    }
+    
+    const tiles = [...answerTokens].sort(() => Math.random() - 0.5);
+    setBuiltSentence({ answer: answerTokens, tiles });
+  }, [challenge, sourceLine, level]);
+
+  const sentence = selected.map((index) => builtSentence.tiles[index]);
 
   useEffect(() => {
     if (status === "correct") {
@@ -312,7 +334,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart, s
   };
 
   const check = () => {
-    const correct = sentence.length === challenge.answer.length && sentence.every((word, index) => word === challenge.answer[index]);
+    const correct = sentence.length === builtSentence.answer.length && sentence.every((token, index) => token.id === builtSentence.answer[index].id);
     if (correct) {
       setStatus("correct");
       setWrongAttempts(0);
@@ -321,8 +343,6 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart, s
       setWrongAttempts(w => w + 1);
     }
   };
-
-  const getPinyin = (word) => PINYIN_MAP[word] || "";
 
   return (
     <div className="g3-challenge-backdrop">
@@ -341,17 +361,17 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart, s
         
 
         <div className="g3-sentence-track" aria-live="polite">
-          {sentence.length ? sentence.map((word, index) => (
-            <span key={`${word}-${index}`}><b>{word}</b><small className="g3-word-pinyin">{getPinyin(word)}</small><em>{challenge.gloss[word]}</em><small className="g3-word-index">{index + 1}</small></span>
+          {sentence.length ? sentence.map((token, index) => (
+            <span key={token.id}><b>{token.text}</b>{token.pinyin && <small className="g3-word-pinyin">{token.pinyin}</small>}<em>{challenge.gloss && challenge.gloss[token.text]}</em><small className="g3-word-index">{index + 1}</small></span>
           )) : <em>…</em>}
         </div>
 
         
 
         <div className="g3-word-bank">
-          {challenge.tiles.map((word, index) => (
-            <button type="button" key={`${word}-${index}`} onClick={() => add(index)} disabled={selected.includes(index) || status === "correct"}>
-              <strong>{word}</strong><small className="g3-word-pinyin">{getPinyin(word)}</small><em>{challenge.gloss[word]}</em>
+          {builtSentence.tiles.map((token, index) => (
+            <button type="button" key={token.id} onClick={() => add(index)} disabled={selected.includes(index) || status === "correct"} className={wrongAttempts >= 6 && builtSentence.answer[sentence.length] && token.id === builtSentence.answer[sentence.length].id && status === "active" ? "is-hint-highlight" : ""}>
+              <strong>{token.text}</strong>{token.pinyin && <small className="g3-word-pinyin">{token.pinyin}</small>}<em>{challenge.gloss && challenge.gloss[token.text]}</em>
             </button>
           ))}
         </div>
@@ -359,11 +379,17 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart, s
         {wrongAttempts > 0 && status === "active" && (
           <div className="g3-qte-feedback-block">
             <div className="g3-qte-wrong-count">
-              {language === "th" ? `ผิด ${wrongAttempts} / 3` : language === "zh" ? `错误 ${wrongAttempts} / 3` : `Wrong ${wrongAttempts} / 3`}
+              {language === "th" ? `ตอบผิด ${wrongAttempts} ครั้ง` : language === "zh" ? `错误 ${wrongAttempts} 次` : `Wrong ${wrongAttempts} times`}
             </div>
-            {wrongAttempts >= 3 && (
+            {wrongAttempts >= 4 && (
               <div className="g3-qte-hint-text">
-                {language === "th" ? `คำใบ้: คำแรกคือ "${challenge.answer[0]}"` : language === "zh" ? `提示：第一个词是 "${challenge.answer[0]}"` : `Hint: The first word is "${challenge.answer[0]}"`}
+                {language === "th" && wrongAttempts === 4 ? "💡 คำใบ้: ลองดูความหมายภาษาไทยและจัดเรียงใหม่" : ""}
+                {language === "th" && wrongAttempts === 5 && builtSentence.answer[0] ? `💡 คำใบ้: คำแรกคือ "${builtSentence.answer[0].text}"` : ""}
+                {language === "th" && wrongAttempts >= 6 && builtSentence.answer[0] && builtSentence.answer[1] ? `💡 คำใบ้: เริ่มต้นด้วย "${builtSentence.answer[0].text}" ตามด้วย "${builtSentence.answer[1].text}"` : ""}
+                
+                {language !== "th" && wrongAttempts === 4 ? "💡 Hint: Look at the meaning and try again" : ""}
+                {language !== "th" && wrongAttempts === 5 && builtSentence.answer[0] ? `💡 Hint: The first word is "${builtSentence.answer[0].text}"` : ""}
+                {language !== "th" && wrongAttempts >= 6 && builtSentence.answer[0] && builtSentence.answer[1] ? `💡 Hint: Starts with "${builtSentence.answer[0].text}" then "${builtSentence.answer[1].text}"` : ""}
               </div>
             )}
           </div>
@@ -376,7 +402,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart, s
               <button type="button" onClick={() => { setSelected([]); setStatus("active"); }}>{text.reset}</button>
             </>
           )}
-          <button className="is-primary" type="button" onClick={check} disabled={sentence.length !== challenge.answer.length || status === "correct"}>{text.check}</button>
+          <button className="is-primary" type="button" onClick={check} disabled={sentence.length !== builtSentence.answer.length || status === "correct"}>{text.check}</button>
         </div>
         {status !== "active" && (
           <div className="g3-challenge-result" aria-live="polite">

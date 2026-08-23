@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { COPY } from "../../../content/copy.js";
-import { buildRepeatSessionDefinitions } from "../../../content/practice/repeatAdapter.js";
 import { practicePath } from "../../../routing/routes.js";
 import { speakChinese, stopChineseVoice } from "../../../services/audio/index.js";
 import { detectSpeakingCapabilities } from "../audio/browserCapabilities.js";
@@ -10,6 +9,7 @@ import { evaluateRepeatSentence } from "../evaluation/deterministic.js";
 import { aggregateRepeatResults, createRepeatSession, repeatSessionReducer } from "../session/repeatSession.js";
 import { PracticeExerciseShell } from "./PracticeExerciseShell.jsx";
 import { localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
+import { savePracticeResult } from "../sessionStore.js";
 
 const RESPONSE_WINDOW_MS = 10_000;
 let attemptSequence = 0;
@@ -206,6 +206,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
   }
 
   if (liveSession.phase === "completed") {
+    savePracticeResult(level, "repeat-sentence", liveSession);
     const scored = liveSession.results.filter((result) => Number.isFinite(result.score));
     const summary = aggregateRepeatResults(scored);
     return (
@@ -218,7 +219,11 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
             {scored.length > 0 && <><div><dt>{text.averageContentAccuracy}</dt><dd>{percent(summary.averageAccuracy)}</dd></div><div><dt>{text.averageCompletion}</dt><dd>{percent(summary.averageCompletion)}</dd></div><div><dt>{text.overallDeterministicScore}</dt><dd>{Math.round(summary.overallScore)} / 100</dd></div></>}
           </dl>
           {!capabilities.speechRecognition && <p>{text.selfReviewResult}</p>}
-          <div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button><button type="button" onClick={restart}>{text.practiceAgain}</button></div>
+          <div className="g3-practice-actions">
+  <button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button>
+  <button type="button" onClick={restart}>{text.practiceAgain}</button>
+  <button className="g3-practice-primary" type="button" onClick={() => navigate(`/home/${level}/practice/summary/`)}>{text.practiceSummary || "สรุปผลการฝึก"}</button>
+</div>
         </article>
       </PracticeExerciseShell>
     );
@@ -231,7 +236,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
           <span>{text.practiceInstructions}</span>
           <h2 lang="zh-CN">{current.hanzi}</h2>
           <p className="g3-practice-pinyin">{current.pinyin}</p>
-          <p>{localizedValue(current.translations, language)}</p>
+          <p>{current.translations?.th || current.translations?.thAid || ""}</p>
           {liveSession.phase === "instructions" && <p className="g3-practice-help">{text.repeatInstructionBody}</p>}
         </div>
 

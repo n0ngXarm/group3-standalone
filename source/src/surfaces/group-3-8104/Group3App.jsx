@@ -171,7 +171,7 @@ export default function Group3App() {
           : `${text.brand}`
       : route.name === "reader"
         ? `${sceneTitle} · ${text.brand}`
-        : route.name === "practice" || route.name === "practice-exercise"
+        : route.name === "practice" || route.name === "practice-exercise" || route.name === "practice-summary"
           ? `${route.level?.toUpperCase()} · ${text.practiceHubTitle} · ${text.brand}`
         : route.name === "catalog"
           ? `${route.level ? route.level.toUpperCase() + " · " : ""}${text.catalogTitle} · ${text.brand}`
@@ -219,6 +219,7 @@ export default function Group3App() {
     if (route.name === "reader") return <ReadingTheatre key={lesson.id} initialLessonId={lesson.id} initialScene={route.scene} language={language} lesson={lesson} navigate={navigate} lowData={lowData} level={route.level} />;
     if (route.name === "levels") return <LevelPicker language={language} navigate={navigate} />;
     if (route.name === "practice") return <PracticeHub language={language} level={route.level} navigate={navigate} />;
+    if (route.name === "practice-summary") return <PracticeSummaryPage language={language} level={route.level} navigate={navigate} />;
     if (route.name === "practice-exercise") return <PracticeExercise exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
     if (route.name === "catalog") return <StoryCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
     if (route.name === "preface") {
@@ -258,10 +259,24 @@ export default function Group3App() {
       <div id="g3-main" tabIndex="-1" aria-busy={routeNeedsLesson && lessonStatus === "loading" ? "true" : undefined}>
         {mainSuspense}
       </div>
-      {route.name !== "reader" && route.name !== "catalog" && route.name !== "practice" && route.name !== "practice-exercise" && route.name !== "home" && route.name !== "levels" && (
+      {route.name !== "reader" && route.name !== "catalog" && route.name !== "practice" && route.name !== "practice-exercise" && route.name !== "practice-summary" && route.name !== "home" && route.name !== "levels" && (
         <StoryFooter language={language} lesson={lesson} route={route} />
       )}
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} language={language} />
     </div>
   );
+}import { LearningSummary } from "./features/learning-summary/LearningSummary.jsx";
+import { createLearningSummary } from "./features/learning-summary/summaryModel.js";
+import { getPracticeResults } from "./features/practice/sessionStore.js";
+import { levelPath, practicePath } from "./routing/routes.js";
+
+function PracticeSummaryPage({ language, level, navigate }) {
+  const results = getPracticeResults(level);
+  const data = createLearningSummary({
+    hskLevel: level,
+    repeatResult: results["repeat-sentence"] || [],
+    imageResult: results["image-description"] || [],
+    questionResult: results["question-response"] || [],
+  });
+  return <LearningSummary language={language} data={data} onRetry={() => navigate(practicePath(level))} onHome={() => navigate(levelPath(level))} />;
 }

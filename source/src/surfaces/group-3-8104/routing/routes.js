@@ -67,6 +67,10 @@ export function levelPath(level) {
   return `/home/${level}/`;
 }
 
+export function practiceSummaryPath(level) {
+  return LEVELS.has(level) ? `/home/${level}/practice/summary/` : "/home/levels/";
+}
+
 export function practicePath(level) {
   return LEVELS.has(level) ? `/home/${level}/practice/` : "/home/levels/";
 }
@@ -120,6 +124,9 @@ export function routeFromLocation(location = window.location) {
   }
 
   if (parts[2] === "practice") {
+    if (parts[3] === "summary") {
+      return { level, name: "practice-summary" };
+    }
     const exerciseType = parts[3];
     return exerciseType && PRACTICE_TYPES.has(exerciseType)
       ? { exerciseType, level, name: "practice-exercise" }
@@ -181,6 +188,7 @@ export function canonicalPathForRoute(route) {
   if (route.name === "catalog") return levelPath(route.level);
   if (route.name === "practice") return practicePath(route.level);
   if (route.name === "practice-exercise") return practiceExercisePath(route.level, route.exerciseType);
+  if (route.name === "practice-summary") return practiceSummaryPath(route.level);
   const lesson = routeLesson(route);
   if (!lesson) return levelPath(route.level);
   if (route.name === "reader") return scenePath(lesson, Number(route.scene) + 1);

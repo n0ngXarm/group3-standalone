@@ -8,6 +8,7 @@ import { detectSpeakingCapabilities } from "../audio/browserCapabilities.js";
 import { createSpeechRecognizer } from "../audio/speechRecognition.js";
 import { evaluateFreeSpeakingResponse } from "../evaluation/freeSpeaking.js";
 import { PracticeExerciseShell } from "./PracticeExerciseShell.jsx";
+import { savePracticeResult } from "../sessionStore.js";
 import { localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
 
 export function FreeSpeakingExercise({ exerciseType, language, level, navigate }) {
@@ -22,6 +23,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   const [interim, setInterim] = useState("");
   const [recording, setRecording] = useState(null);
   const [result, setResult] = useState(null);
+  const [sessionResults, setSessionResults] = useState([]);
   const [remainingMs, setRemainingMs] = useState(120_000);
   const [completedCount, setCompletedCount] = useState(0);
   const phaseRef = useRef(phase);
@@ -152,16 +154,19 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   const submit = () => {
     const durationMs = Math.max(0, performance.now() - startedAtRef.current);
     const recognized = transcriptRef.current.trim();
+    let evalResult = null;
     if (!capabilities.speechRecognition) {
-      setResult({ status: "self-review" });
+      evalResult = { status: "self-review" };
     } else {
-      setResult(evaluateFreeSpeakingResponse({
+      evalResult = evaluateFreeSpeakingResponse({
         durationMs,
         expectedConcepts: current.expectedConcepts,
         transcript: recognized,
-      }));
+      });
     }
+    setResult(evalResult);
     setCompletedCount((value) => Math.min(definitions.length, value + 1));
+    setSessionResults(prev => [...prev, evalResult]);
     setPhase("result");
   };
 
@@ -194,6 +199,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     recorderRef.current?.discard?.();
     setIndex(0);
     setCompletedCount(0);
+    setSessionResults([]);
     setRecording(null);
     setResult(null);
     setTranscript("");
@@ -211,22 +217,31 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     return <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} status={text.asrErrorMessage} text={text} title={title}><div className="g3-practice-message">{text.asrErrorMessage}</div></PracticeExerciseShell>;
   }
   if (phase === "completed") {
+    savePracticeResult(level, exerciseType, sessionResults);
     return (
       <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} status={text.practiceCompleted} text={text} title={title}>
-        <article className="g3-practice-summary"><span className="g3-practice-success-mark" aria-hidden="true">✓</span><h2>{text.practiceCompleted}</h2><p>{text.completedCount}: {completedCount} / {definitions.length}</p><div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button><button type="button" onClick={restart}>{text.practiceAgain}</button></div></article>
+        <article className="g3-practice-summary"><span className="g3-practice-success-mark" aria-hidden="true">✓</span><h2>{text.practiceCompleted}</h2><p>{text.completedCount}: {completedCount} / {definitions.length}</p><div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button>
+<button className="g3-practice-primary" type="button" onClick={() => navigate(`/home/${level}/practice/summary/`)}>{text.practiceSummary || "สรุปผลการฝึก"}</button><button type="button" onClick={restart}>{text.practiceAgain}</button></div></article>
       </PracticeExerciseShell>
     );
   }
 
-  const translation = exerciseType === "question-response" ? localizedValue(current.question.translations, language) : "";
+  const translation = exerciseType === "question-response" ? (current.question.translations?.th || localizedValue(current.question.translations, "th")) : "";
   return (
     <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
       <article className={`g3-free-speaking-panel is-${exerciseType}`}>
         {exerciseType === "image-description" && <figure className="g3-free-speaking-image"><img src={current.image} srcSet={current.imageSrcSet || undefined} sizes="(max-width: 720px) 100vw, 48vw" alt={current.imageAlt?.[language] || current.imageAlt?.zh || ""} /></figure>}
         <div className="g3-free-speaking-content">
           <div className="g3-free-speaking-prompt">
-            <span>{instruction}</span>
-            {exerciseType === "question-response" && <><h2 lang="zh-CN">{current.question.hanzi}</h2><p className="g3-practice-pinyin">{current.question.pinyin}</p>{translation && <p>{translation}</p>}</>}
+            {exerciseType === "image-description" ? (
+              <>
+                <h2 lang="zh-CN">请用中文描述这张图片。</h2>
+                <p className="g3-practice-pinyin">Qǐng yòng Zhōngwén miáoshù zhè zhāng túpiàn.</p>
+                <p>กรุณาบรรยายภาพนี้เป็นภาษาจีน</p>
+              </>
+            ) : (
+              <><h2 lang="zh-CN">{current.question.hanzi}</h2><p className="g3-practice-pinyin">{current.question.pinyin}</p>{translation && <p>{translation}</p>}</>
+            )}
             <ul className="g3-practice-hints" aria-label={text.recommendedWords}>{current.hints.map((hint) => <li key={hint.hanzi}><strong>{hint.hanzi}</strong><span>{hint.pinyin}</span></li>)}</ul>
           </div>
 

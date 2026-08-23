@@ -270,7 +270,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
             </div>
           </div>
         )}
-        {onRestart && (
+        {onRestart && status !== "active" && (
           <footer className="g3-qte-restart">
             <button type="button" onClick={onRestart}>
               <Icon paths={rotateLeftIcon} />
@@ -370,8 +370,12 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart, s
         )}
 
         <div className="g3-builder-controls">
-          <button type="button" onClick={() => { setSelected((current) => current.slice(0, -1)); setStatus("active"); }} disabled={!selected.length || status === "correct"}>{text.undo}</button>
-          <button type="button" onClick={() => { setSelected([]); setStatus("active"); }} disabled={!selected.length || status === "correct"}>{text.reset}</button>
+          {selected.length > 0 && status !== "correct" && (
+            <>
+              <button type="button" onClick={() => { setSelected((current) => current.slice(0, -1)); setStatus("active"); }}>{text.undo}</button>
+              <button type="button" onClick={() => { setSelected([]); setStatus("active"); }}>{text.reset}</button>
+            </>
+          )}
           <button className="is-primary" type="button" onClick={check} disabled={sentence.length !== challenge.answer.length || status === "correct"}>{text.check}</button>
         </div>
         {status !== "active" && (
@@ -384,7 +388,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart, s
             </p>
           </div>
         )}
-        {onRestart && (
+        {onRestart && status !== "active" && (
           <footer className="g3-qte-restart">
             <button type="button" onClick={onRestart}>
               <Icon paths={rotateLeftIcon} />

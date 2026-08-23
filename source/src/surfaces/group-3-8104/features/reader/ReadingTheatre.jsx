@@ -21,7 +21,7 @@ import {
   stopChineseVoice,
   unlockChineseAudio,
 } from "../../services/audio/index.js";
-import { gamesPath, lessonPath, levelPath } from "../../routing/routes.js";
+import { lessonPath, levelPath } from "../../routing/routes.js";
 
 const SOUND_FAILURE_STATES = new Set(["blocked", "timeout", "unavailable"]);
 const RolePicker = lazy(() => import("./roleplay/index.js").then((module) => ({
@@ -614,8 +614,8 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
                     ? <button className="is-primary" data-g3-scene-complete-primary type="button" onClick={() => selectScene(sceneIndex + 1)}>{text.continueScene} →</button>
                     : (
                       <>
-                        <button className="is-game" type="button" onClick={() => navigate(gamesPath(lesson))}>🎮 {text.bonusGames}</button>
-                        <button className="is-primary" data-g3-scene-complete-primary type="button" onClick={() => navigate(lessonPath(lesson, "overview"))}>{text.back} →</button>
+                        <button type="button" onClick={() => navigate(lessonPath(lesson, "overview"))}>{text.back}</button>
+                        <button type="button" onClick={() => navigate(levelPath(lesson.hsk))}>{text.hskLevel || "เลือกระดับ HSK"}</button>
                       </>
                     )}
                 </div>

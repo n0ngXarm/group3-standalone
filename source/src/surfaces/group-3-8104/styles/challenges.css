@@ -15,7 +15,7 @@
 @keyframes g3-backdrop-in { from { opacity: 0; } }
 
 .g3-challenge {
-  width: min(100%, 48rem);
+  width: min(100%, 760px);
   color: var(--g3-paper-ink);
   background: var(--g3-paper);
   border: 2px solid var(--g3-gold);
@@ -34,7 +34,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: clamp(1rem, 3vw, 1.8rem);
+  padding: 18px 22px 14px;
 }
 
 .g3-challenge > header span,
@@ -126,7 +126,7 @@
 .g3-qte-options {
   display: grid;
   gap: 0.5rem;
-  padding: 0.8rem clamp(1rem, 3vw, 1.8rem) 1.5rem;
+  padding: 0 22px 14px;
 }
 
 .g3-qte-options button {
@@ -178,7 +178,7 @@
 .g3-qte-option-copy small b { display: inline; margin-right: 0.4rem; color: var(--color-text-primary); font-family: "Noto Serif SC", serif; font-size: 0.96rem; font-weight: 800; }
 
 .g3-challenge-result {
-  padding: 1.2rem clamp(1.3rem, 4vw, 2.5rem) 1.6rem;
+  padding: 14px 22px 18px;
   color: var(--color-text-primary);
   background: var(--color-success-bg);
   border-top: 1px solid var(--color-success-border);
@@ -334,14 +334,14 @@
 
 .g3-sentence-track > span > em {
   margin-top: 0.08rem;
-  color: rgba(255, 248, 232, 0.85);
+  color: var(--color-text-muted);
   font-family: "Noto Sans Thai", sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   font-style: normal;
 }
 
-.g3-sentence-track > span small {
+.g3-sentence-track > span small.g3-word-index {
   position: absolute;
   top: -0.3rem;
   right: -0.2rem;
@@ -399,14 +399,22 @@
 
 .g3-word-bank button small {
   margin-top: 0.1rem;
-  color: #756958;
+  color: var(--color-accent);
   font-family: "Noto Sans Thai", sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.g3-word-bank button em {
+  font-style: normal;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  margin-top: 0.1rem;
 }
 
 .g3-word-bank button:disabled {
-  opacity: 0.24;
+  opacity: 0.6;
   cursor: default;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .g3-builder-controls {
@@ -435,47 +443,51 @@
 .g3-builder-controls button:disabled { opacity: 0.35; cursor: default; }
 
 @media (max-width: 640px) {
+  .g3-qte-support-block { padding: 0 16px 12px; }
+  .g3-qte-feedback-block { padding: 8px 16px 12px; }
   .g3-challenge-backdrop { padding: 0.5rem; }
   .g3-challenge { width: 100%; }
-  .g3-challenge > header { padding: 1rem; gap: 0.75rem; }
+  .g3-challenge > header { padding: 14px 16px 12px; gap: 0.75rem; }
   .g3-challenge > header strong { font-size: clamp(1.2rem, 4.5vw, 1.8rem); margin-top: 0.35rem; }
   .g3-qte-clock { flex: 0 0 3.8rem; min-height: 3.8rem; }
   .g3-qte-clock b { font-size: 1.4rem; }
   .g3-qte-clock small { font-size: 0.62rem; }
   .g3-qte-progress { margin: 0 1rem; }
   .g3-pause-time { margin-inline: 1rem 0; }
-  .g3-qte-options { padding: 0.75rem 1rem 1.25rem; }
+  .g3-qte-options { padding: 0 16px 12px; }
   .g3-qte-options button { grid-template-columns: 2.2rem 1fr; min-height: 48px; padding: 0.4rem 0.2rem; }
   .g3-qte-options button strong { font-size: 1.15rem; }
   .g3-qte-option-copy small { font-size: 0.78rem; }
-  .g3-challenge-result { padding: 1rem; }
+  .g3-challenge-result { padding: 12px 16px 14px; }
   .g3-challenge-result > div { flex-wrap: wrap; }
   .g3-challenge-result button { min-height: 44px; width: 100%; }
   .g3-sentence-track { min-height: 5rem; margin: 0.75rem 1rem; padding: 0.6rem 0; gap: 0.4rem; }
   .g3-sentence-track > span { padding: 0.4rem 0.55rem; font-size: 1.05rem; min-height: 44px; align-items: center; }
   .g3-word-bank { padding: 0 1rem; gap: 0.4rem; }
   .g3-word-bank button { min-height: 48px; padding: 0.4rem 0.65rem; }
-  .g3-builder-controls { padding: 1rem; flex-wrap: wrap; justify-content: stretch; }
+  .g3-builder-controls { padding: 12px 16px 14px; flex-wrap: wrap; justify-content: stretch; }
   .g3-builder-controls button { flex: 1 1 auto; min-height: 44px; text-align: center; }
-  .g3-qte-restart { padding: 0.75rem 1rem; }
+  .g3-qte-restart { padding: 0 16px 14px; }
   .g3-qte-restart button { width: 100%; justify-content: center; min-height: 44px; }
 }
 
 @media (max-width: 380px) {
+  .g3-qte-support-block { padding: 0 12px 10px; }
+  .g3-qte-feedback-block { padding: 6px 12px 10px; }
   .g3-challenge-backdrop { padding: max(0.25rem, env(safe-area-inset-top)) max(0.25rem, env(safe-area-inset-right)) max(0.25rem, env(safe-area-inset-bottom)) max(0.25rem, env(safe-area-inset-left)); }
   .g3-challenge { max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)); overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  .g3-challenge > header { flex-direction: column-reverse; align-items: stretch; gap: 0.5rem; padding: 0.75rem; }
+  .g3-challenge > header { flex-direction: column-reverse; align-items: stretch; gap: 0.5rem; padding: 12px; }
   .g3-qte-clock { align-self: flex-end; flex: 0 0 3.2rem; min-height: 3.2rem; border-radius: 0.4rem; padding: 0.2rem 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.35rem; width: auto; }
   .g3-qte-clock b { font-size: 1.2rem; }
   .g3-qte-clock small { font-size: 0.7rem; }
   .g3-qte-progress { margin: 0 0.75rem; }
-  .g3-qte-options { padding: 0.5rem 0.75rem 0.85rem; gap: 0.35rem; }
+  .g3-qte-options { padding: 0 12px 12px; gap: 0.35rem; }
   .g3-qte-options button { grid-template-columns: 1.8rem 1fr; min-height: 48px; }
-  .g3-sentence-track { margin: 0.5rem 0.75rem; gap: 0.3rem; min-height: 4.5rem; }
+  .g3-sentence-track { margin: 12px; gap: 0.3rem; min-height: 4.5rem; }
   .g3-sentence-track > span { padding: 0.35rem 0.45rem; font-size: 0.95rem; min-height: 44px; }
-  .g3-word-bank { padding: 0 0.75rem; gap: 0.3rem; }
+  .g3-word-bank { padding: 0 12px; gap: 0.3rem; }
   .g3-word-bank button { min-height: 48px; padding: 0.35rem 0.55rem; font-size: 0.9rem; }
-  .g3-builder-controls { padding: 0.75rem; gap: 0.35rem; }
+  .g3-builder-controls { padding: 12px; gap: 0.35rem; }
   .g3-builder-controls button { min-height: 44px; padding: 0.4rem 0.5rem; font-size: 0.82rem; }
 }
 
@@ -488,3 +500,50 @@
   .g3-word-bank button { font-size: 0.82rem; min-height: 44px; padding: 0.3rem 0.45rem; }
   .g3-builder-controls button { min-height: 44px; font-size: 0.78rem; padding: 0.35rem 0.45rem; }
 }
+
+
+.g3-qte-support-block {
+  padding: 0 22px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+.g3-qte-support-block strong {
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+}
+.g3-qte-support-block small {
+  font-size: 0.95rem;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+.g3-qte-support-block em {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-style: normal;
+}
+
+.g3-qte-feedback-block {
+  padding: 10px 22px 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.g3-qte-wrong-count {
+  color: var(--color-error);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.g3-qte-hint-text {
+  color: var(--color-warning, #e6a23c);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+
+.g3-sentence-track > span b { font-size: 1.15rem; }
+.g3-sentence-track > span small.g3-word-pinyin { position: static; color: var(--color-accent); font-weight: 600; font-size: 0.8rem; margin-top: 0.1rem; }
+.g3-sentence-track > span em { font-style: normal; color: var(--color-text-muted); font-size: 0.75rem; }

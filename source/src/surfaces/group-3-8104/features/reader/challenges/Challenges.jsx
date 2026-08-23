@@ -108,7 +108,7 @@ function useChallengeDialog(fallbackSelectors) {
   return { dialogRef, headingRef };
 }
 
-export function QteChallenge({ challenge, language, timed, onResolve, onRestart }) {
+export function QteChallenge({ challenge, language, timed, onResolve, onRestart, sourceLine }) {
   const text = COPY[language];
   const prompt = { th: challenge.prompt.th, zh: challenge.prompt.zh, en: challenge.prompt.en || text.educationalUnavailable }[language];
   const duration = timed ? 15 : null;
@@ -209,12 +209,16 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart 
         </header>
         <div className="g3-qte-progress" aria-hidden="true"><span data-tone={tone} style={{ width: `${progress}%` }} /></div>
         {timed && status === "active" && <button className="g3-pause-time" type="button" onClick={togglePause}><Icon paths={paused ? playIcon : pauseIcon} />{paused ? text.resume : text.pause}</button>}
-        
-        {wrongAttempts > 0 && status === "active" && (
-          <div style={{ textAlign: "center", marginBottom: "0.5rem", color: "var(--g3-color-warning, #e6a23c)", fontSize: "0.9rem" }}>
-            {language === "th" ? `ผิด ${wrongAttempts} / 3` : language === "zh" ? `错误 ${wrongAttempts} / 3` : `Wrong ${wrongAttempts} / 3`}
+
+        {sourceLine && (
+          <div className="g3-qte-support-block">
+            <strong>{sourceLine.hanzi}</strong>
+            <small>{sourceLine.pinyin}</small>
+            <em>{sourceLine.th}</em>
           </div>
         )}
+        
+        
 
         <div className="g3-qte-options">
           {challenge.options.map((option, index) => {
@@ -237,9 +241,19 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart 
           })}
         </div>
 
-        {showHint && status !== "correct" && (
-          <div className="g3-qte-hint" style={{ marginTop: "1rem", textAlign: "center", padding: "0.5rem", background: "rgba(230, 162, 60, 0.1)", color: "var(--g3-color-warning, #e6a23c)", borderRadius: "8px" }}>
-            {language === "th" ? "คำใบ้: ตัดตัวเลือกที่ผิดออก 1 ข้อ" : language === "zh" ? "提示：排除一个错误选项" : "Hint: One wrong option removed"}
+        
+
+        
+        {wrongAttempts > 0 && status === "active" && (
+          <div className="g3-qte-feedback-block">
+            <div className="g3-qte-wrong-count">
+              {language === "th" ? `ผิด ${wrongAttempts} / 3` : language === "zh" ? `错误 ${wrongAttempts} / 3` : `Wrong ${wrongAttempts} / 3`}
+            </div>
+            {showHint && (
+              <div className="g3-qte-hint-text">
+                {language === "th" ? "คำใบ้: ตัดตัวเลือกที่ผิดออก 1 ข้อ" : language === "zh" ? "提示：排除一个错误选项" : "Hint: One wrong option removed"}
+              </div>
+            )}
           </div>
         )}
 
@@ -269,7 +283,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart 
   );
 }
 
-export function SentenceChallenge({ challenge, language, onResolve, onRestart }) {
+export function SentenceChallenge({ challenge, language, onResolve, onRestart, sourceLine }) {
   const text = COPY[language];
   const prompt = { th: challenge.prompt.th, zh: challenge.prompt.zh, en: challenge.prompt.en || text.educationalUnavailable }[language];
   const [selected, setSelected] = useState([]);
@@ -316,11 +330,15 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart })
         <header><div><span>{text.builder}</span><h2 ref={headingRef} id="g3-builder-title" tabIndex="-1">{prompt}</h2></div><i aria-hidden="true">句</i></header>
         <p className="g3-builder-hint">{text.builderHint}</p>
 
-        {wrongAttempts > 0 && status === "active" && (
-          <div style={{ textAlign: "center", marginBottom: "0.5rem", color: "var(--g3-color-warning, #e6a23c)", fontSize: "0.9rem" }}>
-            {language === "th" ? `ผิด ${wrongAttempts} / 3` : language === "zh" ? `错误 ${wrongAttempts} / 3` : `Wrong ${wrongAttempts} / 3`}
+        {sourceLine && (
+          <div className="g3-qte-support-block">
+            <strong>{sourceLine.hanzi}</strong>
+            <small>{sourceLine.pinyin}</small>
+            <em>{sourceLine.th}</em>
           </div>
         )}
+
+        
 
         <div className="g3-sentence-track" aria-live="polite">
           {sentence.length ? sentence.map((word, index) => (
@@ -328,11 +346,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart })
           )) : <em>…</em>}
         </div>
 
-        {wrongAttempts >= 3 && status !== "correct" && (
-          <div className="g3-qte-hint" style={{ marginTop: "1rem", textAlign: "center", padding: "0.5rem", background: "rgba(230, 162, 60, 0.1)", color: "var(--g3-color-warning, #e6a23c)", borderRadius: "8px" }}>
-            {language === "th" ? `คำใบ้: คำแรกคือ "${challenge.answer[0]}"` : language === "zh" ? `提示：第一个词是 "${challenge.answer[0]}"` : `Hint: The first word is "${challenge.answer[0]}"`}
-          </div>
-        )}
+        
 
         <div className="g3-word-bank">
           {challenge.tiles.map((word, index) => (
@@ -341,6 +355,20 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart })
             </button>
           ))}
         </div>
+        
+        {wrongAttempts > 0 && status === "active" && (
+          <div className="g3-qte-feedback-block">
+            <div className="g3-qte-wrong-count">
+              {language === "th" ? `ผิด ${wrongAttempts} / 3` : language === "zh" ? `错误 ${wrongAttempts} / 3` : `Wrong ${wrongAttempts} / 3`}
+            </div>
+            {wrongAttempts >= 3 && (
+              <div className="g3-qte-hint-text">
+                {language === "th" ? `คำใบ้: คำแรกคือ "${challenge.answer[0]}"` : language === "zh" ? `提示：第一个词是 "${challenge.answer[0]}"` : `Hint: The first word is "${challenge.answer[0]}"`}
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="g3-builder-controls">
           <button type="button" onClick={() => { setSelected((current) => current.slice(0, -1)); setStatus("active"); }} disabled={!selected.length || status === "correct"}>{text.undo}</button>
           <button type="button" onClick={() => { setSelected([]); setStatus("active"); }} disabled={!selected.length || status === "correct"}>{text.reset}</button>

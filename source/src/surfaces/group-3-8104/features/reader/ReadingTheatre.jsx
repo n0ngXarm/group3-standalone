@@ -659,9 +659,10 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
           timed={timed}
           onResolve={resolveChallenge}
           onRestart={roleplayRole ? restartRoleplay : undefined}
+          sourceLine={currentLine}
         />
       )}
-      {challenge?.type === "builder" && <SentenceChallenge challenge={challenge.data} language={language} onResolve={resolveChallenge} onRestart={restartScene} />}
+      {challenge?.type === "builder" && <SentenceChallenge challenge={challenge.data} language={language} onResolve={resolveChallenge} onRestart={restartScene} sourceLine={currentLine} />}
 
       {roleplayActive && createPortal(
         <Suspense fallback={null}>

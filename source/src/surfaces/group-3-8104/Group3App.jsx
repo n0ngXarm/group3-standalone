@@ -20,7 +20,7 @@ import { ContentsPage, PrefacePage, VocabularyPage } from "./features/lesson/ind
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
 import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
 import { PracticeExercise, PracticeHub } from "./features/practice/index.js";
-import { getLearnerSession, endLearnerSession, hasLearnerSession } from "./shared/session.js";
+import { getLearnerSession, endLearnerSession, hasLearnerSession, markSessionInvalidated, getSessionInvalidationReason, clearSessionInvalidation } from "./shared/session.js";
 import { clearAllPracticeResults } from "./features/practice/sessionStore.js";
 
 const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
@@ -219,6 +219,30 @@ export default function Group3App() {
     }
     setRoute(routeFromLocation());
   };
+
+  useEffect(() => {
+    const handleOffline = () => {
+      if (hasLearnerSession()) {
+        markSessionInvalidated("network-loss");
+      }
+    };
+
+    const handleOnline = () => {
+      if (getSessionInvalidationReason() === "network-loss") {
+        endLearnerSession();
+        clearAllPracticeResults();
+        navigate("/home/", { replace: true });
+      }
+    };
+
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
+  }, [navigate]);
 
   const switchHomeView = (view) => {
     setHomeView(view);

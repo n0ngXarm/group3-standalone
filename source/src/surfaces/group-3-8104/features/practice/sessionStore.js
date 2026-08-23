@@ -1,5 +1,9 @@
+import { getSessionInvalidationReason } from "../../shared/session.js";
+
 export function savePracticeResult(level, exerciseType, result) {
   try {
+    if (getSessionInvalidationReason()) return;
+
     const key = `huayun_practice_${level}`;
     const raw = window.sessionStorage.getItem(key);
     const data = raw ? JSON.parse(raw) : {};

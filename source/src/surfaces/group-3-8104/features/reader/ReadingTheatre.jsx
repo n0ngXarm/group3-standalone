@@ -263,6 +263,13 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
       if (!stayed || cancelled) return;
       const nextChallenge = pendingChallengeType(lineIndex);
       if (nextChallenge) {
+        const QTE_POST_SPEECH_DELAY_MS = 4000;
+        const stayedQte = await wait(QTE_POST_SPEECH_DELAY_MS);
+        if (!stayedQte || cancelled) return;
+        
+        // Guard against duplicate async completion
+        // If the playback status changed or challenge is already open, bail out
+        if (cancelled) return; 
         openChallenge(nextChallenge, true);
       } else if (lineIndex < scene.lines.length - 1) {
         setLineIndex((value) => value + 1);
@@ -347,7 +354,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
     unlockChineseAudio();
     setManualPlaybackIntent(null);
     if (mode === "autoplay") {
-      setRolePickerOpen(true);
+      startRoleplay(scene?.learnerRole || scene?.playerRole || (scene?.characters?.find(c => c.role !== (scene?.lines?.[0]?.role || "A"))?.role) || "B");
       return;
     }
     setPlaybackMode(mode);
@@ -674,18 +681,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
         document.body
       )}
 
-      {rolePickerOpen && !completed && (
-        <Suspense fallback={null}>
-          <RolePicker
-            characters={characterProfiles}
-            language={language}
-            onCancel={() => setRolePickerOpen(false)}
-            onPick={startRoleplay}
-            scene={scene}
-            text={text}
-          />
-        </Suspense>
-      )}
+      
     </main>
   );
 }

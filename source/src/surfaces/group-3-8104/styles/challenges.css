@@ -145,6 +145,13 @@
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
 }
 
+.g3-qte-options button:disabled {
+  opacity: 0.9;
+  cursor: default;
+}
+.g3-qte-options button:disabled.is-wrong-hint {
+  opacity: 0.35;
+}
 .g3-qte-options button:hover:not(:disabled) {
   border-color: var(--color-accent);
   background: var(--color-accent-subtle);

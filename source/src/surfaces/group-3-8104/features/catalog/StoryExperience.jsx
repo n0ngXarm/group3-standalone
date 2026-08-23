@@ -13,6 +13,7 @@ import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { GROUP3_VOICE_PROFILES } from "../../services/audio/index.js";
 import { levelPath, lessonPath, practicePath, scenePath } from "../../routing/routes.js";
 import { SourceStamp } from "../../shared/components/index.js";
+import { startLearnerSession } from "../../shared/session.js";
 
 function sceneTitle(scene, language) {
   return { th: scene.titleTh, zh: scene.title, en: scene.titleEn || scene.title }[language];
@@ -223,13 +224,9 @@ export function StoryHome({ language, navigate, lowData = false }) {
       nameInputRef.current?.focus();
       return;
     }
-    try {
-      window.localStorage?.setItem("huayun_learner_name", name);
-    } catch {
-      // Continue even when browser storage is unavailable.
-    }
+    startLearnerSession(name);
     setRegisterOpen(false);
-    navigateWithCue("/home/levels/");
+    navigate("/home/levels/", { replace: true });
   };
 
   return (
@@ -427,7 +424,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
   return (
     <main className="g3-catalog">
       <section className="g3-catalog-intro">
-        <button className="g3-back-link" type="button" onClick={() => navigate("/home/")}>← {text.back}</button>
+        <button className="g3-back-link" type="button" onClick={() => navigate("/home/levels/")}>← {text.back}</button>
         <div className="g3-catalog-intro-copy">
           <p className="g3-kicker">{text.catalogKicker.replace("{count}", String(levelLessons.length))}</p>
           <h1 tabIndex="-1">{text.catalogTitle}</h1>
@@ -452,7 +449,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
           <nav ref={lessonIndexRef} className="g3-lesson-index" aria-label={language === "th" ? "เลือกบทเรียน" : language === "zh" ? "选择课文" : "Choose lesson"}>
             {levelLessons.map((item) => (
               <button type="button" className={item.id === activeLessonId ? "is-active" : ""} aria-current={item.id === activeLessonId ? "true" : undefined} key={item.id} onClick={() => selectLesson(item.id)}>
-                <span>{item.number}</span><small>{text.lessonLabel}</small><strong>{{ th: item.title?.thAid, zh: item.title?.zh, en: item.title?.en }[language] || item.title?.zh || item.title?.en || item.title?.thAid || item.slug}</strong><em>{item.title?.pinyin}</em>
+                <span>{item.number}</span><small>{text.lessonLabel}</small><strong>{item.title?.zh || item.slug}</strong><em>{item.title?.pinyin}</em><span style={{ display: 'block', fontSize: '0.85em', opacity: 0.8, marginTop: '2px' }}>{item.title?.thAid}</span>
               </button>
             ))}
           </nav>

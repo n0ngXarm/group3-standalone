@@ -197,7 +197,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart 
             <button type="button" key={option.value} onClick={() => pick(option)} disabled={status !== "active" || paused} className={choice === option.value ? "is-selected" : ""}>
               <span>{String.fromCharCode(65 + index)}</span>
               <span className="g3-qte-option-copy">
-                <strong>{{ th: option.th, zh: option.zh, en: option.zh }[language]}</strong>
+                <strong>{option.th}</strong>
                 <small><b>{option.zh}</b>{option.pinyin}</small>
               </span>
             </button>
@@ -208,8 +208,8 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart 
             <strong>{status === "correct" ? text.correct : status === "timeout" ? text.timeout : text.wrong}</strong>
             <p>
               <span>{text.evidence}</span>
-              {{ th: challenge.evidenceTh, zh: challenge.evidence, en: challenge.evidence }[language]}
-              <small>{{ th: challenge.evidence, zh: "", en: text.educationalUnavailable }[language]}</small>
+              {challenge.evidenceTh}
+              <small>{challenge.evidence}</small>
             </p>
             <div>
               {status !== "correct" && <button type="button" onClick={armTimer}>{text.retry}</button>}
@@ -264,7 +264,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart })
 
         <div className="g3-sentence-track" aria-live="polite">
           {sentence.length ? sentence.map((word, index) => (
-            <span key={`${word}-${index}`}><b>{word}</b><small className="g3-word-pinyin">{getPinyin(word)}</small>{{ th: <em>{challenge.gloss[word]}</em>, zh: null, en: null }[language]}<small className="g3-word-index">{index + 1}</small></span>
+            <span key={`${word}-${index}`}><b>{word}</b><small className="g3-word-pinyin">{getPinyin(word)}</small><em>{challenge.gloss[word]}</em><small className="g3-word-index">{index + 1}</small></span>
           )) : <em>…</em>}
         </div>
 
@@ -272,7 +272,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart })
         {status !== "correct" && (
           <div className="g3-sentence-track is-hint" style={{ opacity: 0.3, marginTop: '-1rem', pointerEvents: 'none' }} aria-hidden="true">
             {challenge.answer.map((word, index) => (
-              <span key={`hint-${word}-${index}`}><b>{word}</b><small className="g3-word-pinyin">{getPinyin(word)}</small>{{ th: <em>{challenge.gloss[word]}</em>, zh: null, en: null }[language]}<small className="g3-word-index">{index + 1}</small></span>
+              <span key={`hint-${word}-${index}`}><b>{word}</b><small className="g3-word-pinyin">{getPinyin(word)}</small><em>{challenge.gloss[word]}</em><small className="g3-word-index">{index + 1}</small></span>
             ))}
           </div>
         )}
@@ -280,7 +280,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart })
         <div className="g3-word-bank">
           {challenge.tiles.map((word, index) => (
             <button type="button" key={`${word}-${index}`} onClick={() => add(index)} disabled={selected.includes(index) || status === "correct"}>
-              <strong>{word}</strong><small className="g3-word-pinyin">{getPinyin(word)}</small>{{ th: <em>{challenge.gloss[word]}</em>, zh: null, en: null }[language]}
+              <strong>{word}</strong><small className="g3-word-pinyin">{getPinyin(word)}</small><em>{challenge.gloss[word]}</em>
             </button>
           ))}
         </div>
@@ -295,11 +295,7 @@ export function SentenceChallenge({ challenge, language, onResolve, onRestart })
             <p>
               <span>{text.evidence}</span>
               {status === "correct" ? challenge.answer.join("") : challenge.evidence}
-              {status === "correct" && {
-                th: <small>{challenge.translationTh}</small>,
-                zh: null,
-                en: <small>{challenge.translationEn || text.educationalUnavailable}</small>,
-              }[language]}
+              {status === "correct" && <small>{challenge.translationTh}</small>}
             </p>
             {status === "correct" && <button className="is-primary" type="button" onClick={onResolve}>{text.continue} →</button>}
           </div>

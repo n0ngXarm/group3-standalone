@@ -11,6 +11,7 @@ import { COPY } from "../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { frontMatterRoutes, lessonPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
+import { getLearnerSession } from "../../shared/session.js";
 
 export function SourceStamp({ compact = false, lesson = null, route = null }) {
   if (route?.name === "home" || !lesson) {
@@ -64,7 +65,35 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
       ) : (
         <div className="g3-route-mark-spacer" />
       )}
-      {!isHome && <SourceStamp compact lesson={lesson} route={route} />}
+      {!isHome && (
+        (() => {
+          const name = getLearnerSession();
+          if (!name) return null;
+          const initial = name.charAt(0).toUpperCase();
+          const levelText = route?.level ? route.level.toUpperCase() : "ผู้เรียน";
+          return (
+            <div className="g3-learner-identity" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+              <span style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--g3-color-primary-base, #cfa05d)',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                {initial}
+              </span>
+              <span style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.2' }}>
+                <b style={{ color: 'var(--g3-color-text-primary)' }}>{name}</b>
+                <small style={{ color: 'var(--g3-color-text-secondary)', fontSize: '11px' }}>{levelText}</small>
+              </span>
+            </div>
+          );
+        })()
+      )}
 
       <nav className="g3-header-actions" aria-label={text.navigation}>
         <button type="button" onClick={onTheme} aria-label={theme === "dark" ? text.light : text.dark} title={theme === "dark" ? text.light : text.dark}>
@@ -73,20 +102,20 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
         <div className="g3-language-control" aria-label={text.switchLanguage} title={text.switchLanguage}>
           <button
             type="button"
-            className={language === "th" ? "is-active" : ""} 
-            onClick={() => onLanguage("th")} 
+            className={language === "th" ? "is-active" : ""}
+            onClick={() => onLanguage("th")}
             aria-pressed={language === "th"}
           >🇹🇭 TH</button>
           <button
             type="button"
-            className={language === "zh" ? "is-active" : ""} 
-            onClick={() => onLanguage("zh")} 
+            className={language === "zh" ? "is-active" : ""}
+            onClick={() => onLanguage("zh")}
             aria-pressed={language === "zh"}
           >🇨🇳 中</button>
           <button
             type="button"
-            className={language === "en" ? "is-active" : ""} 
-            onClick={() => onLanguage("en")} 
+            className={language === "en" ? "is-active" : ""}
+            onClick={() => onLanguage("en")}
             aria-pressed={language === "en"}
           >🇬🇧 EN</button>
         </div>
@@ -101,7 +130,7 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
 }
 
 
- 
+
 export function LessonNavigationBar({ language, lesson, navigate, currentSection = "overview" }) {
   const text = COPY[language];
   const levelLessons = GROUP3_LESSONS

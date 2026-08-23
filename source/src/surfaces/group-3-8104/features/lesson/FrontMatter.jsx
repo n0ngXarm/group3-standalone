@@ -115,7 +115,7 @@ export function VocabularyPage({ language, lesson, navigate }) {
               <span className="g3-vocab-word"><strong>{word.hanzi}</strong><em>{word.pinyin}</em></span>
               <span className="g3-vocab-meaning">
                 <small>{word.type} · {word.en}</small>
-                <b>{{ th: word.thAid || word.th, zh: word.en, en: word.en || text.educationalUnavailable }[language]}</b>
+                <b>{word.thAid || word.th}</b>
               </span>
               <span className="g3-vocab-page">p. {word.page}</span>
               <Icon paths={volumeHighIcon} />

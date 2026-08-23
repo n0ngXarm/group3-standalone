@@ -20,6 +20,7 @@ import { ContentsPage, PrefacePage, VocabularyPage } from "./features/lesson/ind
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
 import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
 import { PracticeExercise, PracticeHub } from "./features/practice/index.js";
+import { getLearnerSession, endLearnerSession, hasLearnerSession } from "./shared/session.js";
 
 const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
 
@@ -185,12 +186,20 @@ export default function Group3App() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [homeView, language, lesson, lessonStatus, route]);
 
-  const navigate = (pathname) => {
-    history.pushState(
-      { g3: true },
-      "",
-      canonicalSurfaceLocation(3, pathname, { theme }),
-    );
+  const navigate = (pathname, options = {}) => {
+    if (options.replace) {
+      history.replaceState(
+        { g3: true },
+        "",
+        canonicalSurfaceLocation(3, pathname, { theme }),
+      );
+    } else {
+      history.pushState(
+        { g3: true },
+        "",
+        canonicalSurfaceLocation(3, pathname, { theme }),
+      );
+    }
     setRoute(routeFromLocation());
   };
 
@@ -208,9 +217,16 @@ export default function Group3App() {
   };
 
   const goHome = () => {
+    endLearnerSession();
     setHomeView("home");
     navigate("/home/");
   };
+
+  useEffect(() => {
+    if (route.name === "home" && hasLearnerSession()) {
+      navigate("/home/levels/", { replace: true });
+    }
+  }, [route.name]);
 
   const content = useMemo(() => {
     if (routeNeedsLesson && lessonStatus !== "ready") {

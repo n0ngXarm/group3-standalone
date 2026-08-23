@@ -587,7 +587,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
                         queueManualPlayback(index, voiceProfile);
                       }} aria-label={`${text.speak}: ${line.hanzi} · ${voice?.label || "TTS"}`} title={`${text.voiceCast} · ${voice?.label || "TTS"}`}><Icon paths={volumeHighIcon} /></button>
                       <strong>{line.hanzi}</strong><em>{line.reading}</em>
-                      {showTranslation && <div className="g3-line-translation"><span>{text.thaiMeaning}</span><p>{{ th: line.th, zh: line.th, en: line.en || text.educationalUnavailable }[language]}</p></div>}
+                      {showTranslation && <div className="g3-line-translation"><span>{text.thaiMeaning}</span><p>{line.th}</p></div>}
                     </div>
                     <figure className="g3-dialogue-visual">
                       {!lowData && <img src={scene.image} srcSet={scene.imageSrcSet} sizes="(max-width: 760px) 100vw, 35vw" alt={scene.imageAlt[language]} width="1400" height={scene.imageSrcSet ? "788" : "900"} loading="lazy" decoding="async" style={{ objectPosition: line.visual.focus }} />}

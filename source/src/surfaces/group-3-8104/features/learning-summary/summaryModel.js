@@ -1,72 +1,83 @@
+import { getLearnerSession } from "../../shared/session.js";
+
 export const SUMMARY_COPY = {
   th: {
-    title: "สรุปผลการฝึก",
-    strengths: "จุดที่ทำได้ดี",
-    improvements: "ควรฝึกเพิ่ม",
-    scoreExcellent: "ยอดเยี่ยม",
-    scoreVeryGood: "ดีมาก",
-    scoreGood: "ดี",
-    scorePass: "ผ่าน",
-    scoreNeedsPractice: "ควรฝึกเพิ่ม",
-    practiceCompleted: "ฝึกครบแล้ว",
-    noPracticeResults: "ยังไม่มีผลการฝึก",
-    metrics: {
-      accuracy: "ความถูกต้อง (Accuracy)",
-      completion: "ความครบถ้วน (Completion)",
-      vocabulary: "คำศัพท์ (Vocabulary)",
-      timing: "เวลา (Timing)"
-    },
-    exercises: {
-      repeatSentence: "ฟังแล้วพูดตาม",
-      imageDescription: "บรรยายภาพ",
-      questionResponse: "ตอบคำถาม"
-    }
+    title: "สรุปผลการเรียน",
+    learner: "ผู้เรียน",
+    level: "ระดับ",
+    overallScore: "คะแนนรวม",
+    exercises: "บททดสอบ",
+    repeatSentence: "ฟังแล้วพูดตาม",
+    imageDescription: "บรรยายภาพ",
+    questionResponse: "ตอบคำถาม",
+    metrics: "รายละเอียด",
+    accuracy: "ความแม่นยำ",
+    completion: "ความครบถ้วน",
+    vocabulary: "คำศัพท์",
+    timing: "จังหวะ",
+    strengths: "จุดเด่นของคุณ",
+    improvements: "จุดที่พัฒนาได้อีก",
+    actionRetry: "ฝึกฝนอีกครั้ง",
+    actionHome: "กลับหน้าหลัก",
+    scoreExcellent: "ยอดเยี่ยม! คุณเข้าใจเนื้อหาได้เป็นอย่างดี",
+    scoreVeryGood: "ดีมาก! พยายามต่อไป",
+    scoreGood: "ดี! แต่ยังมีจุดที่พัฒนาได้อีก",
+    scorePass: "ผ่านเกณฑ์ แนะนำให้ทบทวนบทเรียนอีกครั้ง",
+    scoreNeedsPractice: "ควรฝึกฝนเพิ่มเติม ลองทบทวนบทเรียนอีกครั้ง",
+    noPracticeResults: "ยังไม่มีผลการฝึกฝน",
+    practiceCompleted: "ทำแบบฝึกหัดเสร็จสิ้น (ไม่ประเมินคะแนน)"
   },
   zh: {
-    title: "练习总结",
-    strengths: "做得好的地方",
-    improvements: "需要多练习的地方",
-    scoreExcellent: "优秀",
-    scoreVeryGood: "很好",
-    scoreGood: "好",
-    scorePass: "及格",
-    scoreNeedsPractice: "需要练习",
-    practiceCompleted: "练习已完成",
-    noPracticeResults: "暂无练习结果",
-    metrics: {
-      accuracy: "准确度 (Accuracy)",
-      completion: "完整度 (Completion)",
-      vocabulary: "词汇 (Vocabulary)",
-      timing: "时间 (Timing)"
-    },
-    exercises: {
-      repeatSentence: "听后重复",
-      imageDescription: "看图说话",
-      questionResponse: "回答问题"
-    }
+    title: "学习总结",
+    learner: "学习者",
+    level: "级别",
+    overallScore: "总分",
+    exercises: "练习项目",
+    repeatSentence: "跟读句子",
+    imageDescription: "看图说话",
+    questionResponse: "回答问题",
+    metrics: "具体指标",
+    accuracy: "准确度",
+    completion: "完整度",
+    vocabulary: "词汇量",
+    timing: "节奏感",
+    strengths: "你的优势",
+    improvements: "有待提高",
+    actionRetry: "再次练习",
+    actionHome: "返回首页",
+    scoreExcellent: "太棒了！你掌握得非常好。",
+    scoreVeryGood: "很好！继续保持。",
+    scoreGood: "不错！但还有进步空间。",
+    scorePass: "及格。建议再复习一下课文。",
+    scoreNeedsPractice: "需要更多练习，请重温课文。",
+    noPracticeResults: "暂无练习记录",
+    practiceCompleted: "练习已完成（未评分）"
   },
   en: {
-    title: "Practice Summary",
-    strengths: "Strengths",
+    title: "Learning Summary",
+    learner: "Learner",
+    level: "Level",
+    overallScore: "Overall Score",
+    exercises: "Exercises",
+    repeatSentence: "Repeat Sentence",
+    imageDescription: "Image Description",
+    questionResponse: "Question Response",
+    metrics: "Metrics",
+    accuracy: "Accuracy",
+    completion: "Completion",
+    vocabulary: "Vocabulary",
+    timing: "Timing",
+    strengths: "Your Strengths",
     improvements: "Areas for Improvement",
-    scoreExcellent: "Excellent",
-    scoreVeryGood: "Very Good",
-    scoreGood: "Good",
-    scorePass: "Pass",
-    scoreNeedsPractice: "Needs Practice",
-    practiceCompleted: "Practice completed",
-    noPracticeResults: "No practice results",
-    metrics: {
-      accuracy: "Content Accuracy",
-      completion: "Completion",
-      vocabulary: "Vocabulary Coverage",
-      timing: "Timing"
-    },
-    exercises: {
-      repeatSentence: "Repeat Sentence",
-      imageDescription: "Image Description",
-      questionResponse: "Question Response"
-    }
+    actionRetry: "Practice Again",
+    actionHome: "Back to Home",
+    scoreExcellent: "Excellent! You've mastered the content.",
+    scoreVeryGood: "Very good! Keep it up.",
+    scoreGood: "Good! But there's room for improvement.",
+    scorePass: "Pass. Consider reviewing the lesson.",
+    scoreNeedsPractice: "Needs practice. Try reviewing the lesson again.",
+    noPracticeResults: "No practice results yet",
+    practiceCompleted: "Practice completed (Unscored)"
   }
 };
 
@@ -81,12 +92,8 @@ export function getScoreLabel(score, language = "th", hasResults = true) {
 }
 
 export function getLearnerName(language = "th") {
-  try {
-    const name = window.localStorage.getItem("huayun_learner_name");
-    if (name && name.trim().length > 0) return name.trim();
-  } catch (e) {
-    // Ignore localStorage errors
-  }
+  const name = getLearnerSession();
+  if (name && name.trim().length > 0) return name.trim();
   if (language === "zh") return "学习者";
   if (language === "en") return "Learner";
   return "ผู้เรียน";

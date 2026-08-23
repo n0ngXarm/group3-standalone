@@ -39,6 +39,7 @@ export function LearningSummary({ language = "th", data, onRetry, onHome }) {
   };
 
   const hasScore = overall?.score !== null && overall?.score !== undefined;
+  const hasResults = overall?.hasResults !== false;
 
   return (
     <div className={`g3-learning-summary ${levelClass}`}>
@@ -69,11 +70,13 @@ export function LearningSummary({ language = "th", data, onRetry, onHome }) {
                   <span className="g3-score-value">{overall.score}</span>
                   <span className="g3-score-max">/ 100</span>
                 </>
-              ) : (
+              ) : hasResults ? (
                 <span className="g3-score-status" style={{ fontSize: "1rem", textAlign: "center" }}>✓</span>
+              ) : (
+                <span className="g3-score-status" aria-hidden="true">—</span>
               )}
             </div>
-            <span className="g3-score-status">{getScoreLabel(overall?.score, language)}</span>
+            <span className="g3-score-status">{getScoreLabel(overall?.score, language, hasResults)}</span>
           </div>
         </header>
 

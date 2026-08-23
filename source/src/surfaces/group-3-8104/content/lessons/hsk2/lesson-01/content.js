@@ -962,7 +962,7 @@ export const LESSON_HSK2_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "李文今天请大家吃什么?",
+        "th": "วันนี้หลี่เหวินเลี้ยงอะไรทุกคน?",
         "zh": "李文今天请大家吃什么？",
         "en": "What does Li Wen treat everyone to eat?"
       },
@@ -1119,7 +1119,7 @@ export const LESSON_HSK2_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "刘明准备了什么美味午饭?",
+        "th": "หลิวหมิงเตรียมอาหารกลางวันแสนอร่อยอะไรไว้?",
         "zh": "刘明准备了什么美味午饭？",
         "en": "What lunch dishes did Liu Ming prepare?"
       },

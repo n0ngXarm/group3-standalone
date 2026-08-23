@@ -1,9 +1,10 @@
 .g3-learning-summary {
   width: 100%;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 85px 2rem 2rem;
   box-sizing: border-box;
   overflow-y: auto;
@@ -34,7 +35,7 @@
   background: rgba(30, 30, 32, 0.85);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255,255,255,0.05);
-  color: var(--g3-paper);
+  color: var(--g3-ink);
 }
 
 .g3-summary-header {
@@ -76,7 +77,7 @@
   word-break: normal;
 }
 :root[data-theme="dark"] .g3-summary-page-title {
-  color: var(--g3-paper);
+  color: var(--g3-ink);
 }
 
 .g3-learner-identity {
@@ -105,7 +106,7 @@
   color: var(--g3-slate);
 }
 :root[data-theme="dark"] .g3-learner-name-text {
-  color: var(--g3-silver);
+  color: var(--g3-muted);
 }
 .g3-learner-name-text strong {
   font-size: 1.25rem;
@@ -209,7 +210,7 @@
   color: var(--g3-ink);
 }
 :root[data-theme="dark"] .g3-summary-skills h2 {
-  color: var(--g3-paper);
+  color: var(--g3-ink);
 }
 
 .g3-skills-grid {
@@ -231,7 +232,7 @@
   color: var(--g3-slate);
 }
 :root[data-theme="dark"] .g3-skill-label {
-  color: var(--g3-silver);
+  color: var(--g3-muted);
 }
 
 .g3-skill-value {
@@ -288,7 +289,7 @@
   color: var(--g3-slate);
 }
 :root[data-theme="dark"] .g3-feedback-panel li {
-  color: var(--g3-silver);
+  color: var(--g3-muted);
 }
 
 /* Actions */
@@ -404,5 +405,5 @@
 }
 :root[data-theme="dark"] .g3-summary-actions .g3-secondary-action {
   background: rgba(255,255,255,0.1);
-  color: var(--g3-paper);
+  color: var(--g3-ink);
 }

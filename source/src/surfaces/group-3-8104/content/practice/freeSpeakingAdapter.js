@@ -12,6 +12,9 @@ const QUESTION_PINYIN_BY_SCENE = Object.freeze({
   "hsk3-l1-s1": "Bái Jiāyuè juéde zhège cài de wèidào zěnmeyàng?",
   "hsk3-l1-s2": "Zài gāotiě shàng yǒu shénme biànjié de fúwù?",
 });
+const HINT_PINYIN_BY_SCENE = Object.freeze({
+  "hsk3-l1-s2": Object.freeze({ "还": "hái" }),
+});
 
 function sourceError(details) {
   const error = new Error(PRACTICE_ERROR_CODES.EXERCISE_SOURCE_NOT_FOUND);
@@ -53,7 +56,11 @@ function conceptGroups(words, fallback = "") {
 
 function imageDefinition(lesson, scene) {
   const sceneText = [scene.context, ...(scene.lines || []).map((line) => line.hanzi)].filter(Boolean).join(" ");
-  const hints = uniqueVocabulary(lesson, sceneText, 5);
+  const hintPinyin = HINT_PINYIN_BY_SCENE[scene.id] || {};
+  const hints = uniqueVocabulary(lesson, sceneText, 5).map((hint) => ({
+    ...hint,
+    pinyin: hintPinyin[hint.hanzi] || hint.pinyin,
+  }));
   const qteTerm = scene.qte?.correct;
   if (hints.length < 3 && qteTerm && !hints.some((item) => item.hanzi === qteTerm)) {
     const answer = scene.qte.options?.find((option) => option.value === qteTerm) || {};

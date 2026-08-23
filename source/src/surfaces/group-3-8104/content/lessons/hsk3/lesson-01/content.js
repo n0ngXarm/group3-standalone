@@ -1442,7 +1442,7 @@ export const LESSON_HSK3_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "白家月觉得这个菜的味道怎么样?",
+        "th": "ไป๋เจียเยว่คิดว่าอาหารจานนี้มีรสชาติเป็นอย่างไร?",
         "zh": "白家月觉得这个菜的味道怎么样？",
         "en": "How does Bai Jiayue find the food taste?"
       },
@@ -1592,7 +1592,7 @@ export const LESSON_HSK3_L1 = {
     "qte": {
       "after": 1,
       "prompt": {
-        "th": "在高铁上有什么便捷的服务?",
+        "th": "บนรถไฟความเร็วสูงมีบริการอำนวยความสะดวกอะไรบ้าง?",
         "zh": "在高铁上有什么便捷的服务？",
         "en": "What convenient service is on the high-speed train?"
       },

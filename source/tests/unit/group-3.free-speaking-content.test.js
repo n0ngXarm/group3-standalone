@@ -33,12 +33,22 @@ test("question practice derives two dialogue questions with pinyin and answer co
       assert.match(prompt.question.hanzi, /[？?]/);
       assert.ok(prompt.question.pinyin);
       assert.doesNotMatch(prompt.question.pinyin, /\p{Script=Han}/u);
+      assert.ok(prompt.question.translations.th.trim(), `${level} question should include Thai learning support`);
       assert.doesNotMatch(prompt.question.translations.th, /\p{Script=Han}/u);
       assert.ok(prompt.question.translations.en);
       assert.ok(prompt.expectedConcepts.length > 0);
       assert.match(prompt.sourceRef.lessonId, new RegExp(`^${level}-`));
     }
   }
+});
+
+test("image practice uses the contextual hai reading for 还 in the high-speed train scene", async () => {
+  const { buildFreeSpeakingDefinitions } = await import(modulePath);
+  const prompts = await buildFreeSpeakingDefinitions("hsk3", "image-description");
+  const trainPrompt = prompts.find((prompt) => prompt.sourceRef.sceneId === "hsk3-l1-s2");
+  const haiHint = trainPrompt.hints.find((hint) => hint.hanzi === "还");
+
+  assert.equal(haiHint?.pinyin, "hái");
 });
 
 test("free speaking adapter rejects unsupported levels and exercise types", async () => {

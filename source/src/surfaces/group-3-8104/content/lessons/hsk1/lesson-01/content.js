@@ -1591,7 +1591,7 @@ export const LESSON_HSK1_L1 = {
     "qte": {
       "after": 1,
       "prompt": {
-        "th": "王一飞跟谁打招呼?",
+        "th": "อาจารย์หวังอี้เฟยทักทายใคร?",
         "zh": "王一飞跟谁打招呼？",
         "en": "Who does Wang Yifei greet?"
       },
@@ -1748,7 +1748,7 @@ export const LESSON_HSK1_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "学生们怎么跟老师打招呼?",
+        "th": "นักเรียนทักทายคุณครูอย่างไร?",
         "zh": "学生们怎样跟老师打招呼？",
         "en": "How do the students greet the teacher?"
       },

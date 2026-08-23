@@ -9,6 +9,7 @@ export const SUMMARY_COPY = {
     scorePass: "ผ่าน",
     scoreNeedsPractice: "ควรฝึกเพิ่ม",
     practiceCompleted: "ฝึกครบแล้ว",
+    noPracticeResults: "ยังไม่มีผลการฝึก",
     metrics: {
       accuracy: "ความถูกต้อง (Accuracy)",
       completion: "ความครบถ้วน (Completion)",
@@ -31,6 +32,7 @@ export const SUMMARY_COPY = {
     scorePass: "及格",
     scoreNeedsPractice: "需要练习",
     practiceCompleted: "练习已完成",
+    noPracticeResults: "暂无练习结果",
     metrics: {
       accuracy: "准确度 (Accuracy)",
       completion: "完整度 (Completion)",
@@ -53,6 +55,7 @@ export const SUMMARY_COPY = {
     scorePass: "Pass",
     scoreNeedsPractice: "Needs Practice",
     practiceCompleted: "Practice completed",
+    noPracticeResults: "No practice results",
     metrics: {
       accuracy: "Content Accuracy",
       completion: "Completion",
@@ -67,9 +70,9 @@ export const SUMMARY_COPY = {
   }
 };
 
-export function getScoreLabel(score, language = "th") {
+export function getScoreLabel(score, language = "th", hasResults = true) {
   const dict = SUMMARY_COPY[language] || SUMMARY_COPY.th;
-  if (score === null || score === undefined) return dict.practiceCompleted;
+  if (score === null || score === undefined) return hasResults ? dict.practiceCompleted : dict.noPracticeResults;
   if (score >= 90) return dict.scoreExcellent;
   if (score >= 80) return dict.scoreVeryGood;
   if (score >= 70) return dict.scoreGood;
@@ -180,6 +183,7 @@ export function createLearningSummary({ learnerName, hskLevel, repeatResult, ima
     hskLevel: hskLevel || "hsk1",
     overall: {
       score: overallScore,
+      hasResults: repeatItems.length + imageItems.length + questionItems.length > 0,
       scoredCount: exerciseScores.length,
       totalCount: 3,
       isPartial: exerciseScores.length > 0 && exerciseScores.length < 3

@@ -19,7 +19,7 @@ import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.
 import { ContentsPage, PrefacePage, VocabularyPage } from "./features/lesson/index.js";
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
 import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
-import { PracticeExercisePlaceholder, PracticeHub } from "./features/practice/index.js";
+import { PracticeExercise, PracticeHub } from "./features/practice/index.js";
 
 const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
 
@@ -219,7 +219,7 @@ export default function Group3App() {
     if (route.name === "reader") return <ReadingTheatre key={lesson.id} initialLessonId={lesson.id} initialScene={route.scene} language={language} lesson={lesson} navigate={navigate} lowData={lowData} level={route.level} />;
     if (route.name === "levels") return <LevelPicker language={language} navigate={navigate} />;
     if (route.name === "practice") return <PracticeHub language={language} level={route.level} navigate={navigate} />;
-    if (route.name === "practice-exercise") return <PracticeExercisePlaceholder exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
+    if (route.name === "practice-exercise") return <PracticeExercise exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
     if (route.name === "catalog") return <StoryCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
     if (route.name === "preface") {
       return <PrefacePage key={`${lesson.id}-preface`} language={language} lesson={lesson} navigate={navigate} />;

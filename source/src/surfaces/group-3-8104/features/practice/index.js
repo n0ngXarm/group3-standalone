@@ -1,1 +1,2 @@
-export { PracticeExercisePlaceholder, PracticeHub } from "./PracticeHub.jsx";
+export { PracticeHub } from "./PracticeHub.jsx";
+export { PracticeExercise } from "./exercises/PracticeExercise.jsx";

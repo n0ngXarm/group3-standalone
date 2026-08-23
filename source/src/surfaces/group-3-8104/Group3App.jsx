@@ -7,11 +7,13 @@ import {
 } from "@lib";
 import { COPY } from "./content/copy.js";
 import {
+  PROTECTED_ROUTE_NAMES,
   canonicalPathForRoute,
-  gamePath,
-  gamesPath,
   getInitialTheme,
-  lessonPath,
+  homePath,
+  levelsPath,
+  levelPath,
+  practicePath,
   routeFromLocation,
 } from "./routing/routes.js";
 import { stopChineseVoice } from "./services/audio/index.js";
@@ -20,22 +22,43 @@ import { ContentsPage, VocabularyPage } from "./features/lesson/index.js";
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
 import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
 import { PracticeExercise, PracticeHub } from "./features/practice/index.js";
-import { getLearnerSession, endLearnerSession, hasLearnerSession, markSessionInvalidated, getSessionInvalidationReason, clearSessionInvalidation } from "./shared/session.js";
-import { clearAllPracticeResults } from "./features/practice/sessionStore.js";
+import { LearningSummary } from "./features/learning-summary/LearningSummary.jsx";
+import { createLearningSummary } from "./features/learning-summary/summaryModel.js";
+import { getPracticeResults, clearAllPracticeResults } from "./features/practice/sessionStore.js";
+import {
+  getLearnerSession,
+  endLearnerSession,
+  hasLearnerSession,
+  markSessionInvalidated,
+  getSessionInvalidationReason,
+} from "./shared/session.js";
 
-const Group3GameHub = lazy(() => import("./features/games/hub/index.js").catch(() => ({
-
-  default: StoryCatalog,
-})));
 const ReadingTheatre = lazy(() => import("./features/reader/index.js").then((module) => ({
-
   default: module.ReadingTheatre,
 })).catch(() => ({
   default: StoryCatalog,
 })));
 
-const LESSON_ROUTE_NAMES = new Set(["reader", "preface", "contents", "vocabulary", "games", "game"]);
+const LESSON_ROUTE_NAMES = new Set(["reader", "contents", "vocabulary"]);
 const HSK_COURSE_LEVELS = new Set(["hsk1", "hsk2", "hsk3"]);
+
+function PracticeSummaryPage({ language, level, navigate }) {
+  const results = getPracticeResults(level);
+  const data = createLearningSummary({
+    hskLevel: level,
+    repeatResult: results["repeat-sentence"] || [],
+    imageResult: results["image-description"] || [],
+    questionResult: results["question-response"] || [],
+  });
+  return (
+    <LearningSummary
+      language={language}
+      data={data}
+      onRetry={() => navigate(practicePath(level))}
+      onHome={() => navigate(levelsPath())}
+    />
+  );
+}
 
 export default function Group3App() {
   const [route, setRoute] = useState(routeFromLocation);
@@ -49,6 +72,7 @@ export default function Group3App() {
     const policy = getBrowserAdaptiveThreePolicy();
     return policy.saveData || policy.lowEnd;
   }, []);
+
   const requestedLesson = useMemo(() => {
     if (route.level && route.lessonSlug) {
       return findLesson(route.level, route.lessonSlug) || FEATURED_LESSON;
@@ -61,6 +85,7 @@ export default function Group3App() {
     }
     return FEATURED_LESSON;
   }, [route.level, route.lessonSlug]);
+
   const requestedLessonKey = `${requestedLesson.level}:${requestedLesson.slug}`;
   const [lessonLoadAttempt, setLessonLoadAttempt] = useState(0);
   const [lessonRequest, setLessonRequest] = useState(() => ({
@@ -98,7 +123,6 @@ export default function Group3App() {
   const retryLesson = useCallback(() => setLessonLoadAttempt((attempt) => attempt + 1), []);
   const routeNeedsLesson = LESSON_ROUTE_NAMES.has(route.name);
 
-  
   useEffect(() => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("theme") !== theme) {
@@ -133,36 +157,92 @@ export default function Group3App() {
   useEffect(() => {
     stopChineseVoice();
     return () => stopChineseVoice();
-  }, [language, route.gameSlug, route.name, route.scene]);
+  }, [language, route.name, route.scene]);
+
+  const navigate = useCallback((pathname, options = {}) => {
+    const target = canonicalSurfaceLocation(3, pathname, { theme });
+    if (options.replace) {
+      history.replaceState({ g3: true }, "", target);
+    } else {
+      history.pushState({ g3: true }, "", target);
+    }
+
+    let next = routeFromLocation();
+    const isProtected = PROTECTED_ROUTE_NAMES.has(next.name);
+    const sessionActive = hasLearnerSession();
+
+    if (isProtected && !sessionActive) {
+      history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, homePath(), { theme }));
+      next = { name: "home" };
+    } else if (next.name === "home" && sessionActive) {
+      history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, levelsPath(), { theme }));
+      next = { name: "levels" };
+    } else if (next.redirect) {
+      history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, canonicalPathForRoute(next), { theme }));
+      next = routeFromLocation();
+    }
+    setRoute(next);
+  }, [theme]);
 
   useEffect(() => {
     let initial = routeFromLocation();
-    const isReload = performance.getEntriesByType("navigation")[0]?.type === "reload";
+    const isProtected = PROTECTED_ROUTE_NAMES.has(initial.name);
+    const sessionActive = hasLearnerSession();
 
-    if (isReload) {
-      endLearnerSession();
-      clearAllPracticeResults();
-      if (initial.name !== "home") {
-        history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, "/home/", { theme: getInitialTheme() }));
-        initial = routeFromLocation();
-      }
-    } else if (initial.name !== "home" && !hasLearnerSession()) {
-      history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, "/home/", { theme: getInitialTheme() }));
+    if (isProtected && !sessionActive) {
+      history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, homePath(), { theme: getInitialTheme() }));
+      initial = { name: "home" };
+    } else if (initial.name === "home" && sessionActive) {
+      history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, levelsPath(), { theme: getInitialTheme() }));
+      initial = { name: "levels" };
+    } else if (initial.redirect) {
+      history.replaceState(
+        { g3: true },
+        "",
+        canonicalSurfaceLocation(3, canonicalPathForRoute(initial), {
+          hash: window.location.hash,
+          theme: getInitialTheme(),
+        }),
+      );
       initial = routeFromLocation();
+    } else {
+      history.replaceState(
+        { ...(history.state || {}), g3: true },
+        "",
+        canonicalSurfaceLocation(3, canonicalPathForRoute(initial), {
+          hash: window.location.hash,
+          theme: getInitialTheme(),
+        }),
+      );
     }
 
-    const sync = () => setRoute(routeFromLocation());
     setRoute(initial);
-    
-    // Only rewrite history again if we didn't just replace it above for security redirects
-    history.replaceState(
-      { ...(history.state || {}), g3: true },
-      "",
-      canonicalSurfaceLocation(3, canonicalPathForRoute(initial), {
-        hash: window.location.hash,
-        theme: getInitialTheme(),
-      }),
-    );
+
+    const sync = () => {
+      let current = routeFromLocation();
+      const currentProtected = PROTECTED_ROUTE_NAMES.has(current.name);
+      const currentSessionActive = hasLearnerSession();
+
+      if (currentProtected && !currentSessionActive) {
+        history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, homePath(), { theme: getInitialTheme() }));
+        current = { name: "home" };
+      } else if (current.name === "home" && currentSessionActive) {
+        history.replaceState({ g3: true }, "", canonicalSurfaceLocation(3, levelsPath(), { theme: getInitialTheme() }));
+        current = { name: "levels" };
+      } else if (current.redirect) {
+        history.replaceState(
+          { g3: true },
+          "",
+          canonicalSurfaceLocation(3, canonicalPathForRoute(current), {
+            hash: window.location.hash,
+            theme: getInitialTheme(),
+          }),
+        );
+        current = routeFromLocation();
+      }
+      setRoute(current);
+    };
+
     window.addEventListener("popstate", sync);
     return () => window.removeEventListener("popstate", sync);
   }, []);
@@ -180,7 +260,7 @@ export default function Group3App() {
       zh: loadedScene.title,
       en: loadedScene.titleEn || loadedScene.title,
     }[language] : lessonTitle;
-    const frontTitles = { preface: text.prefaceTitle, contents: text.contentsTitle, vocabulary: text.vocabularyTitle };
+    const frontTitles = { contents: text.contentsTitle, vocabulary: text.vocabularyTitle };
     const title = route.name === "home"
       ? homeView === "about"
         ? `${text.about} · ${text.brand}`
@@ -195,30 +275,11 @@ export default function Group3App() {
           ? `${route.level ? route.level.toUpperCase() + " · " : ""}${text.catalogTitle} · ${text.brand}`
           : frontTitles[route.name]
             ? `${frontTitles[route.name]} · ${lessonTitle} · ${text.brand}`
-            : route.name === "games" || route.name === "game"
-              ? `${lessonTitle} · ${text.brand}`
-              : `${text.brand}`;
+            : `${text.brand}`;
     document.title = title;
     document.querySelector('meta[name="description"]')?.setAttribute("content", COPY[language].sourceOnly);
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [homeView, language, lesson, lessonStatus, route]);
-
-  const navigate = (pathname, options = {}) => {
-    if (options.replace) {
-      history.replaceState(
-        { g3: true },
-        "",
-        canonicalSurfaceLocation(3, pathname, { theme }),
-      );
-    } else {
-      history.pushState(
-        { g3: true },
-        "",
-        canonicalSurfaceLocation(3, pathname, { theme }),
-      );
-    }
-    setRoute(routeFromLocation());
-  };
 
   useEffect(() => {
     const handleOffline = () => {
@@ -231,7 +292,7 @@ export default function Group3App() {
       if (getSessionInvalidationReason() === "network-loss") {
         endLearnerSession();
         clearAllPracticeResults();
-        navigate("/home/", { replace: true });
+        navigate(homePath(), { replace: true });
       }
     };
 
@@ -247,12 +308,12 @@ export default function Group3App() {
   const switchHomeView = (view) => {
     setHomeView(view);
     if (route.name !== "home") {
-      navigate("/home/");
+      navigate(homePath());
     } else {
       history.replaceState(
         { g3: true },
         "",
-        canonicalSurfaceLocation(3, "/home/", { theme }),
+        canonicalSurfaceLocation(3, homePath(), { theme }),
       );
     }
   };
@@ -261,22 +322,43 @@ export default function Group3App() {
     endLearnerSession();
     clearAllPracticeResults();
     setHomeView("home");
-    navigate("/home/");
+    navigate(homePath());
   };
 
   useEffect(() => {
     if (route.name === "home" && hasLearnerSession()) {
-      navigate("/home/levels/", { replace: true });
+      navigate(levelsPath(), { replace: true });
     } else if (route.redirect) {
       navigate(canonicalPathForRoute(route), { replace: true });
     }
-  }, [route.name, route.redirect]);
+  }, [navigate, route.name, route.redirect]);
 
   const content = useMemo(() => {
     if (routeNeedsLesson && lessonStatus !== "ready") {
-      return <StoryCatalog key={`lesson-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={route.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />;
+      return (
+        <StoryCatalog
+          key={`lesson-fallback-${requestedLessonKey}`}
+          initialLessonId={requestedLesson.id}
+          language={language}
+          level={route.level}
+          navigate={navigate}
+          lowData={lowData}
+          onRetry={retryLesson}
+        />
+      );
     }
-    if (route.name === "reader") return <ReadingTheatre key={lesson.id} initialLessonId={lesson.id} initialScene={route.scene} language={language} lesson={lesson} navigate={navigate} lowData={lowData} level={route.level} />;
+    if (route.name === "reader") {
+      return (
+        <ReadingTheatre key={lesson.id} initialLessonId={lesson.id}
+          initialScene={route.scene}
+          language={language}
+          lesson={lesson}
+          navigate={navigate}
+          lowData={lowData}
+          level={route.level}
+        />
+      );
+    }
     if (route.name === "levels") return <LevelPicker language={language} navigate={navigate} />;
     if (route.name === "practice") return <PracticeHub language={language} level={route.level} navigate={navigate} />;
     if (route.name === "practice-summary") return <PracticeSummaryPage language={language} level={route.level} navigate={navigate} />;
@@ -289,11 +371,10 @@ export default function Group3App() {
     if (route.name === "vocabulary") {
       return <VocabularyPage key={`${lesson.id}-vocabulary`} language={language} lesson={lesson} navigate={navigate} />;
     }
-    if (route.name === "games" || route.name === "game") return <Group3GameHub activeGame={route.name === "game" ? route.gameSlug : null} lesson={lesson} language={language} onBack={() => navigate(lessonPath(lesson))} onSelectGame={(gameSlug) => navigate(gamePath(lesson, gameSlug))} onShowHub={() => navigate(gamesPath(lesson))} />;
     if (homeView === "about") return <AboutView language={language} onBack={() => switchHomeView("home")} />;
     if (homeView === "report") return <ReportView language={language} onBack={() => switchHomeView("home")} />;
     return <StoryHome language={language} navigate={navigate} lowData={lowData} />;
-  }, [homeView, language, lowData, route, theme, lesson, lessonStatus, requestedLesson, requestedLessonKey, retryLesson, routeNeedsLesson]);
+  }, [homeView, language, lowData, route, lesson, lessonStatus, requestedLesson, requestedLessonKey, retryLesson, routeNeedsLesson, navigate]);
 
   const mainSuspense = (
     <Suspense fallback={<StoryCatalog key={`chunk-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={requestedLesson.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />}>
@@ -323,18 +404,4 @@ export default function Group3App() {
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} language={language} />
     </div>
   );
-}import { LearningSummary } from "./features/learning-summary/LearningSummary.jsx";
-import { createLearningSummary } from "./features/learning-summary/summaryModel.js";
-import { getPracticeResults } from "./features/practice/sessionStore.js";
-import { levelPath, practicePath } from "./routing/routes.js";
-
-function PracticeSummaryPage({ language, level, navigate }) {
-  const results = getPracticeResults(level);
-  const data = createLearningSummary({
-    hskLevel: level,
-    repeatResult: results["repeat-sentence"] || [],
-    imageResult: results["image-description"] || [],
-    questionResult: results["question-response"] || [],
-  });
-  return <LearningSummary language={language} data={data} onRetry={() => navigate(practicePath(level))} onHome={() => navigate(levelPath(level))} />;
 }

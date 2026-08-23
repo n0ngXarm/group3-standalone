@@ -20,7 +20,7 @@ import {
   stopChineseVoice,
   unlockChineseAudio,
 } from "../../services/audio/index.js";
-import { lessonPath, levelPath } from "../../routing/routes.js";
+import { levelsPath, lessonContentsPath, lessonScenePath } from "../../routing/routes.js";
 
 const SOUND_FAILURE_STATES = new Set(["blocked", "timeout", "unavailable"]);
 const RolePicker = lazy(() => import("./roleplay/index.js").then((module) => ({
@@ -477,10 +477,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
     cancelAutoScroll();
     setRoleplayRole(null);
     setRolePickerOpen(false);
-    const url = new URL(window.location.href);
-    url.searchParams.set("scene", String(nextIndex + 1));
-    history.replaceState({ g3: true }, "", `${url.pathname}${url.search}`);
-    setSceneIndex(nextIndex);
+    navigate(lessonScenePath(lesson, nextIndex + 1));
   };
 
   const restartScene = () => {
@@ -516,7 +513,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
   return (
     <main className={`g3-reader${roleplayActive ? " is-roleplay" : ""}`} data-status={playbackStatus}>
       <aside className="g3-reader-rail" aria-label={text.catalogTitle}>
-        <button className="g3-reader-exit" type="button" onClick={() => navigate(lessonPath(lesson, "contents"))} aria-label={text.exitReader}>←<span>{text.exitReader}</span></button>
+        <button className="g3-reader-exit" type="button" onClick={() => navigate(lessonContentsPath(lesson))} aria-label={text.exitReader}>←<span>{text.exitReader}</span></button>
         <div className="g3-rail-scenes">
           {scenes.map((item, index) => (
             <button type="button" key={item.id} className={sceneIndex === index ? "active" : ""} onClick={() => selectScene(index)}>
@@ -613,8 +610,8 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
                     ? <button className="is-primary" data-g3-scene-complete-primary type="button" onClick={() => selectScene(sceneIndex + 1)}>{text.continueScene} →</button>
                     : (
                       <>
-                        <button type="button" onClick={() => navigate(lessonPath(lesson, "contents"))}>{text.back}</button>
-                        <button type="button" onClick={() => navigate(levelPath(lesson.hsk))}>{text.hskLevel || "เลือกระดับ HSK"}</button>
+                        <button type="button" onClick={() => navigate(lessonContentsPath(lesson))}>{text.back}</button>
+                        <button type="button" onClick={() => navigate(levelsPath())}>{text.hskLevel || "เลือกระดับ HSK"}</button>
                       </>
                     )}
                 </div>

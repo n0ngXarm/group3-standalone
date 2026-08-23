@@ -11,7 +11,7 @@ import { group3AssetPath } from "../../config.js";
 import { COPY } from "../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { GROUP3_VOICE_PROFILES } from "../../services/audio/index.js";
-import { levelPath, lessonPath, practicePath, scenePath } from "../../routing/routes.js";
+import { levelPath, levelsPath, lessonContentsPath, lessonScenePath, practicePath, scenePath } from "../../routing/routes.js";
 import { startLearnerSession } from "../../shared/session.js";
 
 function sceneTitle(scene, language) {
@@ -225,7 +225,7 @@ export function StoryHome({ language, navigate, lowData = false }) {
     }
     startLearnerSession(name);
     setRegisterOpen(false);
-    navigate("/home/levels/", { replace: true });
+    navigate(levelsPath(), { replace: true });
   };
 
   return (
@@ -405,7 +405,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
       return;
     }
     if (!lessonReady) return;
-    navigate(sceneNumber === null ? lessonPath(lesson, "contents") : scenePath(lesson, sceneNumber));
+    navigate(sceneNumber === null ? lessonContentsPath(lesson) : lessonScenePath(lesson, sceneNumber));
   };
   const moveSceneFocus = (event, index) => {
     const scenes = lesson.scenes || [loadingScene];
@@ -423,7 +423,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
   return (
     <main className="g3-catalog">
       <section className="g3-catalog-intro">
-        <button className="g3-back-link" type="button" onClick={() => navigate("/home/levels/")}>← {text.back}</button>
+        <button className="g3-back-link" type="button" onClick={() => navigate(levelsPath())}>← {text.back}</button>
         <div className="g3-catalog-intro-copy">
           <p className="g3-kicker">{text.catalogKicker.replace("{count}", String(levelLessons.length))}</p>
           <h1 tabIndex="-1">{text.catalogTitle}</h1>

@@ -2,7 +2,12 @@ import Icon from "../../../../shared/components/ui/Icon.jsx";
 import { volumeHighIcon } from "../../../../shared/components/ui/iconPaths.js";
 import { COPY } from "../../content/copy.js";
 import { speakChinese } from "../../services/audio/index.js";
-import { lessonPath, scenePath } from "../../routing/routes.js";
+import {
+  levelPath,
+  lessonContentsPath,
+  lessonVocabularyPath,
+  lessonScenePath,
+} from "../../routing/routes.js";
 import { BookPageControls, FrontMatterIndex, LessonNavigationBar } from "../../shared/components/index.js";
 
 export function ContentsPage({ language, lesson, navigate }) {
@@ -26,7 +31,7 @@ export function ContentsPage({ language, lesson, navigate }) {
               en: item.title,
             }[language];
             const targetPath = item.scene
-              ? scenePath(lesson, item.scene)
+              ? lessonScenePath(lesson, item.scene)
               : null;
             const content = <><span className="g3-toc-number">{item.number}</span><span className="g3-toc-copy"><strong>{title}</strong><small>{supportingTitle}</small></span><i aria-hidden="true" /><span className="g3-toc-page">{item.pages}</span></>;
             return targetPath
@@ -34,16 +39,21 @@ export function ContentsPage({ language, lesson, navigate }) {
               : <div key={item.number}>{content}</div>;
           })}
         </div>
-        
       </article>
-      <BookPageControls language={language} navigate={navigate} backPath="/home/" backLabel={text.home} nextPath={lessonPath(lesson, "vocabulary")} nextLabel={text.vocabularyTitle} />
+      <BookPageControls
+        language={language}
+        navigate={navigate}
+        backPath={levelPath(lesson.level)}
+        backLabel={text.shelfTitle || text.catalogTitle || text.back}
+        nextPath={lessonVocabularyPath(lesson)}
+        nextLabel={text.vocabularyTitle}
+      />
     </main>
   );
 }
 
 export function VocabularyPage({ language, lesson, navigate }) {
   const text = COPY[language];
-  const pages = [...new Set(lesson.vocabulary.map((word) => word.page))].join(", ");
   return (
     <main className="g3-front-matter g3-vocabulary-page">
       <LessonNavigationBar language={language} lesson={lesson} navigate={navigate} currentSection="vocabulary" />
@@ -67,9 +77,15 @@ export function VocabularyPage({ language, lesson, navigate }) {
             </button>
           ))}
         </div>
-        
       </article>
-      <BookPageControls language={language} navigate={navigate} backPath={lessonPath(lesson, "contents")} backLabel={text.contentsTitle} nextPath={scenePath(lesson, 1)} nextLabel={text.startReading} />
+      <BookPageControls
+        language={language}
+        navigate={navigate}
+        backPath={lessonContentsPath(lesson)}
+        backLabel={text.contentsTitle}
+        nextPath={lessonScenePath(lesson, 1)}
+        nextLabel={text.startReading}
+      />
     </main>
   );
 }

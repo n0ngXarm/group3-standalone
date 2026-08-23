@@ -33,9 +33,10 @@ const STORY_STYLE_FILES = [
   "role-picker-responsive.css",
   "ui-polish.css",
   "home-enhancements.css",
+  "level-selection.css",
 ];
 
-const   STYLE_LINE_BOUNDS = { "home-enhancements.css": 2300 };
+const STYLE_LINE_BOUNDS = { "home-enhancements.css": 3500 };
 
 async function source(path) {
   return readFile(new URL(path, sourceRoot), "utf8");

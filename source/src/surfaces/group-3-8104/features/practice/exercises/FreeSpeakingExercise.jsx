@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { COPY } from "../../../content/copy.js";
 import { buildFreeSpeakingDefinitions } from "../../../content/practice/freeSpeakingAdapter.js";
-import { practicePath } from "../../../routing/routes.js";
+import { practicePath, practiceSummaryPath } from "../../../routing/routes.js";
 import { createAudioRecorder } from "../audio/audioRecorder.js";
 import { detectSpeakingCapabilities } from "../audio/browserCapabilities.js";
 import { createSpeechRecognizer } from "../audio/speechRecognition.js";
@@ -235,7 +235,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     return (
       <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} status={text.practiceCompleted} text={text} title={title}>
         <article className="g3-practice-summary"><span className="g3-practice-success-mark" aria-hidden="true">✓</span><h2>{text.practiceCompleted}</h2><p>{text.completedCount}: {completedCount} / {definitions.length}</p><div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button>
-<button className="g3-practice-primary" type="button" onClick={() => navigate(`/home/${level}/practice/summary/`)}>{text.practiceSummary || "สรุปผลการฝึก"}</button><button type="button" onClick={restart}>{text.practiceAgain}</button></div></article>
+<button className="g3-practice-primary" type="button" onClick={() => navigate(practiceSummaryPath(level))}>{text.practiceSummary || "สรุปผลการฝึก"}</button><button type="button" onClick={restart}>{text.practiceAgain}</button></div></article>
       </PracticeExerciseShell>
     );
   }

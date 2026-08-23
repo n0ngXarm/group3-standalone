@@ -37,7 +37,7 @@ const MotifIcon = ({ type }) => {
 
 import { COPY } from "../../content/copy.js";
 import { getPracticeHubEntries } from "../../content/practice/registry.js";
-import { practicePath } from "../../routing/routes.js";
+import { levelPath, practicePath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
 import "./practice-hub.css";
 
@@ -78,7 +78,7 @@ export function PracticeHub({ language, level, navigate }) {
     <main className={`g3-catalog g3-practice-hub is-level-${label.toLowerCase()}`}>
       <div className="g3-practice-hub-inner">
         <section className="g3-practice-hub-intro">
-          <button className="g3-back-link" type="button" onClick={() => navigate("/home/levels/")}>
+          <button className="g3-back-link" type="button" onClick={() => navigate(levelPath(level))}>
             ← {text.back}
           </button>
           <div className="g3-practice-intro-copy">

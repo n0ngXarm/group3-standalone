@@ -61,8 +61,13 @@ EOF
 # 4. Generate deployment runner script for nongserver1
 DEPLOY_SCRIPT="${DIST_DIR}/deploy.sh"
 echo "📝 4. Generating remote deploy.sh..."
-cat <<'EOF' > "${DEPLOY_SCRIPT}"
+cat <<EOF > "${DEPLOY_SCRIPT}"
 #!/usr/bin/env bash
+set -euo pipefail
+
+TARGET_PORT="${TARGET_PORT}"
+EOF
+cat <<'EOF' >> "${DEPLOY_SCRIPT}"
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -244,11 +244,11 @@ test("[P0] storage is lesson scoped, deterministic top 5, malformed-safe, and wr
   });
 });
 
-test("[P0] HSK1, HSK2, and HSK3 game routes resolve to their current lesson", () => {
+test("[P0] HSK1, HSK2, and HSK3 game routes redirect to their current lesson contents", () => {
   for (const level of ["hsk1", "hsk2", "hsk3"]) {
     assert.deepEqual(
-      routeFromLocation({ pathname: `/group3/home/${level}/lesson-1/games/`, search: "?theme=dark" }),
-      { name: "games", level, lessonSlug: "lesson-1" },
+      routeFromLocation({ pathname: `/group3/home/${level}/lessons/lesson-01/games/`, search: "?theme=dark" }),
+      { name: "contents", level, lessonSlug: "lesson-1", redirect: true },
     );
   }
 });
@@ -258,13 +258,6 @@ test("[P1] lesson title/back contract and runtime game sources avoid undefined/n
   assert.equal(lessonTitle({ title: { thAid: "บทไทย", zh: "中文", en: "English" } }, "zh"), "中文");
   assert.equal(lessonTitle({ title: { thAid: "บทไทย", zh: "中文", en: "English" } }, "en"), "English");
   assert.equal(lessonTitle({}, "en"), "—");
-
-  const app = await readFile(path.join(GROUP3_SOURCE_ROOT, "Group3App.jsx"), "utf8");
-
-  assert.match(app, /route\.name === "games" \|\| route\.name === "game"/);
-  assert.match(app, /activeGame=\{route\.name === "game" \? route\.gameSlug : null\}/);
-  assert.match(app, /onSelectGame=\{\(gameSlug\) => navigate\(gamePath\(lesson, gameSlug\)\)\}/);
-  assert.match(app, /onShowHub=\{\(\) => navigate\(gamesPath\(lesson\)\)\}/);
   for (const component of GAME_COMPONENTS) {
     const source = await readFile(path.join(GAME_SOURCE_ROOT, component), "utf8");
     assert.doesNotMatch(source, /return\s+null\s*;/, `${component}: must not render a blank null pool`);

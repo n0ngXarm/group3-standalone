@@ -7,9 +7,7 @@ import {
   moonIcon,
   sunIcon,
 } from "../../../../shared/components/ui/iconPaths.js";
-import { COPY } from "../../content/copy.js";
-import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
-import { frontMatterRoutes, lessonPath } from "../../routing/routes.js";
+import { frontMatterRoutes, lessonContentsPath, lessonVocabularyPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
 import { getLearnerSession } from "../../shared/session.js";
 
@@ -125,8 +123,8 @@ export function LessonNavigationBar({ language, lesson, navigate, currentSection
   }, [activeLessonIndex]);
 
   const selectLesson = (targetLesson) => {
-    const targetSection = currentSection === "reader" ? "contents" : currentSection;
-    navigate(lessonPath(targetLesson, targetSection));
+    const targetSection = currentSection === "vocabulary" ? "vocabulary" : "contents";
+    navigate(targetSection === "vocabulary" ? lessonVocabularyPath(targetLesson) : lessonContentsPath(targetLesson));
   };
 
   return (

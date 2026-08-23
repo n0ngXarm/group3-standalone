@@ -24,8 +24,8 @@ export const SUMMARY_COPY = {
     scoreGood: "ดี! แต่ยังมีจุดที่พัฒนาได้อีก",
     scorePass: "ผ่านเกณฑ์ แนะนำให้ทบทวนบทเรียนอีกครั้ง",
     scoreNeedsPractice: "ควรฝึกฝนเพิ่มเติม ลองทบทวนบทเรียนอีกครั้ง",
-    noPracticeResults: "ยังไม่มีผลการฝึกฝน",
-    practiceCompleted: "ทำแบบฝึกหัดเสร็จสิ้น (ไม่ประเมินคะแนน)"
+    noPracticeResults: "ยังไม่มีผลการฝึก",
+    practiceCompleted: "ฝึกครบแล้ว"
   },
   zh: {
     title: "学习总结",
@@ -50,8 +50,8 @@ export const SUMMARY_COPY = {
     scoreGood: "不错！但还有进步空间。",
     scorePass: "及格。建议再复习一下课文。",
     scoreNeedsPractice: "需要更多练习，请重温课文。",
-    noPracticeResults: "暂无练习记录",
-    practiceCompleted: "练习已完成（未评分）"
+    noPracticeResults: "暂无练习结果",
+    practiceCompleted: "练习已完成"
   },
   en: {
     title: "Learning Summary",
@@ -76,8 +76,8 @@ export const SUMMARY_COPY = {
     scoreGood: "Good! But there's room for improvement.",
     scorePass: "Pass. Consider reviewing the lesson.",
     scoreNeedsPractice: "Needs practice. Try reviewing the lesson again.",
-    noPracticeResults: "No practice results yet",
-    practiceCompleted: "Practice completed (Unscored)"
+    noPracticeResults: "No practice results",
+    practiceCompleted: "Practice completed"
   }
 };
 

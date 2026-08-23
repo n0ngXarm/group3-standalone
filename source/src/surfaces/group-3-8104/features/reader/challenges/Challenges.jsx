@@ -111,7 +111,6 @@ function useChallengeDialog(fallbackSelectors) {
 
 export function QteChallenge({ challenge, language, timed, onResolve, onRestart, sourceLine }) {
   const text = COPY[language];
-  const prompt = { th: challenge.prompt.th, zh: challenge.prompt.zh, en: challenge.prompt.en || text.educationalUnavailable }[language];
   const duration = timed ? 15 : null;
   const deadlineRef = useRef(0);
   const intervalRef = useRef(null);
@@ -145,38 +144,16 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
       const timer = window.setTimeout(onResolve, 1500);
       return () => window.clearTimeout(timer);
     }
+    return undefined;
   }, [status, onResolve]);
 
   useEffect(() => {
     armTimer();
     return () => window.clearInterval(intervalRef.current);
-  }, [challenge, duration]);
-
-  useEffect(() => {
-    const pauseWhenHidden = () => {
-      if (!document.hidden || !duration || status !== "active" || paused) return;
-      window.clearInterval(intervalRef.current);
-      setPaused(true);
-    };
-    document.addEventListener("visibilitychange", pauseWhenHidden);
-    return () => document.removeEventListener("visibilitychange", pauseWhenHidden);
-  }, [duration, paused, status]);
-
-  const pick = (option) => {
-    if (status !== "active") return;
-    window.clearInterval(intervalRef.current);
-    setChoice(option.value);
-    if (option.value === challenge.correct) {
-      setStatus("correct");
-      setWrongAttempts(0);
-    } else {
-      setStatus("wrong");
-      setWrongAttempts(w => w + 1);
-    }
-  };
+  }, [challenge]);
 
   const togglePause = () => {
-    if (!duration || status !== "active") return;
+    if (status !== "active") return;
     if (paused) {
       deadlineRef.current = Date.now() + remaining * 1000;
       intervalRef.current = window.setInterval(() => {
@@ -187,39 +164,62 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
           setStatus("timeout");
         }
       }, 100);
+      setPaused(false);
     } else {
       window.clearInterval(intervalRef.current);
+      setPaused(true);
     }
-    setPaused((value) => !value);
   };
 
-  const progress = duration ? Math.max(0, Math.min(100, (remaining / duration) * 100)) : 100;
-  const ratio = duration ? Math.max(0, remaining / duration) : 1;
-  const tone = ratio > 0.5 ? "ok" : ratio > 0.25 ? "warn" : "low";
-  const wrongOptionToDisable = challenge.options.find(o => o.value !== challenge.correct)?.value;
-  const showStrongHint = wrongAttempts >= 6;
+  const pick = (option) => {
+    setChoice(option.value);
+    if (option.value === challenge.answer) {
+      window.clearInterval(intervalRef.current);
+      setStatus("correct");
+      setWrongAttempts(0);
+    } else {
+      setStatus("wrong");
+      setWrongAttempts((w) => w + 1);
+      window.setTimeout(() => {
+        if (status === "active") setChoice("");
+      }, 800);
+    }
+  };
+
+  const progress = duration ? (remaining / duration) * 100 : 100;
+  const tone = progress > 50 ? "good" : progress > 20 ? "warn" : "critical";
+
+  const showStrongHint = wrongAttempts >= 4;
+  const wrongOptionToDisable = showStrongHint ? challenge.options.find(o => o.value !== challenge.answer)?.value : null;
+
+  const genericPromptZh = "哪个答案是正确的？";
+  const genericPromptPinyin = "Nǎge dá'àn shì zhèngquè de?";
+  const genericPromptTh = "คำตอบข้อใดถูกต้อง?";
+
+  const promptZh = challenge.prompt?.zh || genericPromptZh;
+  const promptTh = challenge.prompt?.th || genericPromptTh;
+  const promptPinyin = challenge.prompt?.zh ? "" : genericPromptPinyin;
+  
+  const qteTitle = language === "th" ? "🎯 เลือกคำตอบที่ถูกต้อง" : language === "zh" ? "🎯 选择正确答案" : "🎯 Choose the correct answer";
+  const instruction = language === "th" ? "แตะตัวเลือกที่ถูกต้องที่สุด" : language === "zh" ? "点击最正确的选项" : "Tap the most correct option";
 
   return (
     <div className="g3-challenge-backdrop">
       <section ref={dialogRef} className={`g3-challenge g3-qte is-${status}`} role="dialog" aria-modal="true" aria-labelledby="g3-qte-title">
         <header>
-          <div><span>{text.qte}</span><h2 ref={headingRef} id="g3-qte-title" tabIndex="-1">{prompt}</h2></div>
-          <div className="g3-qte-clock" aria-label={timed ? `${Math.ceil(remaining)} ${text.seconds}` : text.timerOff}>
-            <b>{timed ? Math.ceil(remaining) : "∞"}</b><small>{timed ? text.seconds : text.timerOff}</small>
+          <div className="g3-qte-lead">
+            <span>{qteTitle}</span>
+            <div className="g3-challenge-prompt">
+              <h2 ref={headingRef} id="g3-qte-title" tabIndex="-1">{promptZh}</h2>
+              {promptPinyin && <small className="g3-prompt-pinyin">{promptPinyin}</small>}
+              {promptTh && <em className="g3-prompt-th">{promptTh}</em>}
+            </div>
           </div>
+          {timed && <div className="g3-qte-clock" aria-hidden="true"><b>{Math.ceil(remaining)}</b><small>SEC</small></div>}
         </header>
+        <p className="g3-builder-hint">{instruction}</p>
         <div className="g3-qte-progress" aria-hidden="true"><span data-tone={tone} style={{ width: `${progress}%` }} /></div>
         {timed && status === "active" && <button className="g3-pause-time" type="button" onClick={togglePause}><Icon paths={paused ? playIcon : pauseIcon} />{paused ? text.resume : text.pause}</button>}
-
-        {sourceLine && (
-          <div className="g3-qte-support-block">
-            <strong>{sourceLine.hanzi}</strong>
-            <small>{sourceLine.pinyin}</small>
-            <em>{sourceLine.th}</em>
-          </div>
-        )}
-        
-        
 
         <div className="g3-qte-options">
           {challenge.options.map((option, index) => {
@@ -243,22 +243,22 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
           })}
         </div>
 
-        
-
-        
         {wrongAttempts > 0 && status === "active" && (
           <div className="g3-qte-feedback-block">
             <div className="g3-qte-wrong-count">
               {language === "th" ? `ตอบผิด ${wrongAttempts} ครั้ง` : language === "zh" ? `错误 ${wrongAttempts} 次` : `Wrong ${wrongAttempts} times`}
             </div>
-            {wrongAttempts >= 4 && (
+            {wrongAttempts === 3 && (
               <div className="g3-qte-hint-text">
-                {language === "th" && wrongAttempts === 4 ? "💡 คำใบ้: ลองดูความหมายภาษาไทย" : ""}
-                {language === "th" && wrongAttempts === 5 ? "💡 คำใบ้: สังเกตพินอินให้ดี" : ""}
-                {language === "th" && wrongAttempts >= 6 ? "💡 คำใบ้: ตัดตัวเลือกที่ผิดออก 1 ข้อ" : ""}
-                
-                {language !== "th" && wrongAttempts >= 6 ? "💡 Hint: One wrong option removed" : ""}
-                {language !== "th" && wrongAttempts < 6 ? "💡 Hint: Check the translation and pinyin" : ""}
+                {language === "th" ? "💡 ลองดูคำแต่ละคำอีกครั้ง" : "💡 Look at each word again"}
+              </div>
+            )}
+            {wrongAttempts >= 4 && sourceLine && (
+              <div className="g3-qte-target-hint">
+                <div className="g3-qte-hint-label">💡 {language === "th" ? "คำใบ้" : "Hint"}</div>
+                <strong>{sourceLine.hanzi}</strong>
+                <small>{sourceLine.pinyin}</small>
+                <em>{sourceLine.th}</em>
               </div>
             )}
           </div>
@@ -266,24 +266,17 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
 
         {status !== "active" && (
           <div className="g3-challenge-result" aria-live="polite">
-            <strong>{status === "correct" ? text.correct : status === "timeout" ? text.timeout : text.wrong}</strong>
-            <p>
-              <span>{text.evidence}</span>
-              {challenge.evidenceTh}
-              <small>{challenge.evidence}</small>
-            </p>
-            <div>
-              {status !== "correct" && <button type="button" onClick={armTimer}>{text.retry}</button>}
-            </div>
+            {status === "correct" ? (
+              <><strong>{text.builderCorrect || "🎉 ถูกต้อง!"}</strong></>
+            ) : (
+              <><strong>{text.builderWrong || "⚠️ หมดเวลา"}</strong><p>{text.retry}</p></>
+            )}
           </div>
         )}
-        {onRestart && status !== "active" && (
-          <footer className="g3-qte-restart">
-            <button type="button" onClick={onRestart}>
-              <Icon paths={rotateLeftIcon} />
-              {text.qteRestart || "เริ่มเล่นใหม่"}
-            </button>
-          </footer>
+        {status === "timeout" && onRestart && (
+          <div className="g3-qte-restart">
+            <button type="button" onClick={onRestart}><Icon paths={rotateLeftIcon} />{text.qteRestart}</button>
+          </div>
         )}
       </section>
     </div>
@@ -292,7 +285,6 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
 
 export function SentenceChallenge({ challenge, language, level = "hsk2", onResolve, onRestart, sourceLine }) {
   const text = COPY[language];
-  const prompt = { th: challenge.prompt.th, zh: challenge.prompt.zh, en: challenge.prompt.en || text.educationalUnavailable }[language];
   const [selected, setSelected] = useState([]);
   const [status, setStatus] = useState("active");
   const [wrongAttempts, setWrongAttempts] = useState(0);
@@ -308,35 +300,49 @@ export function SentenceChallenge({ challenge, language, level = "hsk2", onResol
     const pinyin = sourceLine ? sourceLine.pinyin : "";
     const result = buildQteTokens({ hanzi, pinyin, level });
     
-    // If tokenizer fails or returns empty, fallback to static chunks
-    let answerTokens = result.tokens;
-    if (!answerTokens || answerTokens.length === 0) {
-      answerTokens = challenge.answer.map(text => ({ text, pinyin: PINYIN_MAP[text] || "", id: Math.random().toString(36).substring(2) }));
-    }
-    
-    const tiles = [...answerTokens].sort(() => Math.random() - 0.5);
-    setBuiltSentence({ answer: answerTokens, tiles });
-  }, [challenge, sourceLine, level]);
+    const answer = [];
+    let tileIndex = 0;
+    challenge.answer.forEach(part => {
+      let combined = "";
+      let combinedPinyin = [];
+      const partTokens = [];
+      while (combined.length < part.length && tileIndex < result.tokens.length) {
+        const token = result.tokens[tileIndex];
+        combined += token.text;
+        if (token.pinyin) combinedPinyin.push(token.pinyin);
+        partTokens.push(token);
+        tileIndex++;
+      }
+      answer.push({
+        id: partTokens.map(t => t.id).join("-"),
+        text: combined,
+        pinyin: combinedPinyin.join(" ")
+      });
+    });
 
-  const sentence = selected.map((index) => builtSentence.tiles[index]);
+    const shuffled = [...result.tokens].sort(() => Math.random() - 0.5);
+    setBuiltSentence({ answer: result.tokens, tiles: shuffled });
+  }, [challenge, level, sourceLine]);
 
-  useEffect(() => {
-    if (status === "correct") {
-      const timer = window.setTimeout(onResolve, 1500);
-      return () => window.clearTimeout(timer);
-    }
-  }, [status, onResolve]);
+  const sentence = selected.map(index => builtSentence.tiles[index]);
 
   const add = (index) => {
-    if (selected.includes(index) || status === "correct") return;
-    setSelected((current) => [...current, index]);
-    setStatus("active");
+    if (selected.includes(index)) return;
+    const next = [...selected, index];
+    setSelected(next);
+    if (next.length === builtSentence.answer.length) {
+      window.setTimeout(() => {
+        headingRef.current?.parentElement?.parentElement?.querySelector(".is-primary")?.focus();
+      }, 50);
+    }
   };
 
   const check = () => {
-    const correct = sentence.length === builtSentence.answer.length && sentence.every((token, index) => token.id === builtSentence.answer[index].id);
-    if (correct) {
+    if (sentence.length !== builtSentence.answer.length) return;
+    const isCorrect = sentence.every((token, i) => token.id === builtSentence.answer[i].id);
+    if (isCorrect) {
       setStatus("correct");
+      window.setTimeout(onResolve, 1500);
       setWrongAttempts(0);
     } else {
       setStatus("wrong");
@@ -344,29 +350,37 @@ export function SentenceChallenge({ challenge, language, level = "hsk2", onResol
     }
   };
 
+  const isInstruction = challenge.prompt?.zh?.startsWith("重组");
+  
+  const genericPromptZh = "这句话应该怎么排列？";
+  const genericPromptPinyin = "Zhè jù huà yīnggāi zěnme páiliè?";
+  const genericPromptTh = "ประโยคนี้ควรเรียงอย่างไร?";
+
+  const promptZh = (!challenge.prompt?.zh || isInstruction) ? genericPromptZh : challenge.prompt.zh;
+  const promptTh = (!challenge.prompt?.th || isInstruction) ? genericPromptTh : challenge.prompt.th;
+  const promptPinyin = (!challenge.prompt?.zh || isInstruction) ? genericPromptPinyin : "";
+  
   return (
     <div className="g3-challenge-backdrop">
       <section ref={dialogRef} className={`g3-challenge g3-builder is-${status}`} role="dialog" aria-modal="true" aria-labelledby="g3-builder-title">
-        <header><div><span>{text.builder}</span><h2 ref={headingRef} id="g3-builder-title" tabIndex="-1">{prompt}</h2></div><i aria-hidden="true">句</i></header>
-        <p className="g3-builder-hint">{text.builderHint}</p>
-
-        {sourceLine && (
-          <div className="g3-qte-support-block">
-            <strong>{sourceLine.hanzi}</strong>
-            <small>{sourceLine.pinyin}</small>
-            <em>{sourceLine.th}</em>
+        <header>
+          <div>
+            <span>{text.builder}</span>
+            <div className="g3-challenge-prompt">
+              <h2 ref={headingRef} id="g3-builder-title" tabIndex="-1">{promptZh}</h2>
+              {promptPinyin && <small className="g3-prompt-pinyin">{promptPinyin}</small>}
+              {promptTh && <em className="g3-prompt-th">{promptTh}</em>}
+            </div>
           </div>
-        )}
-
-        
+          <i aria-hidden="true">句</i>
+        </header>
+        <p className="g3-builder-hint">{text.builderHint}</p>
 
         <div className="g3-sentence-track" aria-live="polite">
           {sentence.length ? sentence.map((token, index) => (
             <span key={token.id}><b>{token.text}</b>{token.pinyin && <small className="g3-word-pinyin">{token.pinyin}</small>}<em>{challenge.gloss && challenge.gloss[token.text]}</em><small className="g3-word-index">{index + 1}</small></span>
           )) : <em>…</em>}
         </div>
-
-        
 
         <div className="g3-word-bank">
           {builtSentence.tiles.map((token, index) => (
@@ -381,15 +395,25 @@ export function SentenceChallenge({ challenge, language, level = "hsk2", onResol
             <div className="g3-qte-wrong-count">
               {language === "th" ? `ตอบผิด ${wrongAttempts} ครั้ง` : language === "zh" ? `错误 ${wrongAttempts} 次` : `Wrong ${wrongAttempts} times`}
             </div>
-            {wrongAttempts >= 4 && (
+            {wrongAttempts === 3 && (
               <div className="g3-qte-hint-text">
-                {language === "th" && wrongAttempts === 4 ? "💡 คำใบ้: ลองดูความหมายภาษาไทยและจัดเรียงใหม่" : ""}
-                {language === "th" && wrongAttempts === 5 && builtSentence.answer[0] ? `💡 คำใบ้: คำแรกคือ "${builtSentence.answer[0].text}"` : ""}
-                {language === "th" && wrongAttempts >= 6 && builtSentence.answer[0] && builtSentence.answer[1] ? `💡 คำใบ้: เริ่มต้นด้วย "${builtSentence.answer[0].text}" ตามด้วย "${builtSentence.answer[1].text}"` : ""}
-                
-                {language !== "th" && wrongAttempts === 4 ? "💡 Hint: Look at the meaning and try again" : ""}
-                {language !== "th" && wrongAttempts === 5 && builtSentence.answer[0] ? `💡 Hint: The first word is "${builtSentence.answer[0].text}"` : ""}
-                {language !== "th" && wrongAttempts >= 6 && builtSentence.answer[0] && builtSentence.answer[1] ? `💡 Hint: Starts with "${builtSentence.answer[0].text}" then "${builtSentence.answer[1].text}"` : ""}
+                {language === "th" ? "💡 ลองดูคำแต่ละคำอีกครั้ง" : "💡 Look at each word again"}
+              </div>
+            )}
+            {wrongAttempts >= 4 && (
+              <div className="g3-qte-target-hint">
+                <div className="g3-qte-hint-label">💡 {language === "th" ? "คำใบ้" : "Hint"}</div>
+                <strong>{sourceLine ? sourceLine.hanzi : builtSentence.answer.map(t=>t.text).join("")}</strong>
+                <small>{sourceLine ? sourceLine.pinyin : builtSentence.answer.map(t=>t.pinyin).join(" ")}</small>
+                {sourceLine && <em>{sourceLine.th}</em>}
+              </div>
+            )}
+            {wrongAttempts >= 5 && (
+              <div className="g3-qte-hint-text">
+                {language === "th" && wrongAttempts === 5 && builtSentence.answer[0] ? `💡 คำใบ้เพิ่มเติม: คำแรกคือ "${builtSentence.answer[0].text}"` : ""}
+                {language === "th" && wrongAttempts >= 6 && builtSentence.answer[0] && builtSentence.answer[1] ? `💡 คำใบ้เพิ่มเติม: เริ่มต้นด้วย "${builtSentence.answer[0].text}" ตามด้วย "${builtSentence.answer[1].text}"` : ""}
+                {language !== "th" && wrongAttempts === 5 && builtSentence.answer[0] ? `💡 Extra hint: The first word is "${builtSentence.answer[0].text}"` : ""}
+                {language !== "th" && wrongAttempts >= 6 && builtSentence.answer[0] && builtSentence.answer[1] ? `💡 Extra hint: Starts with "${builtSentence.answer[0].text}" then "${builtSentence.answer[1].text}"` : ""}
               </div>
             )}
           </div>
@@ -408,19 +432,12 @@ export function SentenceChallenge({ challenge, language, level = "hsk2", onResol
           <div className="g3-challenge-result" aria-live="polite">
             <strong>{status === "correct" ? text.builderCorrect : text.builderWrong}</strong>
             <p>
-              <span>{text.evidence}</span>
-              {status === "correct" ? challenge.answer.join("") : challenge.evidence}
-              {status === "correct" && <small>{challenge.translationTh}</small>}
+              {status === "wrong" && text.retry}
+              {status === "correct" && text.continue}
             </p>
+            {status === "wrong" && <button type="button" onClick={() => { setSelected([]); setStatus("active"); }}>{text.retry}</button>}
+            {status === "wrong" && onRestart && <button type="button" className="g3-text-action" onClick={onRestart}>{text.qteRestart}</button>}
           </div>
-        )}
-        {onRestart && status !== "active" && (
-          <footer className="g3-qte-restart">
-            <button type="button" onClick={onRestart}>
-              <Icon paths={rotateLeftIcon} />
-              {text.qteRestart || "เริ่มเล่นใหม่"}
-            </button>
-          </footer>
         )}
       </section>
     </div>

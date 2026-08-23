@@ -12,7 +12,6 @@ import { COPY } from "../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { GROUP3_VOICE_PROFILES } from "../../services/audio/index.js";
 import { levelPath, lessonPath, practicePath, scenePath } from "../../routing/routes.js";
-import { SourceStamp } from "../../shared/components/index.js";
 import { startLearnerSession } from "../../shared/session.js";
 
 function sceneTitle(scene, language) {
@@ -431,7 +430,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
           <p>{text.catalogBody}</p>
         </div>
         <div className="g3-catalog-intro-actions">
-          <SourceStamp lesson={lesson} />
+          
           <button className="g3-primary-action" type="button" disabled={activeLessonStatus === "loading"} onClick={() => enterLesson()}>{activeLessonStatus === "error" ? text.retry : text.readLesson}<i aria-hidden="true">→</i></button>
         </div>
       </section>

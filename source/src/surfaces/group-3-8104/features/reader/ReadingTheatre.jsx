@@ -9,7 +9,6 @@ import {
   waveSquareIcon,
 } from "../../../../shared/components/ui/iconPaths.js";
 import { QteChallenge, SentenceChallenge } from "./challenges/index.js";
-import { SourceStamp } from "../../shared/components/index.js";
 import { SceneBriefing } from "../catalog/index.js";
 import { StoryPlaybackDock } from "./playback/index.js";
 import { GROUP3_PLAYBACK_CONFIG } from "../../config.js";
@@ -525,7 +524,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
             </button>
           ))}
         </div>
-        <SourceStamp compact lesson={lesson} />
+        
       </aside>
 
       <section className="g3-reading-stage" aria-labelledby="g3-scene-title" data-source-ref={scene.sourceRef}>

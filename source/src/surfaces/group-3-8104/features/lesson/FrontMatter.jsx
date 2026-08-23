@@ -3,7 +3,7 @@ import { volumeHighIcon } from "../../../../shared/components/ui/iconPaths.js";
 import { COPY } from "../../content/copy.js";
 import { speakChinese } from "../../services/audio/index.js";
 import { lessonPath, scenePath } from "../../routing/routes.js";
-import { BookPageControls, FrontMatterIndex, LessonNavigationBar, SourceStamp } from "../../shared/components/index.js";
+import { BookPageControls, FrontMatterIndex, LessonNavigationBar } from "../../shared/components/index.js";
 
 export function ContentsPage({ language, lesson, navigate }) {
   const text = COPY[language];
@@ -34,7 +34,7 @@ export function ContentsPage({ language, lesson, navigate }) {
               : <div key={item.number}>{content}</div>;
           })}
         </div>
-        <p className="g3-page-source">{source.title} · {source.lesson} · {text.printedPage} {source.printedPages}</p>
+        
       </article>
       <BookPageControls language={language} navigate={navigate} backPath="/home/" backLabel={text.home} nextPath={lessonPath(lesson, "vocabulary")} nextLabel={text.vocabularyTitle} />
     </main>
@@ -50,7 +50,7 @@ export function VocabularyPage({ language, lesson, navigate }) {
       <FrontMatterIndex current="vocabulary" language={language} lesson={lesson} navigate={navigate} />
       <article className="g3-book-spread is-single-page" data-source-ref={lesson.source.sourceRef}>
         <header className="g3-front-title">
-          <div><p className="g3-kicker">{text.newWordsLabel} · {text.lessonLabel} {lesson.number}</p><h1 tabIndex="-1">{text.vocabularyTitle}</h1><span>{language === "th" ? `รวมคำศัพท์ ${lesson.vocabulary.length} คำ` : `${lesson.vocabulary.length} ${language === "zh" ? "个生词" : "words"}`} · pp. {pages}</span></div>
+          <div><p className="g3-kicker">{text.newWordsLabel} · {text.lessonLabel} {lesson.number}</p><h1 tabIndex="-1">{text.vocabularyTitle}</h1><span>{language === "th" ? `รวมคำศัพท์ ${lesson.vocabulary.length} คำ` : `${lesson.vocabulary.length} ${language === "zh" ? "个生词" : "words"}`}</span></div>
           <b>{text.vocabularyLabel}</b>
         </header>
         <div className="g3-vocabulary-ledger">
@@ -67,7 +67,7 @@ export function VocabularyPage({ language, lesson, navigate }) {
             </button>
           ))}
         </div>
-        <p className="g3-page-source">{text.bookSourceNote} · {text.printedPage} {pages}</p>
+        
       </article>
       <BookPageControls language={language} navigate={navigate} backPath={lessonPath(lesson, "contents")} backLabel={text.contentsTitle} nextPath={scenePath(lesson, 1)} nextLabel={text.startReading} />
     </main>

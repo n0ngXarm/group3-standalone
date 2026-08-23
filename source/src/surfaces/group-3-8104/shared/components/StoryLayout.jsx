@@ -13,24 +13,6 @@ import { frontMatterRoutes, lessonPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
 import { getLearnerSession } from "../../shared/session.js";
 
-export function SourceStamp({ compact = false, lesson = null, route = null }) {
-  if (route?.name === "home" || !lesson) {
-    return (
-      <span className={`g3-source-stamp${compact ? " is-compact" : ""}`}>
-        <i aria-hidden="true">PDF</i>
-        <span><b>新HSK教程 1–3</b><small>New HSK Course 1–3 · 48 Lessons</small></span>
-      </span>
-    );
-  }
-  const source = lesson.source || { title: "Loading...", lesson: "...", printedPages: "..." };
-  return (
-    <span className={`g3-source-stamp${compact ? " is-compact" : ""}`} data-source-ref={lesson.sourceRef || ""}>
-      <i aria-hidden="true">PDF</i>
-      <span><b>{source.title}</b><small>{source.lesson} · pp. {source.printedPages}</small></span>
-    </span>
-  );
-}
-
 
 export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout }) {
   const text = COPY[language];
@@ -227,16 +209,15 @@ export function StoryFooter({ language, lesson = null, route = null }) {
       <footer className="g3-footer">
         <span>读 · {text.routeLabels.home}</span>
         <p>{text.sourceOnly}</p>
-        <small>新HSK教程 1–3 · New HSK Course 1–3 · 48 Lessons</small>
+        
       </footer>
     );
   }
-  const source = lesson.source || { title: "Loading...", lesson: "...", printedPages: "...", pdfPages: "..." };
   return (
     <footer className="g3-footer">
       <span>读 · {text.routeLabels.home}</span>
       <p>{text.sourceOnly}</p>
-      <small>{source.title} · {source.lesson} · pp. {source.printedPages} · PDF {source.pdfPages}</small>
+      
     </footer>
   );
 }

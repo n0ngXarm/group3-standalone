@@ -3,7 +3,6 @@ export {
   BookPageControls,
   FrontMatterIndex,
   LessonNavigationBar,
-  SourceStamp,
   StoryFooter,
   StoryHeader,
 } from "./StoryLayout.jsx";

@@ -436,3 +436,32 @@
     white-space: normal;
   }
 }
+
+/* ============================================================
+   POST-SCENE REVIEW SCROLL FIX
+   Unlock ReadingTheatre when scene is completed.
+   Overrides strict 100dvh locks from home-enhancements.
+   ============================================================ */
+
+body:has(.g3-reader[data-status="complete"]) {
+  overflow-y: auto !important;
+}
+
+.g3-story-shell:has(.g3-reader[data-status="complete"]) {
+  height: auto !important;
+  min-height: 100dvh;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+#g3-main:has(.g3-reader[data-status="complete"]) {
+  flex: 0 0 auto !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.g3-reading-stage:has(.g3-scene-complete) {
+  overflow-y: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}

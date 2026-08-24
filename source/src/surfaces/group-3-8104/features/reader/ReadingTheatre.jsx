@@ -212,13 +212,13 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
   }, [cancelAutoScroll, sceneIndex]);
 
   useEffect(() => {
-    if (lineIndex < 0) return undefined;
+    if (lineIndex < 0 || completed) return undefined;
     const frame = window.requestAnimationFrame(() => scrollToLine(lineIndex));
     return () => {
       window.cancelAnimationFrame(frame);
       cancelAutoScroll();
     };
-  }, [cancelAutoScroll, lineIndex, scene.id, scrollToLine]);
+  }, [cancelAutoScroll, completed, lineIndex, scene.id, scrollToLine]);
 
   useEffect(() => {
     if (playbackStatus !== "playing" || lineIndex < 0 || challenge || completed) return undefined;

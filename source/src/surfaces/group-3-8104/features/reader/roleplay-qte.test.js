@@ -32,7 +32,7 @@ test('Wrong attempts increment and hints (QTE)', () => {
   const content = fs.readFileSync(path.resolve(__dirname, './challenges/Challenges.jsx'), 'utf-8');
   assert.match(content, /const \[wrongAttempts, setWrongAttempts\] = useState\(0\);/, 'Should track wrong attempts');
   assert.match(content, /setWrongAttempts\(w => w \+ 1\)/, 'Should increment wrong attempts on failure');
-  assert.match(content, /wrongAttempts >= 3/, 'Hint should appear at 3 wrong attempts');
+  assert.match(content, /wrongAttempts === 3/, 'Hint should appear at 3 wrong attempts');
   assert.match(content, /setWrongAttempts\(0\)/, 'Should reset wrong attempts on success or next QTE');
 });
 

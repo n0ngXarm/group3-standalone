@@ -122,14 +122,17 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   const [wrongChoices, setWrongChoices] = useState([]);
   const { dialogRef, headingRef } = useChallengeDialog(QTE_FOCUS_FALLBACKS);
 
+  const correctOptionId = challenge.correct || challenge.answer;
+  const isMalformed = !correctOptionId || !challenge.options.some(o => o.value === correctOptionId);
+
   const armTimer = () => {
     window.clearInterval(intervalRef.current);
     setRemaining(duration || 15);
     setPaused(false);
-    setStatus("active");
+    setStatus(isMalformed ? "malformed" : "active");
     setChoice("");
     setWrongChoices([]);
-    if (!duration) return;
+    if (!duration || isMalformed) return;
     deadlineRef.current = Date.now() + duration * 1000;
     intervalRef.current = window.setInterval(() => {
       const next = Math.max(0, (deadlineRef.current - Date.now()) / 1000);
@@ -156,11 +159,14 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   }, [status, onResolve]);
 
   useEffect(() => {
+    if (isMalformed) {
+      console.error(`QTE Configuration Error: No valid correct answer found for challenge`, challenge);
+    }
     armTimer();
     return () => {
       window.clearInterval(intervalRef.current);
     };
-  }, [challenge]);
+  }, [challenge, isMalformed]);
 
   const togglePause = () => {
     if (status !== "active") return;
@@ -188,7 +194,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   };
 
   const pick = (option) => {
-    if (option.value === challenge.answer) {
+    if (option.value === correctOptionId) {
       setChoice(option.value);
       window.clearInterval(intervalRef.current);
       setStatus("correct");
@@ -233,9 +239,6 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
   const progress = duration ? (remaining / duration) * 100 : 100;
   const tone = progress > 50 ? "good" : progress > 20 ? "warn" : "critical";
 
-  const showStrongHint = wrongAttempts >= 4;
-  const wrongOptionToDisable = showStrongHint ? challenge.options.find(o => o.value !== challenge.answer)?.value : null;
-
   const genericPromptZh = "哪个答案是正确的？";
   const genericPromptPinyin = "Nǎge dá'àn shì zhèngquè de?";
   const genericPromptTh = "คำตอบข้อใดถูกต้อง?";
@@ -259,34 +262,42 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
               {promptTh && <em className="g3-prompt-th">{promptTh}</em>}
             </div>
           </div>
-          {timed && <div className="g3-qte-clock" aria-hidden="true"><b>{Math.ceil(remaining)}</b><small>SEC</small></div>}
+          {timed && status !== "malformed" && <div className="g3-qte-clock" aria-hidden="true"><b>{Math.ceil(remaining)}</b><small>SEC</small></div>}
         </header>
-        <p className="g3-builder-hint">{instruction}</p>
-        <div className="g3-qte-progress" aria-hidden="true"><span data-tone={tone} style={{ width: `${progress}%` }} /></div>
-        {timed && status === "active" && <button className="g3-pause-time" type="button" onClick={togglePause}><Icon paths={paused ? playIcon : pauseIcon} />{paused ? text.resume : text.pause}</button>}
 
-        <div className="g3-qte-options">
-          {challenge.options.map((option, index) => {
-            const isHintDisabled = showStrongHint && option.value === wrongOptionToDisable;
-            const isWrongGuess = wrongChoices.includes(option.value);
-            return (
-              <button
-                type="button"
-                key={option.value}
-                onClick={() => pick(option)}
-                disabled={status !== "active" || paused || isHintDisabled || isWrongGuess}
-                className={`${choice === option.value ? "is-selected" : ""} ${isHintDisabled || isWrongGuess ? "is-wrong-hint" : ""}`.trim()}
-              >
-                <span>{String.fromCharCode(65 + index)}</span>
-                <span className="g3-qte-option-copy">
-                  <strong>{isWrongGuess ? "✕ " : ""}{option.zh}</strong>
-                  <small className="g3-word-pinyin">{option.pinyin}</small>
-                  {option.th && <em>{option.th}</em>}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        {status === "malformed" ? (
+          <div className="g3-challenge-result is-error" aria-live="polite" style={{ marginTop: '2rem' }}>
+            <strong>⚠️ {language === "th" ? "ข้อมูลแบบฝึกหัดไม่สมบูรณ์" : language === "zh" ? "练习数据不完整" : "Exercise Data Incomplete"}</strong>
+            <p>{language === "th" ? "ไม่พบคำตอบที่ถูกต้องในระบบ กดปุ่มด้านล่างเพื่อข้ามและเรียนต่อไปโดยไม่ถูกหักคะแนน" : language === "zh" ? "系统未找到正确答案。点击下方按钮跳过，不计入错误。" : "No correct answer configured. Click continue to proceed without penalty."}</p>
+            <button className="is-primary" type="button" onClick={onResolve}>{language === "th" ? "ข้าม" : language === "zh" ? "跳过" : "Skip"}</button>
+          </div>
+        ) : (
+          <>
+            <p className="g3-builder-hint">{instruction}</p>
+            <div className="g3-qte-progress" aria-hidden="true"><span data-tone={tone} style={{ width: `${progress}%` }} /></div>
+            {timed && status === "active" && <button className="g3-pause-time" type="button" onClick={togglePause}><Icon paths={paused ? playIcon : pauseIcon} />{paused ? text.resume : text.pause}</button>}
+
+            <div className="g3-qte-options">
+              {challenge.options.map((option, index) => {
+                const isWrongGuess = wrongChoices.includes(option.value);
+                return (
+                  <button
+                    type="button"
+                    key={option.value}
+                    onClick={() => pick(option)}
+                    disabled={status !== "active" || paused || isWrongGuess}
+                    className={`${choice === option.value ? "is-selected" : ""} ${isWrongGuess ? "is-wrong-hint" : ""}`.trim()}
+                  >
+                    <span>{String.fromCharCode(65 + index)}</span>
+                    <span className="g3-qte-option-copy">
+                      <strong>{isWrongGuess ? "✕ " : ""}{option.zh}</strong>
+                      <small className="g3-word-pinyin">{option.pinyin}</small>
+                      {option.th && <em>{option.th}</em>}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
 
         {wrongAttempts > 0 && status === "active" && (
           <div className="g3-qte-feedback-block">
@@ -327,6 +338,8 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
           <div className="g3-qte-restart">
             <button type="button" onClick={onRestart}><Icon paths={rotateLeftIcon} />{text.qteRestart}</button>
           </div>
+        )}
+          </>
         )}
       </section>
     </div>

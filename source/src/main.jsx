@@ -14,14 +14,25 @@ function DeferredThreeBackdrop() {
     const policy = getBrowserAdaptiveThreePolicy();
     if (!policy.allowDecorativeWebGL) return undefined;
 
+    let idleId;
+    let timerId;
     const mountBackdrop = () => setShouldMount(true);
-    if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(mountBackdrop, { timeout: 1500 });
-      return () => window.cancelIdleCallback(idleId);
-    }
+    const scheduleMount = () => {
+      if ("requestIdleCallback" in window) {
+        idleId = window.requestIdleCallback(mountBackdrop, { timeout: 4000 });
+      } else {
+        timerId = window.setTimeout(mountBackdrop, 1200);
+      }
+    };
 
-    const timerId = window.setTimeout(mountBackdrop, 320);
-    return () => window.clearTimeout(timerId);
+    if (document.readyState === "complete") scheduleMount();
+    else window.addEventListener("load", scheduleMount, { once: true });
+
+    return () => {
+      window.removeEventListener("load", scheduleMount);
+      if (idleId !== undefined) window.cancelIdleCallback(idleId);
+      if (timerId !== undefined) window.clearTimeout(timerId);
+    };
   }, []);
 
   if (!shouldMount) {

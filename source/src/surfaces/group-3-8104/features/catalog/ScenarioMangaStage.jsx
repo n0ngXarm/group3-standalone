@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Icon from "../../../../shared/components/ui/Icon.jsx";
 import { volumeIcon } from "../../../../shared/components/ui/iconPaths.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
+import { homeActorMedia, homeBackdropMedia, mapHomeMedia } from "./homeMedia.js";
+
+const resolveHomeMedia = (media) => mapHomeMedia(media, (path) => surfaceAssetPath(3, path));
+const backdropMedia = (name) => resolveHomeMedia(homeBackdropMedia(name));
+const actorMedia = (folder, name) => resolveHomeMedia(homeActorMedia(folder, name));
 
 function speak(text) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -10,6 +15,9 @@ function speak(text) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "zh-CN";
     u.rate = 0.88;
+    const voices = window.speechSynthesis.getVoices?.() || [];
+    const zhVoice = voices.find((v) => /^(zh|cmn|yue)[-_]/i.test(v.lang) || v.lang === "zh");
+    if (zhVoice) u.voice = zhVoice;
     window.speechSynthesis.speak(u);
   } catch {
     // ignore
@@ -21,11 +29,11 @@ export const SCENARIOS = [
     id: "market",
     title: { th: "1. ตลาดผลไม้ & ร้านน้ำชา", zh: "1. 水果市场与茶馆", en: "1. Fruit Market & Tea Shop" },
     tag: "HSK 1",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-01-market-tea.png"),
+    backdrop: backdropMedia("scene-01-market-tea"),
     leftActor: {
       name: "王老师 (Seller)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/01-wang-laoshi-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/01-wang-laoshi-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "01-wang-laoshi-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "01-wang-laoshi-talk"),
       side: "left",
       scale: 1.3,
       x: "25%",
@@ -33,8 +41,8 @@ export const SCENARIOS = [
     },
     rightActor: {
       name: "大卫 (David)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "02-david-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "02-david-talk"),
       side: "right",
       scale: 1.34,
       x: "-25%",
@@ -68,11 +76,11 @@ export const SCENARIOS = [
     id: "campus",
     title: { th: "2. ห้องเรียนมหาวิทยาลัย", zh: "2. 大学课堂与问候", en: "2. Campus & Classroom" },
     tag: "HSK 1",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-02-university-classroom.png"),
+    backdrop: backdropMedia("scene-02-university-classroom"),
     leftActor: {
       name: "李明 (Li Ming)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/03-li-ming-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/03-li-ming-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "03-li-ming-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "03-li-ming-talk"),
       side: "left",
       scale: 1.32,
       x: "25%",
@@ -80,8 +88,8 @@ export const SCENARIOS = [
     },
     rightActor: {
       name: "玛丽 (Mary)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/04-mary-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/04-mary-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "04-mary-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "04-mary-talk"),
       side: "right",
       scale: 1.3,
       x: "-25%",
@@ -115,11 +123,11 @@ export const SCENARIOS = [
     id: "restaurant",
     title: { th: "3. ภัตตาคาร & สั่งอาหาร", zh: "3. 北京餐馆与点餐", en: "3. Beijing Restaurant" },
     tag: "HSK 2",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-03-chinese-restaurant.png"),
+    backdrop: backdropMedia("scene-03-chinese-restaurant"),
     leftActor: {
       name: "服务员 (Waiter)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/05-waiter-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/05-waiter-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "05-waiter-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "05-waiter-talk"),
       side: "left",
       scale: 1.3,
       x: "25%",
@@ -127,8 +135,8 @@ export const SCENARIOS = [
     },
     rightActor: {
       name: "刘明 (Liu Ming)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/06-liu-ming-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/06-liu-ming-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "06-liu-ming-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "06-liu-ming-talk"),
       side: "right",
       scale: 1.32,
       x: "-25%",
@@ -162,11 +170,11 @@ export const SCENARIOS = [
     id: "train",
     title: { th: "4. รถไฟความเร็วสูง", zh: "4. 高铁车站与出行", en: "4. High-Speed Train" },
     tag: "HSK 3",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-04-high-speed-rail-station.png"),
+    backdrop: backdropMedia("scene-04-high-speed-rail-station"),
     leftActor: {
       name: "工作人员 (Officer)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/07-rail-officer-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/07-rail-officer-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "07-rail-officer-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "07-rail-officer-talk"),
       side: "left",
       scale: 1.32,
       x: "25%",
@@ -174,8 +182,8 @@ export const SCENARIOS = [
     },
     rightActor: {
       name: "王一雪 (Yixue)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/08-wang-yixue-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/08-wang-yixue-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "08-wang-yixue-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "08-wang-yixue-talk"),
       side: "right",
       scale: 1.32,
       x: "-25%",
@@ -209,11 +217,11 @@ export const SCENARIOS = [
     id: "dumplings",
     title: { th: "5. งานเลี้ยงห่อเกี๊ยวตรุษจีน", zh: "5. 除夕夜包饺子", en: "5. Dumpling New Year" },
     tag: "HSK 3",
-    backdrop: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-backgrounds/scene-05-cny-dumpling-party.png"),
+    backdrop: backdropMedia("scene-05-cny-dumpling-party"),
     leftActor: {
       name: "张姐 (Zhang Jie)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/09-zhang-jie-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/09-zhang-jie-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "09-zhang-jie-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "09-zhang-jie-talk"),
       side: "left",
       scale: 1.32,
       x: "25%",
@@ -221,8 +229,8 @@ export const SCENARIOS = [
     },
     rightActor: {
       name: "大卫 (David)",
-      idle: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle.png"),
-      talk: surfaceAssetPath(3, "/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
+      idle: actorMedia("visual-novel-characters-idle", "02-david-idle"),
+      talk: actorMedia("visual-novel-character-poses-talk", "02-david-talk"),
       side: "right",
       scale: 1.34,
       x: "-25%",
@@ -256,6 +264,51 @@ export const SCENARIOS = [
 
 const FRAME_MS = 2400;
 
+function ActorCanvas({ media, alt }) {
+  const canvasRef = useRef(null);
+  const imageProps = typeof media === "string" ? { src: media } : media;
+
+  useEffect(() => {
+    const image = new Image();
+    let cancelled = false;
+    image.decoding = imageProps.decoding || "async";
+    image.fetchPriority = imageProps.fetchPriority || "auto";
+    if (imageProps.sizes) image.sizes = imageProps.sizes;
+    if (imageProps.srcSet) image.srcset = imageProps.srcSet;
+    image.src = imageProps.src;
+
+    const draw = () => {
+      if (cancelled || !canvasRef.current) return;
+      const context = canvasRef.current.getContext("2d");
+      if (!context) return;
+      context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      context.drawImage(image, 0, 0, canvasRef.current.width, canvasRef.current.height);
+      canvasRef.current.dataset.renderedSource = imageProps.src;
+    };
+
+    if (image.complete) draw();
+    else image.addEventListener("load", draw, { once: true });
+
+    return () => {
+      cancelled = true;
+      image.removeEventListener("load", draw);
+    };
+  }, [imageProps.decoding, imageProps.fetchPriority, imageProps.sizes, imageProps.src, imageProps.srcSet]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width="768"
+      height="1024"
+      className="g3-manga-actor-sprite"
+      data-source={imageProps.src}
+      role={alt ? "img" : undefined}
+      aria-label={alt || undefined}
+      aria-hidden={alt ? undefined : "true"}
+    />
+  );
+}
+
 function ActorSprite({ actor, talking, speaking }) {
   // Optional multi-frame animation: frames = { idle: [url,...], talk: [url,...] }
   // Cycles through the frame list like a manga panel cut-in.
@@ -278,7 +331,7 @@ function ActorSprite({ actor, talking, speaking }) {
   }, [count, pose]);
 
   const isActivelyTalking = Boolean(talking && (speaking !== undefined ? speaking : true));
-  const src = frames ? frames[frameIndex] : (isActivelyTalking ? actor.talk : actor.idle);
+  const media = frames ? frames[frameIndex] : (isActivelyTalking ? actor.talk : actor.idle);
 
   return (
     <>
@@ -296,14 +349,7 @@ function ActorSprite({ actor, talking, speaking }) {
           ))}
         </div>
       ) : (
-        <img
-          key={`${actor.name}-${src}`}
-          src={src}
-          alt={talking ? "" : actor.name}
-          width="360"
-          height="540"
-          className="g3-manga-actor-sprite"
-        />
+        <ActorCanvas media={media} alt={talking ? "" : actor.name} />
       )}
     </>
   );
@@ -337,6 +383,39 @@ export function ScenarioMangaStage({
   const [isSpeakingAnim, setIsSpeakingAnim] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [panelKey, setPanelKey] = useState(0);
+  const activeBackdrop = {
+    ...scenario.backdrop,
+    fetchPriority: activeScenarioIndex === 0 ? "high" : "auto",
+    loading: "eager",
+  };
+
+  useEffect(() => {
+    const warmImages = [];
+    const timerId = window.setTimeout(() => {
+      const nextScenario = SCENARIOS[(activeScenarioIndex + 1) % SCENARIOS.length];
+      const nextMedia = [
+        nextScenario.backdrop,
+        nextScenario.leftActor.idle,
+        nextScenario.leftActor.talk,
+        nextScenario.rightActor.idle,
+        nextScenario.rightActor.talk,
+      ];
+      nextMedia.forEach((media) => {
+        const image = new Image();
+        image.decoding = "async";
+        image.fetchPriority = "low";
+        image.sizes = media.sizes;
+        image.srcset = media.srcSet;
+        image.src = media.src;
+        warmImages.push(image);
+      });
+    }, 3500);
+
+    return () => {
+      window.clearTimeout(timerId);
+      warmImages.length = 0;
+    };
+  }, [activeScenarioIndex]);
 
   const currentDialogue = scenario.dialogues[lineIndex] || scenario.dialogues[0];
   const isLeftSpeaker = currentDialogue.speaker === "left";
@@ -402,10 +481,8 @@ export function ScenarioMangaStage({
         {!lowData && (
           <div className="g3-manga-backdrop">
             <img
-              src={scenario.backdrop}
+              {...activeBackdrop}
               alt=""
-              decoding="async"
-              loading="eager"
               className="g3-manga-bg-img"
             />
           </div>

@@ -10,6 +10,8 @@ import { evaluateFreeSpeakingResponse } from "../evaluation/freeSpeaking.js";
 import { PracticeExerciseShell } from "./PracticeExerciseShell.jsx";
 import { savePracticeResult } from "../sessionStore.js";
 import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
+import { getSpeechCoachingAdvice } from "../evaluation/speechFeedback.js";
+import { SpeechFeedbackAlert } from "./SpeechFeedbackAlert.jsx";
 
 export function FreeSpeakingExercise({ exerciseType, language, level, navigate }) {
   const text = COPY[language] || COPY.th;
@@ -73,6 +75,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   const startRecognitionCycle = useCallback(() => {
     if (!capabilities.speechRecognitionUsable || phaseRef.current !== "recording") return;
     const recognizer = createSpeechRecognizer({
+      continuous: true,
       interimResults: true,
       locale: "zh-CN",
       onEvent(event) {
@@ -90,7 +93,11 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
           setErrorCode(code);
         }
         if (event.type === "ended" && phaseRef.current === "recording") {
-          window.setTimeout(() => startRecognitionCycle(), 180);
+          if (recognizerRef.current === recognizer) {
+            window.setTimeout(() => {
+              if (phaseRef.current === "recording") startRecognitionCycle();
+            }, 180);
+          }
         }
       },
     });
@@ -240,9 +247,20 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     );
   }
 
+  const coachingAdvice = useMemo(() => {
+    if (phase !== "result" || !result) return null;
+    return getSpeechCoachingAdvice({
+      language,
+      score: result.baselineScore,
+      status: result.status,
+      transcript: transcript,
+    });
+  }, [phase, result, language, transcript]);
+
   const translation = exerciseType === "question-response" ? (current.question.translations?.th || localizedValue(current.question.translations, "th")) : "";
   return (
     <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
+      {coachingAdvice && <SpeechFeedbackAlert advice={coachingAdvice} language={language} />}
       <article className={`g3-free-speaking-panel is-${exerciseType}`}>
         {exerciseType === "image-description" && <figure className="g3-free-speaking-image"><img src={current.image} srcSet={current.imageSrcSet || undefined} sizes="(max-width: 720px) 100vw, 48vw" alt={current.imageAlt?.[language] || current.imageAlt?.zh || ""} /></figure>}
         <div className="g3-free-speaking-content">

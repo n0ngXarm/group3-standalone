@@ -2,7 +2,13 @@ import { detectSpeakingCapabilities, RECORDING_MIME_TYPE_CANDIDATES } from "./br
 import { PRACTICE_ERROR_CODES, practiceError } from "../errors.js";
 
 function stopTracks(stream) {
-  for (const track of stream?.getTracks?.() || []) track.stop();
+  for (const track of stream?.getTracks?.() || []) {
+    try {
+      track.stop();
+    } catch {
+      // already stopped
+    }
+  }
 }
 
 function permissionError(error) {
@@ -49,7 +55,11 @@ export function createAudioRecorder({
       if (!recorder || recorder.state === "inactive") return false;
       cancelled = true;
       clearTimer();
-      recorder.stop();
+      try {
+        recorder.stop();
+      } catch {
+        // already stopped
+      }
       return true;
     },
     discard,
@@ -57,7 +67,11 @@ export function createAudioRecorder({
       clearTimer();
       if (recorder && recorder.state !== "inactive") {
         cancelled = true;
-        recorder.stop();
+        try {
+          recorder.stop();
+        } catch {
+          // already stopped
+        }
       } else {
         releaseStream();
       }
@@ -75,12 +89,28 @@ export function createAudioRecorder({
       cancelled = false;
       completionReason = "user";
       try {
-        stream = await getUserMedia.call(environment.navigator.mediaDevices, { audio: true });
+        const mediaDevices = environment.navigator?.mediaDevices;
+        try {
+          stream = await getUserMedia.call(mediaDevices, {
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true,
+            },
+          });
+        } catch (constraintErr) {
+          if (permissionError(constraintErr)) throw constraintErr;
+          stream = await getUserMedia.call(mediaDevices, { audio: true });
+        }
+
         recorder = mimeType ? new Recorder(stream, { mimeType }) : new Recorder(stream);
         recorder.ondataavailable = (event) => {
           if (event?.data?.size > 0) chunks.push(event.data);
         };
-        recorder.onerror = () => onEvent({ type: "error", error: practiceError(PRACTICE_ERROR_CODES.MEDIA_DEVICE_UNAVAILABLE) });
+        recorder.onerror = () => {
+          releaseStream();
+          onEvent({ type: "error", error: practiceError(PRACTICE_ERROR_CODES.MEDIA_DEVICE_UNAVAILABLE) });
+        };
         recorder.onstop = () => {
           clearTimer();
           const durationMs = Math.max(0, now() - startedAt);
@@ -98,7 +128,11 @@ export function createAudioRecorder({
           onEvent({ type: "completed", reason: completionReason, recording });
         };
         startedAt = now();
-        recorder.start();
+        try {
+          recorder.start(250);
+        } catch {
+          recorder.start();
+        }
         timeoutId = environment.setTimeout(() => controller.stop("timeout"), Math.max(1, Number(durationLimitMs) || 120_000));
         onEvent({ type: "started", mimeType: recorder.mimeType || mimeType });
         return true;
@@ -115,7 +149,11 @@ export function createAudioRecorder({
       if (!recorder || recorder.state === "inactive") return false;
       completionReason = reason;
       clearTimer();
-      recorder.stop();
+      try {
+        recorder.stop();
+      } catch {
+        // already stopped
+      }
       return true;
     },
     supported,

@@ -3,16 +3,24 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { COPY } from "../../../content/copy.js";
 import { buildRepeatSessionDefinitions } from "../../../content/practice/repeatAdapter.js";
 import { practicePath, practiceSummaryPath } from "../../../routing/routes.js";
+import { surfaceAssetPath } from "../../../../../shared/lib/surface-url.js";
 import { speakChinese, stopChineseVoice } from "../../../services/audio/index.js";
 import { detectSpeakingCapabilities } from "../audio/browserCapabilities.js";
+import { createAudioRecorder } from "../audio/audioRecorder.js";
 import { createSpeechRecognizer } from "../audio/speechRecognition.js";
 import { evaluateRepeatSentence } from "../evaluation/deterministic.js";
 import { aggregateRepeatResults, createRepeatSession, repeatSessionReducer } from "../session/repeatSession.js";
 import { PracticeExerciseShell } from "./PracticeExerciseShell.jsx";
 import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
 import { savePracticeResult } from "../sessionStore.js";
+import { getSpeechCoachingAdvice } from "../evaluation/speechFeedback.js";
+import { analyzePronunciationDetail } from "../evaluation/pronunciationAnalyzer.js";
+import { SpeechFeedbackAlert } from "./SpeechFeedbackAlert.jsx";
+import { PronunciationDetailCard } from "./PronunciationDetailCard.jsx";
+import { getRepeatPresentation, resolveRepeatVisualAsset } from "./repeatPresentation.js";
 
 const RESPONSE_WINDOW_MS = 10_000;
+const REPEAT_VISUAL_MANIFEST = "/assets/group3/shared/repeat-visuals/repeat-visual-manifest.json";
 let attemptSequence = 0;
 
 function nextAttemptId() {
@@ -26,11 +34,15 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
   const [loadError, setLoadError] = useState(false);
   const [lastTranscript, setLastTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
+  const [userAudioUrl, setUserAudioUrl] = useState("");
   const [remainingMs, setRemainingMs] = useState(RESPONSE_WINDOW_MS);
   const [errorCode, setErrorCode] = useState("");
   const [selfReviewSpeaking, setSelfReviewSpeaking] = useState(false);
+  const [visualManifest, setVisualManifest] = useState(null);
+  const [brokenVisualId, setBrokenVisualId] = useState("");
   const [restartKey, setRestartKey] = useState(0);
   const recognizerRef = useRef(null);
+  const recorderRef = useRef(null);
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const attemptStartedAtRef = useRef(0);
@@ -44,6 +56,19 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
     }).catch(() => active && setLoadError(true));
     return () => { active = false; };
   }, [level, restartKey]);
+
+  useEffect(() => {
+    let active = true;
+    fetch(surfaceAssetPath(3, REPEAT_VISUAL_MANIFEST))
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error(`repeat visual manifest ${response.status}`)))
+      .then((manifest) => {
+        if (active) setVisualManifest(manifest);
+      })
+      .catch(() => {
+        if (active) setVisualManifest({});
+      });
+    return () => { active = false; };
+  }, []);
 
   const [liveSession, setLiveSession] = useState(null);
   useEffect(() => {
@@ -67,11 +92,41 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
   useEffect(() => () => {
     clearListeningTimers();
     recognizerRef.current?.abort?.();
+    recorderRef.current?.dispose?.();
     stopChineseVoice();
   }, [clearListeningTimers]);
 
   const current = liveSession ? definitions[liveSession.currentIndex] : null;
   const currentResult = liveSession?.results.find((item) => item.exerciseId === current?.exerciseId);
+  const presentation = getRepeatPresentation(liveSession?.phase);
+  const visualAsset = resolveRepeatVisualAsset(visualManifest, current?.exerciseId);
+  const visualSrc = visualAsset && brokenVisualId !== current?.exerciseId
+    ? surfaceAssetPath(3, visualAsset)
+    : "";
+
+  const pronunciationAnalysis = useMemo(() => {
+    if (liveSession?.phase !== "feedback" || !current) return null;
+    return analyzePronunciationDetail({
+      audioDurationMs: currentResult?.metrics?.speechMs || 0,
+      language,
+      speechMs: currentResult?.metrics?.speechMs || 0,
+      targetHanzi: current.hanzi,
+      targetPinyin: current.pinyin,
+      userTranscript: lastTranscript,
+    });
+  }, [liveSession?.phase, current, currentResult, language, lastTranscript]);
+
+  const coachingAdvice = useMemo(() => {
+    if (liveSession?.phase !== "feedback" || !currentResult) return null;
+    return getSpeechCoachingAdvice({
+      accuracy: currentResult.metrics?.transcriptAccuracy,
+      analysis: pronunciationAnalysis,
+      language,
+      score: currentResult.score,
+      status: currentResult.status,
+      transcript: lastTranscript,
+    });
+  }, [liveSession?.phase, currentResult, language, lastTranscript, pronunciationAnalysis]);
 
   const playPrompt = useCallback((advancePhase = false) => {
     if (!current) return;
@@ -90,6 +145,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
   const finishAttempt = useCallback((attemptId, transcript, timedOut = false) => {
     clearListeningTimers();
     recognizerRef.current = null;
+    recorderRef.current?.stop();
     setSelfReviewSpeaking(false);
     const endedAt = performance.now();
     const spoken = String(transcript || "");
@@ -114,6 +170,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
   const finishUnscoredAttempt = useCallback((attemptId) => {
     clearListeningTimers();
     recognizerRef.current = null;
+    recorderRef.current?.stop();
     setSelfReviewSpeaking(false);
     setLastTranscript("");
     setInterimTranscript("");
@@ -132,9 +189,24 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
     if (!current || liveSession?.phase !== "ready") return;
     setErrorCode("");
     setLastTranscript("");
+    setUserAudioUrl("");
+    recorderRef.current?.dispose?.();
     const attemptId = nextAttemptId();
     attemptStartedAtRef.current = performance.now();
     send({ type: "RECORD_START", attemptId });
+
+    if (capabilities.microphoneCapture && capabilities.mediaRecorder) {
+      const recorder = createAudioRecorder({
+        durationLimitMs: RESPONSE_WINDOW_MS,
+        onEvent(event) {
+          if (event.type === "completed" && event.recording?.playbackUrl) {
+            setUserAudioUrl(event.recording.playbackUrl);
+          }
+        },
+      });
+      recorderRef.current = recorder;
+      recorder.start().catch(() => {});
+    }
 
     if (!capabilities.speechRecognitionUsable) {
       setErrorCode(capabilities.asrErrorCode || "ASR_UNSUPPORTED");
@@ -148,20 +220,28 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
     }
 
     let settled = false;
+    let accumulatedTranscript = "";
     const settle = (transcript, timedOut = false) => {
       if (settled) return;
       settled = true;
       finishAttempt(attemptId, transcript, timedOut);
     };
     const recognizer = createSpeechRecognizer({
+      continuous: false,
       interimResults: true,
       locale: "zh-CN",
       onEvent(event) {
-        if (event.type === "interim") setInterimTranscript(event.transcript);
-        if (event.type === "final") settle(event.transcript);
+        if (event.type === "interim") {
+          accumulatedTranscript = event.transcript;
+          setInterimTranscript(event.transcript);
+        }
+        if (event.type === "final") {
+          accumulatedTranscript = event.transcript;
+          settle(event.transcript);
+        }
         if (event.type === "noSpeech") {
-          setErrorCode("NO_SPEECH");
-          settle("");
+          if (!accumulatedTranscript) setErrorCode("NO_SPEECH");
+          settle(accumulatedTranscript);
         }
         if (event.type === "error") {
           const code = event.error?.code || "ASR_ERROR";
@@ -169,11 +249,17 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
           if (isAutomaticEvaluationUnavailable(code)) {
             settled = true;
             finishUnscoredAttempt(attemptId);
-          } else settle("");
+          } else {
+            settle(accumulatedTranscript);
+          }
         }
         if (event.type === "ended" && !settled) {
-          setErrorCode("NO_SPEECH");
-          settle("");
+          if (accumulatedTranscript) {
+            settle(accumulatedTranscript);
+          } else {
+            setErrorCode("NO_SPEECH");
+            settle("");
+          }
         }
       },
     });
@@ -182,13 +268,18 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
       recognizer.start();
       startTimer(attemptId, (id) => {
         recognizer.stop();
-        settle("", true);
+        settle(accumulatedTranscript, true);
       });
     } catch {
       setErrorCode("ASR_ERROR");
       settled = true;
       finishUnscoredAttempt(attemptId);
     }
+  };
+
+  const finishSpeakingEarly = () => {
+    if (liveSession?.phase !== "listening") return;
+    recognizerRef.current?.stop();
   };
 
   const finishSelfReview = () => {
@@ -248,35 +339,68 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
 
   return (
     <PracticeExerciseShell exerciseType="repeat-sentence" level={level} navigate={navigate} progress={{ current: liveSession.currentIndex + 1, total: definitions.length }} status={status} text={text} title={title}>
-      <article className="g3-repeat-panel">
+      {coachingAdvice && <SpeechFeedbackAlert advice={coachingAdvice} language={language} />}
+      <article className={`g3-repeat-panel is-${presentation.layout} ${visualSrc ? "has-visual" : "is-text-only"}`} data-phase={liveSession.phase}>
+        {visualSrc && (
+          <figure className="g3-repeat-visual">
+            <img
+              alt={`${current.hanzi} — ${current.translations?.th || current.translations?.en || ""}`}
+              decoding="async"
+              onError={() => setBrokenVisualId(current.exerciseId)}
+              src={visualSrc}
+            />
+          </figure>
+        )}
         <div className="g3-repeat-prompt">
           <span>{text.practiceInstructions}</span>
           <h2 lang="zh-CN">{current.hanzi}</h2>
           <p className="g3-practice-pinyin">{current.pinyin}</p>
           <p>{current.translations?.th || current.translations?.thAid || ""}</p>
-          {liveSession.phase === "instructions" && <p className="g3-practice-help">{text.repeatInstructionBody}</p>}
         </div>
 
         <div className="g3-repeat-interaction">
-          {liveSession.phase === "instructions" && <button className="g3-practice-primary" type="button" onClick={() => playPrompt(true)}>{text.practiceBegin}</button>}
+          {presentation.showPrepareControls && <div className="g3-repeat-prepare-copy">
+            <p className="g3-practice-help">{text.repeatInstructionBody}</p>
+            <button className="g3-practice-primary" type="button" onClick={() => playPrompt(true)}>{text.practiceBegin}</button>
+          </div>}
+
+          {["playingPrompt", "transition"].includes(liveSession.phase) && (
+            <div className="g3-repeat-playback-state" role="status">
+              <span aria-hidden="true">▶</span>
+              <strong>{text.listenExample}</strong>
+            </div>
+          )}
+
           {["ready", "listening", "processing"].includes(liveSession.phase) && <>
             <div className="g3-practice-timer" aria-label={`${text.speakingTime} ${Math.ceil(remainingMs / 1000)} ${text.secondsShort}`}><strong>{Math.ceil(remainingMs / 1000)}</strong><span>{text.secondsShort}</span></div>
             <div className="g3-practice-actions">
               <button className="is-secondary" type="button" onClick={() => playPrompt(false)} disabled={liveSession.phase !== "ready"}>▶ {text.listenExample}</button>
               {liveSession.phase === "ready" && <button className="g3-practice-primary" type="button" onClick={startSpeaking}>● {text.startSpeaking}</button>}
+              {liveSession.phase === "listening" && <button className="g3-practice-primary is-stop" type="button" onClick={finishSpeakingEarly}>{text.finishSpeaking || "เสร็จสิ้น"}</button>}
               {selfReviewSpeaking && <button className="g3-practice-primary" type="button" onClick={finishSelfReview}>{text.finishSpeaking}</button>}
             </div>
             {!capabilities.speechRecognitionUsable && <p className="g3-practice-notice">{text[practiceErrorCopyKey(capabilities.asrErrorCode || "ASR_UNSUPPORTED")]}</p>}
             {(interimTranscript || liveSession.phase === "processing") && <p className="g3-practice-transcript">{interimTranscript || text.processingSpeech}</p>}
           </>}
 
-          {liveSession.phase === "feedback" && <div className="g3-repeat-feedback">
+          {presentation.showFeedback && <div className="g3-repeat-feedback">
             <h3>{currentResult?.status === "correct" ? text.correctStatus : currentResult?.status === "close" ? text.closeStatus : currentResult?.status === "self-review" ? text.selfReviewResult : text.retryStatus}</h3>
             {Number.isFinite(currentResult?.score) ? <>
-              <p><span>{text.recognizedTranscript}</span><strong lang="zh-CN">{lastTranscript || text.transcriptUnavailable}</strong></p>
               <dl><div><dt>{text.contentAccuracy}</dt><dd>{percent(currentResult.metrics?.transcriptAccuracy)}</dd></div><div><dt>{text.completionMetric}</dt><dd>{percent(currentResult.metrics?.completion)}</dd></div></dl>
-              {(currentResult.evidence?.missing?.length > 0 || currentResult.evidence?.extra?.length > 0) && <p className="g3-repeat-evidence"><span>− {currentResult.evidence.missing.map((item) => item.character).join(" ") || "—"}</span><span>+ {currentResult.evidence.extra.map((item) => item.character).join(" ") || "—"}</span></p>}
-            </> : <><p>{text.automaticEvaluationUnavailable}</p><p>{text.selfReviewResult}</p></>}
+              <div className="g3-repeat-feedback-detail">
+                <p><span>{text.recognizedTranscript}</span><strong lang="zh-CN">{lastTranscript || text.transcriptUnavailable}</strong></p>
+                {pronunciationAnalysis && (
+                  <PronunciationDetailCard
+                    analysis={pronunciationAnalysis}
+                    language={language}
+                    referenceAudio={current.referenceAudio}
+                    targetHanzi={current.hanzi}
+                    targetPinyin={current.pinyin}
+                    userAudioUrl={userAudioUrl}
+                  />
+                )}
+              </div>
+            </> : <div className="g3-repeat-feedback-detail"><p>{text.automaticEvaluationUnavailable}</p><p>{text.selfReviewResult}</p></div>}
             <div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={retry}>{text.tryAgain}</button><button className="g3-practice-primary" type="button" onClick={() => send({ type: "NEXT" })}>{text.nextExercise} →</button></div>
           </div>}
         </div>

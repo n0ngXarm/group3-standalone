@@ -12,11 +12,13 @@ import { GROUP3_LESSONS } from "../../content/registry.js";
 import { frontMatterRoutes, lessonContentsPath, lessonVocabularyPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
 import { getLearnerSession } from "../../shared/session.js";
+import { homeLogoMedia, mapHomeMedia } from "../../features/catalog/homeMedia.js";
 
 
 export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout }) {
   const text = COPY[language];
   const isHome = route?.name === "home";
+  const brandMedia = mapHomeMedia(homeLogoMedia(), (path) => surfaceAssetPath(3, path));
   const routeLabel = route?.name === "reader"
     ? `${text.stage} 0${(route.scene || 0) + 1}`
     : route?.name && !isHome
@@ -32,7 +34,7 @@ export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguag
           onClick={onHome}
           type="button"
         >
-          <img src={surfaceAssetPath(3, "/assets/group3/shared/home/brand-logo.png")} className="g3-brand-mark" alt="" aria-hidden="true" width="58" height="58" decoding="async" />
+          <img {...brandMedia} className="g3-brand-mark" alt="" aria-hidden="true" />
           <span>
             <strong>{text.brand}</strong>
             {text.group ? <small>{text.group}</small> : null}

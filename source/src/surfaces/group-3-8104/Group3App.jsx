@@ -32,6 +32,7 @@ import {
   markSessionInvalidated,
   getSessionInvalidationReason,
 } from "./shared/session.js";
+import { shouldLoadReadingBackground } from "./shared/routeMediaPolicy.js";
 
 const ReadingTheatre = lazy(() => import("./features/reader/index.js").then((module) => ({
   default: module.ReadingTheatre,
@@ -40,7 +41,6 @@ const ReadingTheatre = lazy(() => import("./features/reader/index.js").then((mod
 })));
 
 const LESSON_ROUTE_NAMES = new Set(["reader", "contents", "vocabulary"]);
-const HSK_COURSE_LEVELS = new Set(["hsk1", "hsk2", "hsk3"]);
 
 function PracticeSummaryPage({ language, level, navigate }) {
   const results = getPracticeResults(level);
@@ -66,7 +66,6 @@ export default function Group3App() {
   const [language, setLanguage] = useState("th");
   const [aboutOpen, setAboutOpen] = useState(false);
   const [homeView, setHomeView] = useState("home");
-  const isHskCourseRoute = HSK_COURSE_LEVELS.has(route.level);
 
   const lowData = useMemo(() => {
     const policy = getBrowserAdaptiveThreePolicy();
@@ -135,20 +134,20 @@ export default function Group3App() {
     document.documentElement.dataset.theme = theme;
     document.documentElement.dataset.experience = "group3-reading";
     document.documentElement.dataset.lowData = String(lowData);
-    if (lowData || isHskCourseRoute) {
-      document.documentElement.style.removeProperty("--g3-reading-background");
-    } else {
+    if (shouldLoadReadingBackground({ routeName: route.name, lowData })) {
       document.documentElement.style.setProperty(
         "--g3-reading-background",
         `url("${surfaceAssetPath(3, "/assets/group3/shared/backgrounds/reading-background-v1.webp")}")`,
       );
+    } else {
+      document.documentElement.style.removeProperty("--g3-reading-background");
     }
     return () => {
       delete document.documentElement.dataset.experience;
       delete document.documentElement.dataset.lowData;
       document.documentElement.style.removeProperty("--g3-reading-background");
     };
-  }, [isHskCourseRoute, lowData, theme]);
+  }, [lowData, route.name, theme]);
 
   useEffect(() => {
     document.documentElement.lang = { th: "th", zh: "zh-CN", en: "en" }[language];

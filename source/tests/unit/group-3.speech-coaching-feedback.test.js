@@ -54,3 +54,32 @@ test("speakCoachingFeedback handles missing synthesis environment safely", () =>
   const result = speakCoachingFeedback("ทดสอบ", "th");
   assert.equal(result, null);
 });
+
+test("system coaching feedback defaults to Thai speech", () => {
+  const originalWindow = globalThis.window;
+  const originalUtterance = globalThis.SpeechSynthesisUtterance;
+  const spoken = [];
+  class FakeUtterance {
+    constructor(text) {
+      this.text = text;
+      this.lang = "";
+    }
+  }
+
+  try {
+    globalThis.SpeechSynthesisUtterance = FakeUtterance;
+    globalThis.window = {
+      speechSynthesis: {
+        cancel() {},
+        getVoices: () => [{ lang: "th-TH", name: "Thai" }],
+        speak(utterance) { spoken.push(utterance); },
+      },
+    };
+    const utterance = speakCoachingFeedback("ปรับสำเนียงอีกนิดนะ");
+    assert.equal(utterance.lang, "th-TH");
+    assert.equal(spoken[0], utterance);
+  } finally {
+    globalThis.window = originalWindow;
+    globalThis.SpeechSynthesisUtterance = originalUtterance;
+  }
+});

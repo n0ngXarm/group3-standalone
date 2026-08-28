@@ -72,7 +72,9 @@ function routeLesson(route) {
 export function getInitialTheme() {
   const queryTheme = new URLSearchParams(window.location.search).get("theme");
   if (queryTheme === "light" || queryTheme === "dark") return queryTheme;
-  return window.matchMedia?.("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  const controllerTheme = window.__HUAYUN_THEME__?.get?.();
+  if (controllerTheme === "light" || controllerTheme === "dark") return controllerTheme;
+  return "light";
 }
 
 export function normalizeSceneIndex(search, sceneCount = GROUP3_SCENE_COUNT) {

@@ -35,6 +35,34 @@ test("legacy scene query normalization stays bounded", () => {
   assert.equal(normalizeSceneIndex("?scene=999"), 2);
 });
 
+test("initial theme defaults to light while honoring explicit query or stored controller choice", () => {
+  const originalWindow = globalThis.window;
+  try {
+    globalThis.window = {
+      __HUAYUN_THEME__: { get: () => "dark" },
+      location: { search: "" },
+      matchMedia: () => ({ matches: false }),
+    };
+    assert.equal(routes.getInitialTheme(), "dark");
+
+    globalThis.window = {
+      __HUAYUN_THEME__: undefined,
+      location: { search: "" },
+      matchMedia: () => ({ matches: false }),
+    };
+    assert.equal(routes.getInitialTheme(), "light");
+
+    globalThis.window = {
+      __HUAYUN_THEME__: { get: () => "light" },
+      location: { search: "?theme=dark" },
+      matchMedia: () => ({ matches: true }),
+    };
+    assert.equal(routes.getInitialTheme(), "dark");
+  } finally {
+    globalThis.window = originalWindow;
+  }
+});
+
 test("canonical route builders generate exact hierarchical paths", () => {
   assert.equal(homePath(), "/home/");
   assert.equal(levelsPath(), "/home/levels/");

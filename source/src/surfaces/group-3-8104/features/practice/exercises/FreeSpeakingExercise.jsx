@@ -229,6 +229,16 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     setPhase("ready");
   };
 
+  const coachingAdvice = useMemo(() => {
+    if (phase !== "result" || !result) return null;
+    return getSpeechCoachingAdvice({
+      language,
+      score: result.baselineScore,
+      status: result.status,
+      transcript: transcript,
+    });
+  }, [phase, result, language, transcript]);
+
   const status = errorCode ? text[practiceErrorCopyKey(errorCode)] : phase === "recording" ? text.recordingStatus : "";
 
   if (phase === "loading" || !current) {
@@ -246,16 +256,6 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
       </PracticeExerciseShell>
     );
   }
-
-  const coachingAdvice = useMemo(() => {
-    if (phase !== "result" || !result) return null;
-    return getSpeechCoachingAdvice({
-      language,
-      score: result.baselineScore,
-      status: result.status,
-      transcript: transcript,
-    });
-  }, [phase, result, language, transcript]);
 
   const translation = exerciseType === "question-response" ? (current.question.translations?.th || localizedValue(current.question.translations, "th")) : "";
   return (

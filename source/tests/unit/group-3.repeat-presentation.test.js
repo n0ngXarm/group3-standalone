@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 const presentationModule = "../../src/surfaces/group-3-8104/features/practice/exercises/repeatPresentation.js";
+const adapterModule = "../../src/surfaces/group-3-8104/content/practice/repeatAdapter.js";
 const sessionModule = "../../src/surfaces/group-3-8104/features/practice/session/repeatSession.js";
 const manifestUrl = new URL("../../public/assets/group3/shared/repeat-visuals/repeat-visual-manifest.json", import.meta.url);
 
@@ -73,6 +74,27 @@ test("repeat visual resolver uses exact exerciseId manifest entry and safely rej
   );
   assert.equal(resolveRepeatVisualAsset(manifest, "repeat-sentence:missing"), null);
   assert.equal(resolveRepeatVisualAsset({ unsafe: { asset: "javascript:alert(1)" } }, "unsafe"), null);
+});
+
+test("all 30 Repeat image entries retain the same canonical exercise identity as sentence and audio", async () => {
+  const { buildRepeatSessionDefinitions } = await import(adapterModule);
+  const manifest = JSON.parse(await readFile(manifestUrl, "utf8"));
+  let audited = 0;
+
+  for (const level of ["hsk1", "hsk2", "hsk3"]) {
+    for (const exercise of await buildRepeatSessionDefinitions(level)) {
+      const visual = manifest[exercise.exerciseId];
+      assert.ok(visual, exercise.exerciseId);
+      assert.equal(visual.level, exercise.level, exercise.exerciseId);
+      assert.equal(visual.lessonId, exercise.sourceRef.lessonId, exercise.exerciseId);
+      assert.equal(visual.sceneId, exercise.sourceRef.sceneId, exercise.exerciseId);
+      assert.equal(visual.hanzi, exercise.hanzi, exercise.exerciseId);
+      assert.match(visual.asset, new RegExp(`/repeat-visuals/${level}/repeat-${level}-\\d{2}\\.webp$`));
+      audited += 1;
+    }
+  }
+
+  assert.equal(audited, 30);
 });
 
 test("Retry returns feedback to active controls and Next advances to item 2", async () => {

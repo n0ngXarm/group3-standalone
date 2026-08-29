@@ -362,24 +362,43 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
 
         <div className="g3-repeat-interaction">
           {presentation.showPrepareControls && <div className="g3-repeat-prepare-copy">
-            <p className="g3-practice-help">{text.repeatInstructionBody}</p>
-            <button className="g3-practice-primary" type="button" onClick={() => playPrompt(true)}>{text.practiceBegin}</button>
+            <h3 className="g3-practice-step-title">{text.practiceInstructions || "ขั้นตอนการฝึก"}</h3>
+            <ol className="g3-practice-step-list">
+              <li>{text.listenExample || "ฟังประโยคตัวอย่าง"}</li>
+              <li>{text.startSpeaking ? `เมื่อพร้อม กด${text.startSpeaking}` : "เมื่อพร้อม กดเริ่มพูด"}</li>
+              <li>{text.speakWithin10Sec || "พูดภายใน 10 วินาที"}</li>
+            </ol>
+            <div className="g3-practice-prepare-actions">
+              <button className="is-secondary" type="button" onClick={() => playPrompt(false)}>▶ {text.listenExample}</button>
+              <span className="g3-prepare-time">⏱ 10 {text.secondsShort}</span>
+              <button className="g3-practice-primary" type="button" onClick={() => playPrompt(true)}>● {text.startSpeaking}</button>
+            </div>
           </div>}
 
-          {["playingPrompt", "transition"].includes(liveSession.phase) && (
-            <div className="g3-repeat-playback-state" role="status">
-              <span aria-hidden="true">▶</span>
-              <strong>{text.listenExample}</strong>
+          {presentation.showActiveControls && <>
+            <div className={`g3-practice-timer ${liveSession.phase === 'listening' ? 'is-active' : ''}`} aria-label={`${text.speakingTime} ${Math.ceil(remainingMs / 1000)} ${text.secondsShort}`}>
+              <strong>{Math.ceil(remainingMs / 1000)}</strong>
+              <span>{text.secondsShort}</span>
             </div>
-          )}
-
-          {["ready", "listening", "processing"].includes(liveSession.phase) && <>
-            <div className="g3-practice-timer" aria-label={`${text.speakingTime} ${Math.ceil(remainingMs / 1000)} ${text.secondsShort}`}><strong>{Math.ceil(remainingMs / 1000)}</strong><span>{text.secondsShort}</span></div>
+            
+            {["playingPrompt", "transition"].includes(liveSession.phase) && (
+              <div className="g3-repeat-playback-state" role="status">
+                <span aria-hidden="true">▶</span>
+                <strong>{text.listenExample}</strong>
+              </div>
+            )}
+            
             <div className="g3-practice-actions">
               <button className="is-secondary" type="button" onClick={() => playPrompt(false)} disabled={liveSession.phase !== "ready"}>▶ {text.listenExample}</button>
-              {liveSession.phase === "ready" && <button className="g3-practice-primary" type="button" onClick={startSpeaking}>● {text.startSpeaking}</button>}
-              {liveSession.phase === "listening" && <button className="g3-practice-primary is-stop" type="button" onClick={finishSpeakingEarly}>{text.finishSpeaking || "เสร็จสิ้น"}</button>}
-              {selfReviewSpeaking && <button className="g3-practice-primary" type="button" onClick={finishSelfReview}>{text.finishSpeaking}</button>}
+              {(liveSession.phase === "ready" || ["playingPrompt", "transition"].includes(liveSession.phase)) && 
+                <button className="g3-practice-primary" type="button" onClick={startSpeaking} disabled={liveSession.phase !== "ready"}>● {text.startSpeaking}</button>
+              }
+              {liveSession.phase === "listening" && !selfReviewSpeaking &&
+                <button className="g3-practice-primary is-stop" type="button" onClick={finishSpeakingEarly}>{text.finishSpeaking || "เสร็จสิ้น"}</button>
+              }
+              {(liveSession.phase === "processing" || selfReviewSpeaking) && 
+                <button className="g3-practice-primary" type="button" onClick={finishSelfReview} disabled={liveSession.phase === "processing"}>{text.finishSpeaking}</button>
+              }
             </div>
             {!capabilities.speechRecognitionUsable && <p className="g3-practice-notice">{text[practiceErrorCopyKey(capabilities.asrErrorCode || "ASR_UNSUPPORTED")]}</p>}
             {(interimTranscript || liveSession.phase === "processing") && <p className="g3-practice-transcript">{interimTranscript || text.processingSpeech}</p>}

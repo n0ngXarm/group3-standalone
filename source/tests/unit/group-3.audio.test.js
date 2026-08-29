@@ -156,10 +156,12 @@ function installBrowserMocks({ speech = true, voices = [] } = {}) {
   FakeAudioContext.decodeError = null;
   FakeAudioContext.defaultState = "running";
   FakeSource.instances = [];
-  globalThis.fetch = async (url) =>
-    fetchResponses.has(url)
+  globalThis.fetch = async (url) => {
+    fetchCalls.push(url);
+    return fetchResponses.has(url)
       ? { ok: true, arrayBuffer: async () => new ArrayBuffer(8) }
       : { ok: false, status: 404 };
+  };
   globalThis.window.fetch = globalThis.fetch;
   return synthesis;
 }
@@ -180,10 +182,12 @@ const fetchResponses = new Set([
   "/autoplay.mp3",
   "/manual.mp3",
 ]);
+let fetchCalls = [];
 
 beforeEach(() => {
   FakeAudio.instances = [];
   FakeAudio.playError = null;
+  fetchCalls = [];
   installBrowserMocks();
   fetchResponses.add("/group3/assets/group3/voices/test.mp3");
   fetchResponses.add("/voice.mp3");
@@ -323,4 +327,59 @@ test("a stale playback cleanup cannot cancel the newer active voice", { concurre
   assert.deepEqual(await manual.completion, { error: null, status: "ended" });
   assert.equal(manualSource.stopCalls, 1);
   assert.equal(autoplaySource.stopCalls, 1);
+});
+
+test("Web Audio cache keys use the complete resource URL across levels and lessons", { concurrency: false }, async () => {
+  const hsk1 = "/assets/group3/lessons/hsk1/lesson-01/audio/scene-01/line-01.mp3?v=one";
+  const hsk2 = "/assets/group3/lessons/hsk2/lesson-02/audio/scene-01/line-01.mp3?v=one";
+  fetchResponses.add(hsk1);
+  fetchResponses.add(hsk2);
+
+  const first = speakChinese("第一课", { audioSrc: hsk1 });
+  const firstSource = await waitForSource();
+  firstSource.onended();
+  await first.completion;
+
+  const second = speakChinese("第二课", { audioSrc: hsk2 });
+  const secondSource = await waitForSource(1);
+  assert.equal(secondSource.started, true);
+  assert.deepEqual(fetchCalls, [hsk1, hsk2]);
+  secondSource.onended();
+  await second.completion;
+
+  const replay = speakChinese("第一课", { audioSrc: hsk1 });
+  const replaySource = await waitForSource(2);
+  assert.equal(replaySource.started, true);
+  assert.deepEqual(fetchCalls, [hsk1, hsk2], "cached replay fetched a URL that was already decoded");
+  replaySource.onended();
+  await replay.completion;
+});
+
+test("a late fetch cannot start stale audio after the visible line changes", { concurrency: false }, async () => {
+  const staleUrl = "/late/scene-01/line-01.mp3";
+  const currentUrl = "/current/scene-01/line-02.mp3";
+  let releaseStaleFetch;
+  globalThis.fetch = (url) => {
+    fetchCalls.push(url);
+    if (url === staleUrl) {
+      return new Promise((resolve) => {
+        releaseStaleFetch = () => resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) });
+      });
+    }
+    return Promise.resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) });
+  };
+  globalThis.window.fetch = globalThis.fetch;
+
+  const stale = speakChinese("旧句子", { audioSrc: staleUrl });
+  await Promise.resolve();
+  const current = speakChinese("当前句子", { audioSrc: currentUrl });
+  releaseStaleFetch();
+  const currentSource = await waitForSource();
+  await new Promise((resolve) => setTimeout(resolve, 5));
+
+  assert.deepEqual(await stale.completion, { error: null, status: "cancelled" });
+  assert.equal(FakeSource.instances.length, 1);
+  assert.equal(currentSource.started, true);
+  currentSource.onended();
+  assert.deepEqual(await current.completion, { error: null, status: "ended" });
 });

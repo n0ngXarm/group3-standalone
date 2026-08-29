@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "audit:audio": "node --import ./test-alias-loader.js scripts/audio-integrity-audit.mjs",
     "dev": "vite --host 0.0.0.0 --base /group3/",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",

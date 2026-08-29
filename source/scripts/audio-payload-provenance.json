@@ -1,0 +1,329 @@
+{
+  "sourceManifestCommit": "5c2f9e4",
+  "payloads": [
+    {
+      "hash": "0df66a1cef3faa9f43bfd4d5d0f521e8752e771f70f12b0896f247a83005d2db",
+      "file": "h2l2-hotel-04.mp3",
+      "profile": "hotelReceptionist",
+      "text": "好打车。"
+    },
+    {
+      "hash": "12d3c575a0b03c4d5409ce5d025b99a7dbdaa2d4f7fcf06c96961b511edae5d7",
+      "file": "l2-menu-01.mp3",
+      "profile": "wang",
+      "text": "家月、李文，你们看看菜单，想吃点儿什么？"
+    },
+    {
+      "hash": "147f6834f0532bb526407341833065f88e46e3e5c5aebeb409797a941f18873d",
+      "file": "l2-menu-04.mp3",
+      "profile": "wang",
+      "text": "那多点点儿，别客气。你们喝什么饮料？"
+    },
+    {
+      "hash": "1d69062e31f1f331c6c9588958e486dd012895c841a45a3b860feb319af3d1f5",
+      "file": "l2-menu-02.mp3",
+      "profile": "liWen",
+      "text": "谢谢一雪姐，我都可以，你们点吧。"
+    },
+    {
+      "hash": "1fbc6e597ffabcd58811718ef4701f0d4e4c9860e24719d93f0a224dfe455e02",
+      "file": "h2l2-hotel-03.mp3",
+      "profile": "bai",
+      "text": "这儿好打车吗？"
+    },
+    {
+      "hash": "2848100c987b1971a53c443cebaa422b1761fc4fda8f073f56f2fe018c3a5afc",
+      "file": "l9-entrance-03.mp3",
+      "profile": "wang",
+      "text": "咖啡店离这儿有点儿远。"
+    },
+    {
+      "hash": "324bab21bb730e57d5e9f1e6f0675820145bdff0bb237a317d0cd758966d6725",
+      "file": "h3l3-new-home-01.mp3",
+      "profile": "wang",
+      "text": "我今天早上来的时候，灯还开着。"
+    },
+    {
+      "hash": "37fbc62ecdf790174e2f26773ba7d1c24ac4c643c7fc1989853c9fd1ef67749d",
+      "file": "h1l1-classroom-01.mp3",
+      "profile": "teacherWang",
+      "text": "大家好！"
+    },
+    {
+      "hash": "43c980201b6388babe8fb775044f07314ef93b90b36627d0d380aa117287f8fd",
+      "file": "h3l14-library-02.mp3",
+      "profile": "bai",
+      "text": "下午我只有两节课，可以帮你去图书馆还书。"
+    },
+    {
+      "hash": "43d4eacd603ba6d839c6ab8022558dd4f3321d4487fba56073a71e10cad9fe01",
+      "file": "l4-mall-04.mp3",
+      "profile": "wang",
+      "text": "好啊！你想买点儿什么？"
+    },
+    {
+      "hash": "47a36e6de664cb2cc1272db58e65c587776393f4e124f9d620bd6a5d46885718",
+      "file": "h3l9-badminton-04.mp3",
+      "profile": "bai",
+      "text": "这么多同学一起打，如果总是接不住球，就太不好意思了。"
+    },
+    {
+      "hash": "5059a51fd232f02aa3bdf5297a44caabb572997e5f302de5f3f5134cc3243e6b",
+      "file": "clothes-03.mp3",
+      "profile": "wang",
+      "text": "小雪能穿，买一件吧。"
+    },
+    {
+      "hash": "560278ec4440ba8a72f5fdb775aa9a9cc092f5a85a87a51bfbcae7c909526c30",
+      "file": "clothes-01.mp3",
+      "profile": "wang",
+      "text": "这家商店衣服真多！这件一百元，怎么样？"
+    },
+    {
+      "hash": "56c721d2b49e424e122aa6847fe8be34c73d2aef0883bcca6ce3874c1f5fb4fe",
+      "file": "l9-entrance-01.mp3",
+      "profile": "wang",
+      "text": "门口有家奶茶店。你想喝杯奶茶吗？"
+    },
+    {
+      "hash": "5a3b2d0731e17c6e38d3ebf45f5e14463775187685883b4cda3fddd7be058a62",
+      "file": "h1l1-classroom-04.mp3",
+      "profile": "students",
+      "text": "你好，小语！"
+    },
+    {
+      "hash": "5bf96a7191f8ba4c2540f0673008be6bf51c24d805cd06ba110df86803bf23bf",
+      "file": "h3l14-library-04.mp3",
+      "profile": "bai",
+      "text": "行，你告诉我书名。"
+    },
+    {
+      "hash": "5d7a6577ed3474f04b25ae401dd23f4d23c24d11bc637b1439de70cd230fbd29",
+      "file": "h1l1-office-01.mp3",
+      "profile": "teacherWang",
+      "text": "AI小语，你好！"
+    },
+    {
+      "hash": "6028f9adc5131baa0627b6f5d44492b49e3b4b7fab21bf3aaa178e4589cf42e6",
+      "file": "h1l1-office-02.mp3",
+      "profile": "xiaoyu",
+      "text": "王老师，你好！"
+    },
+    {
+      "hash": "64f35b27654c63e745adca5879fc0b772f18cccf7f6f10ba79a5391d0cd674fe",
+      "file": "h1l7-time-01.mp3",
+      "profile": "bai",
+      "text": "现在几点？"
+    },
+    {
+      "hash": "65bd325ce18bb5e0ab155f39414d2f3d1d2831810ccd9b5335413d40728a1f48",
+      "file": "h1l1-classroom-03.mp3",
+      "profile": "xiaoyu",
+      "text": "你们好！"
+    },
+    {
+      "hash": "75f9cc7dfc61dad012d5f51439befab519e1e45edc8e5cb0c6c8393dcd24cdde",
+      "file": "h2l2-hotel-01.mp3",
+      "profile": "bai",
+      "text": "请问，这儿有到北京大学的公交车吗？"
+    },
+    {
+      "hash": "7a0e5eede3ba3df9b2f36bbfbada6ee930c395c4e9eadfdfd09c83daf4dd39ce",
+      "file": "l4-mall-03.mp3",
+      "profile": "liuXiaoxue",
+      "text": "我们进去看看吧。"
+    },
+    {
+      "hash": "7f7b40f06073c20f93a0ff0b487c2fda73e72cf7632fef2f9e4f8bb8f6bcee1c",
+      "file": "clothes-02.mp3",
+      "profile": "liu",
+      "text": "好看，也不贵。"
+    },
+    {
+      "hash": "8648547c4ffe931cc50d25ed01d3a7ce3ccfdd6b78a897114fc3d3bd6b67a25a",
+      "file": "clothes-04.mp3",
+      "profile": "liu",
+      "text": "好的。小明能穿吗？"
+    },
+    {
+      "hash": "87eecf3c2866ee9c3830cf8d06ab9d66f78d2ac0de6f9591300f3fc5c2d8e25b",
+      "file": "h1l11-taxi-03.mp3",
+      "profile": "teacherWang",
+      "text": "是的。你开车没开车？"
+    },
+    {
+      "hash": "897c82a63f04453ca64aade1d34ed2c225cfd50af76c4f2c15a8e4ff72dba28e",
+      "file": "h3l9-badminton-03.mp3",
+      "profile": "liWen",
+      "text": "不是比赛，打不好没关系。"
+    },
+    {
+      "hash": "8b0607da0555b64649086772c5714fa602c2da1278e4e5517f4553899d502a2c",
+      "file": "h3l14-library-03.mp3",
+      "profile": "liWen",
+      "text": "那太谢谢了。你能再帮我借本书吗？"
+    },
+    {
+      "hash": "8c1c0e59de343809dfccf7f5d0d8dc4d083b096f9d96c1ee41c7c2e18f1197d3",
+      "file": "l1-airport-02.mp3",
+      "profile": "wang",
+      "text": "是的，你们就是她的学生吧？"
+    },
+    {
+      "hash": "90a5e234f17bf1d063fa9a5a0d7dfd3d46c566996f59ed9b804584b26d9ac17a",
+      "file": "l9-entrance-04.mp3",
+      "profile": "liu",
+      "text": "没关系，那家店的咖啡很好喝。"
+    },
+    {
+      "hash": "91695e693882cb521752e1a654d16ca9f42e20ac9cf45346793f0ecf779e40b1",
+      "file": "l1-airport-03.mp3",
+      "profile": "bai",
+      "text": "对。我是白家月，她是安妮。"
+    },
+    {
+      "hash": "92fdb8b90f8cf28d250fabba12380b50dfc0348d84071d24838eb88e9dc8458d",
+      "file": "l9-entrance-02.mp3",
+      "profile": "liu",
+      "text": "我想喝咖啡，还是去咖啡店吧。"
+    },
+    {
+      "hash": "9519a53dab253aaa45108021f8254ddc764efc5d0ca34568f2b1be4766b4ee98",
+      "file": "h1l4-home-01.mp3",
+      "profile": "liu",
+      "text": "一飞忙吗？"
+    },
+    {
+      "hash": "99d2003d371774febc63fe1f15f72a26ac9c40c15931996959ac558a2b656ca2",
+      "file": "h1l4-home-04.mp3",
+      "profile": "wang",
+      "text": "她有二十个学生。"
+    },
+    {
+      "hash": "a2552ab1ceaff4fcb5831c57f9c420e428ded4e8f01c38369adfe60c1e4cbb93",
+      "file": "l2-menu-03.mp3",
+      "profile": "bai",
+      "text": "飞了这么远，现在还真是又饿又渴。"
+    },
+    {
+      "hash": "aa4947bdcc8e5f8be6922900676c1cc48281deb0f1236e3c1eb5c149034cf29e",
+      "file": "h3l9-badminton-01.mp3",
+      "profile": "liWen",
+      "text": "家月，你跟我们一起打羽毛球吧？"
+    },
+    {
+      "hash": "b1050924e7e0fda2b2f963c97ca867cb31a349746e2342d9876ca10e3ac56de2",
+      "file": "l1-airport-04.mp3",
+      "profile": "wang",
+      "text": "你们好，我叫王一雪。一飞给我打电话了，让我来接你们。"
+    },
+    {
+      "hash": "b2462579341383486731de7cb499783307e9933351c7e5cd06a373f4c2bba1c3",
+      "file": "h3l14-library-01.mp3",
+      "profile": "liWen",
+      "text": "我借的这本词典最好今天还，但是我没时间去。"
+    },
+    {
+      "hash": "b8bc7c9a91a0dab7004f9f9fedb2e69c97d81247a6336bbfbfb38e4b8a1ee936",
+      "file": "l1-airport-01.mp3",
+      "profile": "bai",
+      "text": "请问，您是王一飞老师的姐姐吗？"
+    },
+    {
+      "hash": "c5ba5a929390303bfdd6dbbfd34509a48a8704f1de9c58c85a85b51175165ad0",
+      "file": "h1l1-classroom-02.mp3",
+      "profile": "students",
+      "text": "老师，您好！"
+    },
+    {
+      "hash": "c82e7d4fb0ed4b0cc85c6e643ed42ea28947911fe03415818231581e1efdee07",
+      "file": "h1l7-time-02.mp3",
+      "profile": "annie",
+      "text": "早上八点四十。"
+    },
+    {
+      "hash": "cc376ab6541ce0bd7808bf4968f2803c1dc3fcc5cda45a13dd506bbfe243449e",
+      "file": "h3l3-new-home-02.mp3",
+      "profile": "liu",
+      "text": "我这几天忙坏了，可能走的时候忘关了。"
+    },
+    {
+      "hash": "d29b5c44114d764b8e58012fbaed81b1007f0c0a49103c7b01f37c5086e824fd",
+      "file": "h1l4-home-02.mp3",
+      "profile": "wang",
+      "text": "她很忙。"
+    },
+    {
+      "hash": "d769039b3e481e28ef12368408d2b39bfa12ea797da34689ca7d5d6ee0c00a5c",
+      "file": "h1l7-time-03.mp3",
+      "profile": "bai",
+      "text": "我上午十点十分有课。"
+    },
+    {
+      "hash": "d9a1bbf0bf09401f92eaf2a6614c800a097da6ed09f0e643add51c5186bb863c",
+      "file": "h1l11-taxi-01.mp3",
+      "profile": "teacherWang",
+      "text": "喂，李文，你什么时候能到饭店？"
+    },
+    {
+      "hash": "daf70b5e4e403da42325962e9d0fb46c3e0af97204101ee91a6132514bf582a6",
+      "file": "h1l7-time-04.mp3",
+      "profile": "annie",
+      "text": "好的，我们下午两点见吧。"
+    },
+    {
+      "hash": "e3a79ed8c052a25f15b28499a08660f1e2599f38728bd483428a05e476adc28e",
+      "file": "l4-mall-01.mp3",
+      "profile": "liuXiaoxue",
+      "text": "妈妈，我们来过这家商场吗？"
+    },
+    {
+      "hash": "e3b3e28034fe69afeba6cd72ad0cb739735d23ceb0bcdf88c9dda0542c3d2e57",
+      "file": "h1l11-taxi-02.mp3",
+      "profile": "liWen",
+      "text": "还不知道，正在找呢。它是不是在超市后边？"
+    },
+    {
+      "hash": "e5213875ab186faf270aa18db5d35dfc29e892826fe4667047337266f69c4d94",
+      "file": "h3l9-badminton-02.mp3",
+      "profile": "bai",
+      "text": "我好多年没打羽毛球了，几乎忘了怎么打了。"
+    },
+    {
+      "hash": "e58207e776831ce4d6f9949015ce609214703b1bfd6bcfdf5dda4860b90588d1",
+      "file": "h3l3-new-home-03.mp3",
+      "profile": "wang",
+      "text": "冰箱不能用，这些吃的东西放在哪儿？"
+    },
+    {
+      "hash": "e5b611b6b545293ab88bc5e20a9f29f1e661161ff5014be520638515d0d76cf6",
+      "file": "l4-mall-02.mp3",
+      "profile": "wang",
+      "text": "没来过，这是新开的。"
+    },
+    {
+      "hash": "f3775746b758612c3d5dda26c01b7d8afaad7ea92c75fb428a8192cff5f7ad5d",
+      "file": "h1l11-taxi-04.mp3",
+      "profile": "liWen",
+      "text": "我没开车，坐车呢。"
+    },
+    {
+      "hash": "fc2356602a1200236534109c4e5691fa4a44e34fab8649d0f1701aa55b4a2730",
+      "file": "h1l4-home-03.mp3",
+      "profile": "liu",
+      "text": "她有多少个学生？"
+    },
+    {
+      "hash": "fc2f9a25be9e50ead78a9948824f224daeddf26eea7bbfc84ef7b16e68a4ac45",
+      "file": "h2l2-hotel-02.mp3",
+      "profile": "hotelReceptionist",
+      "text": "有，但车站有点儿远。"
+    },
+    {
+      "hash": "fede191100fbda4f0935ef9b31cee0a2fa33cefb181434094829800ee70cce30",
+      "file": "h3l3-new-home-04.mp3",
+      "profile": "liu",
+      "text": "不可能吧？冰箱是新买的，我来看看。"
+    }
+  ]
+}

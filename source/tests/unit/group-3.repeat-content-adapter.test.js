@@ -47,6 +47,34 @@ test("session source builder derives exactly ten references per supported HSK le
   }
 });
 
+test("all 30 Repeat prompts derive reference audio from their canonical sourceRef", async () => {
+  const { buildRepeatSessionDefinitions, resolveRepeatExercise } = await import(adapterModule);
+  let audited = 0;
+
+  for (const level of ["hsk1", "hsk2", "hsk3"]) {
+    const exercises = await buildRepeatSessionDefinitions(level);
+    for (const exercise of exercises) {
+      const canonical = await resolveRepeatExercise(exercise.sourceRef);
+      const lessonNumber = Number(exercise.sourceRef.lessonId.match(/-l(\d+)$/)?.[1]);
+      const sceneNumber = Number(exercise.sourceRef.sceneId.match(/-s(\d+)$/)?.[1]);
+      const lineNumber = exercise.sourceRef.lineIndex + 1;
+
+      assert.equal(exercise.hanzi, canonical.hanzi, exercise.exerciseId);
+      assert.equal(exercise.pinyin, canonical.pinyin, exercise.exerciseId);
+      assert.equal(exercise.translations.th, canonical.translations.th, exercise.exerciseId);
+      assert.equal(exercise.referenceAudio, canonical.referenceAudio, exercise.exerciseId);
+      assert.match(
+        exercise.referenceAudio,
+        new RegExp(`/lessons/${level}/lesson-${String(lessonNumber).padStart(2, "0")}/audio/scene-${String(sceneNumber).padStart(2, "0")}/line-${String(lineNumber).padStart(2, "0")}\\.mp3`),
+        exercise.exerciseId,
+      );
+      audited += 1;
+    }
+  }
+
+  assert.equal(audited, 30);
+});
+
 test("adapter reports stable source errors and rejects unsupported levels", async () => {
   const { buildRepeatSessionDefinitions, resolveRepeatExercise } = await import(adapterModule);
   await assert.rejects(

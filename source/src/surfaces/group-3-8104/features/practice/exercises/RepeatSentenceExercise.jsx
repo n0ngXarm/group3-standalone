@@ -346,8 +346,10 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
             <img
               alt={`${current.hanzi} — ${current.translations?.th || current.translations?.en || ""}`}
               decoding="async"
+              height="675"
               onError={() => setBrokenVisualId(current.exerciseId)}
               src={visualSrc}
+              width="1200"
             />
           </figure>
         )}

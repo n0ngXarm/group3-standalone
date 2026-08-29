@@ -596,11 +596,11 @@ export const LESSON_HSK3_L1 = {
   {
     "index": 40,
     "hanzi": "还",
-    "pinyin": "huán",
-    "type": "v.",
-    "en": "return; repay",
-    "th": "คืน / ชำระคืน",
-    "thAid": "คืน / ชำระคืน",
+    "pinyin": "hái",
+    "type": "adv.",
+    "en": "also; still; in addition",
+    "th": "ยัง / อีกด้วย / นอกจากนี้ยัง",
+    "thAid": "ยัง / อีกด้วย / นอกจากนี้ยัง",
     "translationKind": "editorial-aid",
     "page": 23,
     "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
@@ -1411,9 +1411,9 @@ export const LESSON_HSK3_L1 = {
       {
         "role": "B",
         "speaker": "白家月",
-        "pinyin": "zhège cài de wèidao hǎo jí le, zhēn hǎochī",
+        "pinyin": "zhège cài de wèidào hǎo jí le, zhēn hǎochī",
         "hanzi": "这个菜的味道好极了，真好吃！",
-        "reading": "Zhè ge cài de wèidao hǎo jí le, zhēn hǎochī!",
+        "reading": "Zhè ge cài de wèidào hǎo jí le, zhēn hǎochī!",
         "en": "The taste of this dish is wonderful, so delicious!",
         "th": "รสชาติของจานนี้ดีเยี่ยมยอดเลย อร่อยมากๆ!",
         "visual": {
@@ -1444,7 +1444,7 @@ export const LESSON_HSK3_L1 = {
       "prompt": {
         "th": "ไป๋เจียเยว่คิดว่าอาหารจานนี้มีรสชาติเป็นอย่างไร?",
         "zh": "白家月觉得这个菜的味道怎么样？",
-        "pinyin": "Bái Jiāyuè juéde zhège cài de wèidao zěnmeyàng?",
+        "pinyin": "Bái Jiāyuè juéde zhège cài de wèidào zěnmeyàng?",
         "en": "How does Bai Jiayue find the food taste?"
       },
       "options": [

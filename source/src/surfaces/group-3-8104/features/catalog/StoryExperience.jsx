@@ -34,6 +34,10 @@ function profileName(profile, language) {
   return { th: profile.nameTh, zh: profile.hanzi, en: profile.nameEn || profile.pinyin }[language];
 }
 
+function profileWithSceneMedia(profile, character) {
+  return character?.image ? { ...profile, image: character.image, imageSrcSet: character.imageSrcSet } : profile;
+}
+
 import { HomeCarousel } from "./HomeCarousel.jsx";
 
 export function LevelPicker({ language, navigate }) {
@@ -469,7 +473,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
             </button>
           ))}
         </nav>
-        <article className="g3-catalog-feature" role="tabpanel" data-source-ref={scene.sourceRef} key={`${scene.id}-${language}`}>
+        <article className="g3-catalog-feature" role="tabpanel" data-lesson-id={lesson.id} data-scene-id={scene.id} data-source-ref={scene.sourceRef} key={`${scene.id}-${language}`}>
           <figure className="g3-catalog-feature-image">
             {lessonReady && !lowData && <img src={scene.image} srcSet={scene.imageSrcSet} sizes="(max-width: 760px) 100vw, 66vw" alt={scene.imageAlt[language]} width="1400" height={scene.imageSrcSet ? "788" : "900"} decoding="async" />}
             <figcaption><span>{text.sceneLabel} {scene.number}</span><i>{scene.glyph}</i><small>{scene.source}</small></figcaption>
@@ -482,7 +486,7 @@ export function StoryCatalog({ language, level = "hsk1", navigate, lowData = fal
             <small className="g3-context-original">{sceneSupportingContext(scene, language, text)}</small>
             <div className="g3-catalog-cast">
               {scene.characters.map((character) => {
-                const profile = lesson.characters[character.profile];
+                const profile = profileWithSceneMedia(lesson.characters[character.profile], character);
                 const voice = GROUP3_VOICE_PROFILES[character.profile];
                 return <span key={character.role}>{!lowData && <img src={profile.image} srcSet={profile.imageSrcSet} alt="" width="640" height="640" loading="lazy" decoding="async" style={{ objectPosition: profile.imageFocus }} />}<b>{character.role}</b><em>{profileName(profile, language)}<small>{voice?.label || "TTS"}</small></em></span>;
               })}
@@ -527,7 +531,7 @@ export function SceneBriefing({ characters, scene, language, text, onBegin, lowD
         </div>
         <div className="g3-character-intros">
           {scene.characters.map((character) => {
-            const profile = characters[character.profile];
+            const profile = profileWithSceneMedia(characters[character.profile], character);
             const voice = GROUP3_VOICE_PROFILES[character.profile];
             return (
               <article key={`${scene.id}-${character.role}`}>

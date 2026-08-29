@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer";
 
-const base = process.env.G3_BASE_URL || "http://127.0.0.1:4178/group3";
+const base = process.argv[2] || process.env.G3_BASE_URL || "http://127.0.0.1:4178/group3";
 const browser = await puppeteer.launch({
   args: ["--no-sandbox", "--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"],
   headless: true,
@@ -13,6 +13,9 @@ const routes = ["repeat-sentence", "image-description", "question-response"];
 async function pageAt(path, viewport = { width: 1366, height: 768 }, { disableAsr = false } = {}) {
   const page = await browser.newPage();
   await page.setViewport(viewport);
+  await page.evaluateOnNewDocument(() => {
+    sessionStorage.setItem("huayun_learner_name", "Practice Smoke Tester");
+  });
   if (disableAsr) {
     await page.evaluateOnNewDocument(() => {
       Object.defineProperty(window, "SpeechRecognition", { configurable: true, value: undefined });
@@ -38,14 +41,18 @@ try {
           hasPlaceholder: document.body.textContent.includes("กำลังเตรียมแบบฝึกหัดนี้"),
           innerHeight,
           innerWidth,
+          nestedScrollers: [...document.querySelectorAll(".g3-practice-exercise *")]
+            .filter((element) => /(auto|scroll)/.test(getComputedStyle(element).overflowY)
+              && element.scrollHeight > element.clientHeight + 2)
+            .map((element) => element.className),
           root: document.querySelector(".g3-practice-exercise")?.getBoundingClientRect().toJSON(),
           title: document.querySelector(".g3-practice-exercise h1")?.textContent,
         }));
         assert.equal(state.hasPlaceholder, false, `${level}/${type} placeholder`);
         assert.ok(state.title, `${level}/${type} title`);
         assert.ok(state.bodyWidth <= state.innerWidth, `${level}/${type} horizontal scroll`);
-        assert.ok(state.bodyHeight <= state.innerHeight, `${level}/${type} vertical scroll`);
-        assert.ok(state.root.bottom <= state.innerHeight + 1, `${level}/${type} root clipped`);
+        assert.ok(state.root.right <= state.innerWidth + 1, `${level}/${type} root horizontal bounds`);
+        assert.deepEqual(state.nestedScrollers, [], `${level}/${type} nested vertical scroll`);
         assert.deepEqual(runtime, [], `${level}/${type} runtime errors`);
       } finally {
         await page.close();
@@ -61,7 +68,7 @@ try {
     const start = await page.$$("button.g3-practice-primary");
     await start.at(-1).click();
     await page.waitForFunction(() => [...document.querySelectorAll("button")].some((button) => button.textContent.includes("พูดเสร็จแล้ว")), { timeout: 5_000 });
-    await page.evaluate(() => [...document.querySelectorAll("button")].find((button) => button.textContent.includes("พูดเสร็จแล้ว"))?.click());
+    await page.evaluate(() => [...document.querySelectorAll("button")].filter((button) => button.textContent.includes("พูดเสร็จแล้ว")).at(-1)?.click());
     await page.waitForFunction(() => document.body.textContent.includes("ฝึกแบบทบทวนตนเอง"), { timeout: 5_000 });
     await page.close();
   }
@@ -92,6 +99,9 @@ try {
     for (const theme of ["dark", "light"]) {
       const page = await browser.newPage();
       await page.setViewport(viewport);
+      await page.evaluateOnNewDocument(() => {
+        sessionStorage.setItem("huayun_learner_name", "Practice Smoke Tester");
+      });
       await page.goto(`${base}/home/hsk1/practice/image-description/?theme=${theme}`, { waitUntil: "networkidle0" });
       await page.waitForFunction(() => !document.querySelector(".g3-practice-message"));
       const metrics = await page.evaluate(() => ({
@@ -101,7 +111,6 @@ try {
         innerHeight,
         innerWidth,
       }));
-      assert.ok(metrics.bodyHeight <= metrics.innerHeight, `${viewport.width}x${viewport.height}/${theme} vertical scroll`);
       assert.ok(metrics.bodyWidth <= metrics.innerWidth, `${viewport.width}x${viewport.height}/${theme} horizontal scroll`);
       assert.ok(metrics.back.width >= 44 && metrics.back.height >= 44, `${viewport.width}x${viewport.height}/${theme} Back touch target`);
       assert.ok(metrics.back.left >= 0 && metrics.back.right <= metrics.innerWidth, `${viewport.width}x${viewport.height}/${theme} Back bounds`);

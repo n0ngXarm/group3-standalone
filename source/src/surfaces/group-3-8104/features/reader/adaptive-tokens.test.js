@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { buildQteTokens } from './challenges/tokenizer.js';
+import { buildQteTokens, buildSentenceChallengeModel } from './challenges/tokenizer.js';
 
 test('HSK1 token granularity is fine-grained', () => {
   const { tokens } = buildQteTokens({
@@ -49,4 +49,19 @@ test('Empty pinyin is not silent', () => {
     level: 'hsk2'
   });
   assert.strictEqual(tokens[0].pinyin, 'cè shì');
+});
+
+test('Sentence Builder uses its declared chunks instead of a dialogue fallback', () => {
+  const challenge = {
+    answer: ['我家有', '四口人。'],
+    pinyin: ['Wǒ jiā yǒu', 'sì kǒu rén.'],
+    tiles: ['四口人。', '我家有'],
+  };
+  const model = buildSentenceChallengeModel(challenge, (tokens) => [...tokens]);
+
+  assert.deepStrictEqual(model.answer.map((token) => token.text), challenge.answer);
+  assert.deepStrictEqual(model.answer.map((token) => token.pinyin), challenge.pinyin);
+  assert.deepStrictEqual(model.tiles.map((token) => token.text), challenge.tiles);
+  assert.strictEqual(model.tiles[0].id, model.answer[1].id);
+  assert.strictEqual(model.tiles[1].id, model.answer[0].id);
 });

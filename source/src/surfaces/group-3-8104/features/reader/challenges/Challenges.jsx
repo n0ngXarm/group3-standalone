@@ -4,7 +4,7 @@ import Icon from "../../../../../shared/components/ui/Icon.jsx";
 import { pauseIcon, playIcon, rotateLeftIcon } from "../../../../../shared/components/ui/iconPaths.js";
 import { COPY } from "../../../content/copy.js";
 import PINYIN_MAP from "../../../data/pinyin-map.json";
-import { buildQteTokens } from "./tokenizer.js";
+import { buildQteTokens, buildSentenceChallengeModel } from "./tokenizer.js";
 
 const FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -357,33 +357,8 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
     setStatus("active");
     setWrongAttempts(0);
 
-    const hanzi = sourceLine ? sourceLine.hanzi : challenge.answer.join("");
-    const pinyin = sourceLine ? sourceLine.pinyin : "";
-    const result = buildQteTokens({ hanzi, pinyin, level });
-
-    const answer = [];
-    let tileIndex = 0;
-    challenge.answer.forEach(part => {
-      let combined = "";
-      let combinedPinyin = [];
-      const partTokens = [];
-      while (combined.length < part.length && tileIndex < result.tokens.length) {
-        const token = result.tokens[tileIndex];
-        combined += token.text;
-        if (token.pinyin) combinedPinyin.push(token.pinyin);
-        partTokens.push(token);
-        tileIndex++;
-      }
-      answer.push({
-        id: partTokens.map(t => t.id).join("-"),
-        text: combined,
-        pinyin: combinedPinyin.join(" ")
-      });
-    });
-
-    const shuffled = [...result.tokens].sort(() => Math.random() - 0.5);
-    setBuiltSentence({ answer: result.tokens, tiles: shuffled });
-  }, [challenge, level, sourceLine]);
+    setBuiltSentence(buildSentenceChallengeModel(challenge));
+  }, [challenge]);
 
   const sentence = selected.map(index => builtSentence.tiles[index]);
 
@@ -464,9 +439,9 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
             {wrongAttempts >= 4 && (
               <div className="g3-qte-target-hint">
                 <div className="g3-qte-hint-label">💡 {language === "th" ? "คำใบ้" : "Hint"}</div>
-                <strong>{sourceLine ? sourceLine.hanzi : builtSentence.answer.map(t=>t.text).join("")}</strong>
-                <small>{sourceLine ? sourceLine.pinyin : builtSentence.answer.map(t=>t.pinyin).join(" ")}</small>
-                {sourceLine && <em>{sourceLine.th}</em>}
+                <strong>{builtSentence.answer.map(t=>t.text).join("")}</strong>
+                <small>{builtSentence.answer.map(t=>t.pinyin).join(" ")}</small>
+                {challenge.translationTh && <em>{challenge.translationTh}</em>}
               </div>
             )}
             {wrongAttempts >= 5 && (

@@ -1,13 +1,26 @@
+.g3-story-shell:has(.g3-learning-summary) {
+  height: auto !important;
+  min-height: 100dvh;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.g3-story-shell:has(.g3-learning-summary) #g3-main {
+  display: block;
+  flex: 0 0 auto !important;
+  min-height: calc(100svh - 4.75rem) !important;
+  overflow: visible !important;
+}
+
 .g3-learning-summary {
   width: 100%;
-  height: 100%;
-  min-height: 0;
+  min-height: calc(100svh - 4.75rem);
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 85px 2rem 2rem;
+  padding: clamp(1rem, 2.5vw, 2rem) clamp(1rem, 3vw, 2rem) max(2.5rem, env(safe-area-inset-bottom));
   box-sizing: border-box;
-  overflow-y: auto;
+  overflow: visible;
   font-family: var(--font-base), sans-serif;
   color: var(--g3-ink);
 }
@@ -18,12 +31,12 @@
 
 .g3-summary-inner {
   width: 100%;
-  max-width: 960px;
+  max-width: 1120px;
   background: var(--g3-panel-bg, rgba(250, 247, 241, 0.85));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 1.5rem;
-  padding: 2.5rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--g3-border, rgba(0,0,0,0.05));
   display: flex;
@@ -43,19 +56,19 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 2rem;
-  position: relative;
 }
 
 .g3-summary-back {
-  position: absolute;
-  top: -1rem;
-  left: -1rem;
+  position: static;
+  align-self: start;
+  justify-self: start;
+  min-height: 44px;
   background: none;
   border: none;
   color: var(--g3-muted);
   font-size: 0.9rem;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .g3-summary-back:hover {
@@ -300,6 +313,8 @@
   margin-top: 1rem;
 }
 
+.g3-summary-actions button { min-height: 44px; }
+
 /* Responsive */
 @media (max-width: 900px) {
   .g3-skills-grid {
@@ -310,7 +325,7 @@
 @media (max-width: 700px) {
   .g3-learning-summary {
     align-items: flex-start;
-    padding: 70px 1rem 2rem;
+    padding: 0.75rem 0.75rem max(2rem, env(safe-area-inset-bottom));
   }
 
   .g3-summary-inner {

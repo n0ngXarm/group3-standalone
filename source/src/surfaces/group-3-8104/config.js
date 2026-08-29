@@ -42,15 +42,19 @@ export function group3LessonAssetPath(lesson, relativePath) {
   return group3AssetPath(`${lessonMediaRoot(lesson)}/${cleanRelativePath}`);
 }
 
-export function group3SceneMedia(lesson, sceneIndex) {
-  const sceneNumber = Number(sceneIndex) + 1;
+export function group3SceneMedia(lesson, sceneIndex, mediaSource = {}) {
+  const sceneNumber = Number(mediaSource.sceneNumber ?? Number(sceneIndex) + 1);
   if (!Number.isInteger(sceneNumber) || sceneNumber < 1) {
     throw new TypeError("Group 3 scene media requires a zero-based scene index");
   }
   const sceneData = lesson?.scenes?.[sceneIndex] || {};
+  const mediaLesson = {
+    level: mediaSource.level || lesson?.level,
+    number: mediaSource.lessonNumber || lesson?.number,
+  };
   const sceneFile = `scene-${String(sceneNumber).padStart(2, "0")}`;
-  const small = group3LessonAssetPath(lesson, `scenes/${sceneFile}-720w.webp`);
-  const full = group3LessonAssetPath(lesson, `scenes/${sceneFile}-1400w.webp`);
+  const small = group3LessonAssetPath(mediaLesson, `scenes/${sceneFile}-720w.webp`);
+  const full = group3LessonAssetPath(mediaLesson, `scenes/${sceneFile}-1400w.webp`);
   return {
     image: full,
     imageSrcSet: `${small} 720w, ${full} 1400w`,

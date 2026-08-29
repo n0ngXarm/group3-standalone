@@ -11,9 +11,9 @@ test("repeat adapter resolves lesson scene lines without duplicating or mutating
     exerciseId: "repeat-sentence:hsk1-l1:hsk1-l1-s1:0",
     hanzi: "AI小语，你好！",
     level: "hsk1",
-    pinyin: "AI xiǎoyǔ, nǐ hǎo",
+    pinyin: "AI Xiǎoyǔ, nǐ hǎo",
     referenceAudio: "/assets/group3/lessons/hsk1/lesson-01/audio/scene-01/line-01.mp3?v=voice-cast-20260811-v1",
-    sourceRef,
+    sourceRef: { ...sourceRef, lineId: "hsk1-l1-s1-line-01" },
     timing: { responseWindowMs: 10000 },
     translations: { en: "Hello, AI Xiaoyu!", th: "สวัสดีจ้า AI เสี่ยวหวี่!" },
     type: "repeat-sentence",
@@ -59,6 +59,26 @@ test("adapter reports stable source errors and rejects unsupported levels", asyn
   );
   await assert.rejects(
     buildRepeatSessionDefinitions("hsk4"),
+    (error) => error.code === "EXERCISE_SOURCE_NOT_FOUND",
+  );
+});
+
+test("repeat adapter verifies canonical dialogue line identity", async () => {
+  const { resolveRepeatExercise } = await import(adapterModule);
+  const resolved = await resolveRepeatExercise({
+    lessonId: "hsk1-l1",
+    sceneId: "hsk1-l1-s1",
+    lineId: "hsk1-l1-s1-line-01",
+    lineIndex: 0,
+  });
+  assert.equal(resolved.sourceRef.lineId, "hsk1-l1-s1-line-01");
+  await assert.rejects(
+    resolveRepeatExercise({
+      lessonId: "hsk1-l1",
+      sceneId: "hsk1-l1-s1",
+      lineId: "hsk1-l1-s1-line-02",
+      lineIndex: 0,
+    }),
     (error) => error.code === "EXERCISE_SOURCE_NOT_FOUND",
   );
 });

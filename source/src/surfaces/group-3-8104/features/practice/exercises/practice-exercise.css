@@ -1,16 +1,26 @@
-.g3-story-shell:has(.g3-practice-exercise) #g3-main {
-  display: flex;
-  min-height: 0;
+.g3-story-shell:has(.g3-practice-exercise),
+.g3-story-shell:has(.g3-learning-summary) {
+  height: auto !important;
+  min-height: 100dvh;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.g3-story-shell:has(.g3-practice-exercise) #g3-main,
+.g3-story-shell:has(.g3-learning-summary) #g3-main {
+  display: block;
+  flex: 0 0 auto !important;
+  min-height: calc(100svh - 4.75rem) !important;
+  overflow: visible !important;
 }
 
 .g3-practice-exercise {
   --practice-accent: #ef5845;
   display: flex;
   width: 100%;
-  height: 100%;
-  min-height: 0;
-  padding: 0.5rem 1.25rem 0.75rem;
-  overflow-y: auto;
+  min-height: calc(100svh - 4.75rem);
+  padding: clamp(1rem, 2.5vw, 2rem) clamp(1rem, 3vw, 2rem) max(2.5rem, env(safe-area-inset-bottom));
+  overflow: visible;
   background: transparent;
 }
 
@@ -19,17 +29,16 @@
 
 .g3-practice-exercise-inner {
   display: grid;
-  width: min(1080px, 98vw);
-  height: 100%;
-  min-height: 0;
+  width: min(1120px, 100%);
   margin: 0 auto;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 0.5rem;
+  grid-template-rows: auto auto auto;
+  align-content: start;
+  gap: clamp(1.5rem, 2.6vw, 2rem);
 }
 
 .g3-practice-exercise-header {
   display: grid;
-  min-height: 44px;
+  min-height: 3.5rem;
   grid-template-columns: minmax(8rem, 1fr) auto minmax(8rem, 1fr);
   align-items: center;
   gap: 1rem;
@@ -75,17 +84,21 @@
 .g3-practice-workspace {
   display: flex;
   width: 100%;
-  min-height: 0;
+  min-width: 0;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: clamp(1.5rem, 2.6vw, 2rem);
 }
 
 .g3-practice-live {
-  min-height: 1.2rem;
+  min-height: 0;
   color: var(--g3-muted);
   font-size: 0.78rem;
   text-align: center;
 }
+
+.g3-practice-live:empty { display: none; }
 
 .g3-repeat-panel,
 .g3-free-speaking-panel,
@@ -99,10 +112,7 @@
 
 .g3-repeat-panel {
   display: grid;
-  width: min(1040px, 100%);
-  height: min(30rem, 100%);
-  min-height: 0;
-  max-height: 100%;
+  width: min(1120px, 100%);
   grid-template-columns: minmax(20rem, 0.92fr) minmax(22rem, 1.08fr);
   overflow: hidden;
 }
@@ -110,18 +120,17 @@
 .g3-repeat-panel.is-prepare,
 .g3-repeat-panel.is-active {
   grid-template-areas:
-    "visual prompt"
-    "visual interaction";
-  grid-template-rows: auto minmax(0, 1fr);
+    "visual interaction"
+    "prompt interaction";
+  grid-template-rows: auto auto;
 }
 
 .g3-repeat-panel.is-feedback {
-  max-height: min(39rem, 100%);
   grid-template-areas:
-    "visual prompt"
-    "visual interaction";
+    "visual interaction"
+    "prompt interaction";
   grid-template-columns: minmax(20rem, 0.92fr) minmax(22rem, 1.08fr);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
 }
 
 .g3-repeat-panel.is-text-only {
@@ -132,9 +141,8 @@
 
 .g3-repeat-visual {
   grid-area: visual;
-  align-self: center;
+  align-self: start;
   width: 100%;
-  max-height: 18rem;
   aspect-ratio: 16 / 9;
   margin: 0;
   overflow: hidden;
@@ -149,16 +157,11 @@
   object-fit: cover;
 }
 
-.g3-repeat-panel.is-feedback .g3-repeat-visual {
-  align-self: center;
-}
-
 .g3-repeat-prompt,
 .g3-repeat-interaction,
 .g3-free-speaking-content {
   min-width: 0;
-  min-height: 0;
-  padding: 1.25rem 1.5rem;
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
 }
 
 .g3-repeat-prompt {
@@ -211,10 +214,10 @@
   grid-area: interaction;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
-  overflow: hidden;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 1.25rem;
+  overflow: visible;
 }
 
 .g3-repeat-prepare-copy {
@@ -245,19 +248,6 @@
   color: var(--practice-accent);
 }
 
-.g3-repeat-feedback-detail::-webkit-scrollbar,
-.g3-free-speaking-content::-webkit-scrollbar,
-.g3-practice-exercise::-webkit-scrollbar {
-  width: 6px;
-}
-
-.g3-repeat-feedback-detail::-webkit-scrollbar-thumb,
-.g3-free-speaking-content::-webkit-scrollbar-thumb,
-.g3-practice-exercise::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--g3-line) 80%, transparent);
-  border-radius: 4px;
-}
-
 .g3-practice-primary,
 .g3-practice-actions button,
 .g3-practice-summary button {
@@ -283,7 +273,7 @@
   display: flex;
   width: 100%;
   justify-content: center;
-  gap: 0.55rem;
+  gap: 0.75rem;
 }
 .g3-practice-actions button { flex: 1; }
 .g3-practice-actions .is-secondary,
@@ -323,21 +313,21 @@
 .g3-free-speaking-controls {
   display: flex;
   width: 100%;
-  min-height: 0;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 0.6rem;
+  gap: 1rem;
 }
-.g3-repeat-feedback { height: 100%; }
 .g3-repeat-feedback-detail {
   display: flex;
-  min-height: 0;
-  flex: 1 1 auto;
   flex-direction: column;
-  gap: 0.45rem;
-  overflow-y: auto;
+  gap: 1rem;
+  overflow: visible;
 }
-.g3-repeat-feedback > .g3-practice-actions { flex: 0 0 auto; }
+.g3-repeat-feedback > .g3-practice-actions {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--g3-line) 78%, transparent);
+}
 .g3-repeat-feedback h3,
 .g3-free-speaking-result h3 {
   margin: 0;
@@ -370,12 +360,12 @@
   display: grid;
   margin: 0;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 .g3-repeat-feedback dl div,
 .g3-free-speaking-result dl div,
 .g3-practice-summary dl div {
-  padding: 0.6rem 0.85rem;
+  padding: 0.85rem 1rem;
   border: 1px solid color-mix(in srgb, var(--practice-accent) 20%, var(--g3-line));
   border-radius: 0.65rem;
   background: color-mix(in srgb, var(--practice-accent) 6%, var(--g3-paper));
@@ -398,38 +388,40 @@
 .g3-repeat-evidence { grid-template-columns: 1fr 1fr; }
 
 .g3-free-speaking-result h3 { margin: 0 0 0.15rem; font-size: 1.05rem; }
-.g3-free-speaking-result dl { gap: 0.35rem; }
-.g3-free-speaking-result dl div { padding: 0.35rem 0.6rem; }
+.g3-free-speaking-result dl { gap: 0.75rem; }
+.g3-free-speaking-result dl div { padding: 0.85rem 1rem; }
 .g3-free-speaking-result dd { font-size: 1.05rem; }
 
 .g3-free-speaking-panel {
   display: grid;
-  width: min(1080px, 100%);
-  height: min(100%, 36.5rem);
-  min-height: 0;
-  max-height: 100%;
+  width: min(1120px, 100%);
   grid-template-columns: minmax(18rem, 1.05fr) minmax(21rem, 0.95fr);
   overflow: hidden;
 }
 
 .g3-free-speaking-panel.is-question-response {
-  width: min(820px, 100%);
-  height: min(100%, 480px);
+  width: min(900px, 100%);
   grid-template-columns: 1fr;
 }
 
-.g3-free-speaking-image { min-width: 0; min-height: 0; margin: 0; overflow: hidden; border-right: 1px solid var(--g3-line); }
+.g3-free-speaking-image {
+  min-width: 0;
+  align-self: start;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--g3-line);
+  background: color-mix(in srgb, var(--practice-accent) 7%, var(--g3-bg));
+}
 .g3-free-speaking-image img { width: 100%; height: 100%; object-fit: cover; }
 
 .g3-free-speaking-content {
   display: flex;
-  min-height: 0;
-  height: 100%;
-  padding: 1.15rem 1.4rem;
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
   flex-direction: column;
-  justify-content: space-between;
-  gap: 0.65rem;
-  overflow-y: auto;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  overflow: visible;
 }
 
 .g3-free-speaking-prompt > span { display: block; line-height: 1.3; font-size: 0.8rem; }
@@ -469,17 +461,14 @@
 }
 .g3-practice-hints span { color: var(--g3-muted); font-size: 0.74rem; }
 
-.g3-free-speaking-panel:has(.g3-free-speaking-result) .g3-practice-hints { display: none; }
 .g3-free-speaking-panel:has(.g3-free-speaking-result) .g3-free-speaking-prompt { padding-bottom: 0.25rem; border-bottom: 1px dashed color-mix(in srgb, var(--g3-line) 80%, transparent); }
-.g3-free-speaking-panel:has(.g3-free-speaking-result) .g3-free-speaking-prompt h2 { font-size: clamp(1.15rem, 1.8vw, 1.45rem); }
 
 .g3-free-speaking-controls,
 .g3-free-speaking-review,
 .g3-free-speaking-result {
   display: flex;
-  min-height: 0;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .g3-practice-recording-state { display: flex; align-items: center; gap: 0.5rem; }
@@ -489,7 +478,11 @@
 .g3-free-speaking-review audio { width: 100%; height: 38px; margin-top: 0.2rem; }
 .g3-free-speaking-review p,
 .g3-free-speaking-result p { margin: 0.15rem 0; font-size: 0.88rem; }
-.g3-free-speaking-content .g3-practice-actions { margin-top: auto; padding-top: 0.35rem; }
+.g3-free-speaking-content .g3-practice-actions {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--g3-line) 78%, transparent);
+}
 
 .g3-practice-summary {
   display: flex;
@@ -511,26 +504,12 @@
 :root[data-theme="light"] .g3-practice-message { background: color-mix(in srgb, var(--g3-paper) 95%, transparent); box-shadow: 0 12px 32px rgba(80, 61, 39, 0.12); }
 
 @media (max-width: 860px) {
-  .g3-practice-exercise.type-repeat-sentence {
-    align-items: flex-start;
-  }
-
-  .g3-practice-exercise.type-repeat-sentence .g3-practice-exercise-inner {
-    height: auto;
-    min-height: 100%;
-    grid-template-rows: auto auto auto;
-  }
-
-  .g3-practice-exercise.type-repeat-sentence .g3-practice-workspace { align-items: start; }
-
   .g3-repeat-panel,
   .g3-repeat-panel.is-prepare,
   .g3-repeat-panel.is-active,
   .g3-repeat-panel.is-feedback,
   .g3-repeat-panel.is-text-only {
     width: min(40rem, 100%);
-    height: auto;
-    max-height: none;
     grid-template-areas:
       "visual"
       "prompt"
@@ -558,86 +537,71 @@
   }
 
   .g3-repeat-interaction { overflow: visible; }
-  .g3-repeat-feedback-detail { flex: 0 1 auto; overflow: visible; }
 }
 
 @media (max-width: 720px) {
-  .g3-practice-exercise { padding: 0.45rem 0.6rem max(0.45rem, env(safe-area-inset-bottom)); }
-  .g3-practice-exercise-inner { gap: 0.35rem; }
+  .g3-practice-exercise {
+    min-height: calc(100svh - 4.25rem);
+    padding: 0.75rem 0.75rem max(2rem, env(safe-area-inset-bottom));
+  }
+  .g3-practice-exercise-inner { gap: 1.25rem; }
   .g3-practice-exercise-header { min-height: 50px; grid-template-columns: 44px 1fr auto; gap: 0.35rem; }
   .g3-practice-exercise-header .g3-back-link { position: static; top: auto; right: auto; width: 44px; min-width: 44px; min-height: 44px; justify-content: center; overflow: visible; font-size: 1.15rem; }
   .g3-practice-back-label { display: none; }
   .g3-practice-exercise-heading h1 { font-size: 1.2rem; }
   .g3-practice-exercise-heading span { font-size: 0.62rem; }
   .g3-practice-progress { font-size: 0.72rem; }
-  .g3-practice-live { min-height: 1.1rem; font-size: 0.72rem; }
+  .g3-practice-live { font-size: 0.76rem; }
 
   .g3-repeat-panel { min-height: 0; }
-  .g3-repeat-prompt { padding: 0.75rem 0.9rem; text-align: center; }
+  .g3-repeat-prompt { padding: 1rem; text-align: center; }
   .g3-repeat-prompt h2 { margin-top: 0.3rem; font-size: clamp(1.6rem, 8vw, 2.25rem); }
   .g3-repeat-prompt > p { margin: 0.2rem 0; }
-  .g3-practice-help { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-  .g3-repeat-interaction { padding: 0.7rem 0.85rem; gap: 0.55rem; }
+  .g3-repeat-interaction { padding: 1rem; gap: 1rem; }
   .g3-practice-timer { width: 4.6rem; height: 4.6rem; }
   .g3-practice-timer strong { font-size: 1.8rem; }
   .g3-practice-actions { gap: 0.4rem; }
   .g3-practice-primary, .g3-practice-actions button { min-height: 44px; padding: 0.55rem 0.65rem; font-size: 0.84rem; }
   .g3-practice-notice, .g3-practice-transcript { padding: 0.45rem 0.55rem; font-size: 0.72rem; }
-  .g3-repeat-feedback { gap: 0.45rem; }
+  .g3-repeat-feedback { gap: 1rem; }
   .g3-repeat-feedback h3 { font-size: 1.3rem; }
   .g3-repeat-feedback dl div, .g3-free-speaking-result dl div { padding: 0.4rem; }
   .g3-repeat-feedback dd, .g3-free-speaking-result dd { font-size: 1rem; }
 
   .g3-free-speaking-panel,
-  .g3-free-speaking-panel.is-question-response { height: 100%; min-height: 0; grid-template-columns: 1fr; grid-template-rows: minmax(8rem, 0.7fr) minmax(0, 1.3fr); }
-  .g3-free-speaking-panel.is-question-response { grid-template-rows: 1fr; }
-  .g3-free-speaking-panel:has(.g3-free-speaking-result) { grid-template-rows: minmax(6rem, 0.42fr) minmax(0, 1.58fr); }
+  .g3-free-speaking-panel.is-question-response {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
   .g3-free-speaking-image { border-right: 0; border-bottom: 1px solid var(--g3-line); }
-  .g3-free-speaking-content { padding: 0.65rem 0.8rem; gap: 0.45rem; }
+  .g3-free-speaking-content { padding: 1rem; gap: 1.25rem; }
   .g3-free-speaking-prompt h2 { margin-top: 0.2rem; font-size: 1.35rem; }
   .g3-practice-pinyin { margin: 0.15rem 0; font-size: 0.85rem; }
-  .g3-practice-hints { margin-top: 0.3rem; flex-wrap: nowrap; overflow: hidden; }
+  .g3-practice-hints { margin-top: 0.5rem; flex-wrap: wrap; }
   .g3-practice-hints li { min-width: 0; padding: 0.2rem 0.35rem; font-size: 0.8rem; }
   .g3-practice-hints span { display: none; }
-  .g3-free-speaking-controls, .g3-free-speaking-review, .g3-free-speaking-result { gap: 0.4rem; }
-  .g3-free-speaking-result dl { gap: 0.25rem; }
-  .g3-free-speaking-result dl div { padding: 0.25rem 0.45rem; }
+  .g3-free-speaking-controls, .g3-free-speaking-review, .g3-free-speaking-result { gap: 1rem; }
+  .g3-free-speaking-result dl { gap: 0.6rem; }
+  .g3-free-speaking-result dl div { padding: 0.75rem; }
   .g3-free-speaking-result dd { font-size: 0.95rem; }
   .g3-practice-summary { padding: 1rem; }
   .g3-practice-summary dl { grid-template-columns: 1fr; }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .g3-practice-exercise { padding-block: 0.3rem; }
-  .g3-practice-exercise-header { min-height: 42px; }
-  .g3-practice-exercise-heading h1 { font-size: 1.05rem; }
-  .g3-practice-live { min-height: 0.9rem; line-height: 0.9rem; }
-  .g3-repeat-prompt h2 { font-size: 1.65rem; }
-  .g3-free-speaking-panel,
-  .g3-free-speaking-panel.is-question-response { height: 100%; min-height: 0; grid-template-columns: 0.8fr 1.2fr; grid-template-rows: 1fr; }
-  .g3-free-speaking-panel.is-question-response { grid-template-columns: 1fr; }
-  .g3-free-speaking-image { border-right: 1px solid var(--g3-line); border-bottom: 0; }
-  .g3-free-speaking-content { padding: 0.5rem 0.7rem; }
-  .g3-free-speaking-prompt h2 { font-size: 1.35rem; }
-  .g3-practice-hints { margin-top: 0.2rem; }
+  .g3-practice-summary .g3-practice-actions { flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .g3-practice-exercise * { scroll-behavior: auto !important; transition: none !important; }
 }
 
-/* Speech Feedback Top Alert Banner */
+/* Speech feedback banner participates in the exercise flow. */
 .g3-speech-feedback-alert {
-  position: fixed;
-  top: 4.65rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10000;
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  width: min(580px, calc(100vw - 1.5rem));
-  padding: 0.65rem 1rem;
+  width: min(680px, 100%);
+  padding: 0.85rem 1rem;
   border-radius: 0.9rem;
   border: 1px solid var(--g3-line);
   background: color-mix(in srgb, var(--g3-paper) 95%, var(--g3-bg));
@@ -650,11 +614,11 @@
 @keyframes g3-alert-slide-down {
   from {
     opacity: 0;
-    transform: translate(-50%, -18px) scale(0.97);
+    transform: translateY(-12px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, 0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -742,6 +706,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  min-height: 44px;
   padding: 0.4rem 0.75rem;
   border-radius: 0.65rem;
   border: 1px solid var(--g3-line);
@@ -770,8 +735,8 @@
 .g3-alert-close-btn {
   display: grid;
   place-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   border: 1px solid transparent;
   background: transparent;
@@ -789,6 +754,7 @@
 
 @media (max-width: 640px) {
   .g3-speech-feedback-alert {
+    align-items: flex-start;
     padding: 0.65rem 0.85rem;
     gap: 0.6rem;
   }
@@ -815,10 +781,10 @@
 .g3-pronunciation-detail-card {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 1rem;
   width: 100%;
-  margin: 0.15rem 0;
-  padding: 0.7rem 0.9rem;
+  margin: 0.25rem 0;
+  padding: 1rem;
   border-radius: 0.75rem;
   border: 1px solid var(--g3-line);
   background: color-mix(in srgb, var(--practice-accent) 4%, var(--g3-paper));
@@ -910,7 +876,7 @@
 
 .g3-audio-compare-bar {
   display: flex;
-  gap: 0.45rem;
+  gap: 0.75rem;
   width: 100%;
 }
 
@@ -920,7 +886,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
-  min-height: 34px;
+  min-height: 44px;
   padding: 0.35rem 0.7rem;
   border-radius: 0.55rem;
   border: 1px solid var(--g3-line);

@@ -261,8 +261,8 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   return (
     <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
       {coachingAdvice && <SpeechFeedbackAlert advice={coachingAdvice} language={language} />}
-      <article className={`g3-free-speaking-panel is-${exerciseType}`}>
-        {exerciseType === "image-description" && <figure className="g3-free-speaking-image"><img src={current.image} srcSet={current.imageSrcSet || undefined} sizes="(max-width: 720px) 100vw, 48vw" alt={current.imageAlt?.[language] || current.imageAlt?.zh || ""} /></figure>}
+      <article className={`g3-free-speaking-panel is-${exerciseType}`} data-phase={phase}>
+        {exerciseType === "image-description" && <figure className="g3-free-speaking-image"><img src={current.image} srcSet={current.imageSrcSet || undefined} sizes="(max-width: 720px) calc(100vw - 1.5rem), 540px" alt={current.imageAlt?.[language] || current.imageAlt?.zh || ""} decoding="async" height="788" width="1400" /></figure>}
         <div className="g3-free-speaking-content">
           <div className="g3-free-speaking-prompt">
             {exerciseType === "image-description" ? (

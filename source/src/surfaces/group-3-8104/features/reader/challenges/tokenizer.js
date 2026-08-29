@@ -89,3 +89,30 @@ export function buildQteTokens({ hanzi, pinyin, level }) {
     isAligned: pIdx === syllables.length
   };
 }
+
+export function buildSentenceChallengeModel(challenge, shuffle = (tokens) => [...tokens].sort(() => Math.random() - 0.5)) {
+  const answerParts = challenge?.answer || [];
+  const pinyinParts = challenge?.pinyin || [];
+  const tileParts = challenge?.tiles || [];
+  if (!answerParts.length || answerParts.length !== pinyinParts.length || answerParts.length !== tileParts.length) {
+    throw new TypeError("Sentence Builder requires parallel answer, pinyin, and tile arrays");
+  }
+
+  const idsByText = new Map();
+  const answer = answerParts.map((text, index) => {
+    const token = { id: `builder-part-${index + 1}`, pinyin: pinyinParts[index], text };
+    const ids = idsByText.get(text) || [];
+    ids.push(token);
+    idsByText.set(text, ids);
+    return token;
+  });
+  const tiles = tileParts.map((text) => {
+    const matches = idsByText.get(text);
+    if (!matches?.length) throw new TypeError(`Sentence Builder tile does not match target: ${text}`);
+    return matches.shift();
+  });
+  if ([...idsByText.values()].some((matches) => matches.length)) {
+    throw new TypeError("Sentence Builder target has no matching tile");
+  }
+  return { answer, tiles: shuffle(tiles) };
+}

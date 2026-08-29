@@ -65,8 +65,8 @@ console.log("=== STARTING REAL MANAGER JOURNEY ===");
 
 // 1. Fresh session -> Home
 console.log("1. Navigating to Home...");
-await page.goto(`${base}/home/?theme=dark`, { waitUntil: "networkidle0" });
-await wait(500);
+await page.goto(`${base}/home/?theme=dark`, { waitUntil: "domcontentloaded" });
+await page.waitForSelector("main, .g3-home, #g3-main", { timeout: 10000 });
 assert.ok(await page.$(".g3-home, .g3-home-hero, main"), "Home page mounted");
 
 // 2. Set Learner Name
@@ -77,32 +77,32 @@ await page.evaluate(() => {
 
 // 3. Levels
 console.log("3. Navigating to Levels...");
-await page.goto(`${base}/home/levels/?theme=dark`, { waitUntil: "networkidle0" });
-await wait(500);
-assert.ok(await page.$(".g3-level-select, .g3-levels, main"), "Levels page mounted");
+await page.goto(`${base}/home/levels/?theme=dark`, { waitUntil: "domcontentloaded" });
+await page.waitForSelector("main, .g3-level-selection, .g3-levels", { timeout: 10000 });
+assert.ok(await page.$(".g3-level-selection, .g3-levels, main"), "Levels page mounted");
 
 // 4. HSK1 Catalog
 console.log("4. Navigating to HSK1 catalog...");
-await page.goto(`${base}/home/hsk1/?theme=dark`, { waitUntil: "networkidle0" });
-await wait(500);
+await page.goto(`${base}/home/hsk1/?theme=dark`, { waitUntil: "domcontentloaded" });
+await page.waitForSelector("main, .g3-catalog", { timeout: 10000 });
 assert.ok(await page.$(".g3-catalog"), "HSK1 catalog mounted");
 
 // 5. Lesson 01 Contents
 console.log("5. Navigating to Lesson 01 contents...");
-await page.goto(`${base}/home/hsk1/lessons/lesson-01/contents/?theme=dark`, { waitUntil: "networkidle0" });
-await wait(500);
-assert.ok(await page.$(".g3-reader, .g3-lesson-view, main"), "Lesson 01 contents mounted");
+await page.goto(`${base}/home/hsk1/lessons/lesson-01/contents/?theme=dark`, { waitUntil: "domcontentloaded" });
+await page.waitForSelector("main, .g3-contents-page", { timeout: 10000 });
+assert.ok(await page.$(".g3-contents-page, main"), "Lesson 01 contents mounted");
 
 // 6. Scene 01 / QTE
 console.log("6. Navigating to Lesson 01 Scene 01 (Reader/QTE)...");
-await page.goto(`${base}/home/hsk1/lessons/lesson-01/scenes/scene-01/?theme=dark`, { waitUntil: "networkidle0" });
-await wait(500);
+await page.goto(`${base}/home/hsk1/lessons/lesson-01/scenes/scene-01/?theme=dark`, { waitUntil: "domcontentloaded" });
+await page.waitForSelector("main, .g3-reader", { timeout: 10000 });
 assert.ok(await page.$(".g3-reader, main"), "Scene 01 mounted");
 
 // 7. Practice Hub
 console.log("7. Navigating to Practice Hub...");
-await page.goto(`${base}/home/hsk1/practice/?theme=dark`, { waitUntil: "networkidle0" });
-await wait(500);
+await page.goto(`${base}/home/hsk1/practice/?theme=dark`, { waitUntil: "domcontentloaded" });
+await page.waitForSelector("main, .g3-practice-hub", { timeout: 10000 });
 assert.ok(await page.$(".g3-practice-hub"), "Practice Hub mounted");
 
 // 8. Repeat Sentence

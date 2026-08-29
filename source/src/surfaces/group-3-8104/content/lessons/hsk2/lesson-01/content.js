@@ -901,7 +901,7 @@ export const LESSON_HSK2_L1 = {
       {
         "role": "A",
         "speaker": "王一飞",
-        "pinyin": "lùshang xīnkǔ le, huānyíng nǐmen lái běijīng",
+        "pinyin": "lùshang xīnkǔ le, huānyíng nǐmen lái Běijīng",
         "hanzi": "路上辛苦了，欢迎你们来北京！",
         "reading": "Lùshang xīnkǔ le, huānyíng nǐmen lái Běijīng!",
         "en": "Thanks for the trip, welcome to Beijing!",
@@ -916,7 +916,7 @@ export const LESSON_HSK2_L1 = {
       {
         "role": "B",
         "speaker": "白家月",
-        "pinyin": "xièxie wáng lǎoshī, běijīng zhēn piàoliang",
+        "pinyin": "xièxie Wáng lǎoshī, Běijīng zhēn piàoliang",
         "hanzi": "谢谢王老师，北京真漂亮！",
         "reading": "Xièxie Wáng lǎoshī, Běijīng zhēn piàoliang!",
         "en": "Thank you Teacher Wang, Beijing is pretty!",
@@ -931,7 +931,7 @@ export const LESSON_HSK2_L1 = {
       {
         "role": "C",
         "speaker": "李文",
-        "pinyin": "jīntiān wǒ qǐng nǐmen chī běijīng kǎoyā",
+        "pinyin": "jīntiān wǒ qǐng nǐmen chī Běijīng kǎoyā",
         "hanzi": "今天我请你们吃北京烤鸭。",
         "reading": "Jīntiān wǒ qǐng nǐmen chī Běijīng kǎoyā.",
         "en": "Today I'll treat you to Peking duck.",

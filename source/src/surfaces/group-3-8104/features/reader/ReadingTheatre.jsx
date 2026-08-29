@@ -65,7 +65,7 @@ function supportingProfileName(profile, language) {
 export function ReadingTheatre({ initialScene, language, lesson, navigate, lowData = false }) {
   const text = COPY[language];
   const scenes = lesson.scenes;
-  const characterProfiles = lesson.characters;
+  const lessonCharacterProfiles = lesson.characters;
   const lineRefs = useRef([]);
   const manualPlaybackSequenceRef = useRef(0);
   const [sceneIndex, setSceneIndex] = useState(initialScene);
@@ -86,6 +86,20 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
   const [rolePickerOpen, setRolePickerOpen] = useState(false);
   const [roleplayRole, setRoleplayRole] = useState(null);
   const scene = scenes[sceneIndex];
+  const characterProfiles = useMemo(() => {
+    const profiles = { ...lessonCharacterProfiles };
+    scene.characters.forEach((character) => {
+      const profile = profiles[character.profile];
+      if (profile && character.image) {
+        profiles[character.profile] = {
+          ...profile,
+          image: character.image,
+          imageSrcSet: character.imageSrcSet,
+        };
+      }
+    });
+    return profiles;
+  }, [lessonCharacterProfiles, scene]);
   const visibleLines = lineIndex < 0 ? [] : scene.lines.slice(0, lineIndex + 1);
   const currentLine = lineIndex >= 0 ? scene.lines[lineIndex] : null;
   const currentCharacter = currentLine

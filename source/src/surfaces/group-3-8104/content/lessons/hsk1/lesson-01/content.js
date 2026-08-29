@@ -1560,7 +1560,7 @@ export const LESSON_HSK1_L1 = {
       {
         "role": "A",
         "speaker": "王一飞",
-        "pinyin": "AI xiǎoyǔ, nǐ hǎo",
+        "pinyin": "AI Xiǎoyǔ, nǐ hǎo",
         "hanzi": "AI小语，你好！",
         "reading": "AI Xiǎoyǔ, nǐ hǎo!",
         "en": "Hello, AI Xiaoyu!",
@@ -1575,7 +1575,7 @@ export const LESSON_HSK1_L1 = {
       {
         "role": "B",
         "speaker": "小语",
-        "pinyin": "wáng lǎoshī, nǐ hǎo",
+        "pinyin": "Wáng lǎoshī, nǐ hǎo",
         "hanzi": "王老师，你好！",
         "reading": "Wáng lǎoshī, nǐ hǎo!",
         "en": "Hello, Ms. Wang!",

@@ -19,6 +19,7 @@ async function loadLesson(lessonMeta) {
 function exerciseFromLine({ lesson, line, lineIndex, scene, sceneIndex }) {
   const sourceRef = {
     lessonId: lesson.id,
+    lineId: line.id,
     lineIndex,
     sceneId: scene.id,
   };
@@ -46,7 +47,7 @@ export async function resolveRepeatExercise(sourceRef = {}) {
   const lineIndex = Number(sourceRef.lineIndex);
   const scene = sceneIndex >= 0 ? lesson.scenes[sceneIndex] : null;
   const line = Number.isInteger(lineIndex) && lineIndex >= 0 ? scene?.lines?.[lineIndex] : null;
-  if (!scene || !line?.hanzi) throw sourceError(sourceRef);
+  if (!scene || !line?.hanzi || (sourceRef.lineId && sourceRef.lineId !== line.id)) throw sourceError(sourceRef);
   return exerciseFromLine({ lesson, line, lineIndex, scene, sceneIndex });
 }
 

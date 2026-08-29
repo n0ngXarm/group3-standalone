@@ -12,7 +12,7 @@ import { GROUP3_LESSONS } from "../../content/registry.js";
 import { frontMatterRoutes, lessonContentsPath, lessonVocabularyPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
 import { getLearnerSession } from "../../shared/session.js";
-import { homeLogoMedia, mapHomeMedia } from "../../features/catalog/homeMedia.js";
+import { homeLogoMedia, mapHomeMedia } from "../../features/home/homeMedia.js";
 
 
 export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout }) {

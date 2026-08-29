@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { createLearningSummary, getScoreLabel } from "../../src/surfaces/group-3-8104/features/learning-summary/summaryModel.js";
+import { createLearningSummary, getScoreLabel } from "../../src/surfaces/group-3-8104/features/practice/summary/summaryModel.js";
 
 test("an empty Practice Summary reports that no results exist", () => {
   const summary = createLearningSummary({

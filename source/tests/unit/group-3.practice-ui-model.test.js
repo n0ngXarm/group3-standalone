@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-const modulePath = "../../src/surfaces/group-3-8104/features/practice/exercises/practiceUi.js";
+const modulePath = "../../src/surfaces/group-3-8104/features/practice/shared/practiceUi.js";
 
 test("practice UI selects localized translations without inventing another language state", async () => {
   const { localizedValue } = await import(modulePath);

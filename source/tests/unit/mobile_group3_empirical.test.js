@@ -74,7 +74,7 @@ describe("Group 3 Mobile Initialization & UI Empirical Verification (`mobile_gro
     });
 
     test("RoleplayView 3D Canvas camera aspect ratio prevents NaN on zero-dimension mount", () => {
-      const roleplayPath = path.resolve(__dirname, "../../src/surfaces/group-3-8104/features/reader/roleplay/RoleplayView.jsx");
+      const roleplayPath = path.resolve(__dirname, "../../src/surfaces/group-3-8104/features/lessons/challenges/Roleplay.jsx");
       const code = fs.readFileSync(roleplayPath, "utf8");
 
       assert.ok(

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-const presentationModule = "../../src/surfaces/group-3-8104/features/practice/exercises/repeatPresentation.js";
+const presentationModule = "../../src/surfaces/group-3-8104/features/practice/repeat/repeatPresentation.js";
 const adapterModule = "../../src/surfaces/group-3-8104/content/practice/repeatAdapter.js";
 const sessionModule = "../../src/surfaces/group-3-8104/features/practice/session/repeatSession.js";
 const manifestUrl = new URL("../../public/assets/group3/shared/repeat-visuals/repeat-visual-manifest.json", import.meta.url);

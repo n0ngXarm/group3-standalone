@@ -82,11 +82,11 @@ test("home hero renders independent background and character pose layers", async
 
 test("home uses one ability-led HSK selector without lesson previews", async () => {
   const experience = await readFile(
-    path.join(root, "src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx"),
+    path.join(root, "src/surfaces/group-3-8104/features/home/StoryHome.jsx"),
     "utf8",
   );
   const carousel = await readFile(
-    path.join(root, "src/surfaces/group-3-8104/features/catalog/HomeCarousel.jsx"),
+    path.join(root, "src/surfaces/group-3-8104/features/home/HomeCarousel.jsx"),
     "utf8",
   );
   const styles = await readFile(

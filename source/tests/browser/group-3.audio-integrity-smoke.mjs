@@ -4,6 +4,12 @@ import puppeteer from "puppeteer";
 const base = process.argv[2] || process.env.G3_BASE_URL || "http://127.0.0.1:4178/group3";
 const origin = new URL(base).origin;
 const levels = ["hsk1", "hsk2", "hsk3"];
+const requiredSpotChecks = new Map([
+  ["hsk1-3-2-1", "这是我做的中国菜，你尝尝。"],
+  ["hsk2-1-1-1", "路上辛苦了，欢迎你们来北京！"],
+  ["hsk3-2-2-4", "吃饺子，祝大家新年健康平安！"],
+]);
+const verifiedSpotChecks = new Set();
 
 function expectedAudio(level, lesson, scene, line) {
   return `/group3/assets/group3/lessons/${level}/lesson-${String(lesson).padStart(2, "0")}/audio/scene-${String(scene).padStart(2, "0")}/line-${String(line).padStart(2, "0")}.mp3`;
@@ -132,7 +138,8 @@ async function auditReader(browser, level, lesson, scene) {
     await page.waitForSelector(".g3-dialogue-line");
 
     const evidence = [];
-    const lineLimit = Math.min(3, await page.$eval(".g3-playback-progress", (node) => Number(node.getAttribute("aria-valuemax"))));
+    const requestedLineLimit = level === "hsk3" && lesson === 2 && scene === 2 ? 4 : 3;
+    const lineLimit = Math.min(requestedLineLimit, await page.$eval(".g3-playback-progress", (node) => Number(node.getAttribute("aria-valuemax"))));
     for (let line = 1; line <= lineLimit; line += 1) {
       console.log(`reader ${level} lesson-${lesson} scene-${scene} line-${line}`);
       if (line > 1) {
@@ -157,6 +164,11 @@ async function auditReader(browser, level, lesson, scene) {
         : playbackEvidence.starts.at(-1);
       const url = new URL(resource, origin).pathname;
       assert.equal(url, expectedAudio(level, lesson, scene, line), `${level}/lesson-${lesson}/scene-${scene}/line-${line}`);
+      const spotCheckId = `${level}-${lesson}-${scene}-${line}`;
+      if (requiredSpotChecks.has(spotCheckId)) {
+        assert.equal(hanzi, requiredSpotChecks.get(spotCheckId), `${spotCheckId} visible Hanzi`);
+        verifiedSpotChecks.add(spotCheckId);
+      }
       evidence.push({ hanzi, line, url });
       if (line === 1) {
         const starts = playbackEvidence.starts.length > before
@@ -242,10 +254,12 @@ const browser = await puppeteer.launch({
 try {
   const reader = [];
   for (const level of levels) {
-    for (const lesson of [1, 2]) {
+    const lessons = level === "hsk1" ? [1, 2, 3] : [1, 2];
+    for (const lesson of lessons) {
       for (const scene of [1, 2]) reader.push(await auditReader(browser, level, lesson, scene));
     }
   }
+  assert.deepEqual([...verifiedSpotChecks].sort(), [...requiredSpotChecks.keys()].sort(), "required payload spot checks were not exercised");
   const repeat = [];
   for (const level of levels) repeat.push(await auditRepeat(browser, level));
   console.log(JSON.stringify({ readerRoutes: reader.length, readerLinesPlayed: reader.flat().length, repeatLevels: repeat.length }));

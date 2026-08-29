@@ -18,12 +18,17 @@ import {
 } from "./routing/routes.js";
 import { stopChineseVoice } from "./services/audio/index.js";
 import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.js";
-import { ContentsPage, VocabularyPage } from "./features/lesson/index.js";
+import { LessonContents } from "./features/lessons/contents/LessonContents.jsx";
+import { VocabularyPage } from "./features/lessons/vocabulary/VocabularyPage.jsx";
 import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
-import { AboutView, LevelPicker, ReportView, StoryCatalog, StoryHome } from "./features/catalog/index.js";
-import { PracticeExercise, PracticeHub } from "./features/practice/index.js";
-import { LearningSummary } from "./features/learning-summary/LearningSummary.jsx";
-import { createLearningSummary } from "./features/learning-summary/summaryModel.js";
+import { AboutView, ReportView } from "./features/home/HomeViews.jsx";
+import { StoryHome } from "./features/home/StoryHome.jsx";
+import { LevelPicker } from "./features/levels/LevelPicker.jsx";
+import { LessonCatalog } from "./features/lessons/catalog/LessonCatalog.jsx";
+import { PracticeHub } from "./features/practice/hub/PracticeHub.jsx";
+import { PracticeExercise } from "./features/practice/shared/PracticeExercise.jsx";
+import { PracticeSummary } from "./features/practice/summary/PracticeSummary.jsx";
+import { createPracticeSummary } from "./features/practice/summary/summaryModel.js";
 import { getPracticeResults, clearAllPracticeResults } from "./features/practice/sessionStore.js";
 import {
   getLearnerSession,
@@ -34,24 +39,24 @@ import {
 } from "./shared/session.js";
 import { shouldLoadReadingBackground } from "./shared/routeMediaPolicy.js";
 
-const ReadingTheatre = lazy(() => import("./features/reader/index.js").then((module) => ({
+const ReadingTheatre = lazy(() => import("./features/lessons/reader/ReadingTheatre.jsx").then((module) => ({
   default: module.ReadingTheatre,
 })).catch(() => ({
-  default: StoryCatalog,
+  default: LessonCatalog,
 })));
 
 const LESSON_ROUTE_NAMES = new Set(["reader", "contents", "vocabulary"]);
 
 function PracticeSummaryPage({ language, level, navigate }) {
   const results = getPracticeResults(level);
-  const data = createLearningSummary({
+  const data = createPracticeSummary({
     hskLevel: level,
     repeatResult: results["repeat-sentence"] || [],
     imageResult: results["image-description"] || [],
     questionResult: results["question-response"] || [],
   });
   return (
-    <LearningSummary
+    <PracticeSummary
       language={language}
       data={data}
       onRetry={() => navigate(practicePath(level))}
@@ -335,7 +340,7 @@ export default function Group3App() {
   const content = useMemo(() => {
     if (routeNeedsLesson && lessonStatus !== "ready") {
       return (
-        <StoryCatalog
+        <LessonCatalog
           key={`lesson-fallback-${requestedLessonKey}`}
           initialLessonId={requestedLesson.id}
           language={language}
@@ -362,7 +367,7 @@ export default function Group3App() {
     if (route.name === "practice") return <PracticeHub language={language} level={route.level} navigate={navigate} />;
     if (route.name === "practice-summary") return <PracticeSummaryPage language={language} level={route.level} navigate={navigate} />;
     if (route.name === "practice-exercise") return <PracticeExercise exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
-    if (route.name === "catalog") return <StoryCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
+    if (route.name === "catalog") return <LessonCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
     
     if (route.name === "contents") {
       return <ContentsPage key={`${lesson.id}-contents`} language={language} lesson={lesson} navigate={navigate} />;
@@ -376,7 +381,7 @@ export default function Group3App() {
   }, [homeView, language, lowData, route, lesson, lessonStatus, requestedLesson, requestedLessonKey, retryLesson, routeNeedsLesson, navigate]);
 
   const mainSuspense = (
-    <Suspense fallback={<StoryCatalog key={`chunk-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={requestedLesson.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />}>
+    <Suspense fallback={<LessonCatalog key={`chunk-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={requestedLesson.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />}>
       {content}
     </Suspense>
   );

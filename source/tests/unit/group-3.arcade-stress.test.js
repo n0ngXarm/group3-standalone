@@ -13,7 +13,7 @@ import {
   buildPinyinQuestions,
   normalizeVocabulary,
   shuffle,
-} from "../../src/surfaces/group-3-8104/features/games/shared/gameData.js";
+} from "../../src/surfaces/group-3-8104/features/_legacy-games/shared/gameData.js";
 import {
   resetChineseAudioForTests,
   speakChinese,

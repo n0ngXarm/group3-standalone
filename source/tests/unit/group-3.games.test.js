@@ -24,7 +24,7 @@ import {
   rankHighScores,
   saveHighScore,
   shuffle,
-} from "../../src/surfaces/group-3-8104/features/games/shared/gameData.js";
+} from "../../src/surfaces/group-3-8104/features/_legacy-games/shared/gameData.js";
 
 /*
 P0/P1 contract list written before the assertions:
@@ -46,7 +46,7 @@ P0/P1 contract list written before the assertions:
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FRONTEND_ROOT = path.resolve(HERE, "../..");
 const GROUP3_SOURCE_ROOT = path.join(FRONTEND_ROOT, "src/surfaces/group-3-8104");
-const GAME_SOURCE_ROOT = path.join(GROUP3_SOURCE_ROOT, "features/games");
+const GAME_SOURCE_ROOT = path.join(GROUP3_SOURCE_ROOT, "features/_legacy-games");
 const ASSET_ROOT = path.join(FRONTEND_ROOT, "public/assets/group3/games");
 
 const GAME_COMPONENTS = [

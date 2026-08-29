@@ -21,6 +21,7 @@ export const PROTECTED_ROUTE_NAMES = Object.freeze(new Set([
   "reader",
   "practice",
   "practice-exercise",
+  "practice-exercise-result",
   "practice-summary",
 ]));
 
@@ -150,6 +151,13 @@ export function practiceExercisePath(level, exerciseType) {
     : base;
 }
 
+export function practiceExerciseResultPath(level, exerciseType) {
+  const base = practicePath(level);
+  return LEVELS.has(level) && PRACTICE_TYPES.has(exerciseType)
+    ? `${base}${exerciseType}/result/`
+    : base;
+}
+
 export function practiceSummaryPath(level) {
   return LEVELS.has(level) ? `/home/${level}/practice/summary/` : levelsPath();
 }
@@ -215,6 +223,9 @@ export function routeFromLocation(location = window.location) {
     }
     const exerciseType = parts[3];
     if (exerciseType && PRACTICE_TYPES.has(exerciseType)) {
+      if (parts[4] === "result") {
+        return { exerciseType, level, name: "practice-exercise-result" };
+      }
       return { exerciseType, level, name: "practice-exercise" };
     }
     // Unknown exercise type -> redirect Practice Hub
@@ -316,6 +327,7 @@ export function canonicalPathForRoute(route) {
   if (route.name === "catalog") return levelPath(route.level);
   if (route.name === "practice") return practicePath(route.level);
   if (route.name === "practice-exercise") return practiceExercisePath(route.level, route.exerciseType);
+  if (route.name === "practice-exercise-result") return practiceExerciseResultPath(route.level, route.exerciseType);
   if (route.name === "practice-summary") return practiceSummaryPath(route.level);
   const lesson = routeLesson(route);
   if (!lesson) return levelPath(route.level);

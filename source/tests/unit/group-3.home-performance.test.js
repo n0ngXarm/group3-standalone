@@ -4,7 +4,7 @@ import path from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
-const modulePath = "../../src/surfaces/group-3-8104/features/catalog/homeMedia.js";
+const modulePath = "../../src/surfaces/group-3-8104/features/home/homeMedia.js";
 const publicRoot = fileURLToPath(new URL("../../public/", import.meta.url));
 
 async function loadHomeMedia() {

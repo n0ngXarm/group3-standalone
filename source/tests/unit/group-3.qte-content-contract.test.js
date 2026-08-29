@@ -54,7 +54,7 @@ test("Simulate shuffle preserves evaluation correctness", () => {
 });
 
 test("Challenges.jsx correctly uses correctOptionId and removes attempt 3 lock", () => {
-  const challengesPath = path.resolve(__dirname, "../../src/surfaces/group-3-8104/features/reader/challenges/Challenges.jsx");
+  const challengesPath = path.resolve(__dirname, "../../src/surfaces/group-3-8104/features/lessons/challenges/Challenges.jsx");
   const code = fs.readFileSync(challengesPath, "utf8");
 
   assert.match(code, /const correctOptionId = challenge.correct \|\| challenge.answer;/, "Must establish stable correctOptionId");

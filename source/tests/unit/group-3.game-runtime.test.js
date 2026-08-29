@@ -9,11 +9,11 @@ import {
   PAUSE_REASONS,
   createGameSession,
   reduceGameSession,
-} from "../../src/surfaces/group-3-8104/features/games/shared/gameSession.js";
+} from "../../src/surfaces/group-3-8104/features/_legacy-games/shared/gameSession.js";
 import {
   createPausableClock,
   createPausableScheduler,
-} from "../../src/surfaces/group-3-8104/features/games/shared/gameTiming.js";
+} from "../../src/surfaces/group-3-8104/features/_legacy-games/shared/gameTiming.js";
 import {
   GAME_COPY,
   highScoreStorageKey,
@@ -21,9 +21,9 @@ import {
   resetHighScores,
   saveHighScore,
   shuffle,
-} from "../../src/surfaces/group-3-8104/features/games/shared/gameData.js";
+} from "../../src/surfaces/group-3-8104/features/_legacy-games/shared/gameData.js";
 
-const GAME_ROOT = path.resolve("src/surfaces/group-3-8104/features/games");
+const GAME_ROOT = path.resolve("src/surfaces/group-3-8104/features/_legacy-games");
 
 function transition(state, type, reason) {
   return reduceGameSession(state, { type, reason });

@@ -1,329 +1,633 @@
 {
-  "sourceManifestCommit": "5c2f9e4",
+  "generatedAt": "2026-08-29T13:45:53.325Z",
+  "generator": "canonical lesson registry -> Edge TTS -> FFmpeg rubberband persona",
   "payloads": [
     {
-      "hash": "0df66a1cef3faa9f43bfd4d5d0f521e8752e771f70f12b0896f247a83005d2db",
-      "file": "h2l2-hotel-04.mp3",
-      "profile": "hotelReceptionist",
-      "text": "好打车。"
-    },
-    {
-      "hash": "12d3c575a0b03c4d5409ce5d025b99a7dbdaa2d4f7fcf06c96961b511edae5d7",
-      "file": "l2-menu-01.mp3",
-      "profile": "wang",
-      "text": "家月、李文，你们看看菜单，想吃点儿什么？"
-    },
-    {
-      "hash": "147f6834f0532bb526407341833065f88e46e3e5c5aebeb409797a941f18873d",
-      "file": "l2-menu-04.mp3",
-      "profile": "wang",
-      "text": "那多点点儿，别客气。你们喝什么饮料？"
-    },
-    {
-      "hash": "1d69062e31f1f331c6c9588958e486dd012895c841a45a3b860feb319af3d1f5",
-      "file": "l2-menu-02.mp3",
-      "profile": "liWen",
-      "text": "谢谢一雪姐，我都可以，你们点吧。"
-    },
-    {
-      "hash": "1fbc6e597ffabcd58811718ef4701f0d4e4c9860e24719d93f0a224dfe455e02",
-      "file": "h2l2-hotel-03.mp3",
-      "profile": "bai",
-      "text": "这儿好打车吗？"
-    },
-    {
-      "hash": "2848100c987b1971a53c443cebaa422b1761fc4fda8f073f56f2fe018c3a5afc",
-      "file": "l9-entrance-03.mp3",
-      "profile": "wang",
-      "text": "咖啡店离这儿有点儿远。"
-    },
-    {
-      "hash": "324bab21bb730e57d5e9f1e6f0675820145bdff0bb237a317d0cd758966d6725",
-      "file": "h3l3-new-home-01.mp3",
-      "profile": "wang",
-      "text": "我今天早上来的时候，灯还开着。"
-    },
-    {
-      "hash": "37fbc62ecdf790174e2f26773ba7d1c24ac4c643c7fc1989853c9fd1ef67749d",
-      "file": "h1l1-classroom-01.mp3",
-      "profile": "teacherWang",
-      "text": "大家好！"
-    },
-    {
-      "hash": "43c980201b6388babe8fb775044f07314ef93b90b36627d0d380aa117287f8fd",
-      "file": "h3l14-library-02.mp3",
-      "profile": "bai",
-      "text": "下午我只有两节课，可以帮你去图书馆还书。"
-    },
-    {
-      "hash": "43d4eacd603ba6d839c6ab8022558dd4f3321d4487fba56073a71e10cad9fe01",
-      "file": "l4-mall-04.mp3",
-      "profile": "wang",
-      "text": "好啊！你想买点儿什么？"
-    },
-    {
-      "hash": "47a36e6de664cb2cc1272db58e65c587776393f4e124f9d620bd6a5d46885718",
-      "file": "h3l9-badminton-04.mp3",
-      "profile": "bai",
-      "text": "这么多同学一起打，如果总是接不住球，就太不好意思了。"
-    },
-    {
-      "hash": "5059a51fd232f02aa3bdf5297a44caabb572997e5f302de5f3f5134cc3243e6b",
-      "file": "clothes-03.mp3",
-      "profile": "wang",
-      "text": "小雪能穿，买一件吧。"
-    },
-    {
-      "hash": "560278ec4440ba8a72f5fdb775aa9a9cc092f5a85a87a51bfbcae7c909526c30",
-      "file": "clothes-01.mp3",
-      "profile": "wang",
-      "text": "这家商店衣服真多！这件一百元，怎么样？"
-    },
-    {
-      "hash": "56c721d2b49e424e122aa6847fe8be34c73d2aef0883bcca6ce3874c1f5fb4fe",
-      "file": "l9-entrance-01.mp3",
-      "profile": "wang",
-      "text": "门口有家奶茶店。你想喝杯奶茶吗？"
-    },
-    {
-      "hash": "5a3b2d0731e17c6e38d3ebf45f5e14463775187685883b4cda3fddd7be058a62",
-      "file": "h1l1-classroom-04.mp3",
-      "profile": "students",
-      "text": "你好，小语！"
-    },
-    {
-      "hash": "5bf96a7191f8ba4c2540f0673008be6bf51c24d805cd06ba110df86803bf23bf",
-      "file": "h3l14-library-04.mp3",
-      "profile": "bai",
-      "text": "行，你告诉我书名。"
-    },
-    {
-      "hash": "5d7a6577ed3474f04b25ae401dd23f4d23c24d11bc637b1439de70cd230fbd29",
+      "canonicalFile": "lessons/hsk1/lesson-01/audio/scene-01/line-01.mp3",
       "file": "h1l1-office-01.mp3",
+      "hash": "5d7a6577ed3474f04b25ae401dd23f4d23c24d11bc637b1439de70cd230fbd29",
       "profile": "teacherWang",
+      "source": "pre-curation-manifest:5c2f9e4",
       "text": "AI小语，你好！"
     },
     {
-      "hash": "6028f9adc5131baa0627b6f5d44492b49e3b4b7fab21bf3aaa178e4589cf42e6",
+      "canonicalFile": "lessons/hsk1/lesson-01/audio/scene-01/line-02.mp3",
       "file": "h1l1-office-02.mp3",
+      "hash": "6028f9adc5131baa0627b6f5d44492b49e3b4b7fab21bf3aaa178e4589cf42e6",
       "profile": "xiaoyu",
+      "source": "pre-curation-manifest:5c2f9e4",
       "text": "王老师，你好！"
     },
     {
-      "hash": "64f35b27654c63e745adca5879fc0b772f18cccf7f6f10ba79a5391d0cd674fe",
-      "file": "h1l7-time-01.mp3",
-      "profile": "bai",
-      "text": "现在几点？"
-    },
-    {
-      "hash": "65bd325ce18bb5e0ab155f39414d2f3d1d2831810ccd9b5335413d40728a1f48",
-      "file": "h1l1-classroom-03.mp3",
-      "profile": "xiaoyu",
-      "text": "你们好！"
-    },
-    {
-      "hash": "75f9cc7dfc61dad012d5f51439befab519e1e45edc8e5cb0c6c8393dcd24cdde",
-      "file": "h2l2-hotel-01.mp3",
-      "profile": "bai",
-      "text": "请问，这儿有到北京大学的公交车吗？"
-    },
-    {
-      "hash": "7a0e5eede3ba3df9b2f36bbfbada6ee930c395c4e9eadfdfd09c83daf4dd39ce",
-      "file": "l4-mall-03.mp3",
-      "profile": "liuXiaoxue",
-      "text": "我们进去看看吧。"
-    },
-    {
-      "hash": "7f7b40f06073c20f93a0ff0b487c2fda73e72cf7632fef2f9e4f8bb8f6bcee1c",
-      "file": "clothes-02.mp3",
-      "profile": "liu",
-      "text": "好看，也不贵。"
-    },
-    {
-      "hash": "8648547c4ffe931cc50d25ed01d3a7ce3ccfdd6b78a897114fc3d3bd6b67a25a",
-      "file": "clothes-04.mp3",
-      "profile": "liu",
-      "text": "好的。小明能穿吗？"
-    },
-    {
-      "hash": "87eecf3c2866ee9c3830cf8d06ab9d66f78d2ac0de6f9591300f3fc5c2d8e25b",
-      "file": "h1l11-taxi-03.mp3",
+      "canonicalFile": "lessons/hsk1/lesson-01/audio/scene-02/line-01.mp3",
+      "file": "h1l1-classroom-01.mp3",
+      "hash": "37fbc62ecdf790174e2f26773ba7d1c24ac4c643c7fc1989853c9fd1ef67749d",
       "profile": "teacherWang",
-      "text": "是的。你开车没开车？"
+      "source": "pre-curation-manifest:5c2f9e4",
+      "text": "大家好！"
     },
     {
-      "hash": "897c82a63f04453ca64aade1d34ed2c225cfd50af76c4f2c15a8e4ff72dba28e",
-      "file": "h3l9-badminton-03.mp3",
-      "profile": "liWen",
-      "text": "不是比赛，打不好没关系。"
-    },
-    {
-      "hash": "8b0607da0555b64649086772c5714fa602c2da1278e4e5517f4553899d502a2c",
-      "file": "h3l14-library-03.mp3",
-      "profile": "liWen",
-      "text": "那太谢谢了。你能再帮我借本书吗？"
-    },
-    {
-      "hash": "8c1c0e59de343809dfccf7f5d0d8dc4d083b096f9d96c1ee41c7c2e18f1197d3",
-      "file": "l1-airport-02.mp3",
-      "profile": "wang",
-      "text": "是的，你们就是她的学生吧？"
-    },
-    {
-      "hash": "90a5e234f17bf1d063fa9a5a0d7dfd3d46c566996f59ed9b804584b26d9ac17a",
-      "file": "l9-entrance-04.mp3",
-      "profile": "liu",
-      "text": "没关系，那家店的咖啡很好喝。"
-    },
-    {
-      "hash": "91695e693882cb521752e1a654d16ca9f42e20ac9cf45346793f0ecf779e40b1",
-      "file": "l1-airport-03.mp3",
-      "profile": "bai",
-      "text": "对。我是白家月，她是安妮。"
-    },
-    {
-      "hash": "92fdb8b90f8cf28d250fabba12380b50dfc0348d84071d24838eb88e9dc8458d",
-      "file": "l9-entrance-02.mp3",
-      "profile": "liu",
-      "text": "我想喝咖啡，还是去咖啡店吧。"
-    },
-    {
-      "hash": "9519a53dab253aaa45108021f8254ddc764efc5d0ca34568f2b1be4766b4ee98",
-      "file": "h1l4-home-01.mp3",
-      "profile": "liu",
-      "text": "一飞忙吗？"
-    },
-    {
-      "hash": "99d2003d371774febc63fe1f15f72a26ac9c40c15931996959ac558a2b656ca2",
-      "file": "h1l4-home-04.mp3",
-      "profile": "wang",
-      "text": "她有二十个学生。"
-    },
-    {
-      "hash": "a2552ab1ceaff4fcb5831c57f9c420e428ded4e8f01c38369adfe60c1e4cbb93",
-      "file": "l2-menu-03.mp3",
-      "profile": "bai",
-      "text": "飞了这么远，现在还真是又饿又渴。"
-    },
-    {
-      "hash": "aa4947bdcc8e5f8be6922900676c1cc48281deb0f1236e3c1eb5c149034cf29e",
-      "file": "h3l9-badminton-01.mp3",
-      "profile": "liWen",
-      "text": "家月，你跟我们一起打羽毛球吧？"
-    },
-    {
-      "hash": "b1050924e7e0fda2b2f963c97ca867cb31a349746e2342d9876ca10e3ac56de2",
-      "file": "l1-airport-04.mp3",
-      "profile": "wang",
-      "text": "你们好，我叫王一雪。一飞给我打电话了，让我来接你们。"
-    },
-    {
-      "hash": "b2462579341383486731de7cb499783307e9933351c7e5cd06a373f4c2bba1c3",
-      "file": "h3l14-library-01.mp3",
-      "profile": "liWen",
-      "text": "我借的这本词典最好今天还，但是我没时间去。"
-    },
-    {
-      "hash": "b8bc7c9a91a0dab7004f9f9fedb2e69c97d81247a6336bbfbfb38e4b8a1ee936",
-      "file": "l1-airport-01.mp3",
-      "profile": "bai",
-      "text": "请问，您是王一飞老师的姐姐吗？"
-    },
-    {
-      "hash": "c5ba5a929390303bfdd6dbbfd34509a48a8704f1de9c58c85a85b51175165ad0",
+      "canonicalFile": "lessons/hsk1/lesson-01/audio/scene-02/line-02.mp3",
       "file": "h1l1-classroom-02.mp3",
+      "hash": "c5ba5a929390303bfdd6dbbfd34509a48a8704f1de9c58c85a85b51175165ad0",
       "profile": "students",
+      "source": "pre-curation-manifest:5c2f9e4",
       "text": "老师，您好！"
     },
     {
-      "hash": "c82e7d4fb0ed4b0cc85c6e643ed42ea28947911fe03415818231581e1efdee07",
-      "file": "h1l7-time-02.mp3",
-      "profile": "annie",
-      "text": "早上八点四十。"
+      "canonicalFile": "lessons/hsk1/lesson-01/audio/scene-02/line-03.mp3",
+      "file": "h1l1-classroom-03.mp3",
+      "hash": "65bd325ce18bb5e0ab155f39414d2f3d1d2831810ccd9b5335413d40728a1f48",
+      "profile": "xiaoyu",
+      "source": "pre-curation-manifest:5c2f9e4",
+      "text": "你们好！"
     },
     {
-      "hash": "cc376ab6541ce0bd7808bf4968f2803c1dc3fcc5cda45a13dd506bbfe243449e",
-      "file": "h3l3-new-home-02.mp3",
-      "profile": "liu",
-      "text": "我这几天忙坏了，可能走的时候忘关了。"
+      "canonicalFile": "lessons/hsk1/lesson-01/audio/scene-02/line-04.mp3",
+      "file": "h1l1-classroom-04.mp3",
+      "hash": "5a3b2d0731e17c6e38d3ebf45f5e14463775187685883b4cda3fddd7be058a62",
+      "profile": "students",
+      "source": "pre-curation-manifest:5c2f9e4",
+      "text": "你好，小语！"
     },
     {
-      "hash": "d29b5c44114d764b8e58012fbaed81b1007f0c0a49103c7b01f37c5086e824fd",
-      "file": "h1l4-home-02.mp3",
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-01/line-01.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-01/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "f891cd1f39657314e06765abf3a2345581028c8de6d27005c76a4f3ae39ad5a9",
+      "inputFingerprint": "90e7d9f5f79cdc328f0434a1154c840477b96900d6e1ec4c74514c543d5f1cdd",
       "profile": "wang",
-      "text": "她很忙。"
+      "providerText": "你看，这是我的家人。",
+      "source": "canonical-runtime-content",
+      "text": "你看，这是我的家人。",
+      "voice": "zh-CN-XiaoxiaoNeural"
     },
     {
-      "hash": "d769039b3e481e28ef12368408d2b39bfa12ea797da34689ca7d5d6ee0c00a5c",
-      "file": "h1l7-time-03.mp3",
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-01/line-02.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-01/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "152b6747e2cc7d16afb1d70e342b07a97b1d144e273d91bf71ca08717e4a45f3",
+      "inputFingerprint": "dbd9145c59928c19056d2bb670ce8c2fbe432881b5a19e1f9148f200991acb16",
+      "profile": "liu",
+      "providerText": "你家有几口人？",
+      "source": "canonical-runtime-content",
+      "text": "你家有几口人？",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-01/line-03.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-01/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "f6003447a4b80146f7423ce660a4d25415e3d96ce6c266d437d878f757f29b14",
+      "inputFingerprint": "9e2984734a6b71919d19695a05824aaf24f5f374417fd6a1c22706a79046241f",
+      "profile": "wang",
+      "providerText": "我家有四口人，我有两个孩子。",
+      "source": "canonical-runtime-content",
+      "text": "我家有四口人，我有两个孩子。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-01/line-04.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-01/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "8f6af5eb744eb02332be8ab8d7a7f6058a873ed2af0a5e8e5e2b6fdb732f6988",
+      "inputFingerprint": "341491b0f4c5953072afb5dd7bed6e436b795673206565f401adc8de97cc01c6",
+      "profile": "liu",
+      "providerText": "他们多大了？",
+      "source": "canonical-runtime-content",
+      "text": "他们多大了？",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-02/line-01.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-02/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "1b3870adaa497f48e66aa0a82d4446d098671f02c8d217ea8c2e34e3834c592b",
+      "inputFingerprint": "9db3d6cff9e7ee658565388f0d166c3b571f648f4da415e41bb5f33eb37d7aa1",
+      "profile": "liu",
+      "providerText": "现在几点？",
+      "source": "canonical-runtime-content",
+      "text": "现在几点？",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-02/line-02.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-02/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "03852019b7ad21c0eef368f4e8648cb2c7580e14b5678e155a4361921d33750a",
+      "inputFingerprint": "998a332f87c419dfd060564f1241548a7dff910e8033ae77c8211088b1663acf",
+      "profile": "wang",
+      "providerText": "现在上午十点十分。",
+      "source": "canonical-runtime-content",
+      "text": "现在上午十点十分。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-02/line-03.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-02/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "dfb9ecbfe72e33cc47edf74c0db286faa67b956236bb282efa7db1ee75378011",
+      "inputFingerprint": "25a7dbf719c84824925840ef560bce8c3f88a03c5d84112b55c1af3e8c24fd27",
+      "profile": "liu",
+      "providerText": "你今天什么时候下班？",
+      "source": "canonical-runtime-content",
+      "text": "你今天什么时候下班？",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-02/audio/scene-02/line-04.mp3",
+      "file": "lessons/hsk1/lesson-02/audio/scene-02/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "25cceccd45bdb935fb4423cd816052a274e9a4ba1b36cf33c26f3c8906a28099",
+      "inputFingerprint": "db2669bcce1414517def1b587fb71fb3c75003f279b8dc2b49f7773bd97f57a8",
+      "profile": "wang",
+      "providerText": "我晚上六点半下班。",
+      "source": "canonical-runtime-content",
+      "text": "我晚上六点半下班。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-01/line-01.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-01/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "5ca1545c98e8e44e5dad85ca0981b4f13cc15639ba8590fc26b88907abb0b7bb",
+      "inputFingerprint": "8e16102b07882d34a73d01b7c617b1c166910cd18bc9abc13cb8144d4620cb6b",
+      "profile": "shopAssistant",
+      "providerText": "您好，您想买什么？",
+      "source": "canonical-runtime-content",
+      "text": "您好，您想买什么？",
+      "voice": "zh-CN-XiaoyiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-01/line-02.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-01/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "d1a79479bc74d35e31148a353c562d093b4e72dc40ec3cc5478c4aeeb0f0abc4",
+      "inputFingerprint": "50f80dd924086faa307ecd59e195da60806c8b23707e172e92a9cd757b9f62ac",
       "profile": "bai",
-      "text": "我上午十点十分有课。"
+      "providerText": "我想买一件衣服。",
+      "source": "canonical-runtime-content",
+      "text": "我想买一件衣服。",
+      "voice": "zh-CN-XiaoxiaoNeural"
     },
     {
-      "hash": "d9a1bbf0bf09401f92eaf2a6614c800a097da6ed09f0e643add51c5186bb863c",
-      "file": "h1l11-taxi-01.mp3",
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-01/line-03.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-01/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "f1ea0c94a8bbb0e7014288482eb168bf4fcdaebd911647b3bda59cdb677d8449",
+      "inputFingerprint": "4f7a504e4068f2d3eab2129cec6995d2b348870ff17e9356ad604524af9b7b60",
+      "profile": "shopAssistant",
+      "providerText": "这件红色的怎么样？很漂亮。",
+      "source": "canonical-runtime-content",
+      "text": "这件红色的怎么样？很漂亮。",
+      "voice": "zh-CN-XiaoyiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-01/line-04.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-01/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "46d2123ffd9479ee5132bb7049a70b00fbd5a5208bf94849ec09533418ac0933",
+      "inputFingerprint": "7bd3db130d4405bb7f3cfde565b037e4948e51b95bd777c2b6c30c3198e45bf0",
+      "profile": "bai",
+      "providerText": "真漂亮，我买这件！",
+      "source": "canonical-runtime-content",
+      "text": "真漂亮，我买这件！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-02/line-01.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-02/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "718740f9f8c27adeeeadd6a3d254c5ad6013e8e5a6b20382ca332f63f1c39349",
+      "inputFingerprint": "67f8bde2fa9a75d3356b44bba03e92bbab8edf12ba91e8ffaf43746bbd5ed2db",
+      "profile": "liWen",
+      "providerText": "这是我做的中国菜，你尝尝。",
+      "source": "canonical-runtime-content",
+      "text": "这是我做的中国菜，你尝尝。",
+      "voice": "zh-CN-YunxiaNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-02/line-02.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-02/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "6fb2e070521dfb21507016e67c1e88f19cb3820443bdc184c220db9a6e1eae1f",
+      "inputFingerprint": "1aac046d3bcdae9962593c62b31d006e0952deaa4843d108278a1ffc320402d0",
+      "profile": "bai",
+      "providerText": "太好吃了，你做的真好！",
+      "source": "canonical-runtime-content",
+      "text": "太好吃了，你做的真好！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-02/line-03.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-02/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "13c7afcc8803c5da40e41c1c689444d0519528490a819f329f2d09c312516915",
+      "inputFingerprint": "4fa95ca6f87a5be21654b6c734b53478331585cf640092798160c14e96d3bbe4",
       "profile": "teacherWang",
-      "text": "喂，李文，你什么时候能到饭店？"
+      "providerText": "明天上午九点，大兴机场见！",
+      "source": "canonical-runtime-content",
+      "text": "明天上午九点，大兴机场见！",
+      "voice": "zh-CN-XiaoyiNeural"
     },
     {
-      "hash": "daf70b5e4e403da42325962e9d0fb46c3e0af97204101ee91a6132514bf582a6",
-      "file": "h1l7-time-04.mp3",
-      "profile": "annie",
-      "text": "好的，我们下午两点见吧。"
-    },
-    {
-      "hash": "e3a79ed8c052a25f15b28499a08660f1e2599f38728bd483428a05e476adc28e",
-      "file": "l4-mall-01.mp3",
-      "profile": "liuXiaoxue",
-      "text": "妈妈，我们来过这家商场吗？"
-    },
-    {
-      "hash": "e3b3e28034fe69afeba6cd72ad0cb739735d23ceb0bcdf88c9dda0542c3d2e57",
-      "file": "h1l11-taxi-02.mp3",
-      "profile": "liWen",
-      "text": "还不知道，正在找呢。它是不是在超市后边？"
-    },
-    {
-      "hash": "e5213875ab186faf270aa18db5d35dfc29e892826fe4667047337266f69c4d94",
-      "file": "h3l9-badminton-02.mp3",
+      "canonicalFile": "lessons/hsk1/lesson-03/audio/scene-02/line-04.mp3",
+      "file": "lessons/hsk1/lesson-03/audio/scene-02/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "e7c9eae8bf0b0e8ba041d77b7e4adde653789e6048c8664f909ac4321b79adff",
+      "inputFingerprint": "58b2f9129643106c5a2125649bb6793df7c63ddb54260d4007f937f1a5614eb3",
       "profile": "bai",
-      "text": "我好多年没打羽毛球了，几乎忘了怎么打了。"
+      "providerText": "太好了，大兴机场见！",
+      "source": "canonical-runtime-content",
+      "text": "太好了，大兴机场见！",
+      "voice": "zh-CN-XiaoxiaoNeural"
     },
     {
-      "hash": "e58207e776831ce4d6f9949015ce609214703b1bfd6bcfdf5dda4860b90588d1",
-      "file": "h3l3-new-home-03.mp3",
-      "profile": "wang",
-      "text": "冰箱不能用，这些吃的东西放在哪儿？"
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-01/line-01.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-01/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "6d4cc652ba8021a7c5071e4f4455a3bfcfa76acf542a8e4bc3f127db5649d0dd",
+      "inputFingerprint": "79dbf7f6a79a4d07097606f3bf0abd51bcc4a83899bb85fc757ecb6eb19c6ae0",
+      "profile": "teacherWang",
+      "providerText": "路上辛苦了，欢迎你们来北京！",
+      "source": "canonical-runtime-content",
+      "text": "路上辛苦了，欢迎你们来北京！",
+      "voice": "zh-CN-XiaoyiNeural"
     },
     {
-      "hash": "e5b611b6b545293ab88bc5e20a9f29f1e661161ff5014be520638515d0d76cf6",
-      "file": "l4-mall-02.mp3",
-      "profile": "wang",
-      "text": "没来过，这是新开的。"
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-01/line-02.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-01/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "364d1441f4de7e88c2c26686c1d31ccd54e90f891d442cdd99279a6061059025",
+      "inputFingerprint": "c85c9317fbba115e592d24ed3d55689e0f58ede8d06fcb5f734ad2a99eae4c8e",
+      "profile": "bai",
+      "providerText": "谢谢王老师，北京真漂亮！",
+      "source": "canonical-runtime-content",
+      "text": "谢谢王老师，北京真漂亮！",
+      "voice": "zh-CN-XiaoxiaoNeural"
     },
     {
-      "hash": "f3775746b758612c3d5dda26c01b7d8afaad7ea92c75fb428a8192cff5f7ad5d",
-      "file": "h1l11-taxi-04.mp3",
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-01/line-03.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-01/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "21c8945cb72866a609c0879c8261817a1611022c1d75562dc3ac98e02278164f",
+      "inputFingerprint": "9fbab294e8a903aff7e8dd5485bdf3ced7316425e4474bca0ef1f035ee967d32",
       "profile": "liWen",
-      "text": "我没开车，坐车呢。"
+      "providerText": "今天我请你们吃北京烤鸭。",
+      "source": "canonical-runtime-content",
+      "text": "今天我请你们吃北京烤鸭。",
+      "voice": "zh-CN-YunxiaNeural"
     },
     {
-      "hash": "fc2356602a1200236534109c4e5691fa4a44e34fab8649d0f1701aa55b4a2730",
-      "file": "h1l4-home-03.mp3",
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-01/line-04.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-01/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "58b1efb57d9b212a35d53b2f7667118ded126800025a939af8e071483d3d1ca3",
+      "inputFingerprint": "60d66718384e2d589551788994f77a9f1222ea69c6f7b1d1192b38db4b438368",
+      "profile": "bai",
+      "providerText": "太好了，我最喜欢吃烤鸭了！",
+      "source": "canonical-runtime-content",
+      "text": "太好了，我最喜欢吃烤鸭了！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-02/line-01.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-02/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "1f4979ba06bbab466fb7eb11431a8092ad028b10aa9d5a5e06db8e976cfc50af",
+      "inputFingerprint": "0919a45da58afda64e29b4b09d11baef0722c73a30a92e630d466a4448c08f85",
+      "profile": "wang",
+      "providerText": "欢迎来我家做客，快请进！",
+      "source": "canonical-runtime-content",
+      "text": "欢迎来我家做客，快请进！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-02/line-02.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-02/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "73b2af31f3f49585e192806c0e16ef31756ea3c9bc6d8161e20427935b8e599d",
+      "inputFingerprint": "83e97f6ee0da1097fb99f003a30d4eb0f1fd2cd92b821b709eefc00695c676f6",
+      "profile": "bai",
+      "providerText": "打扰了，这是送给您的礼物。",
+      "source": "canonical-runtime-content",
+      "text": "打扰了，这是送给您的礼物。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-02/line-03.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-02/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "b25bcd23fb6972de6e5290ac3c7e3f94535880cde80674d0241fa76e766dc3ae",
+      "inputFingerprint": "58b12dc27bfcf327511ae24593d38dd6965f0689e64ead48af677cd058a212cf",
       "profile": "liu",
-      "text": "她有多少个学生？"
+      "providerText": "午饭做好了，有羊肉和鱼，大家一起吃！",
+      "source": "canonical-runtime-content",
+      "text": "午饭做好了，有羊肉和鱼，大家一起吃！",
+      "voice": "zh-CN-YunxiNeural"
     },
     {
-      "hash": "fc2f9a25be9e50ead78a9948824f224daeddf26eea7bbfc84ef7b16e68a4ac45",
-      "file": "h2l2-hotel-02.mp3",
-      "profile": "hotelReceptionist",
-      "text": "有，但车站有点儿远。"
+      "canonicalFile": "lessons/hsk2/lesson-01/audio/scene-02/line-04.mp3",
+      "file": "lessons/hsk2/lesson-01/audio/scene-02/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "a3289c053c37b906cebe08aa8bd27abfad74a61f03b55126b3bd028ea1ec5924",
+      "inputFingerprint": "7597d856cf614da800464dd6ca2ebdd91ab238d8306d75981ece38ce9d8cb7d1",
+      "profile": "bai",
+      "providerText": "真丰盛，谢谢你们！",
+      "source": "canonical-runtime-content",
+      "text": "真丰盛，谢谢你们！",
+      "voice": "zh-CN-XiaoxiaoNeural"
     },
     {
-      "hash": "fede191100fbda4f0935ef9b31cee0a2fa33cefb181434094829800ee70cce30",
-      "file": "h3l3-new-home-04.mp3",
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-01/line-01.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-01/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "8c6ae254d837a2c0cb666b76c9eb408b3b6acf2d29b7a1ca1d9f2c93ca14d7fc",
+      "inputFingerprint": "ea6df1fa4b9f4325cf6b6fd3b0a933810cd30e0eb2207ff084a8ed73aca0285a",
       "profile": "liu",
-      "text": "不可能吧？冰箱是新买的，我来看看。"
+      "providerText": "你穿红色的很好看。",
+      "source": "canonical-runtime-content",
+      "text": "你穿红色的很好看。",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-01/line-02.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-01/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "56f3aee1ab1a939534f2c6d21fa3de3f8b84b90d43b3f4215f33e03b240ee3f5",
+      "inputFingerprint": "52189b28428cb7897b1377710448a541a960d6ce188bc18e2a00ed352f41e765",
+      "profile": "wang",
+      "providerText": "这件衣服也很便宜，我买了。",
+      "source": "canonical-runtime-content",
+      "text": "这件衣服也很便宜，我买了。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-01/line-03.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-01/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "89af0080c357426385c844c39ac8d8fe363b2e5561b0abffb8aa51323689ecb5",
+      "inputFingerprint": "8518de4456dca67442a96112737fb498729b513d2075eaf387856b3009dcf182",
+      "profile": "liu",
+      "providerText": "天气热，我去买杯奶茶。",
+      "source": "canonical-runtime-content",
+      "text": "天气热，我去买杯奶茶。",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-01/line-04.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-01/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "db98797d7c898e833f236195f8d150ecde266a54532c21b64be41edd793bf54e",
+      "inputFingerprint": "cc96bc11d04198ee18ce5b933db35e53e6a560461c368eb9ff386e10bb151d09",
+      "profile": "wang",
+      "providerText": "好的，我们去咖啡店休息一下。",
+      "source": "canonical-runtime-content",
+      "text": "好的，我们去咖啡店休息一下。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-02/line-01.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-02/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "0922bd701e1fd5e3d46abfb1f416f2e6bd0724f66b8fe72560dc6fad3d05f9d0",
+      "inputFingerprint": "db477f5c788576676d86c4ae95c80c00cceb9a7a48d0f00aa6f16fddce5ccd17",
+      "profile": "wang",
+      "providerText": "小雪，生日快乐！",
+      "source": "canonical-runtime-content",
+      "text": "小雪，生日快乐！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-02/line-02.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-02/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "ea5c91c9deea10bb92993333516a118001f253182d76bfb93d0b4acbeba66026",
+      "inputFingerprint": "09025fedc843e77e4915186433b7ea1439e35cf136b7e7fdb3d982ddd417f087",
+      "profile": "liuXiaoxue",
+      "providerText": "谢谢爸爸妈妈！",
+      "source": "canonical-runtime-content",
+      "text": "谢谢爸爸妈妈！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-02/line-03.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-02/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "a9a908d54bed6b9a2dc1ba160bb8e50713ddd7d4834b6e53f541608c84d35f8f",
+      "inputFingerprint": "6701cefb2ebd67e3a036d0ee0c58ee8905992326078eb2d2b588494dbb36179f",
+      "profile": "liu",
+      "providerText": "这是送给你的生日礼物，你看看。",
+      "source": "canonical-runtime-content",
+      "text": "这是送给你的生日礼物，你看看。",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk2/lesson-02/audio/scene-02/line-04.mp3",
+      "file": "lessons/hsk2/lesson-02/audio/scene-02/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "39c840160cbd8c839789f855b64efe9791c824f3506bd1569f013c514301b2f6",
+      "inputFingerprint": "5edc52d52e2cfe111368f7791565ba423b66e9511f73d94ef1697e283d7fcc6d",
+      "profile": "liuXiaoxue",
+      "providerText": "哇，是新书包，太漂亮了！",
+      "source": "canonical-runtime-content",
+      "text": "哇，是新书包，太漂亮了！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-01/line-01.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-01/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "948234d3fac272352ed330a4b9103e77ef5221c9db749a95f7afb3810e15d71f",
+      "inputFingerprint": "dc3d91707cefd8494b8f6e518bb5f9e9cb499aeb3e1d2f68d10dc31922e75add",
+      "profile": "restaurantServer",
+      "providerText": "欢迎光临，这是菜单，请点菜。",
+      "source": "canonical-runtime-content",
+      "text": "欢迎光临，这是菜单，请点菜。",
+      "voice": "zh-CN-YunyangNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-01/line-02.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-01/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "c73af624b8aadfbe6823758c629d1ddfee5fc85b62f5c8c886407b69fb9f72d7",
+      "inputFingerprint": "46579b77dbdc8ba7a6a9368700e7db2f472e645521d424fef7fb79b6fc31f211",
+      "profile": "liWen",
+      "providerText": "你们想吃什么就点什么！",
+      "source": "canonical-runtime-content",
+      "text": "你们想吃什么就点什么！",
+      "voice": "zh-CN-YunxiaNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-01/line-03.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-01/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "360365d63a55916ffcffe4cb65e8879d5862f2a0ade6e3cf4ae245c36a0a2271",
+      "inputFingerprint": "35a2129d8a9553e96a886a9da915301dfafa060b36c8bbc2b03c801f49ba9666",
+      "profile": "bai",
+      "providerText": "这个菜的味道好极了，真好吃！",
+      "source": "canonical-runtime-content",
+      "text": "这个菜的味道好极了，真好吃！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-01/line-04.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-01/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "8f2315679bac6cf774e1af8228eb939f3b88002d0545cbb4e149a003d1814352",
+      "inputFingerprint": "40a36cff0c28a94ffff54150995b14049974688b56f20476a568a8a5a23c44df",
+      "profile": "liWen",
+      "providerText": "喜欢就多吃点儿！",
+      "source": "canonical-runtime-content",
+      "text": "喜欢就多吃点儿！",
+      "voice": "zh-CN-YunxiaNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-02/line-01.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-02/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "930d32d970f44356e60920a9aac0771a842e62c32d4baea73c90493bb77c589b",
+      "inputFingerprint": "c7b8d2bf605ab9896ae479e903ab500d839daf1b2bab9428ac260bb8ce420605",
+      "profile": "wang",
+      "providerText": "假期我们坐高铁去上海吧。",
+      "source": "canonical-runtime-content",
+      "text": "假期我们坐高铁去上海吧。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-02/line-02.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-02/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "ef2aece993c82fd6e4d774012c137141271ee62bbeb5cec2e6281db074c9b1fb",
+      "inputFingerprint": "61ea3313435602ac2ea3d22829ded0f717e5a07122f44716705f9b3c0f70a47d",
+      "profile": "liu",
+      "providerText": "好啊，高铁上还可以点外卖，特别方便！",
+      "source": "canonical-runtime-content",
+      "text": "好啊，高铁上还可以点外卖，特别方便！",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-02/line-03.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-02/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "4aa45b1148832af422512160824b7660b1a7a78996f441b02671f58b71f3a385",
+      "inputFingerprint": "215dc608aed54c4acce57466555c11af5bef445b31445cbbe30e138dd10c258a",
+      "profile": "wang",
+      "providerText": "我们现在就上网买票。",
+      "source": "canonical-runtime-content",
+      "text": "我们现在就上网买票。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-01/audio/scene-02/line-04.mp3",
+      "file": "lessons/hsk3/lesson-01/audio/scene-02/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "55d9dc87907f64c0a392b24a1233b62c2050b61876b8332da67f798be76cb66c",
+      "inputFingerprint": "e67bae21efef29aabf0dbdd10dd63af95d32a6f26bdd3822df7171db2106103b",
+      "profile": "liu",
+      "providerText": "买好了，祝我们旅行愉快！",
+      "source": "canonical-runtime-content",
+      "text": "买好了，祝我们旅行愉快！",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-01/line-01.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-01/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "f5e64a78f8eaca5c46cebbe5dff15d8d70b79169f8ac504737586826b03e45bc",
+      "inputFingerprint": "a0d4b6602bbbb04546529747fb77bb173021e09ca04f7413ba636bc960b69945",
+      "profile": "wang",
+      "providerText": "经理让我们准备后天的会议。",
+      "source": "canonical-runtime-content",
+      "text": "经理让我们准备后天的会议。",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-01/line-02.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-01/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "209bc48b043689a0f6ff2596b0e9b33cf796f1124bb980750b562d4a5d2441b0",
+      "inputFingerprint": "e93f204fa8d4adbe9cceebddefcbbe2c5cec6f494f18c6ac91dabc87826f8595",
+      "profile": "yang",
+      "providerText": "我来帮你检查电脑问题。",
+      "source": "canonical-runtime-content",
+      "text": "我来帮你检查电脑问题。",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-01/line-03.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-01/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "f5e5716bc8f0c708061f3a4ae825f549406b9e263c9212d42ffa4d0e94b75324",
+      "inputFingerprint": "13c80f2ca8122b059e82f87242460b70360429917ce14630d81b9cbf3839ef7b",
+      "profile": "wang",
+      "providerText": "太谢谢你了，问题解决了！",
+      "source": "canonical-runtime-content",
+      "text": "太谢谢你了，问题解决了！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-01/line-04.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-01/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "7b1a039c6db6f0f5c867549687907be20c0564bb635b2d37cb7601bd8acaf14d",
+      "inputFingerprint": "254fb7694dff2f321581da5b8e1cae73eaa550d9e57183bd493532230c1eaa00",
+      "profile": "yang",
+      "providerText": "不客气，大家一起努力吧！",
+      "source": "canonical-runtime-content",
+      "text": "不客气，大家一起努力吧！",
+      "voice": "zh-CN-YunxiNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-02/line-01.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-02/line-01.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "0af33eaccb76c56dab409ca3ab2412566be29f656ff8bc80b161ad3fda75a0e7",
+      "inputFingerprint": "8cc651a1a931ccdb6cc5e74ae633d2f02658cf96c275bca20dcf2ca6918f7869",
+      "profile": "bai",
+      "providerText": "李叔叔、张阿姨，新年快乐！",
+      "source": "canonical-runtime-content",
+      "text": "李叔叔、张阿姨，新年快乐！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-02/line-02.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-02/line-02.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "20a8bee94b6c67ede6d8df09fb0420a43f52842101bac76a3e6c3aab70a5904d",
+      "inputFingerprint": "23e123b6d9c55757df4bbcdd7b49a4b7a60f21cc28b418d2e9037e58ef9f15b0",
+      "profile": "liUncle",
+      "providerText": "新年快乐，快来一起包饺子！",
+      "source": "canonical-runtime-content",
+      "text": "新年快乐，快来一起包饺子！",
+      "voice": "zh-CN-YunyangNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-02/line-03.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-02/line-03.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "e838cf844c6f6b3d9180c81cf20e3ca26a782c579d516573025353eece74493d",
+      "inputFingerprint": "c2d15bfa3b53934441ab1d84c1a37552f04274d9bf488c0014bf5af3fb2662d2",
+      "profile": "bai",
+      "providerText": "我学会了包饺子，太高兴了！",
+      "source": "canonical-runtime-content",
+      "text": "我学会了包饺子，太高兴了！",
+      "voice": "zh-CN-XiaoxiaoNeural"
+    },
+    {
+      "canonicalFile": "lessons/hsk3/lesson-02/audio/scene-02/line-04.mp3",
+      "file": "lessons/hsk3/lesson-02/audio/scene-02/line-04.mp3",
+      "generatedBy": "edge-tts 7.2.8",
+      "hash": "5c603102393708f5c42fd5dda9578b9389b5ea67f7331cd38fd7b71c635442be",
+      "inputFingerprint": "0146e3b6a3d05701df4f7534413b58bf3de95adc9da86a7ab1b121d2e4c9b6ca",
+      "profile": "zhangAunt",
+      "providerText": "吃饺子，祝大家新年健康平安！",
+      "source": "canonical-runtime-content",
+      "text": "吃饺子，祝大家新年健康平安！",
+      "voice": "zh-CN-XiaoxiaoNeural"
     }
-  ]
+  ],
+  "provider": "edge-tts 7.2.8",
+  "schemaVersion": "group3-audio-payload-provenance-v2",
+  "source": "GROUP3_LESSONS + voice-cast.json"
 }

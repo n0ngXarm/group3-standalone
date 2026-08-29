@@ -212,19 +212,19 @@ test("Group3App guards lazy lesson requests and keeps reader/title state keyed t
   assert.match(app, /`\$\{frontTitles\[route\.name\]\} · \$\{lessonTitle\} · \$\{text\.brand\}`/);
   assert.match(app, /<ReadingTheatre key=\{lesson\.id\} initialLessonId=\{lesson\.id\}/);
 });
-test("Group 3 lazy routes always render a non-null StoryCatalog fallback", async () => {
+test("Group 3 lazy routes always render a non-null LessonCatalog fallback", async () => {
   const app = await group3Source("Group3App.jsx");
-  const catchFallbacks = app.match(/\.catch\(\(\) => \(\{\s*default: StoryCatalog,\s*\}\)\)/g) || [];
+  const catchFallbacks = app.match(/\.catch\(\(\) => \(\{\s*default: LessonCatalog,\s*\}\)\)/g) || [];
   assert.ok(catchFallbacks.length >= 1, "reader lazy imports catch chunk failures");
   assert.match(
     app,
-    /<Suspense fallback=\{<StoryCatalog key=\{`chunk-fallback-\$\{requestedLessonKey\}`\}[\s\S]*?onRetry=\{retryLesson\} \/>\}>/,
+    /<Suspense fallback=\{<LessonCatalog key=\{`chunk-fallback-\$\{requestedLessonKey\}`\}[\s\S]*?onRetry=\{retryLesson\} \/>\}>/,
   );
   assert.doesNotMatch(app, /<Suspense fallback=\{null\}>\{content\}<\/Suspense>/);
 });
 
 test("lesson reader binds dialogue speakers by scene role and renders profile Pinyin", async () => {
-  const reader = await group3Source("features/reader/ReadingTheatre.jsx");
+  const reader = await group3Source("features/lessons/reader/ReadingTheatre.jsx");
 
   assert.match(reader, /scene\.characters\.find\(\(item\) => item\.role === currentLine\.role\)/);
   assert.match(reader, /scene\.characters\.find\(\(item\) => item\.role === line\.role\)/);
@@ -233,8 +233,8 @@ test("lesson reader binds dialogue speakers by scene role and renders profile Pi
 });
 
 test("lesson catalog and reader expose existing place and lesson-title Pinyin", async () => {
-  const catalog = await group3Source("features/catalog/StoryExperience.jsx");
-  const reader = await group3Source("features/reader/ReadingTheatre.jsx");
+  const catalog = await group3Source("features/lessons/catalog/LessonCatalog.jsx");
+  const reader = await group3Source("features/lessons/reader/ReadingTheatre.jsx");
 
   assert.match(catalog, /item\.title\?\.pinyin/);
   assert.match(catalog, /scene\.placePy/);
@@ -251,8 +251,8 @@ test("HSK3 lesson 1 keeps corrected visible Pinyin and a grammatical QTE distrac
   assert.ok(trainOptions.every((option) => option.zh !== "可以看电影院"));
 });
 
-test("StoryCatalog catches stale loads and exposes retry plus loading semantics", async () => {
-  const story = await group3Source("features/catalog/StoryExperience.jsx");
+test("LessonCatalog catches stale loads and exposes retry plus loading semantics", async () => {
+  const story = await group3Source("features/lessons/catalog/LessonCatalog.jsx");
 
   assert.match(story, /\.catch\(\(error\) => \{\s*if \(active\) setActiveLessonRequest\(\{ data: meta, error, key: meta\.id, status: "error" \}\)/);
   assert.match(story, /const activeRequestMatches = activeLessonRequest\.key === activeLessonMeta\.id/);

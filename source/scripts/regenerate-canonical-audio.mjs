@@ -12,6 +12,7 @@ const execFileAsync = promisify(execFile);
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const SOURCE_ROOT = path.resolve(SCRIPT_DIR, "..");
 const GROUP3_ASSET_ROOT = path.join(SOURCE_ROOT, "public/assets/group3");
+const AUDIO_MANIFEST_FILE = path.join(GROUP3_ASSET_ROOT, "audio/manifest.json");
 const PROVENANCE_FILE = path.join(SCRIPT_DIR, "audio-payload-provenance.json");
 const ATTESTATION_FILE = "canonical-audio-attestation.json";
 const MIN_AUDIO_BYTES = 1_000;
@@ -308,6 +309,40 @@ async function promote(outputValue) {
     source: attestation.source,
   };
   await writeFile(PROVENANCE_FILE, `${JSON.stringify(provenance, null, 2)}\n`, "utf8");
+  const manifestFiles = [];
+  for (const record of records) {
+    const audioFile = path.join(GROUP3_ASSET_ROOT, record.canonicalFile);
+    const audioStat = await stat(audioFile);
+    manifestFiles.push({
+      bytes: audioStat.size,
+      canonicalFile: record.canonicalFile,
+      file: `${record.sceneId}-${pad(record.line)}.mp3`,
+      identityId: record.profile,
+      lesson: record.lesson,
+      level: record.level,
+      line: record.line,
+      loudnessTargetLufs: voiceCast.loudnessTargetLufs,
+      personaPitch: record.personaPitch,
+      personaTempo: record.personaTempo,
+      profile: record.profile,
+      scene: record.scene,
+      sha256: await fileSha256(audioFile),
+      text: record.hanzi,
+      voice: record.voice,
+    });
+  }
+  const manifest = {
+    files: manifestFiles,
+    generator: attestation.generator,
+    lesson: "Group 3 canonical runtime lessons",
+    loudnessTargetLufs: voiceCast.loudnessTargetLufs,
+    personaCount: voiceCast.personaCount,
+    profiles: voiceCast.profiles,
+    provider: attestation.provider,
+    source: attestation.source,
+    voiceCastVersion: voiceCast.version,
+  };
+  await writeFile(AUDIO_MANIFEST_FILE, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
   process.stdout.write(`promoted ${attestation.payloads.length} canonical MP3s; retained ${retainedPayloads.length} known-good files\n`);
 }
 

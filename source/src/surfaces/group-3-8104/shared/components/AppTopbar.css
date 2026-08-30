@@ -1,0 +1,253 @@
+.g3-app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 16px;
+  background: color-mix(in srgb, var(--g3-bg) 90%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--g3-line);
+  color: var(--g3-text);
+  font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:root[data-theme="dark"] .g3-app-topbar {
+  background: color-mix(in srgb, var(--g3-bg) 80%, transparent);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.g3-topbar-left, .g3-topbar-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.g3-topbar-right {
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.g3-topbar-center {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.g3-topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  min-height: 44px;
+}
+
+.g3-topbar-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.g3-topbar-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.g3-topbar-brand-text strong {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--g3-text-primary, var(--g3-text));
+}
+
+.g3-topbar-brand-text small {
+  font-size: 11px;
+  color: var(--g3-text-secondary, var(--g3-text));
+  opacity: 0.7;
+}
+
+.g3-topbar-context-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--g3-text-primary, var(--g3-text));
+  padding: 6px 16px;
+  background: var(--g3-surface);
+  border-radius: 20px;
+  border: 1px solid var(--g3-line);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  white-space: nowrap;
+}
+
+.g3-topbar-learner-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 16px;
+  border-right: 1px solid var(--g3-line);
+}
+
+.g3-topbar-learner-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary, #d4a373);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.g3-topbar-learner-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.g3-topbar-learner-name {
+  font-size: 13px;
+  font-weight: 600;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.g3-topbar-learner-level {
+  font-size: 11px;
+  color: var(--color-primary, #d4a373);
+  font-weight: 700;
+}
+
+.g3-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.g3-topbar-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--g3-text-secondary, var(--g3-text));
+  transition: background 0.2s, color 0.2s;
+}
+
+.g3-topbar-icon-btn:hover {
+  background: var(--g3-surface-hover, rgba(0,0,0,0.05));
+  color: var(--g3-text-primary, var(--g3-text));
+}
+
+:root[data-theme="dark"] .g3-topbar-icon-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.g3-topbar-icon-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.g3-topbar-lang-switcher {
+  display: flex;
+  background: var(--g3-surface);
+  border: 1px solid var(--g3-line);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 36px;
+}
+
+.g3-topbar-lang-switcher button {
+  background: none;
+  border: none;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--g3-text-secondary, var(--g3-text));
+  cursor: pointer;
+  min-width: 44px;
+  transition: all 0.2s;
+}
+
+.g3-topbar-lang-switcher button:hover {
+  background: var(--g3-surface-hover, rgba(0,0,0,0.02));
+}
+
+.g3-topbar-lang-switcher button.active {
+  background: var(--color-primary, #d4a373);
+  color: #fff;
+}
+
+/* Responsive Rules */
+@media (max-width: 1024px) {
+  .g3-topbar-learner-text {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .g3-app-topbar {
+    padding: 0 12px;
+  }
+  .g3-topbar-brand-text small {
+    display: none;
+  }
+  .g3-topbar-context-label {
+    font-size: 13px;
+    padding: 4px 12px;
+  }
+  .g3-topbar-learner-info {
+    border-right: none;
+    padding-right: 0;
+  }
+  .g3-topbar-icon-btn.about-btn {
+    display: none; /* Hide 'About' on mobile to save space */
+  }
+}
+
+@media (max-width: 600px) {
+  .g3-topbar-brand-text {
+    display: none;
+  }
+  .g3-topbar-lang-switcher button {
+    padding: 0 6px;
+    min-width: 38px;
+  }
+  .g3-topbar-actions {
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .g3-topbar-context-label {
+    display: none; /* Hide label on very small screens to prevent overflow */
+  }
+  .g3-topbar-center {
+    display: none;
+  }
+  .g3-topbar-right {
+    flex: 2; /* Give more space to the right actions */
+  }
+}
+
+.g3-app-topbar {
+  flex: 0 0 auto !important;
+}
+

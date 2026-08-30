@@ -20,7 +20,8 @@ import { stopChineseVoice } from "./services/audio/index.js";
 import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.js";
 import { LessonContents } from "./features/lessons/contents/LessonContents.jsx";
 import { VocabularyPage } from "./features/lessons/vocabulary/VocabularyPage.jsx";
-import { AboutModal, StoryFooter, StoryHeader } from "./shared/components/index.js";
+import { AboutModal, StoryFooter } from "./shared/components/index.js";
+import { AppTopbar } from "./shared/components/AppTopbar.jsx";
 import { AboutView, ReportView } from "./features/home/HomeViews.jsx";
 import { StoryHome } from "./features/home/StoryHome.jsx";
 import { LevelPicker } from "./features/levels/LevelPicker.jsx";
@@ -389,7 +390,7 @@ export default function Group3App() {
   return (
     <div className="g3-story-shell">
       <a className="g3-skip-link" href="#g3-main">{COPY[language].skip}</a>
-      <StoryHeader
+      <AppTopbar
         route={route}
         theme={theme}
         language={language}

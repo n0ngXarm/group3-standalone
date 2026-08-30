@@ -8,9 +8,9 @@ import {
   volumeHighIcon,
   waveSquareIcon,
 } from "../../../../../shared/components/ui/iconPaths.js";
-import { QteChallenge, SentenceChallenge } from "./challenges/index.js";
-import { SceneBriefing } from "../catalog/index.js";
-import { StoryPlaybackDock } from "./playback/index.js";
+import { QteChallenge, SentenceChallenge } from "../challenges/index.js";
+import { SceneBriefing } from "../catalog/LessonCatalog.jsx";
+import { StoryPlaybackDock } from "./StoryPlaybackDock.jsx";
 import { GROUP3_PLAYBACK_CONFIG } from "../../../config.js";
 import { COPY } from "../../../content/copy.js";
 import {
@@ -23,10 +23,10 @@ import {
 import { levelsPath, lessonContentsPath, lessonScenePath } from "../../../routing/routes.js";
 
 const SOUND_FAILURE_STATES = new Set(["blocked", "timeout", "unavailable"]);
-const RolePicker = lazy(() => import("./roleplay/index.js").then((module) => ({
+const RolePicker = lazy(() => import("../challenges/Roleplay.jsx").then((module) => ({
   default: module.RolePicker,
 })));
-const RoleplayView = lazy(() => import("./roleplay/index.js").then((module) => ({
+const RoleplayView = lazy(() => import("../challenges/Roleplay.jsx").then((module) => ({
   default: module.RoleplayView,
 })));
 

@@ -7,11 +7,11 @@ import { createAudioRecorder } from "../audio/audioRecorder.js";
 import { detectSpeakingCapabilities } from "../audio/browserCapabilities.js";
 import { createSpeechRecognizer } from "../audio/speechRecognition.js";
 import { evaluateFreeSpeakingResponse } from "../evaluation/freeSpeaking.js";
-import { PracticeExerciseShell } from "./PracticeExerciseShell.jsx";
+import { PracticeExerciseShell } from "../shared/PracticeExerciseShell.jsx";
 import { savePracticeResult } from "../sessionStore.js";
-import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErrorCopyKey } from "./practiceUi.js";
+import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErrorCopyKey } from "../shared/practiceUi.js";
 import { getSpeechCoachingAdvice } from "../evaluation/speechFeedback.js";
-import { SpeechFeedbackAlert } from "./SpeechFeedbackAlert.jsx";
+import { SpeechFeedbackAlert } from "../shared/SpeechFeedbackAlert.jsx";
 import { Group3DetailModal } from "../../../shared/components/index.js";
 
 export function FreeSpeakingExercise({ exerciseType, language, level, navigate }) {

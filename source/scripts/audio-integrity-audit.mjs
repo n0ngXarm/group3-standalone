@@ -15,7 +15,7 @@ const PUBLIC_ROOT = path.join(SOURCE_ROOT, "public");
 const GROUP3_ASSET_ROOT = path.join(PUBLIC_ROOT, "assets/group3");
 const VOICE_ROOT = path.join(GROUP3_ASSET_ROOT, "voices");
 const LESSON_AUDIO_ROOT = path.join(GROUP3_ASSET_ROOT, "lessons");
-const GENERATOR_SOURCE = path.join(REPOSITORY_ROOT, "scripts/media/generate-group3-voices-8104.py");
+const GENERATOR_SOURCE = path.join(REPOSITORY_ROOT, "source/scripts/tools/media/generate-group3-voices-8104.py");
 const AUDIO_MANIFEST = path.join(GROUP3_ASSET_ROOT, "audio/manifest.json");
 const PAYLOAD_PROVENANCE = path.join(SCRIPT_DIR, "audio-payload-provenance.json");
 

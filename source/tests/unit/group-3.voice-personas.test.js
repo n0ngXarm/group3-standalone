@@ -117,7 +117,7 @@ test("persona manifest covers every line with identity, transform, loudness, and
 
 test("voice generator stages the complete batch and restores backups on promotion failure", async () => {
   const generator = await readFile(
-    path.join(REPO_ROOT, "scripts/media/generate-group3-voices-8104.py"),
+    path.join(REPO_ROOT, "source/scripts/tools/media/generate-group3-voices-8104.py"),
     "utf8",
   );
 

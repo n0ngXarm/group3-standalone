@@ -244,3 +244,4 @@ export const DEMO_SUMMARY_DATA = {
   },
   capabilityMode: "scored"
 };
+export const createPracticeSummary = createLearningSummary;

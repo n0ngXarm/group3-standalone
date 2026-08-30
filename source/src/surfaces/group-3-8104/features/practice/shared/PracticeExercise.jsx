@@ -1,5 +1,5 @@
-import { FreeSpeakingExercise } from "./FreeSpeakingExercise.jsx";
-import { RepeatSentenceExercise } from "./RepeatSentenceExercise.jsx";
+import { FreeSpeakingExercise } from "../free-speaking/FreeSpeakingExercise.jsx";
+import { RepeatSentenceExercise } from "../repeat/RepeatSentenceExercise.jsx";
 import "./practice-exercise.css";
 
 export function PracticeExercise(props) {

@@ -13,6 +13,15 @@ import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErro
 import { getSpeechCoachingAdvice } from "../evaluation/speechFeedback.js";
 import { SpeechFeedbackAlert } from "../shared/SpeechFeedbackAlert.jsx";
 import { Group3DetailModal } from "../../../shared/components/index.js";
+import { ImageDescriptionPresentation } from "./ImageDescriptionPresentation.jsx";
+import {
+  buildImageDescriptionFeedback,
+  canStartFreeSpeakingRecording,
+  canSubmitFreeSpeaking,
+  initialFreeSpeakingPhase,
+  nextFreeSpeakingPrompt,
+  prepareFreeSpeakingPhase,
+} from "./freeSpeakingPresentation.js";
 
 export function FreeSpeakingExercise({ exerciseType, language, level, navigate }) {
   const text = COPY[language] || COPY.th;
@@ -30,6 +39,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   const [remainingMs, setRemainingMs] = useState(120_000);
   const [completedCount, setCompletedCount] = useState(0);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [imageModalView, setImageModalView] = useState("");
   const phaseRef = useRef(phase);
   const transcriptRef = useRef("");
   const recorderRef = useRef(null);
@@ -50,7 +60,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     buildFreeSpeakingDefinitions(level, exerciseType).then((items) => {
       if (!active) return;
       setDefinitions(items);
-      setPhase("ready");
+      setPhase(initialFreeSpeakingPhase(exerciseType));
     }).catch(() => active && setPhase("error"));
     return () => { active = false; };
   }, [exerciseType, level, setPhase]);
@@ -113,7 +123,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   const handleRecorderEvent = useCallback((event) => {
     if (event.type === "error") {
       setErrorCode(event.error?.code || "ASR_ERROR");
-      setPhase("ready");
+      setPhase(initialFreeSpeakingPhase(exerciseType));
     }
     if (event.type === "completed") {
       phaseRef.current = "review";
@@ -122,10 +132,10 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
       clearTicker();
       stopRecognizer();
     }
-  }, [clearTicker, setPhase, stopRecognizer]);
+  }, [clearTicker, exerciseType, setPhase, stopRecognizer]);
 
   const startSpeaking = async () => {
-    if (!current || phaseRef.current !== "ready") return;
+    if (!current || !canStartFreeSpeakingRecording(exerciseType, phaseRef.current)) return;
     recorderRef.current?.dispose?.();
     setRecording(null);
     setResult(null);
@@ -171,7 +181,13 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     if (!recorderRef.current?.stop?.()) setPhase("review");
   };
 
+  const prepareSpeaking = () => {
+    setPhase(prepareFreeSpeakingPhase(exerciseType, phaseRef.current));
+  };
+
   const submit = () => {
+    if (!canSubmitFreeSpeaking(phaseRef.current)) return;
+    setPhase("result");
     const durationMs = Math.max(0, performance.now() - startedAtRef.current);
     const recognized = transcriptRef.current.trim();
     let evalResult = null;
@@ -187,7 +203,6 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     setResult(evalResult);
     setCompletedCount((value) => Math.min(definitions.length, value + 1));
     setSessionResults(prev => [...prev, evalResult]);
-    setPhase("result");
   };
 
   const retry = () => {
@@ -199,7 +214,8 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     setInterim("");
     setErrorCode("");
     transcriptionUnavailableRef.current = !capabilities.speechRecognitionUsable;
-    setPhase("ready");
+    setImageModalView("");
+    setPhase(initialFreeSpeakingPhase(exerciseType));
   };
 
   const next = () => {
@@ -210,11 +226,10 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     transcriptRef.current = "";
     setErrorCode("");
     transcriptionUnavailableRef.current = !capabilities.speechRecognitionUsable;
-    if (index === definitions.length - 1) setPhase("completed");
-    else {
-      setIndex((value) => value + 1);
-      setPhase("ready");
-    }
+    setImageModalView("");
+    const nextPrompt = nextFreeSpeakingPrompt({ exerciseType, index, total: definitions.length });
+    setIndex(nextPrompt.index);
+    setPhase(nextPrompt.phase);
   };
 
   const restart = () => {
@@ -228,7 +243,8 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     transcriptRef.current = "";
     setErrorCode("");
     transcriptionUnavailableRef.current = !capabilities.speechRecognitionUsable;
-    setPhase("ready");
+    setImageModalView("");
+    setPhase(initialFreeSpeakingPhase(exerciseType));
   };
 
   const coachingAdvice = useMemo(() => {
@@ -241,6 +257,12 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     });
   }, [phase, result, language, transcript]);
 
+  const imageFeedback = useMemo(() => (
+    exerciseType === "image-description" && phase === "result"
+      ? buildImageDescriptionFeedback(result)
+      : null
+  ), [exerciseType, phase, result]);
+
   const status = errorCode ? text[practiceErrorCopyKey(errorCode)] : phase === "recording" ? text.recordingStatus : "";
 
   if (phase === "loading" || !current) {
@@ -251,6 +273,26 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   }
   if (phase === "completed") {
     savePracticeResult(level, exerciseType, sessionResults);
+    if (exerciseType === "image-description") {
+      const scoredResults = sessionResults.filter((entry) => Number.isFinite(Number(entry?.baselineScore)));
+      const averageScore = scoredResults.length
+        ? Math.round(scoredResults.reduce((sum, entry) => sum + Number(entry.baselineScore), 0) / scoredResults.length)
+        : null;
+      return (
+        <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} status={text.practiceCompleted} text={text} title={title}>
+          <article className="g3-practice-summary g3-image-description-complete" data-exercise-type="image-description">
+            <span className="g3-practice-success-mark" aria-hidden="true">✓</span>
+            <h2>{text.practiceCompleted}</h2>
+            <p>{text.completedCount}: {completedCount} / {definitions.length}</p>
+            {averageScore !== null && <strong className="g3-image-complete-score">{text.baselineScore}: {averageScore} / 100</strong>}
+            <div className="g3-practice-actions">
+              <button className="g3-practice-primary" type="button" onClick={() => navigate(practiceSummaryPath(level))}>{text.practiceSummary || "สรุปผลการฝึก"}</button>
+              <button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button>
+            </div>
+          </article>
+        </PracticeExerciseShell>
+      );
+    }
     return (
       <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} status={text.practiceCompleted} text={text} title={title}>
         <article className="g3-practice-summary"><span className="g3-practice-success-mark" aria-hidden="true">✓</span><h2>{text.practiceCompleted}</h2><p>{text.completedCount}: {completedCount} / {definitions.length}</p><div className="g3-practice-actions"><button className="is-secondary" type="button" onClick={() => navigate(practicePath(level))}>{text.backToPractice}</button>
@@ -259,23 +301,45 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
     );
   }
 
-  const translation = exerciseType === "question-response" ? (current.question.translations?.th || localizedValue(current.question.translations, "th")) : "";
+  if (exerciseType === "image-description") {
+    return (
+      <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
+        <ImageDescriptionPresentation
+          capabilities={capabilities}
+          coachingAdvice={coachingAdvice}
+          current={current}
+          errorMessage={errorCode ? text[practiceErrorCopyKey(errorCode)] : ""}
+          feedback={imageFeedback}
+          interim={interim}
+          language={language}
+          modalView={imageModalView}
+          onCloseModal={() => setImageModalView("")}
+          onNext={next}
+          onOpenDetails={() => setImageModalView("details")}
+          onOpenImage={() => setImageModalView("image")}
+          onPrepare={prepareSpeaking}
+          onRetry={retry}
+          onStart={startSpeaking}
+          onStop={stopSpeaking}
+          onSubmit={submit}
+          phase={phase}
+          recording={recording}
+          remainingMs={remainingMs}
+          text={text}
+          transcript={transcript || interim}
+        />
+      </PracticeExerciseShell>
+    );
+  }
+
+  const translation = current.question.translations?.th || localizedValue(current.question.translations, "th");
   return (
     <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
       {coachingAdvice && <SpeechFeedbackAlert advice={coachingAdvice} language={language} />}
       <article className={`g3-free-speaking-panel is-${exerciseType}`} data-phase={phase}>
-        {exerciseType === "image-description" && <figure className="g3-free-speaking-image"><img src={current.image} srcSet={current.imageSrcSet || undefined} sizes="(max-width: 720px) calc(100vw - 1.5rem), 540px" alt={current.imageAlt?.[language] || current.imageAlt?.zh || ""} decoding="async" height="788" width="1400" /></figure>}
         <div className="g3-free-speaking-content">
           <div className="g3-free-speaking-prompt">
-            {exerciseType === "image-description" ? (
-              <>
-                <h2 lang="zh-CN">请用中文描述这张图片。</h2>
-                <p className="g3-practice-pinyin">Qǐng yòng Zhōngwén miáoshù zhè zhāng túpiàn.</p>
-                <p>กรุณาบรรยายภาพนี้เป็นภาษาจีน</p>
-              </>
-            ) : (
-              <><h2 lang="zh-CN">{current.question.hanzi}</h2><p className="g3-practice-pinyin">{current.question.pinyin}</p>{translation && <p>{translation}</p>}</>
-            )}
+            <><h2 lang="zh-CN">{current.question.hanzi}</h2><p className="g3-practice-pinyin">{current.question.pinyin}</p>{translation && <p>{translation}</p>}</>
             <ul className="g3-practice-hints" aria-label={text.recommendedWords}>{current.hints.map((hint) => <li key={hint.hanzi}><strong>{hint.hanzi}</strong><span>{hint.pinyin}</span></li>)}</ul>
           </div>
 
@@ -300,7 +364,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
               <div className="g3-repeat-feedback-detail" style={{ marginTop: '1rem' }}>
                 <p><span>{text.recognizedTranscript}</span><strong lang="zh-CN">{transcript || text.transcriptUnavailable}</strong></p>
                 <button className="g3-practice-primary is-secondary" type="button" onClick={() => setDetailModalOpen(true)} style={{ marginTop: '1rem', width: '100%' }}>
-                  {exerciseType === "image-description" ? (text.viewDetails || "ดูรายละเอียดคำตอบ") : (text.viewDetails || "วิเคราะห์คำตอบเพิ่มเติม")}
+                  {text.viewDetails || "วิเคราะห์คำตอบเพิ่มเติม"}
                 </button>
               </div>
               

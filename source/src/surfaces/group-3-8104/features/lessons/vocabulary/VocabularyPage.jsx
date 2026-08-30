@@ -4,7 +4,6 @@ import { COPY } from "../../../content/copy.js";
 import { speakChinese } from "../../../services/audio/index.js";
 import {
   levelPath,
-  lessonContentsPath,
   lessonVocabularyPath,
   lessonScenePath,
 } from "../../../routing/routes.js";
@@ -40,8 +39,8 @@ export function VocabularyPage({ language, lesson, navigate }) {
       <BookPageControls
         language={language}
         navigate={navigate}
-        backPath={lessonContentsPath(lesson)}
-        backLabel={text.contentsTitle}
+        backPath={levelPath(lesson.level)}
+        backLabel={text.catalogTitle || text.back}
         nextPath={lessonScenePath(lesson, 1)}
         nextLabel={text.startReading}
       />

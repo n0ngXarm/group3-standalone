@@ -18,7 +18,6 @@ import {
 } from "./routing/routes.js";
 import { stopChineseVoice } from "./services/audio/index.js";
 import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.js";
-import { LessonContents } from "./features/lessons/contents/LessonContents.jsx";
 import { VocabularyPage } from "./features/lessons/vocabulary/VocabularyPage.jsx";
 import { AboutModal, StoryFooter } from "./shared/components/index.js";
 import { AppTopbar } from "./shared/components/AppTopbar.jsx";
@@ -46,7 +45,7 @@ const ReadingTheatre = lazy(() => import("./features/lessons/reader/ReadingTheat
   default: LessonCatalog,
 })));
 
-const LESSON_ROUTE_NAMES = new Set(["reader", "contents", "vocabulary"]);
+const LESSON_ROUTE_NAMES = new Set(["reader", "vocabulary"]);
 
 function PracticeSummaryPage({ language, level, navigate }) {
   const results = getPracticeResults(level);
@@ -265,7 +264,7 @@ export default function Group3App() {
       zh: loadedScene.title,
       en: loadedScene.titleEn || loadedScene.title,
     }[language] : lessonTitle;
-    const frontTitles = { contents: text.contentsTitle, vocabulary: text.vocabularyTitle };
+    const frontTitles = { vocabulary: text.vocabularyTitle };
     const title = route.name === "home"
       ? homeView === "about"
         ? `${text.about} · ${text.brand}`
@@ -369,10 +368,6 @@ export default function Group3App() {
     if (route.name === "practice-summary") return <PracticeSummaryPage language={language} level={route.level} navigate={navigate} />;
     if (route.name === "practice-exercise") return <PracticeExercise exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
     if (route.name === "catalog") return <LessonCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
-    
-    if (route.name === "contents") {
-      return <ContentsPage key={`${lesson.id}-contents`} language={language} lesson={lesson} navigate={navigate} />;
-    }
     if (route.name === "vocabulary") {
       return <VocabularyPage key={`${lesson.id}-vocabulary`} language={language} lesson={lesson} navigate={navigate} />;
     }

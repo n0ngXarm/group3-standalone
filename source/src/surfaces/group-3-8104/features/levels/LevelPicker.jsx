@@ -11,7 +11,7 @@ import { group3AssetPath } from "../../config.js";
 import { COPY } from "../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
 import { GROUP3_VOICE_PROFILES } from "../../services/audio/index.js";
-import { levelPath, levelsPath, lessonContentsPath, lessonScenePath, practicePath, scenePath } from "../../routing/routes.js";
+import { levelPath, levelsPath, lessonScenePath, practicePath, scenePath } from "../../routing/routes.js";
 import { startLearnerSession } from "../../shared/session.js";
 
 function sceneTitle(scene, language) {

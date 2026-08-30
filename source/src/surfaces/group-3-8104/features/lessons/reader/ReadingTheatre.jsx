@@ -9,7 +9,7 @@ import {
   waveSquareIcon,
 } from "../../../../../shared/components/ui/iconPaths.js";
 import { QteChallenge, SentenceChallenge } from "../challenges/index.js";
-import { SceneBriefing } from "../catalog/LessonCatalog.jsx";
+import "./ReaderLayout.css";
 import { StoryPlaybackDock } from "./StoryPlaybackDock.jsx";
 import { GROUP3_PLAYBACK_CONFIG } from "../../../config.js";
 import { COPY } from "../../../content/copy.js";
@@ -20,7 +20,7 @@ import {
   stopChineseVoice,
   unlockChineseAudio,
 } from "../../../services/audio/index.js";
-import { levelsPath, lessonContentsPath, lessonScenePath } from "../../../routing/routes.js";
+import { levelsPath, levelPath, lessonScenePath } from "../../../routing/routes.js";
 
 const SOUND_FAILURE_STATES = new Set(["blocked", "timeout", "unavailable"]);
 const RolePicker = lazy(() => import("../challenges/Roleplay.jsx").then((module) => ({
@@ -525,115 +525,151 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
   const roleplayStatus = soundBlocked ? "blocked" : playbackStatus === "briefing" ? "paused" : playbackStatus;
 
   return (
-    <main className={`g3-reader${roleplayActive ? " is-roleplay" : ""}`} data-status={playbackStatus}>
-      <aside className="g3-reader-rail" aria-label={text.catalogTitle}>
-        <button className="g3-reader-exit" type="button" onClick={() => navigate(lessonContentsPath(lesson))} aria-label={text.exitReader}>←<span>{text.exitReader}</span></button>
-        <div className="g3-rail-scenes">
-          {scenes.map((item, index) => (
-            <button type="button" key={item.id} className={sceneIndex === index ? "active" : ""} onClick={() => selectScene(index)}>
-              <span>{item.number}</span><i>{item.glyph}</i><small>{sceneTitle(item, language)}</small>
-            </button>
-          ))}
-        </div>
-        
-      </aside>
-
-      <section className="g3-reading-stage" aria-labelledby="g3-scene-title" data-source-ref={scene.sourceRef}>
-        {playbackStatus === "briefing" ? (
-          <SceneBriefing characters={characterProfiles} scene={scene} language={language} text={text} onBegin={beginReading} lowData={lowData} />
-        ) : (
-          <>
-            <header className="g3-stage-heading">
-              <div>
-                <p>{text.stage} {scene.number} · {{ th: scene.placeTh, zh: scene.place, en: scene.place }[language]}{scene.placePy && <span className="g3-place-pinyin"> · {scene.placePy}</span>}</p>
-                <h1 id="g3-scene-title" tabIndex="-1">{sceneTitle(scene, language)}</h1>
-                <strong>{sceneSupportingTitle(scene, language)}</strong>
-              </div>
-              <div className="g3-stage-meta">
-                <span>{text.sourcePage}<b>{scene.sourcePage}</b></span>
-                <button type="button" onClick={() => setShowTranslation((value) => !value)} className={showTranslation ? "is-on" : ""}><Icon paths={languageIcon} />{showTranslation ? text.translationOn : text.translationOff}</button>
-                <button type="button" onClick={() => setTimed((value) => !value)} className={timed ? "is-on" : ""}><Icon paths={stopwatchIcon} />{timed ? text.timerOn : text.timerOff}</button>
-              </div>
-            </header>
-
-            <div className="g3-story-context">
-              <span aria-hidden="true">地</span>
-              <div><strong>{sceneContext(scene, language)}</strong><p>{sceneSupportingContext(scene, language)}</p></div>
-              <small>{scene.source}</small>
-            </div>
-
-            <div className="g3-role-map" aria-label={text.roleMap}>
-              <span>{text.roleMap}</span>
-              {sortedCharacters.map((character, index) => {
-                const profile = characterProfiles[character.profile];
-                const voice = GROUP3_VOICE_PROFILES[character.profile];
-                return (
-                  <div key={character.role}>
-                    {!lowData && <img src={profile.image} srcSet={profile.imageSrcSet} alt="" width="640" height="640" loading="lazy" decoding="async" style={{ objectPosition: profile.imageFocus }} />}
-                    <b>{character.role}</b>
-                    <span><strong>{profileName(profile, language)}</strong><small>{{ th: profile.hanzi, zh: profile.pinyin, en: profile.hanzi }[language]}</small><em className="g3-role-voice"><Icon paths={waveSquareIcon} />{voice?.label || "TTS"}</em></span>
-                    {index === 0 && <i aria-hidden="true">↔</i>}
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="g3-dialogue-stage">
-              {visibleLines.map((line, index) => {
-                const character = scene.characters.find((item) => item.role === line.role);
-                const voiceProfile = line.voiceProfiles?.[0] || character?.profile || "wang";
-                const profile = character ? characterProfiles[character.profile] : characterProfiles[voiceProfile];
-                const voice = GROUP3_VOICE_PROFILES[voiceProfile];
-                const isLeft = line.role === leftRole;
-                return (
-                  <article
-                    aria-current={index === lineIndex ? "step" : undefined}
-                    aria-live={index === lineIndex ? "polite" : undefined}
-                    key={`${scene.id}-${index}`}
-                    ref={(node) => { lineRefs.current[index] = node; }}
-                    className={`g3-dialogue-line ${isLeft ? "is-left" : "is-right"} role-${line.role.toLowerCase()}${index === lineIndex ? " is-current" : ""}`}
+    <main className={`g3-reader-layout g3-level-${lesson.level}${roleplayActive ? " is-roleplay" : ""}`} data-status={playbackStatus}>
+      <div className="g3-reader-layout-inner">
+        {/* LEFT: Sidebar Navigation */}
+        <nav className="g3-reader-sidebar" aria-label={text.catalogTitle}>
+          <h2>{language === "th" ? "สารบัญ" : language === "zh" ? "目录" : "Contents"}</h2>
+          <button className="g3-reader-back" type="button" onClick={() => navigate(levelPath(lesson.level))} aria-label={text.exitReader}>
+            <span aria-hidden="true">←</span> {language === "th" ? "กลับหน้าเลือกบท" : "Back to lessons"}
+          </button>
+          
+          <ul className="g3-reader-nav-list">
+            {scenes.map((item, index) => {
+              const isActive = sceneIndex === index;
+              return (
+                <li key={item.id}>
+                  <button 
+                    type="button" 
+                    className={`g3-reader-nav-item ${isActive ? 'is-active' : ''}`} 
+                    onClick={() => selectScene(index)}
+                    aria-current={isActive ? "page" : undefined}
                   >
-                    <div className="g3-speaker-mark">
-                      {profile && !lowData && <img src={profile.image} srcSet={profile.imageSrcSet} alt="" width="640" height="640" loading="lazy" decoding="async" style={{ objectPosition: profile.imageFocus }} />}
-                      <span>{line.role}</span>
-                      <strong>{profile ? profileName(profile, language) : line.speaker}</strong>
-                      <small>{profile ? supportingProfileName(profile, language) : line.speaker}</small>
-                    </div>
-                    <div className="g3-line-copy">
-                      <button type="button" onClick={() => {
-                        queueManualPlayback(index, voiceProfile);
-                      }} aria-label={`${text.speak}: ${line.hanzi} · ${voice?.label || "TTS"}`} title={`${text.voiceCast} · ${voice?.label || "TTS"}`}><Icon paths={volumeHighIcon} /></button>
-                      <strong>{line.hanzi}</strong><em>{line.reading}</em>
-                      {showTranslation && <div className="g3-line-translation"><span>{text.thaiMeaning}</span><p>{line.th}</p></div>}
-                    </div>
-                    <figure className="g3-dialogue-visual">
-                      {!lowData && <img src={scene.image} srcSet={scene.imageSrcSet} sizes="(max-width: 760px) 100vw, 35vw" alt={scene.imageAlt[language]} width="1400" height={scene.imageSrcSet ? "788" : "900"} loading="lazy" decoding="async" style={{ objectPosition: line.visual.focus }} />}
-                      <figcaption><span>{text.visualMemory}</span><strong>{{ th: line.visual.th, zh: line.visual.zh, en: line.visual.zh }[language]}</strong><small>{{ th: line.visual.zh, zh: line.visual.th, en: text.educationalUnavailable }[language]}</small></figcaption>
-                    </figure>
-                  </article>
-                );
-              })}
-            </div>
+                    <span>{text.sceneLabel || "Scene"} {item.number}</span>
+                    <strong>{sceneTitle(item, language)}</strong>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-            {completed && (
-              <section className="g3-scene-complete" aria-live="polite">
-                <span aria-hidden="true">读</span><div><p>{text.sceneCompleteLabel} {scene.number}</p><h2>{text.completed}</h2><strong>{text.completedBody}</strong></div>
-                <div>
-                  <button type="button" onClick={restartScene}>{text.restart}</button>
-                  {sceneIndex < scenes.length - 1
-                    ? <button className="is-primary" data-g3-scene-complete-primary type="button" onClick={() => selectScene(sceneIndex + 1)}>{text.continueScene} →</button>
-                    : (
+        {/* CENTER: Hero Image */}
+        <section className="g3-reader-hero">
+          {!lowData && scene.image && (
+             <img src={scene.image} srcSet={scene.imageSrcSet} alt={scene.imageAlt?.[language] || ""} loading="lazy" decoding="async" />
+          )}
+          <div className="g3-reader-hero-overlay">
+             <span>{text.sceneLabel || "Scene"} {scene.number}</span>
+             <h2>{scene.title}</h2>
+          </div>
+        </section>
+
+        {/* RIGHT: Content Area */}
+        <section className="g3-reader-content">
+          {playbackStatus === "briefing" ? (
+            <div className="g3-reader-intro">
+              <h1>{sceneTitle(scene, language)}</h1>
+              <h2>{sceneSupportingTitle(scene, language)}</h2>
+              <p>{sceneContext(scene, language)}</p>
+              
+              <div className="g3-intro-characters">
+                <h3>{text.roleMap || "Characters"}</h3>
+                {sortedCharacters.map((character) => {
+                  const profile = characterProfiles[character.profile];
+                  return (
+                    <div key={character.role} className="g3-intro-character">
+                      {!lowData && profile && <img src={profile.image} alt="" />}
+                      <div>
+                        <strong>{character.role}: {profileName(profile, language)}</strong>
+                        <small>{supportingProfileName(profile, language)}</small>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="g3-intro-actions">
+                <button className="g3-intro-btn-primary" type="button" onClick={() => beginReading("autoplay")}>
+                  {text.autoplayBegin || "Start Dialogue"} <span aria-hidden="true">→</span>
+                </button>
+                <button className="g3-intro-btn-secondary" type="button" onClick={() => beginReading("manual")}>
+                  {text.manualBegin || "Read Manually"}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="g3-reader-dialogue-wrapper">
+              <header className="g3-reader-dialogue-header">
+                <button type="button" onClick={() => setShowTranslation((v) => !v)} className={showTranslation ? "is-on" : ""}>
+                  <Icon paths={languageIcon} /> {showTranslation ? text.translationOn : text.translationOff}
+                </button>
+                <button type="button" onClick={() => setTimed((v) => !v)} className={timed ? "is-on" : ""}>
+                  <Icon paths={stopwatchIcon} /> {timed ? text.timerOn : text.timerOff}
+                </button>
+              </header>
+
+              <div className="g3-dialogue-stage">
+                {visibleLines.map((line, index) => {
+                  const character = scene.characters.find((item) => item.role === line.role);
+                  const voiceProfile = line.voiceProfiles?.[0] || character?.profile || "wang";
+                  const profile = character ? characterProfiles[character.profile] : characterProfiles[voiceProfile];
+                  const voice = GROUP3_VOICE_PROFILES[voiceProfile];
+                  const isLeft = line.role === leftRole;
+                  return (
+                    <article
+                      aria-current={index === lineIndex ? "step" : undefined}
+                      aria-live={index === lineIndex ? "polite" : undefined}
+                      key={`${scene.id}-${index}`}
+                      ref={(node) => { lineRefs.current[index] = node; }}
+                      className={`g3-dialogue-line ${isLeft ? "is-left" : "is-right"} role-${line.role.toLowerCase()}${index === lineIndex ? " is-current" : ""}`}
+                    >
+                      <div className="g3-speaker-mark">
+                        {profile && !lowData && <img src={profile.image} srcSet={profile.imageSrcSet} alt="" width="640" height="640" loading="lazy" decoding="async" style={{ objectPosition: profile.imageFocus }} />}
+                        <span>{line.role}</span>
+                        <strong>{profile ? profileName(profile, language) : line.speaker}</strong>
+                        <small>{profile ? supportingProfileName(profile, language) : line.speaker}</small>
+                      </div>
+                      <div className="g3-line-copy">
+                        <button type="button" onClick={() => {
+                          queueManualPlayback(index, voiceProfile);
+                        }} aria-label={`${text.speak}: ${line.hanzi} · ${voice?.label || "TTS"}`} title={`${text.voiceCast} · ${voice?.label || "TTS"}`}><Icon paths={volumeHighIcon} /></button>
+                        <strong>{line.hanzi}</strong><em>{line.reading}</em>
+                        {showTranslation && <div className="g3-line-translation"><span>{text.thaiMeaning}</span><p>{line.th}</p></div>}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+
+              {completed && (
+                <section className="g3-reader-completion" aria-live="polite">
+                  <div className="g3-reader-completion-icon">✓</div>
+                  <h2>{language === "th" ? `จบตอนที่ ${sceneIndex + 1}` : `End of Scene ${sceneIndex + 1}`}</h2>
+                  <p>{language === "th" ? "คุณเรียนบทสนทนาในตอนนี้เสร็จแล้ว" : "You have completed this dialogue"}</p>
+                  
+                  <div className="g3-reader-completion-actions">
+                    {sceneIndex < scenes.length - 1 ? (
                       <>
-                        <button type="button" onClick={() => navigate(lessonContentsPath(lesson))}>{text.back}</button>
-                        <button type="button" onClick={() => navigate(levelsPath())}>{text.hskLevel || "เลือกระดับ HSK"}</button>
+                        <button className="is-primary" type="button" onClick={() => selectScene(sceneIndex + 1)}>
+                          {language === "th" ? `เริ่มตอนที่ ${sceneIndex + 2} →` : `Start Scene ${sceneIndex + 2} →`}
+                        </button>
+                        <button className="is-secondary" type="button" onClick={() => navigate(levelPath(lesson.level))}>
+                          {language === "th" ? "กลับไปเลือกบทเรียน" : "Back to Lessons"}
+                        </button>
                       </>
+                    ) : (
+                      <button className="is-primary" type="button" onClick={() => navigate(levelPath(lesson.level))}>
+                        {language === "th" ? "กลับไปหน้าเลือกบทเรียน" : "Back to Lessons"}
+                      </button>
                     )}
-                </div>
-              </section>
-            )}
-          </>
-        )}
-      </section>
+                  </div>
+                </section>
+              )}
+            </div>
+          )}
+        </section>
+      </div>
 
       {currentLine && !completed && (
         <StoryPlaybackDock
@@ -692,7 +728,6 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
         document.body
       )}
 
-      
     </main>
   );
 }

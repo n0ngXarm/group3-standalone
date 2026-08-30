@@ -331,6 +331,9 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
         {status === "correct" && (
           <div className="g3-challenge-result" aria-live="polite">
             <strong>{text.builderCorrect || "🎉 ถูกต้อง!"}</strong>
+            <div style={{ marginTop: '0.8rem' }}>
+              <button className="is-primary" type="button" onClick={onResolve}>{language === "th" ? "เรียนต่อ →" : language === "zh" ? "继续学习 →" : "Continue →"}</button>
+            </div>
           </div>
         )}
 
@@ -378,7 +381,6 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
     const isCorrect = sentence.every((token, i) => token.id === builtSentence.answer[i].id);
     if (isCorrect) {
       setStatus("correct");
-      window.setTimeout(onResolve, 1500);
       setWrongAttempts(0);
     } else {
       setStatus("wrong");
@@ -472,7 +474,7 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
               {status === "correct" && text.continue}
             </p>
             {status === "wrong" && <button type="button" onClick={() => { setSelected([]); setStatus("active"); }}>{text.retry}</button>}
-            {status === "wrong" && onRestart && <button type="button" className="g3-text-action" onClick={onRestart}>{text.qteRestart}</button>}
+            {status === "correct" && <button className="is-primary" type="button" onClick={onResolve}>{language === "th" ? "เรียนต่อ →" : language === "zh" ? "继续学习 →" : "Continue →"}</button>}
           </div>
         )}
       </section>

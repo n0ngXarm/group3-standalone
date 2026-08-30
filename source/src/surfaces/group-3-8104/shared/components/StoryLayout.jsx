@@ -9,7 +9,7 @@ import {
 } from "../../../../shared/components/ui/iconPaths.js";
 import { COPY } from "../../content/copy.js";
 import { GROUP3_LESSONS } from "../../content/registry.js";
-import { frontMatterRoutes, lessonContentsPath, lessonVocabularyPath } from "../../routing/routes.js";
+import { frontMatterRoutes, lessonVocabularyPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
 import { getLearnerSession } from "../../shared/session.js";
 import { homeLogoMedia, mapHomeMedia } from "../../features/home/homeMedia.js";
@@ -18,7 +18,7 @@ import { homeLogoMedia, mapHomeMedia } from "../../features/home/homeMedia.js";
 
 
 
-export function LessonNavigationBar({ language, lesson, navigate, currentSection = "contents" }) {
+export function LessonNavigationBar({ language, lesson, navigate}) {
   const text = COPY[language];
   const levelLessons = GROUP3_LESSONS
     .filter((item) => item.level === lesson.level)
@@ -40,8 +40,7 @@ export function LessonNavigationBar({ language, lesson, navigate, currentSection
   }, [activeLessonIndex]);
 
   const selectLesson = (targetLesson) => {
-    const targetSection = currentSection === "vocabulary" ? "vocabulary" : "contents";
-    navigate(targetSection === "vocabulary" ? lessonVocabularyPath(targetLesson) : lessonContentsPath(targetLesson));
+    navigate(lessonVocabularyPath(targetLesson));
   };
 
   return (
@@ -90,8 +89,6 @@ export function LessonNavigationBar({ language, lesson, navigate, currentSection
 export function FrontMatterIndex({ current, language, navigate, lesson }) {
   const text = COPY[language];
   const labels = {
-    preface: text.prefaceTitle,
-    contents: text.contentsTitle,
     vocabulary: text.vocabularyTitle,
   };
   return (

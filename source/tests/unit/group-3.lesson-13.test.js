@@ -260,10 +260,11 @@ test("LessonCatalog catches stale loads and exposes retry plus loading semantics
   assert.match(story, /setLoadAttempt\(\(attempt\) => attempt \+ 1\)/);
   assert.match(story, /onRetry\?\.\(\)/);
   assert.match(story, /aria-busy=\{activeLessonStatus === "loading" \? "true" : undefined\}/);
+  assert.match(story, /className="g3-lesson-load-error" role="alert"/);
   assert.equal(
-    (story.match(/activeLessonStatus === "error" \? text\.retry/g) || []).length,
-    2,
-    "both catalog entry actions expose retry copy",
+    (story.match(/onClick=\{retryLesson\}/g) || []).length,
+    1,
+    "the unified lesson workspace exposes one clear retry action",
   );
 });
 

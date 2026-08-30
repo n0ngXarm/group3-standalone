@@ -16,7 +16,6 @@ export const GROUP3_PRACTICE_TYPES = Object.freeze([
 export const PROTECTED_ROUTE_NAMES = Object.freeze(new Set([
   "levels",
   "catalog",
-  "contents",
   "vocabulary",
   "reader",
   "practice",
@@ -113,9 +112,6 @@ export function lessonBasePath(levelOrLesson, lessonSlugInput) {
   return `/home/${level}/lessons/${segment}/`;
 }
 
-export function lessonContentsPath(levelOrLesson, lessonSlugInput) {
-  return `${lessonBasePath(levelOrLesson, lessonSlugInput)}contents/`;
-}
 
 export function lessonVocabularyPath(levelOrLesson, lessonSlugInput) {
   return `${lessonBasePath(levelOrLesson, lessonSlugInput)}vocabulary/`;
@@ -162,11 +158,9 @@ export function practiceSummaryPath(level) {
   return LEVELS.has(level) ? `/home/${level}/practice/summary/` : levelsPath();
 }
 
-/* Backward-compatible wrappers */
-export function lessonPath(lesson, section = "contents") {
-  const normalized = String(section || "contents").replace(/^\/+|\/+$/g, "").toLowerCase();
-  if (normalized === "vocabulary") return lessonVocabularyPath(lesson);
-  return lessonContentsPath(lesson);
+/* Backward-compatible wrappers — contents removed, all fall through to vocabulary */
+export function lessonPath(lesson) {
+  return lessonVocabularyPath(lesson);
 }
 
 export function scenePath(lesson, sceneNumber = 1) {
@@ -174,17 +168,16 @@ export function scenePath(lesson, sceneNumber = 1) {
 }
 
 export function gamesPath(lesson) {
-  return lessonContentsPath(lesson);
+  return lessonVocabularyPath(lesson);
 }
 
 export function gamePath(lesson) {
-  return lessonContentsPath(lesson);
+  return lessonVocabularyPath(lesson);
 }
 
 export function frontMatterRoutes(lesson) {
   return [
-    { name: "contents", path: lessonContentsPath(lesson), number: "I" },
-    { name: "vocabulary", path: lessonVocabularyPath(lesson), number: "II" },
+    { name: "vocabulary", path: lessonVocabularyPath(lesson), number: "I" },
   ];
 }
 
@@ -244,30 +237,21 @@ export function routeFromLocation(location = window.location) {
     const canonicalSegment = lessonSegment(lesson);
     const hasUnpaddedLessonSlug = parts[3] !== canonicalSegment;
 
-    // /home/:level/lessons/:lessonSlug/ -> redirect to /contents/
+    // /home/:level/lessons/:lessonSlug/ -> redirect to /vocabulary/
     if (parts.length === 4) {
-      return { level, lessonSlug: lesson.slug, name: "contents", redirect: true };
+      return { level, lessonSlug: lesson.slug, name: "vocabulary", redirect: true };
     }
 
-    const section = parts[4] || "contents";
+    const section = parts[4] || "vocabulary";
 
-    // Overview & Preface -> redirect to contents
-    if (section === "overview" || section === "preface") {
-      return { level, lessonSlug: lesson.slug, name: "contents", redirect: true };
+    // Overview, Preface, Contents -> redirect to vocabulary
+    if (section === "overview" || section === "preface" || section === "contents") {
+      return { level, lessonSlug: lesson.slug, name: "vocabulary", redirect: true };
     }
 
-    // Games -> redirect to contents
+    // Games -> redirect to vocabulary
     if (section === "games") {
-      return { level, lessonSlug: lesson.slug, name: "contents", redirect: true };
-    }
-
-    if (section === "contents") {
-      return {
-        level,
-        lessonSlug: lesson.slug,
-        name: "contents",
-        ...(hasUnpaddedLessonSlug ? { redirect: true } : {}),
-      };
+      return { level, lessonSlug: lesson.slug, name: "vocabulary", redirect: true };
     }
 
     if (section === "vocabulary") {
@@ -282,8 +266,8 @@ export function routeFromLocation(location = window.location) {
     if (section === "scenes") {
       const scene = sceneIndex(parts[5], lesson.scenes?.length);
       if (scene === null) {
-        // Invalid scene -> lesson contents
-        return { level, lessonSlug: lesson.slug, name: "contents", redirect: true };
+        // Invalid scene -> vocabulary
+        return { level, lessonSlug: lesson.slug, name: "vocabulary", redirect: true };
       }
       const canonicalSceneSegment = `scene-${String(scene + 1).padStart(2, "0")}`;
       const hasUnpaddedScene = parts[5] !== canonicalSceneSegment;
@@ -296,8 +280,8 @@ export function routeFromLocation(location = window.location) {
       };
     }
 
-    // Any unrecognized section -> redirect to contents
-    return { level, lessonSlug: lesson.slug, name: "contents", redirect: true };
+    // Any unrecognized section -> redirect to vocabulary
+    return { level, lessonSlug: lesson.slug, name: "vocabulary", redirect: true };
   }
 
   // Legacy route fallbacks: /home/:level/lesson-1/...
@@ -312,10 +296,10 @@ export function routeFromLocation(location = window.location) {
     if (leaf === "scenes") {
       const scene = sceneIndex(parts[4], lesson.scenes?.length);
       return scene === null
-        ? { level, lessonSlug: lesson.slug, name: "contents", redirect: true }
+        ? { level, lessonSlug: lesson.slug, name: "vocabulary", redirect: true }
         : { level, lessonSlug: lesson.slug, name: "reader", scene, redirect: true };
     }
-    return { level, lessonSlug: lesson.slug, name: "contents", redirect: true };
+    return { level, lessonSlug: lesson.slug, name: "vocabulary", redirect: true };
   }
 
   return { level, name: "catalog", redirect: true };
@@ -333,8 +317,7 @@ export function canonicalPathForRoute(route) {
   if (!lesson) return levelPath(route.level);
   if (route.name === "reader") return lessonScenePath(lesson, Number(route.scene) + 1);
   if (route.name === "vocabulary") return lessonVocabularyPath(lesson);
-  if (route.name === "contents") return lessonContentsPath(lesson);
-  return lessonContentsPath(lesson);
+  return lessonVocabularyPath(lesson);
 }
 
 export function locationForRoute(path, { hash = "", location = window.location, theme = "" } = {}) {

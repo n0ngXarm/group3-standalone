@@ -84,7 +84,7 @@
   .g3-lesson-index button { min-width: min(14rem, 40vw); min-height: 3.2rem; }
   .g3-lesson-index button > span { font-size: 2.2rem; }
   .g3-lesson-index button > strong { font-size: 0.78rem; }
-  .g3-catalog { height: calc(100svh - 91px); }
+  .g3-catalog { height: calc(100svh - (var(--g3-topbar-height) + 27px)); }
   .g3-catalog-browser { grid-template-rows: auto auto minmax(0, 1fr); }
   .g3-catalog-tabs { min-height: 3.7rem; }
   .g3-catalog-tabs button { padding: 0.4rem clamp(0.55rem, 1.2vw, 0.95rem); }

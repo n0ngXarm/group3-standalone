@@ -1,6 +1,6 @@
 services:
   group3-standalone:
-    image: group3-standalone:20260817
+    image: group3-standalone:66632b3
     build:
       context: ./source
       args:

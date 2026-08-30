@@ -10,7 +10,7 @@
 .g3-story-shell:has(.g3-learning-summary) #g3-main {
   display: block;
   flex: 0 0 auto !important;
-  min-height: calc(100svh - 4.75rem) !important;
+  min-height: calc(100svh - (var(--g3-topbar-height) + 0.75rem)) !important;
   overflow: visible !important;
 }
 
@@ -18,7 +18,7 @@
   --practice-accent: #ef5845;
   display: flex;
   width: 100%;
-  min-height: calc(100svh - 4.75rem);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 0.75rem));
   padding: clamp(1rem, 2.5vw, 2rem) clamp(1rem, 3vw, 2rem) max(2.5rem, env(safe-area-inset-bottom));
   overflow: visible;
   background: transparent;
@@ -665,7 +665,7 @@
 
 @media (max-width: 720px) {
   .g3-practice-exercise {
-    min-height: calc(100svh - 4.25rem);
+    min-height: calc(100svh - (var(--g3-topbar-height) + 0.25rem));
     padding: 0.75rem 0.75rem max(2rem, env(safe-area-inset-bottom));
   }
   .g3-practice-exercise-inner { gap: 1.25rem; }

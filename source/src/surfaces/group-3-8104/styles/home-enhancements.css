@@ -493,7 +493,7 @@
 
 @media (min-width: 1024px) {
   .g3-home.is-single-screen {
-    min-height: calc(100dvh - 88px);
+    min-height: calc(100dvh - (var(--g3-topbar-height) + 24px));
     padding: clamp(1rem, 2.5vw, 2.5rem);
     display: flex;
     flex-direction: column;
@@ -503,7 +503,7 @@
   .g3-home.is-single-screen .g3-home-hero {
     display: grid;
     width: min(calc(100% - 2rem), 120rem);
-    min-height: calc(100dvh - 7rem);
+    min-height: calc(100dvh - (var(--g3-topbar-height) + 3rem));
     margin: 0 auto;
     grid-template-columns: minmax(19rem, 0.85fr) minmax(40rem, 1.9fr);
     grid-template-rows: 1fr;
@@ -1114,7 +1114,7 @@
 
 /* Practice-first home direction for 中文练习. */
 .g3-home.is-single-screen {
-  min-height: calc(100svh - 88px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 24px));
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -1454,7 +1454,7 @@
 .g3-level-picker.g3-no-scroll {
   display: flex;
   flex-direction: column;
-  height: calc(100svh - 70px);
+  height: calc(100svh - (var(--g3-topbar-height) + 6px));
   padding: clamp(1rem, 4vh, 2rem) clamp(1rem, 4vw, 3rem);
   box-sizing: border-box;
   overflow: hidden;
@@ -1743,7 +1743,7 @@
 @media (max-width: 900px) {
   .g3-home.is-single-screen {
     height: auto;
-    min-height: calc(100svh - 70px);
+    min-height: calc(100svh - (var(--g3-topbar-height) + 6px));
   }
 
   .g3-home.is-single-screen .g3-home-hero {
@@ -1942,7 +1942,7 @@
   flex-direction: column;
   width: min(calc(100% - 2.5rem), 82rem);
   max-height: none !important;
-  min-height: calc(100svh - 88px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 24px));
   margin: 0 auto;
   padding: 1.5rem 0 4rem;
   overflow: visible !important;

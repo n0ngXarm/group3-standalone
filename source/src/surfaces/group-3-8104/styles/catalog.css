@@ -2,7 +2,7 @@
 .g3-catalog {
   display: grid;
   grid-template-columns: minmax(18rem, 0.62fr) minmax(0, 1.38fr);
-  height: calc(100svh - 76px);
+  height: calc(100svh - (var(--g3-topbar-height) + 12px));
   min-height: 0;
   overflow: hidden;
 }

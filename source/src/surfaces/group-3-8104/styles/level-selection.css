@@ -42,7 +42,7 @@
      Let's just use 100dvh - 150px as an approximation for the scale factor,
      since scale factor doesn't need to be pixel perfect to prevent scroll, 
      as long as it shrinks it enough. */
-  --available-height: calc(100dvh - 160px); 
+  --available-height: calc(100dvh - (var(--g3-topbar-height) + 96px)); 
   --reference-scale: min(1, calc(var(--available-height) / 640px));
   width: min(1180px, calc(100% - 44px));
   margin: auto;

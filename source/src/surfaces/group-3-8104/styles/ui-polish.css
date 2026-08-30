@@ -58,7 +58,7 @@
 
 .g3-home-hero {
   width: min(calc(100% - 2rem), 82.5rem);
-  min-height: calc(100dvh - 68px);
+  min-height: calc(100dvh - (var(--g3-topbar-height) + 4px));
   margin: 0 auto;
   padding: clamp(2rem, 4vw, 4rem) 0 1.4rem;
   column-gap: clamp(2rem, 4vw, 4.5rem);

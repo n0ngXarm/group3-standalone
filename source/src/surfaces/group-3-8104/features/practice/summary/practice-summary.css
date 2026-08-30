@@ -8,13 +8,13 @@
 .g3-story-shell:has(.g3-learning-summary) #g3-main {
   display: block;
   flex: 0 0 auto !important;
-  min-height: calc(100svh - 4.75rem) !important;
+  min-height: calc(100svh - (var(--g3-topbar-height) + 0.75rem)) !important;
   overflow: visible !important;
 }
 
 .g3-learning-summary {
   width: 100%;
-  min-height: calc(100svh - 4.75rem);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 0.75rem));
   display: flex;
   justify-content: center;
   align-items: flex-start;

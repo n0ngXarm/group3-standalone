@@ -115,7 +115,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 1,
-      "sha256": "f891cd1f39657314e06765abf3a2345581028c8de6d27005c76a4f3ae39ad5a9",
+      "sha256": "2a393ac32d7549556f4ecf0c6895a2ba683807f7ccdac67fa75c1b466a776de2",
       "text": "你看，这是我的家人。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -132,7 +132,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 1,
-      "sha256": "152b6747e2cc7d16afb1d70e342b07a97b1d144e273d91bf71ca08717e4a45f3",
+      "sha256": "ea095841aacd031537070105c36487c0d4de75dc7d1880ad62d65e70d9092da1",
       "text": "你家有几口人？",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -149,7 +149,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 1,
-      "sha256": "f6003447a4b80146f7423ce660a4d25415e3d96ce6c266d437d878f757f29b14",
+      "sha256": "258717b5c7bc0e70818e0cb046d72f6e0521d5efc892fc0ec473c914bddf4990",
       "text": "我家有四口人，我有两个孩子。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -166,7 +166,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 1,
-      "sha256": "8f6af5eb744eb02332be8ab8d7a7f6058a873ed2af0a5e8e5e2b6fdb732f6988",
+      "sha256": "46f3aca4ec8335efbce3c80b4083d0ae95356fbc212b6ce85d829a70574564e8",
       "text": "他们多大了？",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -183,7 +183,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 2,
-      "sha256": "1b3870adaa497f48e66aa0a82d4446d098671f02c8d217ea8c2e34e3834c592b",
+      "sha256": "01f01f58c965ca7c4efaf905a948c03a59b6bc48a9fc2c5e0663f58a1e8e49a6",
       "text": "现在几点？",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -200,7 +200,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 2,
-      "sha256": "03852019b7ad21c0eef368f4e8648cb2c7580e14b5678e155a4361921d33750a",
+      "sha256": "91853242db1965c6c1d41e3b6f3f465c17425812d00f797f8124c725e4b4da8e",
       "text": "现在上午十点十分。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -217,7 +217,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 2,
-      "sha256": "dfb9ecbfe72e33cc47edf74c0db286faa67b956236bb282efa7db1ee75378011",
+      "sha256": "e8bd07fad6d3e1848a6f8a46110c5198d8dfbd2d8aca65d8c414f8e85503d260",
       "text": "你今天什么时候下班？",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -234,7 +234,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 2,
-      "sha256": "25cceccd45bdb935fb4423cd816052a274e9a4ba1b36cf33c26f3c8906a28099",
+      "sha256": "fb38fb15de0b33b0c8c28a8fb9e3af070b5b2221f80c6853f07841df7913644d",
       "text": "我晚上六点半下班。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -251,7 +251,7 @@
       "personaTempo": 1.04,
       "profile": "shopAssistant",
       "scene": 1,
-      "sha256": "5ca1545c98e8e44e5dad85ca0981b4f13cc15639ba8590fc26b88907abb0b7bb",
+      "sha256": "b0e3f7434ed710ef41996ea437d0df079a102f1c45a9ade1738d8e6d76915b90",
       "text": "您好，您想买什么？",
       "voice": "zh-CN-XiaoyiNeural"
     },
@@ -268,7 +268,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 1,
-      "sha256": "d1a79479bc74d35e31148a353c562d093b4e72dc40ec3cc5478c4aeeb0f0abc4",
+      "sha256": "d8a1711338ae2446f98a61be5419bce09f0e9668639bd7b1eefbb51908c5fe90",
       "text": "我想买一件衣服。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -285,7 +285,7 @@
       "personaTempo": 1.04,
       "profile": "shopAssistant",
       "scene": 1,
-      "sha256": "f1ea0c94a8bbb0e7014288482eb168bf4fcdaebd911647b3bda59cdb677d8449",
+      "sha256": "6b03637174be0357eafaa5b7c7d9e4c4341a0e3a8975509758cfebd96b04a274",
       "text": "这件红色的怎么样？很漂亮。",
       "voice": "zh-CN-XiaoyiNeural"
     },
@@ -302,7 +302,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 1,
-      "sha256": "46d2123ffd9479ee5132bb7049a70b00fbd5a5208bf94849ec09533418ac0933",
+      "sha256": "1d60b70267f635ce75f75558f11f63ae4424a58b44b44b3e2f63f3216d2da3bc",
       "text": "真漂亮，我买这件！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -316,10 +316,10 @@
       "line": 1,
       "loudnessTargetLufs": -23,
       "personaPitch": 1.03,
-      "personaTempo": 1,
+      "personaTempo": 1.0,
       "profile": "liWen",
       "scene": 2,
-      "sha256": "718740f9f8c27adeeeadd6a3d254c5ad6013e8e5a6b20382ca332f63f1c39349",
+      "sha256": "685c1c49b1c6863163851ced079a825ce22386b3620ce17f4d9e28020472edf4",
       "text": "这是我做的中国菜，你尝尝。",
       "voice": "zh-CN-YunxiaNeural"
     },
@@ -336,7 +336,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 2,
-      "sha256": "6fb2e070521dfb21507016e67c1e88f19cb3820443bdc184c220db9a6e1eae1f",
+      "sha256": "2a852caa49e45f07b00e2531f36e3d633a3e98a67f29528464aba5dc2b4ef962",
       "text": "太好吃了，你做的真好！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -353,7 +353,7 @@
       "personaTempo": 0.94,
       "profile": "teacherWang",
       "scene": 2,
-      "sha256": "13c7afcc8803c5da40e41c1c689444d0519528490a819f329f2d09c312516915",
+      "sha256": "bcb4d4f3b99b2f94baa017f261aa4c9d1e9620fa7dd67be7040e0bb93735d19c",
       "text": "明天上午九点，大兴机场见！",
       "voice": "zh-CN-XiaoyiNeural"
     },
@@ -370,7 +370,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 2,
-      "sha256": "e7c9eae8bf0b0e8ba041d77b7e4adde653789e6048c8664f909ac4321b79adff",
+      "sha256": "b485e9e1d907ee16a018123c38cdb82a5d65dd4f16aed7b22b83bf1b29c2d9f9",
       "text": "太好了，大兴机场见！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -387,7 +387,7 @@
       "personaTempo": 0.94,
       "profile": "teacherWang",
       "scene": 1,
-      "sha256": "6d4cc652ba8021a7c5071e4f4455a3bfcfa76acf542a8e4bc3f127db5649d0dd",
+      "sha256": "a621f779462f3892ee915ecd217c76bdd4640d9c9cb52bf09717f86bf43718bf",
       "text": "路上辛苦了，欢迎你们来北京！",
       "voice": "zh-CN-XiaoyiNeural"
     },
@@ -404,7 +404,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 1,
-      "sha256": "364d1441f4de7e88c2c26686c1d31ccd54e90f891d442cdd99279a6061059025",
+      "sha256": "f99b657e9a50e65eae01122457bb5c2d38b1994c090f559c01b84d76ce4764b8",
       "text": "谢谢王老师，北京真漂亮！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -418,10 +418,10 @@
       "line": 3,
       "loudnessTargetLufs": -23,
       "personaPitch": 1.03,
-      "personaTempo": 1,
+      "personaTempo": 1.0,
       "profile": "liWen",
       "scene": 1,
-      "sha256": "21c8945cb72866a609c0879c8261817a1611022c1d75562dc3ac98e02278164f",
+      "sha256": "9107430406a6ee8f588118744be9b46508258a0c0a486716d82ddb077068acd5",
       "text": "今天我请你们吃北京烤鸭。",
       "voice": "zh-CN-YunxiaNeural"
     },
@@ -438,7 +438,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 1,
-      "sha256": "58b1efb57d9b212a35d53b2f7667118ded126800025a939af8e071483d3d1ca3",
+      "sha256": "77ce226c894ad9b8019fd25fabc3f5444ad467d786d44f1223bf205b64829575",
       "text": "太好了，我最喜欢吃烤鸭了！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -455,7 +455,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 2,
-      "sha256": "1f4979ba06bbab466fb7eb11431a8092ad028b10aa9d5a5e06db8e976cfc50af",
+      "sha256": "45989ebc915fc85b3665af63eb245efc1a264888d0111e11558a8ad0ea14ed8f",
       "text": "欢迎来我家做客，快请进！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -472,7 +472,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 2,
-      "sha256": "73b2af31f3f49585e192806c0e16ef31756ea3c9bc6d8161e20427935b8e599d",
+      "sha256": "93148a1f66da41f6d83ce4767ccc521f6456815a4e72fb02666298a357347539",
       "text": "打扰了，这是送给您的礼物。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -489,7 +489,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 2,
-      "sha256": "b25bcd23fb6972de6e5290ac3c7e3f94535880cde80674d0241fa76e766dc3ae",
+      "sha256": "85f5b771f1dd783cba5bd93ea7d49af99bc9b61c3bdd568f76dd6a0634ca1448",
       "text": "午饭做好了，有羊肉和鱼，大家一起吃！",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -506,7 +506,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 2,
-      "sha256": "a3289c053c37b906cebe08aa8bd27abfad74a61f03b55126b3bd028ea1ec5924",
+      "sha256": "0489edac81dec51c1e884798268170804123a729bd609b21ae941699a0390faf",
       "text": "真丰盛，谢谢你们！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -523,7 +523,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 1,
-      "sha256": "8c6ae254d837a2c0cb666b76c9eb408b3b6acf2d29b7a1ca1d9f2c93ca14d7fc",
+      "sha256": "a42e29d1b2032a91f743f4fecb7e4e0f62355344f17186cf21dc1c8af7e59b72",
       "text": "你穿红色的很好看。",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -540,7 +540,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 1,
-      "sha256": "56f3aee1ab1a939534f2c6d21fa3de3f8b84b90d43b3f4215f33e03b240ee3f5",
+      "sha256": "1444b16d2de1deec4211a7c916bfe3d37681a0d4934438be4afd53903fc581ab",
       "text": "这件衣服也很便宜，我买了。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -557,7 +557,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 1,
-      "sha256": "89af0080c357426385c844c39ac8d8fe363b2e5561b0abffb8aa51323689ecb5",
+      "sha256": "149992d849abbcc30cce53a5f4fc75e2da071ee38246b1e62805fcc22f6e36e3",
       "text": "天气热，我去买杯奶茶。",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -574,7 +574,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 1,
-      "sha256": "db98797d7c898e833f236195f8d150ecde266a54532c21b64be41edd793bf54e",
+      "sha256": "939f514d1f44a98708cf85ab98a20c3cb2eb43cf06d1e1281e15b5f6c8b5a3ef",
       "text": "好的，我们去咖啡店休息一下。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -591,7 +591,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 2,
-      "sha256": "0922bd701e1fd5e3d46abfb1f416f2e6bd0724f66b8fe72560dc6fad3d05f9d0",
+      "sha256": "d51529b560e599145a8c88a3d1f3b3bbfc147e6947a530f78e883a03c79699ac",
       "text": "小雪，生日快乐！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -608,7 +608,7 @@
       "personaTempo": 1.02,
       "profile": "liuXiaoxue",
       "scene": 2,
-      "sha256": "ea5c91c9deea10bb92993333516a118001f253182d76bfb93d0b4acbeba66026",
+      "sha256": "605bbf4347885d9891ce9324c4d5d7a698149e128e3528b313b8f04f168aef34",
       "text": "谢谢爸爸妈妈！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -625,7 +625,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 2,
-      "sha256": "a9a908d54bed6b9a2dc1ba160bb8e50713ddd7d4834b6e53f541608c84d35f8f",
+      "sha256": "431025d3412c91a76b6829bda91636f67432e939a546c66fed6a26ceb0ccb0f2",
       "text": "这是送给你的生日礼物，你看看。",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -642,7 +642,7 @@
       "personaTempo": 1.02,
       "profile": "liuXiaoxue",
       "scene": 2,
-      "sha256": "39c840160cbd8c839789f855b64efe9791c824f3506bd1569f013c514301b2f6",
+      "sha256": "cecb34114a2ae51eff3492154fadf37ed5ee9b2b0846f750f871293227c656eb",
       "text": "哇，是新书包，太漂亮了！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -659,7 +659,7 @@
       "personaTempo": 0.98,
       "profile": "restaurantServer",
       "scene": 1,
-      "sha256": "948234d3fac272352ed330a4b9103e77ef5221c9db749a95f7afb3810e15d71f",
+      "sha256": "73ed143d0237e15a1e1f5033676b7154ae716b5523ed544a16cb363b2cdea4de",
       "text": "欢迎光临，这是菜单，请点菜。",
       "voice": "zh-CN-YunyangNeural"
     },
@@ -673,10 +673,10 @@
       "line": 2,
       "loudnessTargetLufs": -23,
       "personaPitch": 1.03,
-      "personaTempo": 1,
+      "personaTempo": 1.0,
       "profile": "liWen",
       "scene": 1,
-      "sha256": "c73af624b8aadfbe6823758c629d1ddfee5fc85b62f5c8c886407b69fb9f72d7",
+      "sha256": "61a2fd5839ceaba72c85e9b1965d7842ee922b7ea76ccdfffbbdbb2c9208c4f8",
       "text": "你们想吃什么就点什么！",
       "voice": "zh-CN-YunxiaNeural"
     },
@@ -693,7 +693,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 1,
-      "sha256": "360365d63a55916ffcffe4cb65e8879d5862f2a0ade6e3cf4ae245c36a0a2271",
+      "sha256": "b6a5c6e9edfd419142e8e25bac552816dce480e0a141167b969e10fdc26f4ebb",
       "text": "这个菜的味道好极了，真好吃！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -707,10 +707,10 @@
       "line": 4,
       "loudnessTargetLufs": -23,
       "personaPitch": 1.03,
-      "personaTempo": 1,
+      "personaTempo": 1.0,
       "profile": "liWen",
       "scene": 1,
-      "sha256": "8f2315679bac6cf774e1af8228eb939f3b88002d0545cbb4e149a003d1814352",
+      "sha256": "0bdc0d7939ecc8d7cc9d8668433b2f7f5df52b0cc2be944344f1149b4ed287d5",
       "text": "喜欢就多吃点儿！",
       "voice": "zh-CN-YunxiaNeural"
     },
@@ -727,7 +727,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 2,
-      "sha256": "930d32d970f44356e60920a9aac0771a842e62c32d4baea73c90493bb77c589b",
+      "sha256": "1f918dd148611363deab40ae9cad6fdb9dcb8a1e576ea826a0a4197c8e3e01f5",
       "text": "假期我们坐高铁去上海吧。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -744,7 +744,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 2,
-      "sha256": "ef2aece993c82fd6e4d774012c137141271ee62bbeb5cec2e6281db074c9b1fb",
+      "sha256": "018a1e979353dc12ba1d23254be46c5dd2c4d42ec97e110c4debbcf5e80fa7b1",
       "text": "好啊，高铁上还可以点外卖，特别方便！",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -761,7 +761,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 2,
-      "sha256": "4aa45b1148832af422512160824b7660b1a7a78996f441b02671f58b71f3a385",
+      "sha256": "a118b223135f12473bc1942c367478e82b38cd9c674be0d7e4dbcf0213d7f8ea",
       "text": "我们现在就上网买票。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -778,7 +778,7 @@
       "personaTempo": 0.97,
       "profile": "liu",
       "scene": 2,
-      "sha256": "55d9dc87907f64c0a392b24a1233b62c2050b61876b8332da67f798be76cb66c",
+      "sha256": "84355918dd1cd7cd2cbc0d8a15db15a0077eb838982266f6e2e0533ddd311e4f",
       "text": "买好了，祝我们旅行愉快！",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -795,7 +795,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 1,
-      "sha256": "f5e64a78f8eaca5c46cebbe5dff15d8d70b79169f8ac504737586826b03e45bc",
+      "sha256": "10d2f32b83255156ba593a1254239e19841c928bc17896487ab96ad688cf374b",
       "text": "经理让我们准备后天的会议。",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -812,7 +812,7 @@
       "personaTempo": 1.04,
       "profile": "yang",
       "scene": 1,
-      "sha256": "209bc48b043689a0f6ff2596b0e9b33cf796f1124bb980750b562d4a5d2441b0",
+      "sha256": "c39d81fba439b41888055b16463660f4c97c8518b078583b88529fb0fea86fc7",
       "text": "我来帮你检查电脑问题。",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -829,7 +829,7 @@
       "personaTempo": 0.98,
       "profile": "wang",
       "scene": 1,
-      "sha256": "f5e5716bc8f0c708061f3a4ae825f549406b9e263c9212d42ffa4d0e94b75324",
+      "sha256": "9317b3bbcc16c1f2bc08fe244f1bd5c6fd87f805902fd0c4253a9c39e7f41d2f",
       "text": "太谢谢你了，问题解决了！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -846,7 +846,7 @@
       "personaTempo": 1.04,
       "profile": "yang",
       "scene": 1,
-      "sha256": "7b1a039c6db6f0f5c867549687907be20c0564bb635b2d37cb7601bd8acaf14d",
+      "sha256": "488a198b965be746acc54ee3d65276ecc2ac9d851efc6f900bf33562199d433b",
       "text": "不客气，大家一起努力吧！",
       "voice": "zh-CN-YunxiNeural"
     },
@@ -863,7 +863,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 2,
-      "sha256": "0af33eaccb76c56dab409ca3ab2412566be29f656ff8bc80b161ad3fda75a0e7",
+      "sha256": "4c335820d998f0de1f41e96fe4f1c2c62a6ed3299666617b57edc3de617146ea",
       "text": "李叔叔、张阿姨，新年快乐！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -880,7 +880,7 @@
       "personaTempo": 0.91,
       "profile": "liUncle",
       "scene": 2,
-      "sha256": "20a8bee94b6c67ede6d8df09fb0420a43f52842101bac76a3e6c3aab70a5904d",
+      "sha256": "b6ddfae3c674c6c9f062d9419e3bb113cef61a3c45d3e7b8b4d2856bb119a18a",
       "text": "新年快乐，快来一起包饺子！",
       "voice": "zh-CN-YunyangNeural"
     },
@@ -897,7 +897,7 @@
       "personaTempo": 0.97,
       "profile": "bai",
       "scene": 2,
-      "sha256": "e838cf844c6f6b3d9180c81cf20e3ca26a782c579d516573025353eece74493d",
+      "sha256": "d171535f55436ca24d7dd7908950ecb1f03ebd11bcd067d930bdc91ae5986dc2",
       "text": "我学会了包饺子，太高兴了！",
       "voice": "zh-CN-XiaoxiaoNeural"
     },
@@ -914,7 +914,7 @@
       "personaTempo": 0.92,
       "profile": "zhangAunt",
       "scene": 2,
-      "sha256": "5c603102393708f5c42fd5dda9578b9389b5ea67f7331cd38fd7b71c635442be",
+      "sha256": "f173f0adfb35468457753370e3c74cb21c7b61bc68b44e20cc2d8b4268514cd6",
       "text": "吃饺子，祝大家新年健康平安！",
       "voice": "zh-CN-XiaoxiaoNeural"
     }

@@ -10,6 +10,7 @@ import { createPracticeSummary } from "../practice/summary/summaryModel.js";
 import { getPracticeResults } from "../practice/sessionStore.js";
 import { getLearnerSession } from "../../shared/session.js";
 import "../../styles/level-selection.css";
+import "../../styles/deferred-route.css";
 
 const ReadingTheatre = lazy(() => import("../lessons/reader/ReadingTheatre.jsx").then((module) => ({
   default: module.ReadingTheatre,

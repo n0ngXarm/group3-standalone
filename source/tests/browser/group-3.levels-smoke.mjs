@@ -354,7 +354,7 @@ async function languageSnapshot(index, language) {
   const expectedLanguage = { th: "th", zh: "zh-CN", en: "en" }[language];
   const expectedHeading = { th: "สามารถเลือกระดับที่ต้องการได้เลย", zh: "选择想学的等级", en: "Choose a learning level" }[language];
   const expectedActions = {
-    th: ["เข้าสู่บทเรียน→", "บททำแบบฝึกหัด"],
+    th: ["เข้าสู่บทเรียน→", "ทำแบบทดสอบการพูด"],
     zh: ["进入课程→", "练习"],
     en: ["Enter lessons→", "Practice exercises"],
   }[language];

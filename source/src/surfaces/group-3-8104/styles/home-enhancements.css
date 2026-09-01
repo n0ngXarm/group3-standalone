@@ -2374,9 +2374,9 @@
 :root[data-theme="light"] .g3-home.is-single-screen .g3-home-hero {
   --g3-stage-bottom-overlay: linear-gradient(
     to top,
-    color-mix(in srgb, var(--g3-bg) 52%, transparent) 0%,
-    color-mix(in srgb, var(--g3-bg) 24%, transparent) 55%,
-    transparent 100%
+    rgba(8, 10, 12, 0.86) 0%,
+    rgba(8, 10, 12, 0.56) 52%,
+    rgba(8, 10, 12, 0.14) 100%
   );
   background:
     radial-gradient(circle at 18% 38%, color-mix(in srgb, var(--g3-gold) 13%, transparent), transparent 42%),
@@ -2388,7 +2388,7 @@
 }
 
 :root[data-theme="light"] .g3-home.is-single-screen .g3-manga-bg-img {
-  filter: brightness(1.04) contrast(1.01) saturate(1.04);
+  filter: brightness(0.88) contrast(1.05) saturate(1.02);
 }
 
 :root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-bg-vignette {
@@ -2399,8 +2399,8 @@
 
 :root[data-theme="light"] .g3-home.is-single-screen .g3-manga-bg-vignette {
   background:
-    radial-gradient(circle at center, transparent 62%, color-mix(in srgb, var(--g3-gold) 10%, transparent) 100%),
-    linear-gradient(180deg, transparent 66%, color-mix(in srgb, var(--g3-ink) 10%, transparent) 100%);
+    radial-gradient(circle at center, transparent 54%, rgba(0, 0, 0, 0.42) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.68) 100%);
 }
 
 /* Home preview foreground: cinematic local contrast in both page themes. */

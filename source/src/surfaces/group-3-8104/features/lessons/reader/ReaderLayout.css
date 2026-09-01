@@ -82,18 +82,20 @@
 .g3-reader-back-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 0.4rem;
+  font-size: 0.84rem;
   font-weight: 600;
   color: var(--g3-ink, #241c14);
   background: color-mix(in srgb, var(--g3-paper, #ffffff) 90%, transparent);
   border: 1px solid var(--g3-line, rgba(0, 0, 0, 0.12));
-  padding: 0.55rem 0.85rem;
+  padding: 0.55rem 0.65rem;
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
   text-align: left;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: all 0.2s ease;
   min-height: 44px;
 }

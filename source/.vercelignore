@@ -2,7 +2,8 @@ node_modules/
 dist/
 tests/
 scripts/
-*.png
+/*.png
+public/assets/group3/shared/characters/**/*.png
 *.tar.gz
 *.log
 tmp/

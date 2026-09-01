@@ -11,7 +11,6 @@
 @import "./styles/role-picker-responsive.css";
 @import "./styles/ui-polish.css";
 @import "./styles/home-enhancements.css";
-@import "./styles/level-selection.css";
 
 
 
@@ -24,6 +23,24 @@
   color: var(--g3-jade);
   font-family: monospace;
   margin-bottom: 2px;
+}
+
+.g3-route-loading {
+  position: fixed;
+  z-index: 20;
+  inset: var(--g3-topbar-height) 0 0;
+  display: grid;
+  place-items: center;
+  color: var(--g3-muted);
+  background: var(--g3-bg);
+  font-family: var(--font-reading);
+  pointer-events: none;
+}
+
+/* Reserve the first-screen route space while a protected lesson is fetched so
+   the footer cannot jump upward and then below the viewport on mobile. */
+#g3-main[aria-busy="true"] {
+  min-height: calc(100svh - var(--g3-topbar-height));
 }
 
 /* Full-height home split screen. Keep the header over the two panels. */

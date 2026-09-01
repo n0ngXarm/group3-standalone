@@ -16,6 +16,98 @@ const HINT_PINYIN_BY_SCENE = Object.freeze({
   "hsk3-l1-s2": Object.freeze({ "还": "hái" }),
 });
 
+const utterance = (hanzi, pinyin, th) => Object.freeze({
+  hanzi,
+  pinyin,
+  translations: Object.freeze({ th }),
+});
+
+const vocabulary = (hanzi, pinyin, th) => utterance(hanzi, pinyin, th);
+
+const QUESTION_CONVERSATION_BY_SCENE = Object.freeze({
+  "hsk1-l1-s1": Object.freeze({
+    sampleAnswers: Object.freeze([utterance("他跟小语打招呼。", "Tā gēn Xiǎoyǔ dǎ zhāohu.", "เขาทักทายเสี่ยวหวี่")]),
+    followUps: Object.freeze([Object.freeze({
+      question: utterance("他怎么打招呼？", "Tā zěnme dǎ zhāohu?", "เขาทักทายอย่างไร?"),
+      sampleAnswers: Object.freeze([utterance("你好，小语！", "Nǐ hǎo, Xiǎoyǔ!", "สวัสดี เสี่ยวหวี่!")]),
+      expectedTerms: Object.freeze(["你好", "小语"]),
+    })]),
+    vocabulary: Object.freeze([
+      vocabulary("谁", "shéi", "ใคร"),
+      vocabulary("打招呼", "dǎ zhāohu", "ทักทาย"),
+      vocabulary("你好", "nǐ hǎo", "สวัสดี"),
+    ]),
+  }),
+  "hsk1-l1-s2": Object.freeze({
+    sampleAnswers: Object.freeze([utterance("老师，您好！", "Lǎoshī, nín hǎo!", "สวัสดีค่ะ/ครับ อาจารย์!")]),
+    followUps: Object.freeze([Object.freeze({
+      question: utterance("老师怎么回答？", "Lǎoshī zěnme huídá?", "คุณครูตอบอย่างไร?"),
+      sampleAnswers: Object.freeze([utterance("你们好！", "Nǐmen hǎo!", "สวัสดีนักเรียนทุกคน!")]),
+      expectedTerms: Object.freeze(["你们好", "好"]),
+    })]),
+    vocabulary: Object.freeze([
+      vocabulary("学生", "xuésheng", "นักเรียน"),
+      vocabulary("老师", "lǎoshī", "คุณครู / อาจารย์"),
+      vocabulary("您好", "nín hǎo", "สวัสดี (สุภาพ)"),
+    ]),
+  }),
+  "hsk2-l1-s1": Object.freeze({
+    sampleAnswers: Object.freeze([utterance("北京烤鸭。", "Běijīng kǎoyā.", "เป็ดปักกิ่ง")]),
+    followUps: Object.freeze([Object.freeze({
+      question: utterance("在哪里吃？", "Zài nǎlǐ chī?", "กินที่ไหน?"),
+      sampleAnswers: Object.freeze([utterance("在饭店吃。", "Zài fàndiàn chī.", "กินที่ร้านอาหาร")]),
+      expectedTerms: Object.freeze(["饭店", "在饭店吃"]),
+    })]),
+    vocabulary: Object.freeze([
+      vocabulary("请", "qǐng", "เชิญ / เลี้ยง"),
+      vocabulary("大家", "dàjiā", "ทุกคน"),
+      vocabulary("吃", "chī", "กิน"),
+      vocabulary("饭店", "fàndiàn", "ร้านอาหาร"),
+    ]),
+  }),
+  "hsk2-l1-s2": Object.freeze({
+    sampleAnswers: Object.freeze([utterance("羊肉和鱼。", "Yángròu hé yú.", "เนื้อแกะและปลา")]),
+    followUps: Object.freeze([Object.freeze({
+      question: utterance("谁准备的午饭？", "Shéi zhǔnbèi de wǔfàn?", "ใครเป็นคนเตรียมอาหารกลางวัน?"),
+      sampleAnswers: Object.freeze([utterance("刘明准备的。", "Liú Míng zhǔnbèi de.", "หลิวหมิงเป็นคนเตรียม")]),
+      expectedTerms: Object.freeze(["刘明", "准备"]),
+    })]),
+    vocabulary: Object.freeze([
+      vocabulary("准备", "zhǔnbèi", "เตรียม"),
+      vocabulary("午饭", "wǔfàn", "อาหารกลางวัน"),
+      vocabulary("羊肉", "yángròu", "เนื้อแกะ"),
+      vocabulary("鱼", "yú", "ปลา"),
+    ]),
+  }),
+  "hsk3-l1-s1": Object.freeze({
+    sampleAnswers: Object.freeze([utterance("味道好极了。", "Wèidào hǎo jí le.", "รสชาติดีเยี่ยม")]),
+    followUps: Object.freeze([Object.freeze({
+      question: utterance("你也喜欢这个菜吗？", "Nǐ yě xǐhuan zhège cài ma?", "คุณก็ชอบอาหารจานนี้ไหม?"),
+      sampleAnswers: Object.freeze([utterance("我也喜欢这个菜。", "Wǒ yě xǐhuan zhège cài.", "ฉันก็ชอบอาหารจานนี้")]),
+      expectedTerms: Object.freeze(["喜欢", "菜"]),
+    })]),
+    vocabulary: Object.freeze([
+      vocabulary("味道", "wèidào", "รสชาติ"),
+      vocabulary("好极了", "hǎo jí le", "ดีเยี่ยม"),
+      vocabulary("喜欢", "xǐhuan", "ชอบ"),
+    ]),
+  }),
+  "hsk3-l1-s2": Object.freeze({
+    sampleAnswers: Object.freeze([utterance("可以点外卖。", "Kěyǐ diǎn wàimài.", "สามารถสั่งอาหารเดลิเวอรีได้")]),
+    followUps: Object.freeze([Object.freeze({
+      question: utterance("这个服务方便吗？", "Zhège fúwù fāngbiàn ma?", "บริการนี้สะดวกไหม?"),
+      sampleAnswers: Object.freeze([utterance("很方便。", "Hěn fāngbiàn.", "สะดวกมาก")]),
+      expectedTerms: Object.freeze(["方便", "很方便"]),
+    })]),
+    vocabulary: Object.freeze([
+      vocabulary("高铁", "gāotiě", "รถไฟความเร็วสูง"),
+      vocabulary("服务", "fúwù", "บริการ"),
+      vocabulary("外卖", "wàimài", "อาหารเดลิเวอรี / ส่งอาหาร"),
+      vocabulary("方便", "fāngbiàn", "สะดวก"),
+    ]),
+  }),
+});
+
 function sourceError(details) {
   const error = new Error(PRACTICE_ERROR_CODES.EXERCISE_SOURCE_NOT_FOUND);
   error.code = PRACTICE_ERROR_CODES.EXERCISE_SOURCE_NOT_FOUND;
@@ -52,6 +144,10 @@ function conceptGroups(words, fallback = "") {
     concepts.push({ id: "concept-1", terms: [normalizedFallback] });
   }
   return concepts;
+}
+
+function conceptGroupsFromTerms(terms) {
+  return terms.map((term, index) => ({ id: `follow-up-concept-${index + 1}`, terms: [term] }));
 }
 
 function imageDefinition(lesson, scene) {
@@ -107,6 +203,8 @@ function derivePinyin(hanzi, vocabulary) {
 function questionDefinition(lesson, scene) {
   const qte = scene.qte;
   if (!qte?.prompt?.zh || !qte?.correct) return null;
+  const conversation = QUESTION_CONVERSATION_BY_SCENE[scene.id];
+  if (!conversation) return null;
   const evidenceText = `${qte.correct} ${qte.evidence || ""}`;
   const answerWords = uniqueVocabulary(lesson, evidenceText, 5);
   const correctOption = qte.options?.find((option) => option.value === qte.correct);
@@ -120,14 +218,24 @@ function questionDefinition(lesson, scene) {
   const thaiPrompt = /\p{Script=Han}/u.test(qte.prompt.th || "") ? "" : qte.prompt.th || "";
   return {
     exerciseId: `question-response:${lesson.id}:${scene.id}`,
-    expectedConcepts: conceptGroups(answerWords.slice(0, 5), qte.correct),
+    expectedConcepts: conceptGroupsFromTerms([qte.correct]),
     hints: answerWords.slice(0, 3),
+    image: scene.image,
+    imageAlt: scene.imageAlt || { en: scene.contextEn || scene.titleEn, th: scene.contextTh || scene.titleTh, zh: scene.context || scene.title },
+    imageSrcSet: scene.imageSrcSet || "",
     level: lesson.level,
     question: {
       hanzi: qte.prompt.zh,
       pinyin: QUESTION_PINYIN_BY_SCENE[scene.id] || derivePinyin(qte.prompt.zh, lesson.vocabulary),
       translations: { en: qte.prompt.en || "", th: thaiPrompt },
     },
+    sampleAnswers: conversation.sampleAnswers,
+    followUps: conversation.followUps.map((followUp) => ({
+      expectedConcepts: conceptGroupsFromTerms(followUp.expectedTerms),
+      question: followUp.question,
+      sampleAnswers: followUp.sampleAnswers,
+    })),
+    vocabulary: conversation.vocabulary,
     sourceRef: { lessonId: lesson.id, sceneId: scene.id },
     timing: { preparationMs: 15_000, responseWindowMs: 120_000 },
     type: "question-response",

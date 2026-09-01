@@ -1322,7 +1322,8 @@ export const LESSON_HSK1_L2 = {
       ],
       "gloss": {
         "我家有": "ครอบครัวฉันมี",
-        "四口人": "สี่คน"
+        "四口人": "สี่คน",
+        "四口人。": "สี่คน"
       },
       "translationTh": "ครอบครัวฉันมีสี่คน",
       "translationEn": "My family has four people.",
@@ -1473,7 +1474,8 @@ export const LESSON_HSK1_L2 = {
       ],
       "gloss": {
         "我晚上": "ฉันตอนเย็น",
-        "六点半下班": "เลิกงานหกโมงครึ่ง"
+        "六点半下班": "เลิกงานหกโมงครึ่ง",
+        "六点半下班。": "เลิกงานหกโมงครึ่ง"
       },
       "translationTh": "ฉันเลิกงานตอนหกโมงครึ่งตอนเย็น",
       "translationEn": "I finish work at 6:30 in the evening.",

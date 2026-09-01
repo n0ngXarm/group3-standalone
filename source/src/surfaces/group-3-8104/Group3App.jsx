@@ -50,6 +50,7 @@ const LESSON_ROUTE_NAMES = new Set(["reader", "vocabulary"]);
 function PracticeSummaryPage({ language, level, navigate }) {
   const results = getPracticeResults(level);
   const data = createPracticeSummary({
+    learnerName: getLearnerSession(),
     hskLevel: level,
     repeatResult: results["repeat-sentence"] || [],
     imageResult: results["image-description"] || [],

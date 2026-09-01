@@ -15,7 +15,6 @@ import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErro
 import { savePracticeResult } from "../sessionStore.js";
 import { getSpeechCoachingAdvice } from "../evaluation/speechFeedback.js";
 import { analyzePronunciationDetail } from "../evaluation/pronunciationAnalyzer.js";
-import { SpeechFeedbackAlert } from "../shared/SpeechFeedbackAlert.jsx";
 import { PronunciationDetailCard } from "./PronunciationDetailCard.jsx";
 import { getRepeatPresentation, resolveRepeatVisualAsset } from "./repeatPresentation.js";
 import { Group3DetailModal } from "../../../shared/components/index.js";
@@ -341,7 +340,6 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
 
   return (
     <PracticeExerciseShell exerciseType="repeat-sentence" level={level} navigate={navigate} progress={{ current: liveSession.currentIndex + 1, total: definitions.length }} status={status} text={text} title={title}>
-      {coachingAdvice && <SpeechFeedbackAlert advice={coachingAdvice} language={language} />}
       <article className={`g3-repeat-panel is-${presentation.layout} ${visualSrc ? "has-visual" : "is-text-only"}`} data-phase={liveSession.phase}>
         {visualSrc && (
           <figure className="g3-repeat-visual">
@@ -356,15 +354,17 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
           </figure>
         )}
         <div className="g3-repeat-prompt">
-          <span>{text.practiceInstructions}</span>
-          <h2 lang="zh-CN">{current.hanzi}</h2>
-          <p className="g3-practice-pinyin">{current.pinyin}</p>
-          <p>{current.translations?.th || current.translations?.thAid || ""}</p>
+          <span className="g3-prompt-label">{text.practiceInstructions || "วิธีฝึก"}</span>
+          <div className="g3-prompt-content">
+            <h2 lang="zh-CN">{current.hanzi}</h2>
+            <p className="g3-practice-pinyin">{current.pinyin}</p>
+            <p className="g3-prompt-meaning">{current.translations?.th || current.translations?.thAid || ""}</p>
+          </div>
         </div>
 
         <div className="g3-repeat-interaction">
           {presentation.showPrepareControls && <div className="g3-repeat-prepare-copy">
-            <h3 className="g3-practice-step-title">{text.practiceInstructions || "ขั้นตอนการฝึก"}</h3>
+            <h3 className="g3-practice-step-title">{text.practiceInstructions || "วิธีฝึก"}</h3>
             <ol className="g3-practice-step-list">
               <li>{text.listenExample || "ฟังประโยคตัวอย่าง"}</li>
               <li>{text.startSpeaking ? `เมื่อพร้อม กด${text.startSpeaking}` : "เมื่อพร้อม กดเริ่มพูด"}</li>
@@ -372,7 +372,6 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
             </ol>
             <div className="g3-practice-prepare-actions">
               <button className="is-secondary" type="button" onClick={() => playPrompt(false)}>▶ {text.listenExample}</button>
-              <span className="g3-prepare-time">⏱ 10 {text.secondsShort}</span>
               <button className="g3-practice-primary" type="button" onClick={() => playPrompt(true)}>● {text.startSpeaking}</button>
             </div>
           </div>}
@@ -407,7 +406,7 @@ export function RepeatSentenceExercise({ language, level, navigate }) {
           </>}
 
           {presentation.showFeedback && <div className="g3-repeat-feedback">
-            <h3>{currentResult?.status === "correct" ? text.correctStatus : currentResult?.status === "close" ? text.closeStatus : currentResult?.status === "self-review" ? text.selfReviewResult : text.retryStatus}</h3>
+            <h3>{currentResult?.status === "correct" ? text.correctStatus : currentResult?.status === "close" ? text.closeStatus : currentResult?.status === "self-review" ? text.selfReviewResult : (!lastTranscript?.trim() ? (text.noSpeechDetected || "ยังไม่ได้ยินเสียงพูด") : text.retryStatus)}</h3>
             {Number.isFinite(currentResult?.score) ? <>
               <dl><div><dt>{text.contentAccuracy}</dt><dd>{percent(currentResult.metrics?.transcriptAccuracy)}</dd></div><div><dt>{text.completionMetric}</dt><dd>{percent(currentResult.metrics?.completion)}</dd></div></dl>
               <div className="g3-repeat-feedback-detail">

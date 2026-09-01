@@ -11,7 +11,6 @@ import { PracticeExerciseShell } from "../shared/PracticeExerciseShell.jsx";
 import { savePracticeResult } from "../sessionStore.js";
 import { isAutomaticEvaluationUnavailable, localizedValue, percent, practiceErrorCopyKey } from "../shared/practiceUi.js";
 import { getSpeechCoachingAdvice } from "../evaluation/speechFeedback.js";
-import { SpeechFeedbackAlert } from "../shared/SpeechFeedbackAlert.jsx";
 import { Group3DetailModal } from "../../../shared/components/index.js";
 import { ImageDescriptionPresentation } from "./ImageDescriptionPresentation.jsx";
 import {
@@ -335,7 +334,6 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
   const translation = current.question.translations?.th || localizedValue(current.question.translations, "th");
   return (
     <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
-      {coachingAdvice && <SpeechFeedbackAlert advice={coachingAdvice} language={language} />}
       <article className={`g3-free-speaking-panel is-${exerciseType}`} data-phase={phase}>
         <div className="g3-free-speaking-content">
           <div className="g3-free-speaking-prompt">
@@ -358,7 +356,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
             <h3>{text.preliminaryResult}</h3>
             {result?.status === "self-review" ? <><p>{text.automaticEvaluationUnavailable}</p><p>{text.selfReviewResult}</p></> : <>
               <dl>
-                <div><dt>{text.baselineScore}</dt><dd>{result?.baselineScore} / 100</dd></div>
+                <div><dt>{text.baselineScore}</dt><dd>{typeof result?.baselineScore === "number" ? Math.round(((result.baselineScore / 100) * 5) * 10) / 10 : 0} / 5</dd></div>
                 <div><dt>{text.keywordCoverage}</dt><dd>{percent(result?.metrics.keywordCoverage)}</dd></div>
               </dl>
               <div className="g3-repeat-feedback-detail" style={{ marginTop: '1rem' }}>

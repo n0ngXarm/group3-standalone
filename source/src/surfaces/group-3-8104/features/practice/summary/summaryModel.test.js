@@ -54,7 +54,11 @@ console.assert(t4.metrics.accuracy === null, "T8 failed: unavailable accuracy sh
 
 // Test 10: overall partial result calculation
 const t10 = createLearningSummary({ repeatResult: [{ score: 100 }], imageResult: [{ baselineScore: 50 }], questionResult: [] });
-console.assert(t10.overall.score === 75, "T10 failed: overall score should aggregate properly as 75");
+console.assert(t10.overall.score === 4.5, `T10 failed: overall score should aggregate as 4.5, got ${t10.overall.score}`);
+console.assert(t10.overall.maxScore === 40, "T10 failed: overall maxScore should be 40");
+console.assert(t10.exercises.repeatSentence.maxScore === 20, "T10 failed: repeatSentence maxScore should be 20");
+console.assert(t10.exercises.imageDescription.maxScore === 10, "T10 failed: imageDescription maxScore should be 10");
+console.assert(t10.exercises.questionResponse.maxScore === 10, "T10 failed: questionResponse maxScore should be 10");
 
 // Test 11 & 12: strengths logic / improvement logic
 const t11 = createLearningSummary({ repeatResult: [{ score: 100, metrics: { completion: 100, transcriptAccuracy: 100 } }] });

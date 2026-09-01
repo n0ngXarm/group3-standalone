@@ -30,13 +30,34 @@ test("question practice derives two dialogue questions with pinyin and answer co
     assert.equal(prompts.length, 2);
     for (const prompt of prompts) {
       assert.equal(prompt.type, "question-response");
+      assert.match(prompt.image, /\/assets\/group3\/lessons\//, `${level} question needs its canonical scene image`);
+      assert.match(prompt.imageSrcSet, /720w.+1400w/, `${level} question needs responsive scene sources`);
+      assert.ok(prompt.imageAlt?.th?.trim(), `${level} question scene image needs Thai alt text`);
       assert.match(prompt.question.hanzi, /[？?]/);
       assert.ok(prompt.question.pinyin);
       assert.doesNotMatch(prompt.question.pinyin, /\p{Script=Han}/u);
       assert.ok(prompt.question.translations.th.trim(), `${level} question should include Thai learning support`);
       assert.doesNotMatch(prompt.question.translations.th, /\p{Script=Han}/u);
       assert.ok(prompt.question.translations.en);
-      assert.ok(prompt.expectedConcepts.length > 0);
+      assert.equal(prompt.expectedConcepts.length, 1, `${level} main question should grade only its accepted intent`);
+      assert.ok(Array.isArray(prompt.sampleAnswers), `${level} needs sample answers`);
+      assert.ok(prompt.sampleAnswers.length > 0);
+      assert.ok(Array.isArray(prompt.followUps), `${level} needs follow-ups`);
+      assert.equal(prompt.followUps.length, 1);
+      assert.ok(prompt.followUps[0].expectedConcepts.length > 0);
+      assert.ok(prompt.followUps[0].sampleAnswers.length > 0);
+      for (const utterance of [prompt.question, ...prompt.sampleAnswers, prompt.followUps[0].question, ...prompt.followUps[0].sampleAnswers]) {
+        assert.ok(utterance.hanzi.trim(), `${level} learner utterance needs Hanzi`);
+        assert.ok(utterance.pinyin.trim(), `${level} learner utterance needs Pinyin`);
+        assert.ok(utterance.translations.th.trim(), `${level} learner utterance needs Thai`);
+      }
+      assert.ok(Array.isArray(prompt.vocabulary), `${level} needs conversation vocabulary`);
+      assert.ok(prompt.vocabulary.length >= 3 && prompt.vocabulary.length <= 5);
+      for (const word of prompt.vocabulary) {
+        assert.ok(word.hanzi.trim(), `${level} vocabulary needs Hanzi`);
+        assert.ok(word.pinyin.trim(), `${level} vocabulary needs Pinyin`);
+        assert.ok(word.translations.th.trim(), `${level} vocabulary needs Thai`);
+      }
       assert.match(prompt.sourceRef.lessonId, new RegExp(`^${level}-`));
     }
   }

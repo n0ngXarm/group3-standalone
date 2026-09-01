@@ -648,28 +648,32 @@
 }
 
 .g3-line-copy > strong {
-  font-family: "Noto Serif SC", serif;
+  font-family: var(--font-hanzi);
   font-size: clamp(1.45rem, 2.6vw, 1.85rem);
   font-weight: 800;
-  line-height: 1.4;
-  letter-spacing: 0.02em;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
   color: var(--g3-ink);
 }
 
 .g3-line-copy > em {
   margin-top: 0.25rem;
   color: var(--g3-jade);
-  font-size: clamp(0.92rem, 1.3vw, 1.08rem);
+  font-family: var(--font-pinyin);
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.01em;
+  line-height: 1.4;
 }
 
 .g3-line-copy > p {
   margin-top: 0.4rem;
   color: var(--g3-muted);
-  font-size: 0.95rem;
-  line-height: 1.55;
+  font-family: var(--font-thai);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  word-break: break-word;
 }
 
 .g3-reader-controls {

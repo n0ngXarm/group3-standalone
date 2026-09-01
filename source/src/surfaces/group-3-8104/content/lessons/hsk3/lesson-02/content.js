@@ -1541,7 +1541,9 @@ export const LESSON_HSK3_L2 = {
       ],
       "gloss": {
         "太谢谢你了": "ขอบคุณมากเลย",
-        "问题解决了": "ปัญหาแก้ได้แล้ว"
+        "太谢谢你了，": "ขอบคุณมากเลย",
+        "问题解决了": "ปัญหาแก้ได้แล้ว",
+        "问题解决了！": "ปัญหาแก้ได้แล้ว"
       },
       "translationTh": "ขอบคุณคุณมากๆ เลย ปัญหาได้รับการแก้ไขแล้วค่ะ!",
       "translationEn": "Thank you so much, the problem is solved!",
@@ -1699,7 +1701,8 @@ export const LESSON_HSK3_L2 = {
       ],
       "gloss": {
         "我学会了": "ฉันทำเป็นแล้ว",
-        "包饺子": "ห่อเกี๊ยว"
+        "包饺子": "ห่อเกี๊ยว",
+        "包饺子！": "ห่อเกี๊ยว"
       },
       "translationTh": "ฉันห่อเกี๊ยวเป็นแล้ว!",
       "translationEn": "I learned how to make dumplings!",

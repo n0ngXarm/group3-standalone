@@ -29,28 +29,46 @@ export function buildImageDescriptionFeedback(result) {
     return {
       improvement: { key: "selfReview" },
       metrics: [],
-      positive: { key: "recordingComplete", count: 0 },
+      positive: null,
       score: null,
       scored: false,
     };
   }
 
   const mentionedCount = Array.isArray(result.mentionedConceptIds) ? result.mentionedConceptIds.length : 0;
+  const charCount = Number(result.metrics?.chineseCharacterCount) || 0;
+  const speechDetected = Boolean(result.metrics?.speechDetected) && charCount > 0;
   const recommendedTerms = Array.isArray(result.recommendedTerms) ? result.recommendedTerms : [];
+
+  let positive = null;
+  if (mentionedCount > 0) {
+    positive = { key: "conceptCoverage", count: mentionedCount };
+  } else if (speechDetected) {
+    positive = { key: "recordingComplete", count: charCount };
+  } else {
+    positive = null;
+  }
+
+  let improvement = null;
+  if (!speechDetected) {
+    improvement = { key: "noSpeechTip" };
+  } else if (recommendedTerms.length) {
+    improvement = { key: "recommendedTerms", terms: recommendedTerms.slice(0, 3) };
+  } else {
+    improvement = { key: "expandDescription" };
+  }
+
   return {
-    improvement: recommendedTerms.length
-      ? { key: "recommendedTerms", terms: recommendedTerms.slice(0, 3) }
-      : { key: "expandDescription" },
+    improvement,
     metrics: [
       { key: "keywordCoverage", value: Number(result.metrics?.keywordCoverage) || 0 },
-      { key: "speechContentAmount", value: Number(result.metrics?.chineseCharacterCount) || 0 },
+      { key: "speechContentAmount", value: charCount },
       { key: "responseDuration", value: Number(result.metrics?.responseDurationSeconds) || 0 },
     ],
-    positive: mentionedCount
-      ? { key: "conceptCoverage", count: mentionedCount }
-      : { key: "recordingComplete", count: 0 },
+    positive,
     score: Number.isFinite(Number(result.baselineScore)) ? Number(result.baselineScore) : 0,
     scored: true,
+    speechDetected,
     source: result,
   };
 }

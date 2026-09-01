@@ -250,8 +250,8 @@
 
 .g3-place-pinyin {
   color: var(--g3-muted);
-  font-family: var(--font-reading);
-  font-weight: 650;
+  font-family: var(--font-pinyin);
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -259,9 +259,10 @@
 .g3-catalog .g3-catalog-feature-copy h2 {
   margin-top: 0.4rem;
   padding-block: 0.08em;
-  font-family: var(--font-display);
+  font-family: var(--font-hanzi);
   font-size: clamp(1.75rem, min(2.75vw, 5vh), 3.2rem);
-  line-height: 1.22;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
   overflow-wrap: normal;
   text-wrap: balance;
   word-break: normal;
@@ -271,7 +272,10 @@
   display: block;
   margin-top: 0.2rem;
   color: var(--g3-muted);
-  font-size: clamp(0.82rem, 1.1vw, 1rem);
+  font-family: var(--font-thai);
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  line-height: 1.55;
+  word-break: break-word;
 }
 
 .g3-catalog-feature-copy blockquote {

@@ -3,14 +3,10 @@ import { createPortal } from "react-dom";
 
 import Icon from "../../../../../shared/components/ui/Icon.jsx";
 import {
-  languageIcon,
-  stopwatchIcon,
   volumeHighIcon,
-  waveSquareIcon,
 } from "../../../../../shared/components/ui/iconPaths.js";
 import { QteChallenge, SentenceChallenge } from "../challenges/index.js";
 import "./ReaderLayout.css";
-import { StoryPlaybackDock } from "./StoryPlaybackDock.jsx";
 import { GROUP3_PLAYBACK_CONFIG } from "../../../config.js";
 import { COPY } from "../../../content/copy.js";
 import {
@@ -20,190 +16,90 @@ import {
   stopChineseVoice,
   unlockChineseAudio,
 } from "../../../services/audio/index.js";
-import { levelsPath, levelPath, lessonScenePath } from "../../../routing/routes.js";
+import { levelPath, lessonScenePath } from "../../../routing/routes.js";
 
 const SOUND_FAILURE_STATES = new Set(["blocked", "timeout", "unavailable"]);
-const RolePicker = lazy(() => import("../challenges/Roleplay.jsx").then((module) => ({
-  default: module.RolePicker,
-})));
 const RoleplayView = lazy(() => import("../challenges/Roleplay.jsx").then((module) => ({
   default: module.RoleplayView,
 })));
 
 function sceneTitle(scene, language) {
-  return { th: scene.titleTh, zh: scene.title, en: scene.titleEn || scene.title }[language];
-}
-
-function sceneSupportingTitle(scene, language) {
-  return { th: scene.title, zh: scene.titleTh, en: scene.title }[language];
+  return { th: scene.titleTh, zh: scene.title, en: scene.titleEn || scene.title }[language] || scene.titleTh || scene.title;
 }
 
 function sceneContext(scene, language) {
-  return { th: scene.contextTh, zh: scene.context, en: scene.contextEn || scene.context }[language];
-}
-
-function sceneSupportingContext(scene, language) {
-  return { th: scene.context, zh: scene.contextTh, en: scene.context }[language];
+  return { th: scene.contextTh, zh: scene.context, en: scene.contextEn || scene.context }[language] || scene.contextTh || scene.context;
 }
 
 function profileName(profile, language) {
-  return { th: profile.nameTh, zh: profile.hanzi, en: profile.nameEn || profile.pinyin }[language];
-}
-
-function localizedPrompt(prompt, language, text) {
-  return { th: prompt.th, zh: prompt.zh, en: prompt.en || text.educationalUnavailable }[language];
-}
-
-function supportingProfileName(profile, language) {
-  return {
-    th: `${profile.hanzi} · ${profile.pinyin}`,
-    zh: profile.pinyin,
-    en: profile.hanzi,
-  }[language];
+  return { th: profile.nameTh, zh: profile.hanzi, en: profile.nameEn || profile.pinyin }[language] || profile.nameTh || profile.hanzi;
 }
 
 export function ReadingTheatre({ initialScene, language, lesson, navigate, lowData = false }) {
-  const text = COPY[language];
-  const scenes = lesson.scenes;
-  const lessonCharacterProfiles = lesson.characters;
-  const lineRefs = useRef([]);
-  const manualPlaybackSequenceRef = useRef(0);
+  const text = COPY[language] || COPY.th;
+  const scenes = lesson.scenes || [];
+  const lessonCharacterProfiles = lesson.characters || {};
+
   const [sceneIndex, setSceneIndex] = useState(initialScene);
-  const [lineIndex, setLineIndex] = useState(-1);
+  const [lineIndex, setLineIndex] = useState(0);
   const [resolved, setResolved] = useState([]);
   const [challenge, setChallenge] = useState(null);
   const [completed, setCompleted] = useState(false);
   const [timed, setTimed] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
   const [playbackMode, setPlaybackMode] = useState("manual");
-  const [playbackStatus, setPlaybackStatus] = useState("briefing");
+  const [playbackStatus, setPlaybackStatus] = useState("paused");
   const [playbackRevision, setPlaybackRevision] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(GROUP3_PLAYBACK_CONFIG.defaultSpeed);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [soundBlocked, setSoundBlocked] = useState(false);
-  const [detailsOpen, setDetailsOpen] = useState(false);
-  const [manualPlaybackIntent, setManualPlaybackIntent] = useState(null);
-  const [rolePickerOpen, setRolePickerOpen] = useState(false);
+  const [replayRevision, setReplayRevision] = useState(0);
   const [roleplayRole, setRoleplayRole] = useState(null);
-  const scene = scenes[sceneIndex];
+
+  const scene = scenes[sceneIndex] || scenes[0];
   const characterProfiles = useMemo(() => {
     const profiles = { ...lessonCharacterProfiles };
-    scene.characters.forEach((character) => {
-      const profile = profiles[character.profile];
-      if (profile && character.image) {
-        profiles[character.profile] = {
-          ...profile,
-          image: character.image,
-          imageSrcSet: character.imageSrcSet,
-        };
-      }
-    });
+    if (scene?.characters) {
+      scene.characters.forEach((character) => {
+        const profile = profiles[character.profile];
+        if (profile && character.image) {
+          profiles[character.profile] = {
+            ...profile,
+            image: character.image,
+            imageSrcSet: character.imageSrcSet,
+          };
+        }
+      });
+    }
     return profiles;
   }, [lessonCharacterProfiles, scene]);
-  const visibleLines = lineIndex < 0 ? [] : scene.lines.slice(0, lineIndex + 1);
-  const currentLine = lineIndex >= 0 ? scene.lines[lineIndex] : null;
+
+  const currentLine = (scene?.lines && lineIndex >= 0 && lineIndex < scene.lines.length)
+    ? scene.lines[lineIndex]
+    : scene?.lines?.[0] || null;
+
   const currentCharacter = currentLine
-    ? scene.characters.find((item) => item.role === currentLine.role)
+    ? scene.characters?.find((item) => item.role === currentLine.role)
     : null;
   const currentVoiceProfile = currentCharacter?.profile || "wang";
   const currentProfile = currentCharacter ? characterProfiles[currentCharacter.profile] : null;
-  const firstLineRole = scene?.lines?.[0]?.role || "A";
-  const leftRole = roleplayRole || firstLineRole;
-  const sortedCharacters = useMemo(() => {
-    if (!scene?.characters) return [];
-    const left = scene.characters.find((c) => c.role === leftRole);
-    const others = scene.characters.filter((c) => c.role !== leftRole);
-    return left ? [left, ...others] : scene.characters;
-  }, [scene?.characters, leftRole]);
-
-  const cancelAutoScroll = useCallback(() => {
-    window.scrollTo({ behavior: "auto", left: window.scrollX, top: window.scrollY });
-  }, []);
-
-  const scrollToLine = useCallback((index) => {
-    const target = lineRefs.current[index];
-    if (!target) return;
-    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    target.scrollIntoView({
-      behavior: reducedMotion ? "auto" : "smooth",
-      block: "center",
-      inline: "nearest",
-    });
-  }, []);
 
   const pendingChallengeType = useCallback((index) => {
-    if (index < 0) return null;
-    if (index === scene.qte.after && !resolved.includes("qte")) return "qte";
-    if (index === scene.lines.length - 1 && !resolved.includes("builder")) return "builder";
+    if (!scene || index < 0) return null;
+    if (scene.qte && index === scene.qte.after && !resolved.includes("qte")) return "qte";
+    if (scene.builder && index === scene.lines.length - 1 && !resolved.includes("builder")) return "builder";
     return null;
   }, [resolved, scene]);
 
   const openChallenge = useCallback((type, resumeAutoplay) => {
     stopChineseVoice();
-    cancelAutoScroll();
-    setManualPlaybackIntent(null);
     setChallenge({
       data: type === "qte" ? scene.qte : scene.builder,
       resumeAutoplay,
       type,
     });
     setPlaybackStatus(type === "qte" ? "challenge" : "builder");
-  }, [cancelAutoScroll, scene]);
-
-  const playbackMarkers = useMemo(() => [
-    {
-      id: `${scene.id}-qte`,
-      label: text.qte,
-      progress: ((scene.qte.after + 1) / scene.lines.length) * 100,
-    },
-    {
-      id: `${scene.id}-builder`,
-      label: text.builder,
-      progress: 100,
-    },
-  ], [scene, text.builder, text.qte]);
-
-  const currentSpeaker = useMemo(() => {
-    if (!currentProfile) return null;
-    return {
-      image: lowData ? "" : currentProfile.image,
-      imageFocus: currentProfile.imageFocus,
-      imageSrcSet: lowData ? "" : currentProfile.imageSrcSet,
-      name: profileName(currentProfile, language),
-      supportingName: supportingProfileName(currentProfile, language),
-    };
-  }, [currentProfile, language, lowData]);
-
-  const upcomingCue = useMemo(() => {
-    if (!currentLine) return "";
-    if (lineIndex === scene.qte.after && !resolved.includes("qte")) {
-      return localizedPrompt(scene.qte.prompt, language, text);
-    }
-    if (lineIndex < scene.lines.length - 1) return scene.lines[lineIndex + 1].hanzi;
-    if (!resolved.includes("builder")) return localizedPrompt(scene.builder.prompt, language, text);
-    return "";
-  }, [currentLine, language, lineIndex, resolved, scene, text]);
-
-  const queueManualPlayback = useCallback((index, profileId) => {
-    const line = scene.lines[index];
-    if (!line) return;
-    unlockChineseAudio();
-    manualPlaybackSequenceRef.current += 1;
-    setLineIndex(index);
-    setPlaybackMode("manual");
-    setPlaybackStatus("paused");
-    setSoundEnabled(true);
-    setSoundBlocked(false);
-    setManualPlaybackIntent({
-      audioSrc: dialogueVoicePath(lesson, sceneIndex, index),
-      hanzi: line.hanzi,
-      lineIndex: index,
-      profileId,
-      rate: playbackSpeed,
-      revision: manualPlaybackSequenceRef.current,
-      sceneId: scene.id,
-    });
-  }, [lesson, playbackSpeed, scene, sceneIndex]);
+  }, [scene]);
 
   useEffect(() => {
     setSceneIndex(initialScene);
@@ -211,31 +107,22 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
 
   useEffect(() => {
     stopChineseVoice();
-    cancelAutoScroll();
-    lineRefs.current = [];
-    setLineIndex(-1);
+    setLineIndex(0);
     setResolved([]);
     setChallenge(null);
     setCompleted(false);
     setPlaybackMode("manual");
-    setPlaybackStatus("briefing");
+    setPlaybackStatus("paused");
     setSoundBlocked(false);
-    setDetailsOpen(false);
+    setReplayRevision((v) => v + 1);
     window.scrollTo({ top: 0, behavior: "auto" });
-    document.querySelector(".g3-reading-stage")?.scrollTo({ top: 0, behavior: "auto" });
-  }, [cancelAutoScroll, sceneIndex]);
+  }, [sceneIndex]);
 
+  // Audio Playback & Sequential listening loop
   useEffect(() => {
-    if (lineIndex < 0 || completed) return undefined;
-    const frame = window.requestAnimationFrame(() => scrollToLine(lineIndex));
-    return () => {
-      window.cancelAnimationFrame(frame);
-      cancelAutoScroll();
-    };
-  }, [cancelAutoScroll, completed, lineIndex, scene.id, scrollToLine]);
-
-  useEffect(() => {
-    if (playbackStatus !== "playing" || lineIndex < 0 || challenge || completed) return undefined;
+    if (lineIndex < 0 || challenge || completed || !currentLine) {
+      return undefined;
+    }
 
     let cancelled = false;
     let cancelDelay = () => {};
@@ -262,33 +149,41 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
           profileId: currentVoiceProfile,
           rate: playbackSpeed,
         });
+        setPlaybackStatus("playing");
         audioResult = await playback.completion;
         if (cancelled || audioResult.status === "cancelled") return;
-        if (SOUND_FAILURE_STATES.has(audioResult.status)) setSoundBlocked(true);
+        if (SOUND_FAILURE_STATES.has(audioResult.status)) {
+          if (audioResult.status === "blocked") {
+            setSoundBlocked(true);
+          }
+          setPlaybackStatus("paused");
+          return;
+        }
       }
 
-      if (SOUND_FAILURE_STATES.has(audioResult.status) || audioResult.status === "muted") {
-        const stayed = await wait(GROUP3_PLAYBACK_CONFIG.silentLineMs / playbackSpeed);
+      if (playbackMode === "autoplay") {
+        if (SOUND_FAILURE_STATES.has(audioResult.status) || audioResult.status === "muted") {
+          const stayed = await wait(GROUP3_PLAYBACK_CONFIG.silentLineMs / playbackSpeed);
+          if (!stayed || cancelled) return;
+        }
+
+        const stayed = await wait(GROUP3_PLAYBACK_CONFIG.lineGapMs);
         if (!stayed || cancelled) return;
-      }
 
-      const stayed = await wait(GROUP3_PLAYBACK_CONFIG.lineGapMs);
-      if (!stayed || cancelled) return;
-      const nextChallenge = pendingChallengeType(lineIndex);
-      if (nextChallenge) {
-        const QTE_POST_SPEECH_DELAY_MS = 4000;
-        const stayedQte = await wait(QTE_POST_SPEECH_DELAY_MS);
-        if (!stayedQte || cancelled) return;
-        
-        // Guard against duplicate async completion
-        // If the playback status changed or challenge is already open, bail out
-        if (cancelled) return; 
-        openChallenge(nextChallenge, true);
-      } else if (lineIndex < scene.lines.length - 1) {
-        setLineIndex((value) => value + 1);
+        const nextChallenge = pendingChallengeType(lineIndex);
+        if (nextChallenge) {
+          const QTE_POST_SPEECH_DELAY_MS = 2000;
+          const stayedQte = await wait(QTE_POST_SPEECH_DELAY_MS);
+          if (!stayedQte || cancelled) return;
+          openChallenge(nextChallenge, true);
+        } else if (lineIndex < scene.lines.length - 1) {
+          setLineIndex((value) => value + 1);
+        } else {
+          setCompleted(true);
+          setPlaybackStatus("complete");
+        }
       } else {
-        setCompleted(true);
-        setPlaybackStatus("complete");
+        setPlaybackStatus("paused");
       }
     };
 
@@ -301,100 +196,38 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
   }, [
     challenge,
     completed,
-    currentLine,
+    currentLine?.hanzi,
     currentVoiceProfile,
     lineIndex,
     lesson,
     openChallenge,
     pendingChallengeType,
+    playbackMode,
     playbackRevision,
     playbackSpeed,
-    playbackStatus,
-    scene.id,
+    replayRevision,
+    scene?.id,
+    scene?.lines?.length,
     sceneIndex,
-    scene.lines.length,
+    soundBlocked,
     soundEnabled,
   ]);
-
-  useEffect(() => {
-    const intent = manualPlaybackIntent;
-    if (!intent || intent.sceneId !== scene.id) return undefined;
-    let cancelled = false;
-    scrollToLine(intent.lineIndex);
-    const playback = speakChinese(intent.hanzi, {
-      audioSrc: intent.audioSrc,
-      maxDurationMs: GROUP3_PLAYBACK_CONFIG.audioTimeoutMs,
-      profileId: intent.profileId,
-      rate: intent.rate,
-    });
-    playback.completion.then((result) => {
-      if (!cancelled && SOUND_FAILURE_STATES.has(result.status)) setSoundBlocked(true);
-    });
-    return () => {
-      cancelled = true;
-      playback.cancel();
-    };
-  }, [manualPlaybackIntent, scene.id, scrollToLine]);
-
-  useEffect(() => {
-    if (playbackMode !== "manual" || playbackStatus !== "paused" || challenge || completed) return undefined;
-    const nextChallenge = pendingChallengeType(lineIndex);
-    if (!nextChallenge) return undefined;
-    const timer = window.setTimeout(
-      () => openChallenge(nextChallenge, false),
-      GROUP3_PLAYBACK_CONFIG.challengeDelayMs,
-    );
-    return () => window.clearTimeout(timer);
-  }, [challenge, completed, lineIndex, openChallenge, pendingChallengeType, playbackMode, playbackStatus]);
 
   useEffect(() => {
     const pauseWhenHidden = () => {
       if (!document.hidden) return;
       stopChineseVoice();
-      cancelAutoScroll();
       setPlaybackStatus((status) => status === "playing" ? "paused" : status);
     };
     document.addEventListener("visibilitychange", pauseWhenHidden);
     return () => document.removeEventListener("visibilitychange", pauseWhenHidden);
-  }, [cancelAutoScroll]);
+  }, []);
 
   useEffect(() => () => {
     stopChineseVoice();
-    cancelAutoScroll();
-  }, [cancelAutoScroll]);
+  }, []);
 
-  const beginReading = (mode) => {
-    unlockChineseAudio();
-    setManualPlaybackIntent(null);
-    if (mode === "autoplay") {
-      startRoleplay(scene?.learnerRole || scene?.playerRole || (scene?.characters?.find(c => c.role !== (scene?.lines?.[0]?.role || "A"))?.role) || "B");
-      return;
-    }
-    setPlaybackMode(mode);
-    setPlaybackStatus(mode === "autoplay" ? "playing" : "paused");
-    setSoundBlocked(false);
-    setLineIndex(0);
-  };
-
-  const startRoleplay = (role) => {
-    unlockChineseAudio();
-    setRolePickerOpen(false);
-    setRoleplayRole(role);
-    setManualPlaybackIntent(null);
-    setPlaybackMode("autoplay");
-    setPlaybackStatus("playing");
-    setSoundBlocked(false);
-    setLineIndex(0);
-  };
-
-  const exitRoleplay = () => {
-    stopChineseVoice();
-    cancelAutoScroll();
-    setRoleplayRole(null);
-    setPlaybackStatus((status) => (status === "playing" ? "paused" : status));
-  };
-
-  const resolveChallenge = () => {
+  const resolveChallenge = useCallback(() => {
     if (!challenge) return;
     const { resumeAutoplay, type } = challenge;
     setResolved((current) => current.includes(type) ? current : [...current, type]);
@@ -415,21 +248,17 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
 
     setChallenge({ data: scene.builder, resumeAutoplay, type: "builder" });
     setPlaybackStatus("builder");
-  };
+  }, [challenge, lineIndex, scene]);
 
-  const previousLine = () => {
+  const previousLine = useCallback(() => {
     stopChineseVoice();
-    cancelAutoScroll();
-    setManualPlaybackIntent(null);
     setPlaybackMode("manual");
     setPlaybackStatus("paused");
     setLineIndex((value) => Math.max(0, value - 1));
-  };
+  }, []);
 
-  const nextLine = () => {
+  const nextLine = useCallback(() => {
     stopChineseVoice();
-    cancelAutoScroll();
-    setManualPlaybackIntent(null);
     const nextChallenge = pendingChallengeType(lineIndex);
     if (nextChallenge) {
       openChallenge(nextChallenge, false);
@@ -437,278 +266,300 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
     }
     setPlaybackMode("manual");
     setPlaybackStatus("paused");
-    if (lineIndex < scene.lines.length - 1) setLineIndex((value) => value + 1);
-    else {
+    if (lineIndex < scene.lines.length - 1) {
+      setLineIndex((value) => value + 1);
+    } else {
       setCompleted(true);
       setPlaybackStatus("complete");
     }
-  };
+  }, [lineIndex, openChallenge, pendingChallengeType, scene.lines.length]);
 
-  const replayCurrentLine = () => {
+  const replayCurrentLine = useCallback(() => {
     if (!currentLine) return;
     unlockChineseAudio();
-    queueManualPlayback(lineIndex, currentVoiceProfile);
-  };
+    setSoundBlocked(false);
+    setSoundEnabled(true);
+    setReplayRevision((value) => value + 1);
+  }, [currentLine]);
 
-  const togglePlayback = () => {
-    if (soundBlocked) {
-      setSoundBlocked(false);
-      setSoundEnabled(true);
-      setManualPlaybackIntent(null);
+  const unblockAndPlayAudio = useCallback(() => {
+    unlockChineseAudio();
+    setSoundBlocked(false);
+    setSoundEnabled(true);
+    setReplayRevision((value) => value + 1);
+  }, []);
+
+  const toggleAutoplayListening = useCallback(() => {
+    if (playbackStatus === "playing" && playbackMode === "autoplay") {
+      stopChineseVoice();
+      setPlaybackMode("manual");
+      setPlaybackStatus("paused");
+    } else {
+      unlockChineseAudio();
       setPlaybackMode("autoplay");
       setPlaybackStatus("playing");
       setPlaybackRevision((value) => value + 1);
-      return;
     }
-    if (playbackStatus === "playing") {
+  }, [playbackMode, playbackStatus]);
+
+  const setManualReadingMode = useCallback(() => {
+    if (playbackMode === "autoplay") {
       stopChineseVoice();
-      cancelAutoScroll();
+      setPlaybackMode("manual");
       setPlaybackStatus("paused");
-      return;
     }
-    unlockChineseAudio();
-    setPlaybackMode("autoplay");
-    setPlaybackStatus("playing");
-    setPlaybackRevision((value) => value + 1);
-  };
+  }, [playbackMode]);
 
-  const toggleSound = () => {
+  const selectScene = useCallback((nextIndex) => {
     stopChineseVoice();
-    if (soundBlocked || !soundEnabled) {
-      unlockChineseAudio();
-      setSoundBlocked(false);
-      setSoundEnabled(true);
-      if (playbackStatus === "playing") setPlaybackRevision((value) => value + 1);
-      else queueManualPlayback(lineIndex, currentVoiceProfile);
-      return;
-    }
-    setSoundEnabled(false);
-    if (playbackStatus === "playing") setPlaybackRevision((value) => value + 1);
-  };
-
-  const selectScene = (nextIndex) => {
-    stopChineseVoice();
-    cancelAutoScroll();
     setRoleplayRole(null);
-    setRolePickerOpen(false);
     navigate(lessonScenePath(lesson, nextIndex + 1));
-  };
+  }, [lesson, navigate]);
 
-  const restartScene = () => {
+  const restartScene = useCallback(() => {
     stopChineseVoice();
-    cancelAutoScroll();
     setRoleplayRole(null);
-    setRolePickerOpen(false);
-    setLineIndex(-1);
+    setLineIndex(0);
     setResolved([]);
     setChallenge(null);
     setCompleted(false);
     setPlaybackMode("manual");
-    setPlaybackStatus("briefing");
+    setPlaybackStatus("paused");
     setSoundBlocked(false);
-    setManualPlaybackIntent(null);
-  };
-
-  const restartRoleplay = () => {
-    stopChineseVoice();
-    cancelAutoScroll();
-    setResolved([]);
-    setChallenge(null);
-    setManualPlaybackIntent(null);
-    setLineIndex(0);
-    setPlaybackMode("autoplay");
-    setPlaybackStatus("playing");
-    setPlaybackRevision((value) => value + 1);
-  };
+    setReplayRevision((value) => value + 1);
+  }, []);
 
   const roleplayActive = Boolean(roleplayRole) && !challenge && !completed && lineIndex >= 0;
-  const roleplayStatus = soundBlocked ? "blocked" : playbackStatus === "briefing" ? "paused" : playbackStatus;
+  const roleplayStatus = soundBlocked ? "blocked" : playbackStatus === "paused" ? "paused" : playbackStatus;
 
   return (
-    <main className={`g3-reader-layout g3-level-${lesson.level}${roleplayActive ? " is-roleplay" : ""}`} data-status={playbackStatus}>
-      <div className="g3-reader-layout-inner">
-        {/* LEFT: Sidebar Navigation */}
-        <nav className="g3-reader-sidebar" aria-label={text.catalogTitle}>
-          <h2>{language === "th" ? "สารบัญ" : language === "zh" ? "目录" : "Contents"}</h2>
-          <button className="g3-reader-back" type="button" onClick={() => navigate(levelPath(lesson.level))} aria-label={text.exitReader}>
-            <span aria-hidden="true">←</span> {language === "th" ? "กลับหน้าเลือกบท" : "Back to lessons"}
+    <main className={`g3-reader-layout g3-reader--${lesson.level}${roleplayActive ? " is-roleplay" : ""}`} data-status={playbackStatus}>
+      <div className="g3-reader-workspace">
+        {/* LEFT PANEL — SCENE NAVIGATION */}
+        <aside className="g3-reader-toc" aria-label="แถบนำทางบทเรียน">
+          <button
+            className="g3-reader-back-btn"
+            type="button"
+            onClick={() => navigate(levelPath(lesson.level))}
+            aria-label="กลับหน้าเลือกบท"
+          >
+            <span aria-hidden="true">←</span> {language === "th" ? "กลับหน้าเลือกบท" : language === "zh" ? "返回选课" : "Back to lessons"}
           </button>
-          
-          <ul className="g3-reader-nav-list">
+
+          <div className="g3-reader-toc-header">
+            <h3>{language === "th" ? "ฉากในบทเรียน" : language === "zh" ? "本课场景" : "Scenes in lesson"}</h3>
+          </div>
+
+          <ul className="g3-reader-scene-list">
             {scenes.map((item, index) => {
               const isActive = sceneIndex === index;
               return (
                 <li key={item.id}>
-                  <button 
-                    type="button" 
-                    className={`g3-reader-nav-item ${isActive ? 'is-active' : ''}`} 
+                  <button
+                    type="button"
+                    className={`g3-reader-scene-item ${isActive ? "is-active" : ""}`}
                     onClick={() => selectScene(index)}
-                    aria-current={isActive ? "page" : undefined}
+                    aria-current={isActive ? "step" : undefined}
                   >
-                    <span>{text.sceneLabel || "Scene"} {item.number}</span>
-                    <strong>{sceneTitle(item, language)}</strong>
+                    <span className="g3-reader-scene-dot" aria-hidden="true">{isActive ? "●" : "○"}</span>
+                    <div className="g3-reader-scene-meta">
+                      <span className="g3-reader-scene-num">{String(item.number || index + 1).padStart(2, "0")}</span>
+                      <strong className="g3-reader-scene-name">{sceneTitle(item, language)}</strong>
+                    </div>
                   </button>
                 </li>
               );
             })}
           </ul>
-        </nav>
+        </aside>
 
-        {/* CENTER: Hero Image */}
-        <section className="g3-reader-hero">
-          {!lowData && scene.image && (
-             <img src={scene.image} srcSet={scene.imageSrcSet} alt={scene.imageAlt?.[language] || ""} loading="lazy" decoding="async" />
-          )}
-          <div className="g3-reader-hero-overlay">
-             <span>{text.sceneLabel || "Scene"} {scene.number}</span>
-             <h2>{scene.title}</h2>
+        {/* CENTER — SCENE IMAGE */}
+        <section className="g3-reader-visual" aria-label="ภาพประกอบฉาก">
+          <div className="g3-reader-image-frame">
+            {!lowData && scene?.image && (
+              <img
+                src={scene.image}
+                srcSet={scene.imageSrcSet}
+                alt={scene.imageAlt?.[language] || ""}
+                className="g3-reader-hero-img"
+                loading="eager"
+                decoding="async"
+              />
+            )}
+            <div className="g3-reader-image-overlay">
+              <span className="g3-reader-image-badge">
+                {language === "th" ? `ฉาก ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}` : `Scene ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}`}
+              </span>
+              {scene?.title && <span className="g3-reader-image-hanzi">{scene.title}</span>}
+            </div>
           </div>
         </section>
 
-        {/* RIGHT: Content Area */}
-        <section className="g3-reader-content">
-          {playbackStatus === "briefing" ? (
-            <div className="g3-reader-intro">
-              <h1>{sceneTitle(scene, language)}</h1>
-              <h2>{sceneSupportingTitle(scene, language)}</h2>
-              <p>{sceneContext(scene, language)}</p>
-              
-              <div className="g3-intro-characters">
-                <h3>{text.roleMap || "Characters"}</h3>
-                {sortedCharacters.map((character) => {
-                  const profile = characterProfiles[character.profile];
-                  return (
-                    <div key={character.role} className="g3-intro-character">
-                      {!lowData && profile && <img src={profile.image} alt="" />}
-                      <div>
-                        <strong>{character.role}: {profileName(profile, language)}</strong>
-                        <small>{supportingProfileName(profile, language)}</small>
-                      </div>
-                    </div>
-                  );
-                })}
+        {/* RIGHT PANEL — ACTUAL LEARNING */}
+        <section className="g3-reader-stage" aria-label="พื้นที่เรียนบทสนทนา">
+          {/* Header */}
+          <header className="g3-reader-stage-header">
+            <div className="g3-reader-stage-badge">
+              {language === "th" ? `ฉาก ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}` : `Scene ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}`}
+            </div>
+            <h1 className="g3-reader-stage-title">{sceneTitle(scene, language)}</h1>
+            <div className="g3-reader-stage-sub">
+              {scene?.title && <span className="g3-reader-sub-hanzi">{scene.title}</span>}
+              {scene?.placePy && <span className="g3-reader-sub-pinyin">{scene.placePy}</span>}
+            </div>
+            {sceneContext(scene, language) && (
+              <p className="g3-reader-stage-desc">{sceneContext(scene, language)}</p>
+            )}
+          </header>
+
+          {/* Current Dialogue Card or Completion Card */}
+          {completed ? (
+            <section className="g3-reader-completion-card" aria-live="polite">
+              <div className="g3-completion-check-icon" aria-hidden="true">✓</div>
+              <h2>
+                {sceneIndex < scenes.length - 1
+                  ? (language === "th" ? `จบฉากที่ ${sceneIndex + 1} แล้ว` : `Completed Scene ${sceneIndex + 1}`)
+                  : (language === "th" ? "เรียนบทนี้จบแล้ว" : "Lesson Complete")}
+              </h2>
+              <p>
+                {sceneIndex < scenes.length - 1
+                  ? (language === "th" ? "พร้อมเรียนฉากถัดไปแล้วหรือยัง?" : "Ready for the next scene?")
+                  : (language === "th" ? "คุณเรียนจบทุกฉากในบทเรียนนี้แล้ว" : "You have completed all scenes in this lesson.")}
+              </p>
+              <div className="g3-completion-actions">
+                {sceneIndex < scenes.length - 1 ? (
+                  <>
+                    <button className="g3-completion-btn-primary" type="button" onClick={() => selectScene(sceneIndex + 1)}>
+                      {language === "th" ? "เรียนฉากถัดไป →" : "Next Scene →"}
+                    </button>
+                    <button className="g3-completion-btn-secondary" type="button" onClick={() => navigate(levelPath(lesson.level))}>
+                      {language === "th" ? "กลับหน้าเลือกบท" : "Back to lessons"}
+                    </button>
+                  </>
+                ) : (
+                  <button className="g3-completion-btn-primary" type="button" onClick={() => navigate(levelPath(lesson.level))}>
+                    {language === "th" ? "กลับหน้าเลือกบท" : "Back to lessons"}
+                  </button>
+                )}
+              </div>
+            </section>
+          ) : (
+            <div className="g3-reader-dialogue-card" aria-live="polite">
+              <div className="g3-dialogue-card-top">
+                <div className="g3-speaker-tag">
+                  <span className="g3-speaker-role">[{currentLine?.role || "A"}]</span>
+                  <strong className="g3-speaker-name">
+                    {currentProfile ? profileName(currentProfile, language) : currentLine?.speaker || ""}
+                  </strong>
+                </div>
+                <button
+                  type="button"
+                  className={`g3-card-audio-btn ${playbackStatus === "playing" ? "is-playing" : ""} ${soundBlocked ? "needs-attention" : ""}`}
+                  onClick={soundBlocked ? unblockAndPlayAudio : replayCurrentLine}
+                  aria-label={soundBlocked ? (language === "th" ? "กดเพื่อเริ่มเสียง" : "Enable sound") : (language === "th" ? "ฟังเสียงประโยคนี้ซ้ำ" : "Replay audio")}
+                  title={soundBlocked ? (language === "th" ? "กดเพื่อเริ่มเสียง" : "Enable sound") : (language === "th" ? "ฟังเสียงซ้ำ" : "Replay")}
+                >
+                  <Icon paths={volumeHighIcon} />
+                </button>
               </div>
 
-              <div className="g3-intro-actions">
-                <button className="g3-intro-btn-primary" type="button" onClick={() => beginReading("autoplay")}>
-                  {text.autoplayBegin || "Start Dialogue"} <span aria-hidden="true">→</span>
+              {soundBlocked && (
+                <button
+                  type="button"
+                  className="g3-sound-unblock-banner"
+                  onClick={unblockAndPlayAudio}
+                >
+                  <span aria-hidden="true">🔊</span> {language === "th" ? "กดเพื่อเริ่มเสียง" : language === "zh" ? "点击开启声音" : "Click to enable audio"}
                 </button>
-                <button className="g3-intro-btn-secondary" type="button" onClick={() => beginReading("manual")}>
-                  {text.manualBegin || "Read Manually"}
-                </button>
+              )}
+
+              <div className="g3-dialogue-card-body">
+                <p className="g3-card-hanzi">{currentLine?.hanzi}</p>
+                <p className="g3-card-pinyin">{currentLine?.reading}</p>
+                {showTranslation && (
+                  <p className="g3-card-thai">{currentLine?.th}</p>
+                )}
               </div>
             </div>
-          ) : (
-            <div className="g3-reader-dialogue-wrapper">
-              <header className="g3-reader-dialogue-header">
-                <button type="button" onClick={() => setShowTranslation((v) => !v)} className={showTranslation ? "is-on" : ""}>
-                  <Icon paths={languageIcon} /> {showTranslation ? text.translationOn : text.translationOff}
-                </button>
-                <button type="button" onClick={() => setTimed((v) => !v)} className={timed ? "is-on" : ""}>
-                  <Icon paths={stopwatchIcon} /> {timed ? text.timerOn : text.timerOff}
-                </button>
-              </header>
+          )}
 
-              <div className="g3-dialogue-stage">
-                {visibleLines.map((line, index) => {
-                  const character = scene.characters.find((item) => item.role === line.role);
-                  const voiceProfile = line.voiceProfiles?.[0] || character?.profile || "wang";
-                  const profile = character ? characterProfiles[character.profile] : characterProfiles[voiceProfile];
-                  const voice = GROUP3_VOICE_PROFILES[voiceProfile];
-                  const isLeft = line.role === leftRole;
-                  return (
-                    <article
-                      aria-current={index === lineIndex ? "step" : undefined}
-                      aria-live={index === lineIndex ? "polite" : undefined}
-                      key={`${scene.id}-${index}`}
-                      ref={(node) => { lineRefs.current[index] = node; }}
-                      className={`g3-dialogue-line ${isLeft ? "is-left" : "is-right"} role-${line.role.toLowerCase()}${index === lineIndex ? " is-current" : ""}`}
-                    >
-                      <div className="g3-speaker-mark">
-                        {profile && !lowData && <img src={profile.image} srcSet={profile.imageSrcSet} alt="" width="640" height="640" loading="lazy" decoding="async" style={{ objectPosition: profile.imageFocus }} />}
-                        <span>{line.role}</span>
-                        <strong>{profile ? profileName(profile, language) : line.speaker}</strong>
-                        <small>{profile ? supportingProfileName(profile, language) : line.speaker}</small>
-                      </div>
-                      <div className="g3-line-copy">
-                        <button type="button" onClick={() => {
-                          queueManualPlayback(index, voiceProfile);
-                        }} aria-label={`${text.speak}: ${line.hanzi} · ${voice?.label || "TTS"}`} title={`${text.voiceCast} · ${voice?.label || "TTS"}`}><Icon paths={volumeHighIcon} /></button>
-                        <strong>{line.hanzi}</strong><em>{line.reading}</em>
-                        {showTranslation && <div className="g3-line-translation"><span>{text.thaiMeaning}</span><p>{line.th}</p></div>}
-                      </div>
-                    </article>
-                  );
-                })}
+          {/* Dialogue Controls (Previous / Next) */}
+          {!completed && (
+            <div className="g3-dialogue-step-controls">
+              <button
+                type="button"
+                className="g3-step-btn g3-step-prev"
+                disabled={lineIndex <= 0 || Boolean(challenge)}
+                onClick={previousLine}
+              >
+                <span aria-hidden="true">◀</span> {language === "th" ? "ก่อนหน้า" : "Previous"}
+              </button>
+              <button
+                type="button"
+                className="g3-step-btn g3-step-next"
+                disabled={Boolean(challenge)}
+                onClick={nextLine}
+              >
+                {language === "th" ? "ถัดไป" : "Next"} <span aria-hidden="true">▶</span>
+              </button>
+            </div>
+          )}
+
+          {/* Playback Modes (Listening / Manual) */}
+          {!completed && (
+            <div className="g3-playback-mode-group">
+              <button
+                type="button"
+                className={`g3-mode-btn ${playbackStatus === "playing" && playbackMode === "autoplay" ? "is-active" : ""}`}
+                onClick={toggleAutoplayListening}
+              >
+                <span aria-hidden="true">🔊</span> {language === "th" ? (playbackStatus === "playing" && playbackMode === "autoplay" ? "กำลังฟังบทสนทนา..." : "ฟังตามบทสนทนา") : "Listen Sequential"}
+              </button>
+              <button
+                type="button"
+                className={`g3-mode-btn ${playbackMode === "manual" && playbackStatus !== "playing" ? "is-active" : ""}`}
+                onClick={setManualReadingMode}
+              >
+                <span aria-hidden="true">📖</span> {language === "th" ? "อ่านเองทีละประโยค" : "Manual Reading"}
+              </button>
+            </div>
+          )}
+
+          {/* Progress Line */}
+          {!completed && scene?.lines?.length > 0 && (
+            <div className="g3-reader-progress-line">
+              <span className="g3-progress-text">{Math.min(lineIndex + 1, scene.lines.length)} / {scene.lines.length}</span>
+              <div className="g3-progress-bar-track">
+                <div
+                  className="g3-progress-bar-fill"
+                  style={{ width: `${((Math.min(lineIndex + 1, scene.lines.length)) / scene.lines.length) * 100}%` }}
+                />
               </div>
-
-              {completed && (
-                <section className="g3-reader-completion" aria-live="polite">
-                  <div className="g3-reader-completion-icon">✓</div>
-                  <h2>{language === "th" ? `จบตอนที่ ${sceneIndex + 1}` : `End of Scene ${sceneIndex + 1}`}</h2>
-                  <p>{language === "th" ? "คุณเรียนบทสนทนาในตอนนี้เสร็จแล้ว" : "You have completed this dialogue"}</p>
-                  
-                  <div className="g3-reader-completion-actions">
-                    {sceneIndex < scenes.length - 1 ? (
-                      <>
-                        <button className="is-primary" type="button" onClick={() => selectScene(sceneIndex + 1)}>
-                          {language === "th" ? `เริ่มตอนที่ ${sceneIndex + 2} →` : `Start Scene ${sceneIndex + 2} →`}
-                        </button>
-                        <button className="is-secondary" type="button" onClick={() => navigate(levelPath(lesson.level))}>
-                          {language === "th" ? "กลับไปเลือกบทเรียน" : "Back to Lessons"}
-                        </button>
-                      </>
-                    ) : (
-                      <button className="is-primary" type="button" onClick={() => navigate(levelPath(lesson.level))}>
-                        {language === "th" ? "กลับไปหน้าเลือกบทเรียน" : "Back to Lessons"}
-                      </button>
-                    )}
-                  </div>
-                </section>
-              )}
             </div>
           )}
         </section>
       </div>
 
-      {currentLine && !completed && (
-        <StoryPlaybackDock
-          canNext={!challenge}
-          canPrevious={lineIndex > 0 && !challenge}
-          controlsDisabled={Boolean(challenge)}
-          detailsOpen={detailsOpen}
-          lineIndex={lineIndex}
-          markers={playbackMarkers}
-          onNext={nextLine}
-          onPrevious={previousLine}
-          onReplay={replayCurrentLine}
-          onSpeedChange={setPlaybackSpeed}
-          onToggleDetails={() => setDetailsOpen((value) => !value)}
-          onTogglePlayback={togglePlayback}
-          onToggleSound={toggleSound}
-          soundBlocked={soundBlocked}
-          soundEnabled={soundEnabled}
-          speaker={currentSpeaker}
-          speed={playbackSpeed}
-          speedOptions={GROUP3_PLAYBACK_CONFIG.speedOptions}
-          status={challenge ? "challenge" : soundBlocked ? "blocked" : playbackStatus}
-          text={text}
-          totalLines={scene.lines.length}
-          upcomingCue={upcomingCue}
-        />
-      )}
-
+      {/* Challenge Overlays */}
       {challenge?.type === "qte" && (
         <QteChallenge
           challenge={challenge.data}
           language={language}
           timed={timed}
           onResolve={resolveChallenge}
-          onRestart={roleplayRole ? restartRoleplay : undefined}
           sourceLine={currentLine}
         />
       )}
-      {challenge?.type === "builder" && <SentenceChallenge challenge={challenge.data} language={language} level={lesson.level} onResolve={resolveChallenge} onRestart={restartScene} sourceLine={currentLine} />}
+      {challenge?.type === "builder" && (
+        <SentenceChallenge
+          challenge={challenge.data}
+          language={language}
+          level={lesson.level}
+          onResolve={resolveChallenge}
+          onRestart={restartScene}
+          sourceLine={currentLine}
+        />
+      )}
 
       {roleplayActive && createPortal(
         <Suspense fallback={null}>
@@ -717,8 +568,8 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
             language={language}
             lineIndex={lineIndex}
             lines={scene.lines}
-            onExit={exitRoleplay}
-            onTogglePlayback={togglePlayback}
+            onExit={() => setRoleplayRole(null)}
+            onTogglePlayback={toggleAutoplayListening}
             role={roleplayRole}
             scene={scene}
             status={roleplayStatus}
@@ -727,7 +578,6 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
         </Suspense>,
         document.body
       )}
-
     </main>
   );
 }

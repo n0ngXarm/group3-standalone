@@ -11,6 +11,9 @@ const COPY = Object.freeze({
     improvementFallback: "ลองเพิ่มว่าใครอยู่ที่ไหน กำลังทำอะไร และบรรยากาศเป็นอย่างไร",
     improvementLabel: "ลองพัฒนาต่อ",
     improvementTerms: "ลองเพิ่มคำว่า {terms} เพื่อให้คำบรรยายชัดขึ้น",
+    noSpeechLabel: "สถานะการตอบ",
+    noSpeechStatus: "ยังไม่พบเสียงพูดภาษาจีน หรือข้ามการบันทึกเสียง",
+    noSpeechTip: "กดปุ่ม 'ลองอีกครั้ง' เพื่อเริ่มบันทึกเสียงและฝึกพูดบรรยายภาพ",
     observeBody: "สังเกตคน สิ่งของ สถานที่ และเหตุการณ์ในภาพ",
     observePoints: ["ใครอยู่ที่ไหน", "กำลังทำอะไร", "บรรยากาศเป็นอย่างไร"],
     observeTitle: "ดูภาพและคิด",
@@ -39,6 +42,9 @@ const COPY = Object.freeze({
     improvementFallback: "可以再说明谁在哪里、正在做什么，以及场景气氛。",
     improvementLabel: "下一步",
     improvementTerms: "试着加入 {terms}，让描述更清楚。",
+    noSpeechLabel: "作答状态",
+    noSpeechStatus: "未检测到中文语音或已跳过录音",
+    noSpeechTip: "点击'再次练习'开始录音并尝试用中文描述图片",
     observeBody: "观察图中的人物、物品、地点和正在发生的事情。",
     observePoints: ["谁在哪里", "正在做什么", "场景气氛怎么样"],
     observeTitle: "先观察图片",
@@ -67,6 +73,9 @@ const COPY = Object.freeze({
     improvementFallback: "Add who is where, what they are doing, and what the scene feels like.",
     improvementLabel: "Improve next",
     improvementTerms: "Try adding {terms} to make your description clearer.",
+    noSpeechLabel: "Response Status",
+    noSpeechStatus: "No Chinese speech detected or recording was skipped",
+    noSpeechTip: "Click 'Try Again' to start recording and describe the image in Chinese",
     observeBody: "Notice the people, objects, place, and events in the image.",
     observePoints: ["Who is where?", "What are they doing?", "What is the atmosphere?"],
     observeTitle: "Observe and think",
@@ -134,12 +143,23 @@ export function ImageDescriptionPresentation({
     .filter((concept) => mentioned.has(concept.id))
     .map((concept) => concept.terms?.[0])
     .filter(Boolean);
+
+  const charCount = Number(feedback?.source?.metrics?.chineseCharacterCount) || 0;
+  const isSpeechDetected = Boolean(feedback?.source?.metrics?.speechDetected) && (charCount > 0 || (transcript && transcript.trim().length > 0));
+
   const positive = feedback?.positive?.key === "conceptCoverage"
     ? replace(ui.positiveConcepts, { count: feedback.positive.count })
-    : ui.positiveRecording;
-  const improvement = feedback?.improvement?.key === "recommendedTerms"
-    ? replace(ui.improvementTerms, { terms: feedback.improvement.terms.join("、") })
-    : feedback?.improvement?.key === "selfReview" ? ui.selfReview : ui.improvementFallback;
+    : feedback?.positive?.key === "recordingComplete" && isSpeechDetected
+      ? ui.positiveRecording
+      : null;
+
+  const improvement = !isSpeechDetected
+    ? ui.noSpeechTip
+    : feedback?.improvement?.key === "recommendedTerms"
+      ? replace(ui.improvementTerms, { terms: feedback.improvement.terms.join("、") })
+      : feedback?.improvement?.key === "selfReview"
+        ? ui.selfReview
+        : ui.improvementFallback;
 
   const stageActions = (
     <div className={`g3-image-stage-actions is-${phase}`} aria-label={ui.steps[step]}>
@@ -158,7 +178,6 @@ export function ImageDescriptionPresentation({
       </>}
       {phase === "result" && <>
         <button className="is-secondary" type="button" onClick={onRetry}>{text.tryAgain}</button>
-        <button className="is-secondary" type="button" onClick={onOpenDetails}>{ui.details}</button>
         <button className="g3-practice-primary" type="button" onClick={onNext}>{text.nextExercise} <span aria-hidden="true">→</span></button>
       </>}
     </div>
@@ -253,15 +272,32 @@ export function ImageDescriptionPresentation({
           <section className="g3-image-description-state g3-image-feedback" aria-labelledby="g3-image-feedback-title">
             <div className="g3-image-result-heading">
               <div><span>STEP 4</span><h2 id="g3-image-feedback-title">{ui.feedbackTitle}</h2></div>
-              {feedback.scored ? <strong className="g3-image-score"><span>{Math.round(feedback.score)}</span><small>/ 100</small></strong> : <strong className="g3-image-unscored">{text.selfReviewResult}</strong>}
+              {feedback.scored ? <strong className="g3-image-score"><span>{Math.round(((feedback.score / 100) * 5) * 10) / 10}</span><small>/ 5</small></strong> : <strong className="g3-image-unscored">{text.selfReviewResult}</strong>}
             </div>
             {feedback.metrics.length > 0 && <dl className="g3-image-metrics">
               {feedback.metrics.map((metric) => <div key={metric.key}><dt>{text[metric.key]}</dt><dd>{metric.key === "keywordCoverage" ? percent(metric.value) : metric.key === "responseDuration" ? `${metric.value} ${text.secondsShort}` : metric.value}</dd></div>)}
             </dl>}
             <div className="g3-image-feedback-notes">
-              <p className="is-positive"><span>{ui.positiveLabel}</span><strong>{positive}</strong></p>
-              <p className="is-improvement"><span>{ui.improvementLabel}</span><strong>{improvement}</strong></p>
+              {isSpeechDetected && positive && (
+                <p className="is-positive">
+                  <span>{ui.positiveLabel}</span>
+                  <strong>{positive}</strong>
+                </p>
+              )}
+              {!isSpeechDetected && (
+                <p className="is-improvement" style={{ borderColor: 'var(--g3-line)', background: 'color-mix(in srgb, var(--g3-bg) 50%, var(--g3-paper))' }}>
+                  <span style={{ color: 'var(--g3-muted)' }}>{ui.noSpeechLabel}</span>
+                  <strong>{ui.noSpeechStatus}</strong>
+                </p>
+              )}
+              <p className="is-improvement">
+                <span>{ui.improvementLabel}</span>
+                <strong>{improvement}</strong>
+              </p>
             </div>
+            <button className="g3-image-detail-button is-secondary" type="button" onClick={onOpenDetails}>
+              🔍 {ui.details}
+            </button>
           </section>
         )}
         </div>

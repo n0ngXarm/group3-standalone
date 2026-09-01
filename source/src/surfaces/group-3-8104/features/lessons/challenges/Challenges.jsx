@@ -347,7 +347,21 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
       </section>
     </div>
   );
-}export function SentenceChallenge({ challenge, language, level = "hsk2", onResolve, onRestart, sourceLine }) {
+}
+
+function getTileGloss(glossMap, text) {
+  if (!glossMap || !text) return "";
+  if (glossMap[text]) return glossMap[text];
+  const clean = text.replace(/^[，。！？、.!?, \s]+|[，。！？、.!?, \s]+$/g, "");
+  if (glossMap[clean]) return glossMap[clean];
+  for (const [key, val] of Object.entries(glossMap)) {
+    const cleanKey = key.replace(/^[，。！？、.!?, \s]+|[，。！？、.!?, \s]+$/g, "");
+    if (cleanKey === clean) return val;
+  }
+  return "";
+}
+
+export function SentenceChallenge({ challenge, language, level = "hsk2", onResolve, onRestart, sourceLine }) {
   const text = COPY[language];
   const [selected, setSelected] = useState([]);
   const [status, setStatus] = useState("active");
@@ -416,14 +430,14 @@ export function QteChallenge({ challenge, language, timed, onResolve, onRestart,
 
         <div className="g3-sentence-track" aria-live="polite">
           {sentence.length ? sentence.map((token, index) => (
-            <span key={token.id}><b>{token.text}</b>{token.pinyin && <small className="g3-word-pinyin">{token.pinyin}</small>}<em>{challenge.gloss && challenge.gloss[token.text]}</em><small className="g3-word-index">{index + 1}</small></span>
+            <span key={token.id}><b>{token.text}</b>{token.pinyin && <small className="g3-word-pinyin">{token.pinyin}</small>}<em>{getTileGloss(challenge.gloss, token.text)}</em><small className="g3-word-index">{index + 1}</small></span>
           )) : <em>…</em>}
         </div>
 
         <div className="g3-word-bank">
           {builtSentence.tiles.map((token, index) => (
             <button type="button" key={token.id} onClick={() => add(index)} disabled={selected.includes(index) || status === "correct"} className={wrongAttempts >= 6 && builtSentence.answer[sentence.length] && token.id === builtSentence.answer[sentence.length].id && status === "active" ? "is-hint-highlight" : ""}>
-              <strong>{token.text}</strong>{token.pinyin && <small className="g3-word-pinyin">{token.pinyin}</small>}<em>{challenge.gloss && challenge.gloss[token.text]}</em>
+              <strong>{token.text}</strong>{token.pinyin && <small className="g3-word-pinyin">{token.pinyin}</small>}<em>{getTileGloss(challenge.gloss, token.text)}</em>
             </button>
           ))}
         </div>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { COPY } from "../../../content/copy.js";
 import { FEATURED_LESSON, GROUP3_LESSONS } from "../../../content/registry.js";
 import { lessonScenePath, levelsPath } from "../../../routing/routes.js";
+import { unlockChineseAudio } from "../../../services/audio/index.js";
 import { Group3DetailModal } from "../../../shared/components/index.js";
 import "./LessonCatalog.css";
 
@@ -186,6 +187,7 @@ export function LessonCatalog({
       return;
     }
     if (!lessonReady) return;
+    unlockChineseAudio();
     navigate(lessonScenePath(lesson, activeSceneIndex + 1));
   };
 

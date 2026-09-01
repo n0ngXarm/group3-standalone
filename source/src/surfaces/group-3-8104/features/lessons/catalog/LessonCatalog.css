@@ -143,18 +143,26 @@
 .g3-lesson-toc-lesson small {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .g3-lesson-toc-lesson b {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   font-size: 0.68rem;
   font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .g3-lesson-toc-lesson small {
+  display: block;
   color: color-mix(in srgb, var(--g3-muted) 82%, transparent);
   font-size: 0.57rem;
   font-weight: 600;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .g3-lesson-toc-scenes {

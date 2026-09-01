@@ -39,7 +39,8 @@
 .g3-reader-workspace {
   display: grid;
   width: min(1400px, 95vw);
-  min-height: clamp(34rem, 78svh, 42rem);
+  height: min(78svh, calc(100svh - var(--g3-topbar-height, 64px) - 2rem));
+  min-height: 0;
   grid-template-columns: 220px minmax(380px, 1.35fr) minmax(420px, 1.15fr);
   margin: 0 auto;
   border: 1px solid color-mix(in srgb, var(--g3-line, rgba(0, 0, 0, 0.12)) 80%, var(--hsk-accent));
@@ -71,6 +72,8 @@
   background: color-mix(in srgb, var(--g3-paper, #ffffff) 92%, var(--g3-bg, #f8f5ee));
   border-right: 1px solid var(--g3-line, rgba(0, 0, 0, 0.08));
   gap: 1.25rem;
+  min-height: 0;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
@@ -211,7 +214,7 @@
 .g3-reader-visual {
   position: relative;
   height: 100%;
-  min-height: 100%;
+  min-height: 0;
   background: #11161b;
   overflow: hidden;
   display: flex;
@@ -738,6 +741,7 @@
 @media (max-width: 1024px) {
   .g3-reader-workspace {
     grid-template-columns: 200px 1.2fr 1fr;
+    height: auto;
     min-height: auto;
   }
 }
@@ -747,6 +751,7 @@
     grid-template-columns: 1fr;
     width: 100%;
     border-radius: 16px;
+    height: auto;
     min-height: auto;
   }
 

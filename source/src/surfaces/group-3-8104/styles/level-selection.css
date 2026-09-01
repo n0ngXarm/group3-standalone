@@ -156,11 +156,11 @@
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(8,10,12,0.78) 0%, rgba(8,10,12,0.55) 28%, rgba(8,10,12,0.10) 52%, transparent 65%);
+  background: linear-gradient(to top, rgba(8,10,12,0.88) 0%, rgba(8,10,12,0.64) 34%, rgba(8,10,12,0.28) 62%, rgba(8,10,12,0.12) 100%);
 }
 
 :root[data-theme="light"] .g3-level-card-scrim {
-  background: linear-gradient(to top, rgba(12,15,18,0.74) 0%, rgba(12,15,18,0.50) 28%, rgba(12,15,18,0.10) 52%, transparent 65%);
+  background: linear-gradient(to top, rgba(12,15,18,0.88) 0%, rgba(12,15,18,0.66) 34%, rgba(12,15,18,0.30) 62%, rgba(12,15,18,0.14) 100%);
 }
 
 .g3-level-card-character-layer {
@@ -303,7 +303,7 @@
   align-items: center;
   flex-wrap: nowrap;
   margin-top: 18px;
-  max-width: 72%;
+  max-width: 100%;
 }
 
 .g3-level-card-actions .g3-primary-action,
@@ -337,7 +337,8 @@
 .g3-level-card-actions .g3-secondary-action {
   flex: 0 1 auto;
   min-width: 0;
-  white-space: nowrap;
+  white-space: nowrap !important;
+  min-width: max-content;
   background: rgba(255,255,255,0.12) !important;
   border: 1px solid rgba(255,255,255,0.25) !important;
   color: #fff !important;

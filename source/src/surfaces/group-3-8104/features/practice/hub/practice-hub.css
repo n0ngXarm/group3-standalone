@@ -17,6 +17,13 @@
   --practice-cta-ink: var(--g3-ink);
 }
 
+/* Practice hub shares the catalog surface class for shell styling, but must
+   keep its own full-width layout instead of inheriting catalog's split grid. */
+.g3-catalog.g3-practice-hub {
+  display: flex;
+  grid-template-columns: none;
+}
+
 .g3-practice-hub.is-level-hsk1 { --hsk-accent: #ef5845; }
 .g3-practice-hub.is-level-hsk2 { --hsk-accent: #64a85c; }
 .g3-practice-hub.is-level-hsk3 { --hsk-accent: #4f8fd5; }

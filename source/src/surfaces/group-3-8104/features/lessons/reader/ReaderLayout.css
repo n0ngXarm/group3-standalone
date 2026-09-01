@@ -51,6 +51,10 @@
   box-sizing: border-box;
 }
 
+.g3-reader-workspace > * {
+  min-width: 0;
+}
+
 :root[data-theme="dark"] .g3-reader-workspace {
   background: var(--g3-paper, #1c242d);
   border-color: color-mix(in srgb, var(--g3-line, rgba(255, 255, 255, 0.15)) 80%, var(--hsk-accent));
@@ -89,6 +93,7 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
+  overflow-wrap: anywhere;
   transition: all 0.2s ease;
   min-height: 44px;
 }
@@ -299,6 +304,8 @@
 .g3-reader-stage-sub {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  min-width: 0;
   gap: 0.6rem;
   font-size: 0.95rem;
   color: var(--g3-muted, #6e6254);

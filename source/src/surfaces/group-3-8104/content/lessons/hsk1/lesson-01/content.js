@@ -84,7 +84,7 @@ export const LESSON_HSK1_L1 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk1/lessons/lesson-01/overview/",
+    "route": "/home/hsk1/lessons/lesson-01/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
   },
   {
@@ -1560,7 +1560,7 @@ export const LESSON_HSK1_L1 = {
       {
         "role": "A",
         "speaker": "王一飞",
-        "pinyin": "AI xiǎoyǔ, nǐ hǎo",
+        "pinyin": "AI Xiǎoyǔ, nǐ hǎo",
         "hanzi": "AI小语，你好！",
         "reading": "AI Xiǎoyǔ, nǐ hǎo!",
         "en": "Hello, AI Xiaoyu!",
@@ -1575,7 +1575,7 @@ export const LESSON_HSK1_L1 = {
       {
         "role": "B",
         "speaker": "小语",
-        "pinyin": "wáng lǎoshī, nǐ hǎo",
+        "pinyin": "Wáng lǎoshī, nǐ hǎo",
         "hanzi": "王老师，你好！",
         "reading": "Wáng lǎoshī, nǐ hǎo!",
         "en": "Hello, Ms. Wang!",
@@ -1591,8 +1591,9 @@ export const LESSON_HSK1_L1 = {
     "qte": {
       "after": 1,
       "prompt": {
-        "th": "王一飞跟谁打招呼?",
+        "th": "อาจารย์หวังอี้เฟยทักทายใคร?",
         "zh": "王一飞跟谁打招呼？",
+        "pinyin": "Wáng Yīfēi gēn shéi dǎ zhāohu?",
         "en": "Who does Wang Yifei greet?"
       },
       "options": [
@@ -1636,7 +1637,9 @@ export const LESSON_HSK1_L1 = {
       ],
       "gloss": {
         "王老师": "อาจารย์หวัง",
-        "你好": "สวัสดี"
+        "王老师，": "อาจารย์หวัง",
+        "你好": "สวัสดี",
+        "你好！": "สวัสดี"
       },
       "translationTh": "สวัสดีค่ะ อาจารย์หวัง!",
       "translationEn": "Hello, Ms. Wang!",
@@ -1748,8 +1751,9 @@ export const LESSON_HSK1_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "学生们怎么跟老师打招呼?",
+        "th": "นักเรียนทักทายคุณครูอย่างไร?",
         "zh": "学生们怎样跟老师打招呼？",
+        "pinyin": "Xuéshēngmen zěnyàng gēn lǎoshī dǎ zhāohu?",
         "en": "How do the students greet the teacher?"
       },
       "options": [
@@ -1793,7 +1797,9 @@ export const LESSON_HSK1_L1 = {
       ],
       "gloss": {
         "老师": "อาจารย์",
-        "您好": "สวัสดี (สุภาพ)"
+        "老师，": "อาจารย์",
+        "您好": "สวัสดี (สุภาพ)",
+        "您好！": "สวัสดี (สุภาพ)"
       },
       "translationTh": "สวัสดีค่ะ/ครับ อาจารย์!",
       "translationEn": "Hello, teacher!",

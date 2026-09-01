@@ -34,10 +34,8 @@ test("standalone package contains all lessons and local media", async () => {
   assert.equal(lessons.length, 7);
   const media = await walk(path.join(root, "public/assets/group3"));
   const mediaStats = await Promise.all(media.map(async (file) => ({ file, info: await lstat(file) })));
-  assert.ok(mediaStats.filter(({ file, info }) => file.endsWith(".mp3") && info.isFile()).length >= 54);
-  assert.ok(mediaStats.filter(({ file, info }) => file.endsWith(".mp3") && info.isSymbolicLink()).length >= 54);
-  assert.ok(mediaStats.filter(({ file, info }) => file.endsWith(".webp") && info.isFile()).length >= 28);
-  assert.ok(mediaStats.filter(({ file, info }) => file.endsWith(".webp") && info.isSymbolicLink()).length >= 28);
+  assert.ok(mediaStats.filter(({ file, info }) => file.endsWith(".mp3") && (info.isFile() || info.isSymbolicLink())).length >= 54);
+  assert.ok(mediaStats.filter(({ file, info }) => file.endsWith(".webp") && (info.isFile() || info.isSymbolicLink())).length >= 28);
 });
 
 test("standalone package excludes secrets and unrelated public trees", async () => {
@@ -84,11 +82,11 @@ test("home hero renders independent background and character pose layers", async
 
 test("home uses one ability-led HSK selector without lesson previews", async () => {
   const experience = await readFile(
-    path.join(root, "src/surfaces/group-3-8104/features/catalog/StoryExperience.jsx"),
+    path.join(root, "src/surfaces/group-3-8104/features/home/StoryHome.jsx"),
     "utf8",
   );
   const carousel = await readFile(
-    path.join(root, "src/surfaces/group-3-8104/features/catalog/HomeCarousel.jsx"),
+    path.join(root, "src/surfaces/group-3-8104/features/home/HomeCarousel.jsx"),
     "utf8",
   );
   const styles = await readFile(

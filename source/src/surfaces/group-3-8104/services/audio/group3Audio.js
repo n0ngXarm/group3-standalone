@@ -143,11 +143,18 @@ export function resetChineseAudioForTests() {
   voiceSession = 0;
 }
 
+function getChineseVoices() {
+  if (typeof window === "undefined" || !window.speechSynthesis?.getVoices) return [];
+  const voices = window.speechSynthesis.getVoices() || [];
+  return voices.filter((voice) => /^(zh|cmn|yue)[-_]/i.test(voice.lang) || voice.lang === "zh");
+}
+
 function createUtterance(text, profileId, playback, maxDurationMs, rate) {
   const profile = GROUP3_VOICE_PROFILES[profileId] || GROUP3_VOICE_PROFILES.wang;
-  const voices = window.speechSynthesis.getVoices();
-  const chineseVoices = voices.filter((voice) => /^zh[-_]/i.test(voice.lang));
-  const fallbackHints = profile.browserHints.includes("female") ? ["natural", "google", "ting-ting", "xiaoxiao"] : ["natural", "google", "yunjian", "yunxi"];
+  const chineseVoices = getChineseVoices();
+  const fallbackHints = profile.browserHints.includes("female")
+    ? ["natural", "google", "ting-ting", "xiaoxiao", "meijia", "sinji", "huihui"]
+    : ["natural", "google", "yunjian", "yunxi", "yunyang", "zhiyu", "kangkang"];
   const hintedVoice = chineseVoices.find((voice) => profile.browserHints.some((hint) => voice.name.toLowerCase().includes(hint))) ||
     chineseVoices.find((voice) => fallbackHints.some((hint) => voice.name.toLowerCase().includes(hint)));
   const profileIndex = Object.keys(GROUP3_VOICE_PROFILES).indexOf(profileId);

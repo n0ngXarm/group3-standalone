@@ -1,0 +1,212 @@
+{
+  "repeat-sentence:hsk1-l1:hsk1-l1-s1:0": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l1",
+    "sceneId": "hsk1-l1-s1",
+    "hanzi": "AI小语，你好！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-01.webp"
+  },
+  "repeat-sentence:hsk1-l1:hsk1-l1-s1:1": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l1",
+    "sceneId": "hsk1-l1-s1",
+    "hanzi": "王老师，你好！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-02.webp"
+  },
+  "repeat-sentence:hsk1-l1:hsk1-l1-s2:0": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l1",
+    "sceneId": "hsk1-l1-s2",
+    "hanzi": "大家好！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-03.webp"
+  },
+  "repeat-sentence:hsk1-l1:hsk1-l1-s2:1": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l1",
+    "sceneId": "hsk1-l1-s2",
+    "hanzi": "老师，您好！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-04.webp"
+  },
+  "repeat-sentence:hsk1-l1:hsk1-l1-s2:2": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l1",
+    "sceneId": "hsk1-l1-s2",
+    "hanzi": "你们好！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-05.webp"
+  },
+  "repeat-sentence:hsk1-l1:hsk1-l1-s2:3": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l1",
+    "sceneId": "hsk1-l1-s2",
+    "hanzi": "你好，小语！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-06.webp"
+  },
+  "repeat-sentence:hsk1-l2:hsk1-l2-s1:0": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l2",
+    "sceneId": "hsk1-l2-s1",
+    "hanzi": "你看，这是我的家人。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-07.webp"
+  },
+  "repeat-sentence:hsk1-l2:hsk1-l2-s1:1": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l2",
+    "sceneId": "hsk1-l2-s1",
+    "hanzi": "你家有几口人？",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-08.webp"
+  },
+  "repeat-sentence:hsk1-l2:hsk1-l2-s1:2": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l2",
+    "sceneId": "hsk1-l2-s1",
+    "hanzi": "我家有四口人，我有两个孩子。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-09.webp"
+  },
+  "repeat-sentence:hsk1-l2:hsk1-l2-s1:3": {
+    "level": "hsk1",
+    "lessonId": "hsk1-l2",
+    "sceneId": "hsk1-l2-s1",
+    "hanzi": "他们多大了？",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk1/repeat-hsk1-10.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s1:0": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s1",
+    "hanzi": "路上辛苦了，欢迎你们来北京！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-01.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s1:1": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s1",
+    "hanzi": "谢谢王老师，北京真漂亮！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-02.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s1:2": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s1",
+    "hanzi": "今天我请你们吃北京烤鸭。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-03.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s1:3": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s1",
+    "hanzi": "太好了，我最喜欢吃烤鸭了！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-04.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s2:0": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s2",
+    "hanzi": "欢迎来我家做客，快请进！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-05.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s2:1": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s2",
+    "hanzi": "打扰了，这是送给您的礼物。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-06.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s2:2": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s2",
+    "hanzi": "午饭做好了，有羊肉和鱼，大家一起吃！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-07.webp"
+  },
+  "repeat-sentence:hsk2-l1:hsk2-l1-s2:3": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l1",
+    "sceneId": "hsk2-l1-s2",
+    "hanzi": "真丰盛，谢谢你们！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-08.webp"
+  },
+  "repeat-sentence:hsk2-l2:hsk2-l2-s1:0": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l2",
+    "sceneId": "hsk2-l2-s1",
+    "hanzi": "你穿红色的很好看。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-09.webp"
+  },
+  "repeat-sentence:hsk2-l2:hsk2-l2-s1:1": {
+    "level": "hsk2",
+    "lessonId": "hsk2-l2",
+    "sceneId": "hsk2-l2-s1",
+    "hanzi": "这件衣服也很便宜，我买了。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk2/repeat-hsk2-10.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s1:0": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s1",
+    "hanzi": "欢迎光临，这是菜单，请点菜。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-01.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s1:1": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s1",
+    "hanzi": "你们想吃什么就点什么！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-02.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s1:2": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s1",
+    "hanzi": "这个菜的味道好极了，真好吃！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-03.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s1:3": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s1",
+    "hanzi": "喜欢就多吃点儿！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-04.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s2:0": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s2",
+    "hanzi": "假期我们坐高铁去上海吧。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-05.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s2:1": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s2",
+    "hanzi": "好啊，高铁上还可以点外卖，特别方便！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-06.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s2:2": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s2",
+    "hanzi": "我们现在就上网买票。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-07.webp"
+  },
+  "repeat-sentence:hsk3-l1:hsk3-l1-s2:3": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l1",
+    "sceneId": "hsk3-l1-s2",
+    "hanzi": "买好了，祝我们旅行愉快！",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-08.webp"
+  },
+  "repeat-sentence:hsk3-l2:hsk3-l2-s1:0": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l2",
+    "sceneId": "hsk3-l2-s1",
+    "hanzi": "经理让我们准备后天的会议。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-09.webp"
+  },
+  "repeat-sentence:hsk3-l2:hsk3-l2-s1:1": {
+    "level": "hsk3",
+    "lessonId": "hsk3-l2",
+    "sceneId": "hsk3-l2-s1",
+    "hanzi": "我来帮你检查电脑问题。",
+    "asset": "/assets/group3/shared/repeat-visuals/hsk3/repeat-hsk3-10.webp"
+  }
+}

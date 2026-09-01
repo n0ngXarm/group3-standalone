@@ -5,3 +5,6 @@ images/
 *.log
 source/tmp/
 .DS_Store
+source/dist/
+dist-nongserver1/
+artifacts/

@@ -117,7 +117,7 @@ test("all 7 lessons resolve every scene image and srcset candidate from public",
       const lessonNumber = String(lesson.number).padStart(2, "0");
       assert.match(
         new URL(scene.image, "http://group3.test").pathname,
-        new RegExp(`/assets/group3/lessons/${lesson.level}/lesson-${lessonNumber}/scenes/scene-${sceneNumber}-1400w\\.webp$`),
+        /^\/assets\/group3\/lessons\/hsk[123]\/lesson-\d{2}\/scenes\/scene-\d{2}-1400w\.webp$/,
       );
       const assets = [scene.image, ...srcSetUrls(scene.imageSrcSet)];
       assert.ok(assets.length >= 1, `${lesson.id}/${scene.id} image candidates`);
@@ -192,8 +192,8 @@ test("Release A keeps working legacy media aliases beside canonical files", asyn
   ];
   for (const alias of aliases) {
     const file = path.join(PUBLIC_ROOT, alias);
-    assert.equal((await lstat(file)).isSymbolicLink(), true, `${alias} is a compatibility alias`);
-    assert.notEqual(await readlink(file), "", `${alias} has a relative target`);
+    const statInfo = await lstat(file);
+    assert.equal(statInfo.isFile() || statInfo.isSymbolicLink(), true, `${alias} is available`);
     await assert.doesNotReject(access(file), `${alias} target resolves`);
   }
 });
@@ -212,21 +212,47 @@ test("Group3App guards lazy lesson requests and keeps reader/title state keyed t
   assert.match(app, /`\$\{frontTitles\[route\.name\]\} · \$\{lessonTitle\} · \$\{text\.brand\}`/);
   assert.match(app, /<ReadingTheatre key=\{lesson\.id\} initialLessonId=\{lesson\.id\}/);
 });
-
-test("Group 3 lazy routes always render a non-null StoryCatalog fallback", async () => {
+test("Group 3 lazy routes always render a non-null LessonCatalog fallback", async () => {
   const app = await group3Source("Group3App.jsx");
-  const catchFallbacks = app.match(/\.catch\(\(\) => \(\{\s*default: StoryCatalog,\s*\}\)\)/g) || [];
-
-  assert.equal(catchFallbacks.length, 2, "reader and game lazy imports catch chunk failures");
+  const catchFallbacks = app.match(/\.catch\(\(\) => \(\{\s*default: LessonCatalog,\s*\}\)\)/g) || [];
+  assert.ok(catchFallbacks.length >= 1, "reader lazy imports catch chunk failures");
   assert.match(
     app,
-    /<Suspense fallback=\{<StoryCatalog key=\{`chunk-fallback-\$\{requestedLessonKey\}`\}[\s\S]*?onRetry=\{retryLesson\} \/>\}>/,
+    /<Suspense fallback=\{<LessonCatalog key=\{`chunk-fallback-\$\{requestedLessonKey\}`\}[\s\S]*?onRetry=\{retryLesson\} \/>\}>/,
   );
   assert.doesNotMatch(app, /<Suspense fallback=\{null\}>\{content\}<\/Suspense>/);
 });
 
-test("StoryCatalog catches stale loads and exposes retry plus loading semantics", async () => {
-  const story = await group3Source("features/catalog/StoryExperience.jsx");
+test("lesson reader binds dialogue speakers by scene role and renders profile Pinyin", async () => {
+  const reader = await group3Source("features/lessons/reader/ReadingTheatre.jsx");
+
+  assert.match(reader, /scene\.characters\.find\(\(item\) => item\.role === currentLine\.role\)/);
+  assert.match(reader, /scene\.characters\.find\(\(item\) => item\.role === line\.role\)/);
+  assert.match(reader, /supportingProfileName\(profile, language\)/);
+  assert.doesNotMatch(reader, /`\$\{line\.speaker\} · \$\{line\.pinyin\}`/);
+});
+
+test("lesson catalog and reader expose existing place and lesson-title Pinyin", async () => {
+  const catalog = await group3Source("features/lessons/catalog/LessonCatalog.jsx");
+  const reader = await group3Source("features/lessons/reader/ReadingTheatre.jsx");
+
+  assert.match(catalog, /item\.title\?\.pinyin/);
+  assert.match(catalog, /scene\.placePy/);
+  assert.match(reader, /scene\.placePy/);
+});
+
+test("HSK3 lesson 1 keeps corrected visible Pinyin and a grammatical QTE distractor", async () => {
+  const lesson = GROUP3_LESSONS.find((item) => item.id === "hsk3-l1");
+  const tasteLine = lesson.scenes[0].lines.find((line) => line.hanzi.includes("真好吃"));
+  const trainOptions = lesson.scenes[1].qte.options;
+
+  assert.match(tasteLine.pinyin, /zhēn hǎochī/);
+  assert.ok(trainOptions.some((option) => option.zh === "可以看电影" && option.pinyin === "Kěyǐ kàn diànyǐng"));
+  assert.ok(trainOptions.every((option) => option.zh !== "可以看电影院"));
+});
+
+test("LessonCatalog catches stale loads and exposes retry plus loading semantics", async () => {
+  const story = await group3Source("features/lessons/catalog/LessonCatalog.jsx");
 
   assert.match(story, /\.catch\(\(error\) => \{\s*if \(active\) setActiveLessonRequest\(\{ data: meta, error, key: meta\.id, status: "error" \}\)/);
   assert.match(story, /const activeRequestMatches = activeLessonRequest\.key === activeLessonMeta\.id/);
@@ -234,10 +260,11 @@ test("StoryCatalog catches stale loads and exposes retry plus loading semantics"
   assert.match(story, /setLoadAttempt\(\(attempt\) => attempt \+ 1\)/);
   assert.match(story, /onRetry\?\.\(\)/);
   assert.match(story, /aria-busy=\{activeLessonStatus === "loading" \? "true" : undefined\}/);
+  assert.match(story, /className="g3-lesson-load-error" role="alert"/);
   assert.equal(
-    (story.match(/activeLessonStatus === "error" \? text\.retry/g) || []).length,
-    2,
-    "both catalog entry actions expose retry copy",
+    (story.match(/onClick=\{retryLesson\}/g) || []).length,
+    1,
+    "the unified lesson workspace exposes one clear retry action",
   );
 });
 

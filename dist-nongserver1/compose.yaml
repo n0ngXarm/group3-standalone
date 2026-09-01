@@ -1,0 +1,18 @@
+services:
+  group3-standalone:
+    image: group3-standalone:20260824
+    container_name: group3-standalone-dev
+    ports:
+      - "127.0.0.1:8303:80"
+      - "100.83.235.78:8303:80"
+    restart: unless-stopped
+    stop_grace_period: 10s
+    mem_limit: 256m
+    cpus: 0.50
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp

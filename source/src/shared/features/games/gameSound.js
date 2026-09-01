@@ -86,6 +86,9 @@ export function playChineseTTS(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "zh-CN";
     utterance.rate = 0.9;
+    const voices = window.speechSynthesis.getVoices?.() || [];
+    const zhVoice = voices.find((v) => /^(zh|cmn|yue)[-_]/i.test(v.lang) || v.lang === "zh");
+    if (zhVoice) utterance.voice = zhVoice;
     window.speechSynthesis.speak(utterance);
   } catch {
     // Ignore speech errors

@@ -102,7 +102,7 @@ export const LESSON_HSK3_L1 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk3/lessons/lesson-01/overview/",
+    "route": "/home/hsk3/lessons/lesson-01/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
   },
   {
@@ -596,11 +596,11 @@ export const LESSON_HSK3_L1 = {
   {
     "index": 40,
     "hanzi": "还",
-    "pinyin": "huán",
-    "type": "v.",
-    "en": "return; repay",
-    "th": "คืน / ชำระคืน",
-    "thAid": "คืน / ชำระคืน",
+    "pinyin": "hái",
+    "type": "adv.",
+    "en": "also; still; in addition",
+    "th": "ยัง / อีกด้วย / นอกจากนี้ยัง",
+    "thAid": "ยัง / อีกด้วย / นอกจากนี้ยัง",
     "translationKind": "editorial-aid",
     "page": 23,
     "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=23&pdf-pages=35"
@@ -1411,9 +1411,9 @@ export const LESSON_HSK3_L1 = {
       {
         "role": "B",
         "speaker": "白家月",
-        "pinyin": "zhège cài de wèidao hǎo jí le, zhēn hào chī",
+        "pinyin": "zhège cài de wèidào hǎo jí le, zhēn hǎochī",
         "hanzi": "这个菜的味道好极了，真好吃！",
-        "reading": "Zhè ge cài de wèidao hǎo jí le, zhēn hǎochī!",
+        "reading": "Zhè ge cài de wèidào hǎo jí le, zhēn hǎochī!",
         "en": "The taste of this dish is wonderful, so delicious!",
         "th": "รสชาติของจานนี้ดีเยี่ยมยอดเลย อร่อยมากๆ!",
         "visual": {
@@ -1442,8 +1442,9 @@ export const LESSON_HSK3_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "白家月觉得这个菜的味道怎么样?",
+        "th": "ไป๋เจียเยว่คิดว่าอาหารจานนี้มีรสชาติเป็นอย่างไร?",
         "zh": "白家月觉得这个菜的味道怎么样？",
+        "pinyin": "Bái Jiāyuè juéde zhège cài de wèidào zěnmeyàng?",
         "en": "How does Bai Jiayue find the food taste?"
       },
       "options": [
@@ -1487,7 +1488,8 @@ export const LESSON_HSK3_L1 = {
       ],
       "gloss": {
         "这个菜的味道": "รสชาติของอาหารจานนี้",
-        "好极了": "ดีเยี่ยมยอด"
+        "好极了": "ดีเยี่ยมยอด",
+        "好极了！": "ดีเยี่ยมยอด"
       },
       "translationTh": "รสชาติของอาหารจานนี้ดีเยี่ยมยอดเลย!",
       "translationEn": "The taste of this dish is wonderful!",
@@ -1592,8 +1594,9 @@ export const LESSON_HSK3_L1 = {
     "qte": {
       "after": 1,
       "prompt": {
-        "th": "在高铁上有什么便捷的服务?",
+        "th": "บนรถไฟความเร็วสูงมีบริการอำนวยความสะดวกอะไรบ้าง?",
         "zh": "在高铁上有什么便捷的服务？",
+        "pinyin": "Zài gāotiě shàng yǒu shénme biànjié de fúwù?",
         "en": "What convenient service is on the high-speed train?"
       },
       "options": [
@@ -1610,10 +1613,10 @@ export const LESSON_HSK3_L1 = {
           "th": "ว่ายน้ำได้"
         },
         {
-          "value": "可以看电影院",
-          "zh": "可以看电影院",
-          "pinyin": "Kěyǐ kàn diànyǐngyuàn",
-          "th": "มีโรงหนังให้ดู"
+          "value": "可以看电影",
+          "zh": "可以看电影",
+          "pinyin": "Kěyǐ kàn diànyǐng",
+          "th": "ดูภาพยนตร์ได้"
         }
       ],
       "correct": "可以点外卖",
@@ -1637,7 +1640,8 @@ export const LESSON_HSK3_L1 = {
       ],
       "gloss": {
         "假期我们": "วันหยุดนี้พวกเรา",
-        "坐高铁去上海吧": "นั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้กันเถอะ"
+        "坐高铁去上海吧": "นั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้กันเถอะ",
+        "坐高铁去上海吧。": "นั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้กันเถอะ"
       },
       "translationTh": "วันหยุดนี้พวกเรานั่งรถไฟความเร็วสูงไปเซี่ยงไฮ้กันเถอะ",
       "translationEn": "Let's take the high-speed train to Shanghai for holiday.",

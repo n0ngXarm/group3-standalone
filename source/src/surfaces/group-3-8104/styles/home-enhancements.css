@@ -493,7 +493,7 @@
 
 @media (min-width: 1024px) {
   .g3-home.is-single-screen {
-    min-height: calc(100dvh - 88px);
+    min-height: calc(100dvh - (var(--g3-topbar-height) + 24px));
     padding: clamp(1rem, 2.5vw, 2.5rem);
     display: flex;
     flex-direction: column;
@@ -503,7 +503,7 @@
   .g3-home.is-single-screen .g3-home-hero {
     display: grid;
     width: min(calc(100% - 2rem), 120rem);
-    min-height: calc(100dvh - 7rem);
+    min-height: calc(100dvh - (var(--g3-topbar-height) + 3rem));
     margin: 0 auto;
     grid-template-columns: minmax(19rem, 0.85fr) minmax(40rem, 1.9fr);
     grid-template-rows: 1fr;
@@ -819,24 +819,27 @@
   position: relative;
   width: clamp(140px, 20vw, 220px);
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease;
-  transform: scale(1);
+  transform-origin: bottom center;
+  transform: translate(var(--g3-actor-x, 0), var(--g3-actor-y, 0)) scale(var(--g3-actor-scale, 1));
 }
 
 .g3-manga-actor.is-talking {
-  transform: scale(1.05);
+  transform: translate(var(--g3-actor-x, 0), var(--g3-actor-y, 0)) scale(calc(var(--g3-actor-scale, 1) * 1.05));
   z-index: 2;
+  filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.15));
 }
 
 .g3-manga-actor.is-idle {
-  opacity: 0.82;
-  filter: brightness(0.88);
+  opacity: 0.6;
+  filter: brightness(0.7) blur(1px);
 }
 
 .g3-manga-actor-label {
   position: absolute;
   top: -1.5rem;
   left: 50%;
-  transform: translateX(-50%);
+  transform-origin: bottom center;
+  transform: translateX(-50%) scale(calc(1 / var(--g3-actor-scale, 1)));
   white-space: nowrap;
   padding: 0.15rem 0.6rem;
   background: var(--g3-stage-label-bg);
@@ -1006,48 +1009,42 @@
 }
 
 .g3-manga-hanzi {
-  font-family: var(--font-display);
+  font-family: var(--font-hanzi);
   font-size: clamp(26px, 2vw, 38px);
   font-weight: 800;
   color: var(--g3-stage-dialogue-primary);
   margin: 0;
-  line-height: 1.35;
-  letter-spacing: 0.02em;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
   text-align: center;
   width: 100%;
 }
 
 .g3-manga-pinyin {
+  font-family: var(--font-pinyin);
   font-size: clamp(16px, 1.15vw, 21px);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--g3-stage-dialogue-secondary);
-  margin: 0.3rem 0 0;
+  margin: 0.35rem 0 0;
   line-height: 1.4;
   text-align: center;
   width: 100%;
 }
 
 .g3-manga-thai {
+  font-family: var(--font-thai);
   font-size: clamp(15px, 1vw, 18px);
-  font-weight: 400;
+  font-weight: 500;
   color: var(--g3-stage-dialogue-muted);
-  margin: 0.4rem 0 0;
-  line-height: 1.45;
+  margin: 0.45rem 0 0;
+  line-height: 1.6;
+  word-break: break-word;
   text-align: center;
   width: 100%;
 }
 
 /* z6 Pagination Layer */
-.g3-home-carousel-dots {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0;
-}
+
 
 .g3-home-carousel-dot {
   width: 0.6rem;
@@ -1120,7 +1117,7 @@
 
 /* Practice-first home direction for 中文练习. */
 .g3-home.is-single-screen {
-  min-height: calc(100svh - 88px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 24px));
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -1271,42 +1268,32 @@
   font-weight: 850;
   letter-spacing: -0.02em;
   line-height: 1.15;
+  white-space: pre-line;
 }
 
 .g3-home-sub {
   max-width: 36rem;
   font-size: clamp(1.05rem, 1.25vw, 1.25rem);
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .g3-home-benefits {
   display: grid;
-  gap: 0.75rem;
+  gap: clamp(0.55rem, 1.1vh, 0.85rem);
   max-width: 36rem;
-  margin: 0.75rem 0 0.35rem;
+  margin: 0.45rem 0 0.25rem;
+  padding: 0;
+  list-style: none;
 }
 
-.g3-home-benefits p {
-  display: flex;
-  align-items: baseline;
-  gap: 0.85rem;
+.g3-home-benefits li {
   margin: 0;
-  color: var(--g3-muted);
-  font-size: clamp(0.95rem, 1.05vw, 1.12rem);
-  line-height: 1.5;
-}
-
-.g3-home-benefits strong {
-  flex: 0 0 auto;
-  color: var(--g3-gold);
-  font-family: "Noto Serif SC", Georgia, serif;
-  font-size: 0.95rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  padding: 0.1rem 0.45rem;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--g3-gold) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--g3-gold) 32%, transparent);
+  padding: 0;
+  color: color-mix(in srgb, var(--g3-ink) 76%, var(--g3-muted));
+  font-size: clamp(0.92rem, 1vw, 1.05rem);
+  font-weight: 620;
+  line-height: 1.48;
 }
 
 .g3-home.is-single-screen .g3-home-cta-row {
@@ -1470,7 +1457,7 @@
 .g3-level-picker.g3-no-scroll {
   display: flex;
   flex-direction: column;
-  height: calc(100svh - 70px);
+  height: calc(100svh - (var(--g3-topbar-height) + 6px));
   padding: clamp(1rem, 4vh, 2rem) clamp(1rem, 4vw, 3rem);
   box-sizing: border-box;
   overflow: hidden;
@@ -1699,12 +1686,8 @@
 }
 
 .g3-home.is-single-screen .g3-manga-viewport {
-  border-radius: 1.6rem;
-  box-shadow:
-    0 0 0 0.35rem var(--g3-paper),
-    0 0 0 0.46rem color-mix(in srgb, var(--g3-gold) 34%, transparent),
-    0 0 0 0.56rem color-mix(in srgb, var(--g3-bg) 88%, transparent),
-    0 1.8rem 3.8rem rgba(0, 0, 0, 0.32);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .g3-home.is-single-screen .g3-vocab-pill {
@@ -1763,7 +1746,7 @@
 @media (max-width: 900px) {
   .g3-home.is-single-screen {
     height: auto;
-    min-height: calc(100svh - 70px);
+    min-height: calc(100svh - (var(--g3-topbar-height) + 6px));
   }
 
   .g3-home.is-single-screen .g3-home-hero {
@@ -1922,7 +1905,7 @@
     margin-top: 0.25rem;
   }
 
-  .g3-home-benefits p {
+  .g3-home-benefits li {
     font-size: 0.78rem;
   }
 }
@@ -1962,7 +1945,7 @@
   flex-direction: column;
   width: min(calc(100% - 2.5rem), 82rem);
   max-height: none !important;
-  min-height: calc(100svh - 88px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 24px));
   margin: 0 auto;
   padding: 1.5rem 0 4rem;
   overflow: visible !important;
@@ -2293,3 +2276,985 @@
   display: inline-block;
 }
 
+/* Home hero recovery: let the shell own viewport geometry and keep scene opacity independent. */
+@media (min-width: 901px) {
+  .g3-story-shell:has(.g3-home.is-single-screen) .g3-header.is-home-header {
+    position: relative;
+    inset: auto;
+    flex: 0 0 auto;
+  }
+
+  .g3-story-shell:has(.g3-home.is-single-screen) #g3-main,
+  .g3-story-shell:has(.g3-home.is-single-screen) .g3-home.is-single-screen {
+    min-height: 0;
+  }
+
+  .g3-story-shell:has(.g3-home.is-single-screen) .g3-home.is-single-screen {
+    height: auto;
+    padding: 0;
+  }
+
+  .g3-home.is-single-screen .g3-home-hero {
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .g3-home.is-single-screen .g3-hero-copy {
+    flex: 0 0 46%;
+    width: 46%;
+    padding: 2rem 4rem;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 54%;
+    height: 100%;
+    min-height: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel::before {
+    content: none;
+  }
+
+  .g3-home.is-single-screen .g3-manga-viewport {
+    --g3-scene-edge-fade: clamp(100px, 9vw, 150px);
+  }
+
+  .g3-home.is-single-screen .g3-manga-backdrop,
+  .g3-home.is-single-screen .g3-manga-atmosphere {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      rgba(0, 0, 0, 0.25) 40px,
+      rgba(0, 0, 0, 0.75) 80px,
+      #000 var(--g3-scene-edge-fade),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      rgba(0, 0, 0, 0.25) 40px,
+      rgba(0, 0, 0, 0.75) 80px,
+      #000 var(--g3-scene-edge-fade),
+      #000 100%
+    );
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  .g3-home.is-single-screen .g3-manga-left-blend {
+    display: none;
+  }
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-home-hero {
+  --g3-stage-bottom-overlay: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--g3-bg) 52%, transparent) 0%,
+    color-mix(in srgb, var(--g3-bg) 28%, transparent) 55%,
+    transparent 100%
+  );
+  background:
+    radial-gradient(circle at 16% 42%, color-mix(in srgb, var(--g3-jade) 10%, transparent), transparent 38%),
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 58%, transparent) 0 48%, transparent 64%);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-home-hero {
+  --g3-stage-bottom-overlay: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--g3-bg) 52%, transparent) 0%,
+    color-mix(in srgb, var(--g3-bg) 24%, transparent) 55%,
+    transparent 100%
+  );
+  background:
+    radial-gradient(circle at 18% 38%, color-mix(in srgb, var(--g3-gold) 13%, transparent), transparent 42%),
+    linear-gradient(90deg, color-mix(in srgb, var(--g3-bg) 42%, transparent) 0 48%, transparent 64%);
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-bg-img {
+  filter: brightness(0.84) contrast(1.08) saturate(0.96);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-bg-img {
+  filter: brightness(1.04) contrast(1.01) saturate(1.04);
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-bg-vignette {
+  background:
+    radial-gradient(circle at center, transparent 48%, color-mix(in srgb, var(--g3-bg) 48%, transparent) 100%),
+    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--g3-bg) 46%, transparent) 100%);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-bg-vignette {
+  background:
+    radial-gradient(circle at center, transparent 62%, color-mix(in srgb, var(--g3-gold) 10%, transparent) 100%),
+    linear-gradient(180deg, transparent 66%, color-mix(in srgb, var(--g3-ink) 10%, transparent) 100%);
+}
+
+/* Home preview foreground: cinematic local contrast in both page themes. */
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-home-hero {
+  --g3-home-title-accent-start: #f06d52;
+  --g3-home-title-accent-middle: #e5b45b;
+  --g3-home-title-accent-end: #f7c987;
+  --g3-home-title-accent-shadow: 0 0.4rem 1.6rem rgba(229, 180, 91, 0.18);
+}
+
+:root[data-theme="light"] .g3-home.is-single-screen .g3-home-hero {
+  --g3-home-title-accent-start: #9b2f20;
+  --g3-home-title-accent-middle: #b56b18;
+  --g3-home-title-accent-end: #8f2414;
+  --g3-home-title-accent-shadow: 0 0.15rem 0.45rem rgba(143, 36, 20, 0.12);
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-home-hero,
+:root[data-theme="light"] .g3-home.is-single-screen .g3-home-hero {
+  --g3-vn-hanzi: rgba(255, 255, 255, 0.98);
+  --g3-vn-pinyin: rgba(255, 255, 255, 0.88);
+  --g3-vn-translation: rgba(255, 255, 255, 0.82);
+  --g3-vn-speaker-text: #ffffff;
+  --g3-vn-speaker-bg: rgba(15, 18, 20, 0.88);
+  --g3-vn-speaker-active-bg: rgba(8, 10, 12, 0.96);
+  --g3-vn-speaker-active: #f0b55f;
+  --g3-vn-speaker-border: rgba(255, 255, 255, 0.16);
+  --g3-vn-control-bg: rgba(15, 18, 20, 0.82);
+  --g3-vn-control-fg: #ffffff;
+  --g3-stage-dialogue-primary: var(--g3-vn-hanzi);
+  --g3-stage-dialogue-secondary: var(--g3-vn-pinyin);
+  --g3-stage-dialogue-muted: var(--g3-vn-translation);
+  --g3-stage-control-bg: var(--g3-vn-control-bg);
+  --g3-stage-control-fg: var(--g3-vn-control-fg);
+  --g3-stage-label-bg: var(--g3-vn-speaker-bg);
+  --g3-stage-label-fg: var(--g3-vn-speaker-text);
+  --g3-stage-label-border: var(--g3-vn-speaker-border);
+  --g3-stage-bottom-overlay: linear-gradient(
+    to top,
+    rgba(7, 10, 13, 0.66) 0%,
+    rgba(7, 10, 13, 0.56) 46%,
+    rgba(7, 10, 13, 0.18) 78%,
+    transparent 100%
+  );
+  --g3-stage-pagination-inactive: rgba(255, 255, 255, 0.68);
+}
+
+.g3-home.is-single-screen .g3-home-title.g3-wow-text {
+  background: linear-gradient(
+    120deg,
+    var(--g3-home-title-accent-start) 0%,
+    var(--g3-home-title-accent-middle) 52%,
+    var(--g3-home-title-accent-end) 100%
+  );
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: var(--g3-home-title-accent-shadow);
+}
+
+@media (min-width: 901px) {
+  
+
+  .g3-home.is-single-screen .g3-manga-actor-frames {
+    height: clamp(300px, 46vh, 480px);
+  }
+
+  .g3-home.is-single-screen .g3-manga-actor-sprite {
+    max-height: clamp(300px, 46vh, 480px);
+  }
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-actor-label,
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-actor-label {
+  padding: 0.28rem 0.72rem;
+  background: var(--g3-stage-label-bg);
+  color: var(--g3-stage-label-fg);
+  border: 1px solid var(--g3-stage-label-border);
+  font-size: clamp(13px, 0.95vw, 15px);
+  font-weight: 750;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(5px);
+}
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-speaker-tag,
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-speaker-tag {
+  padding: 0.28rem 0.72rem;
+  font-size: clamp(13px, 0.95vw, 15px);
+  font-weight: 900;
+  border-radius: 12px;
+  background: var(--g3-color-primary-dark, #a02020);
+  color: #ffffff;
+  border: 1px solid #ffda75;
+  box-shadow: 0 0 0 3px rgba(255, 218, 117, 0.3), 0 5px 14px rgba(0, 0, 0, 0.38);
+}
+
+.g3-home.is-single-screen .g3-manga-actor-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  transition:
+    transform 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-actor-label.is-active-speaker,
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-actor-label.is-active-speaker {
+  transform-origin: bottom center;
+  transform: translateX(-50%) translateY(-3px) scale(calc(1 / (var(--g3-actor-scale, 1) * 1.05)));
+  background: var(--g3-color-primary-dark, #a02020);
+  color: #ffffff;
+  border-color: #ffda75;
+  box-shadow:
+    0 0 0 3px rgba(255, 218, 117, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.5);
+  font-weight: 900;
+}
+.g3-manga-actor-label.is-active-speaker .g3-manga-actor-label-indicator {
+  color: #ffda75;
+}
+
+
+.g3-manga-actor-label-indicator {
+  display: inline-grid;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+  place-items: center;
+  color: var(--g3-vn-speaker-active);
+}
+
+.g3-manga-actor-label-indicator .ui-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.g3-home.is-single-screen .g3-manga-hanzi,
+.g3-home.is-single-screen .g3-manga-pinyin,
+.g3-home.is-single-screen .g3-manga-thai {
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.72);
+}
+
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-arrow,
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-arrow,
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-manga-audio-btn,
+:root[data-theme="light"] .g3-home.is-single-screen .g3-manga-audio-btn {
+  background: var(--g3-stage-control-bg);
+  color: var(--g3-stage-control-fg);
+  border-color: var(--g3-stage-label-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+.g3-home.is-single-screen .g3-home-carousel-dot {
+  background: var(--g3-stage-pagination-inactive);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.34);
+}
+
+.g3-home.is-single-screen .g3-home-carousel-dot.is-active {
+  background: linear-gradient(90deg, var(--g3-red), var(--g3-gold));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .g3-home.is-single-screen .g3-home-title.g3-wow-text {
+    animation:
+      g3-premium-rise 750ms 60ms cubic-bezier(0.16, 1, 0.3, 1) forwards,
+      g3-gradient-shift 8s ease 60ms infinite;
+  }
+}
+
+.g3-hero-title-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.g3-hero-copy .sign-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -1rem;
+  margin-bottom: 2.5rem;
+  z-index: 5;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+  width: 100%;
+  max-width: 520px;
+  align-self: flex-start;
+  opacity: 0;
+  animation: 
+    g3-premium-rise 750ms cubic-bezier(0.16, 1, 0.3, 1) 60ms forwards,
+    g3-sign-swing 6s ease-in-out 800ms infinite;
+  transform-origin: top center;
+}
+
+@keyframes g3-sign-swing {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1deg); }
+  75% { transform: rotate(-1deg); }
+}
+
+.sign-bar {
+  width: 100%;
+  height: 14px;
+  background: linear-gradient(to bottom, #5c2317, #2b0c05);
+  border-radius: 8px;
+  border-bottom: 2px solid #8e4726;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+.sign-ropes {
+  display: flex;
+  justify-content: space-evenly;
+  width: 75%;
+  height: 35px;
+  position: relative;
+  z-index: 1;
+}
+.sign-ropes span {
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #cfa05d, #7a5426);
+  box-shadow: 1px 0 3px rgba(0,0,0,0.6);
+}
+
+.sign {
+  background: linear-gradient(to bottom, #8f2312, #551005);
+  border: 5px solid #d9a857;
+  border-radius: 6px;
+  padding: 1.6rem 2.5rem;
+  box-shadow: inset 0 0 24px rgba(0,0,0,0.8), 0 8px 16px rgba(0,0,0,0.6);
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 95%;
+}
+.sign::after {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 1px solid rgba(217,168,87, 0.25);
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+.sign .title {
+  color: #ffda75;
+  font-family: "Noto Serif Thai", serif;
+  font-size: clamp(1.8rem, 3.8vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 0;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.7);
+  letter-spacing: 0.01em;
+}
+
+
+.tassel {
+  position: absolute;
+  top: 100%;
+  left: 20%;
+  width: 5px;
+  height: 55px;
+  background: #b52719;
+  z-index: 0;
+}
+.tassel.right {
+  left: auto;
+  right: 20%;
+}
+.tassel::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 10px;
+  background: #19805d;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+.tassel::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 28px;
+  background: repeating-linear-gradient(90deg, #b52719, #b52719 1px, transparent 1px, transparent 2px);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+:root[data-theme="light"] .sign {
+  background: linear-gradient(to bottom, #a32c18, #7a1d0d);
+  border-color: #ffd043;
+  box-shadow: inset 0 0 16px rgba(0,0,0,0.6), 0 6px 12px rgba(0,0,0,0.3);
+}
+:root[data-theme="light"] .sign .title {
+  color: #ffea99;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+:root[data-theme="light"] .sign-bar {
+  background: linear-gradient(to bottom, #753324, #4a1d13);
+}
+
+/* === HANGING SIGN REBUILD (APPENDED) === */
+.sign-anchor {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #f9d877 0%, #cfa05d 40%, #7a5426 100%);
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5), inset 0 -2px 5px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 10;
+  margin-bottom: -5px;
+  margin: 0 auto -5px auto;
+}
+
+.sign-triangle-ropes {
+  width: 90%;
+  height: 40px;
+  display: block;
+  z-index: 1;
+  overflow: visible;
+  filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.5));
+  margin: 0 auto;
+}
+
+.sign-tassel {
+  position: absolute;
+  top: 90%;
+  width: 6px;
+  height: 50px;
+  background: linear-gradient(to bottom, #a02816, #d93d25 20%, #7a1508 100%);
+  border-radius: 3px;
+  z-index: -1;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+}
+.sign-tassel::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: -4px;
+  width: 14px;
+  height: 25px;
+  background: repeating-linear-gradient(90deg, #d93d25, #d93d25 1px, #7a1508 1px, #7a1508 2px);
+  border-radius: 2px 2px 5px 5px;
+}
+.sign-tassel.left { left: 10%; }
+.sign-tassel.right { right: 10%; }
+
+.g3-hero-copy .sign {
+  width: fit-content !important;
+  max-width: 95% !important;
+  padding: 1rem 2rem !important;
+}
+
+.g3-hero-copy .sign .title {
+  white-space: pre-wrap !important;
+  word-break: keep-all !important;
+  font-size: clamp(1.4rem, 3.5vw, 2.3rem) !important;
+}
+
+/* Hide the old tassel just in case */
+.tassel { display: none !important; }
+
+
+/* ==========================================================================
+   DESKTOP COMPOSITION & RESPONSIVE REBUILD
+   ========================================================================== */
+
+/* --------------------------------------------------
+   1. CSS VARIABLES (Desktop Defaults)
+   -------------------------------------------------- */
+:root {
+  --home-sign-scale: 1;
+  --home-copy-scale: 1;
+  --home-actor-scale: 1;
+  --home-vn-typo-scale: 1;
+  
+  --home-copy-y: 42%;
+  --home-cta-y: 62%;
+    
+  --home-left-width: 46%;
+  --home-right-width: 54%;
+}
+
+/* --------------------------------------------------
+   2. DESKTOP BASELINE (>= 1280px)
+   -------------------------------------------------- */
+@media (min-width: 1280px) {
+  /* Prevent 100dvh from pushing things out of bounds if parent is flex */
+  /* The g3-home-hero parent is MAIN. We ensure it fits the viewport. */
+  .g3-home.is-single-screen .g3-home-hero {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important;
+    display: block !important;
+    flex: 0 0 var(--home-left-width) !important;
+    width: var(--home-left-width) !important;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 var(--home-right-width) !important;
+    width: var(--home-right-width) !important;
+    height: 100% !important;
+  }
+
+  /* ABSOLUTE ZONES */
+  /* The anchor should be at top: 0 relative to g3-hero-copy.
+     Wait, the old offset was top: calc(-1 * 10px). Let's use top: 0 to sit exactly at the top edge. */
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    max-width: 580px !important;
+    transform: scale(var(--home-sign-scale)) !important;
+    transform-origin: top center !important;
+  }
+
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    max-width: 480px !important;
+  }
+
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+}
+
+/* --------------------------------------------------
+   3. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------- */
+
+/* Compact Laptop / Tablet Landscape (900px - 1279px) */
+@media (min-width: 900px) and (max-width: 1279px) {
+  :root {
+    --home-left-width: 44%;
+    --home-right-width: 56%;
+    --home-sign-scale: 0.85;
+    --home-copy-scale: 0.9;
+    --home-actor-scale: 0.85;
+    --home-vn-typo-scale: 0.85;
+    --home-copy-y: 44%;
+    --home-cta-y: 65%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important;
+    display: block !important;
+    flex: 0 0 var(--home-left-width) !important;
+    width: var(--home-left-width) !important;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 var(--home-right-width) !important;
+    width: var(--home-right-width) !important;
+    height: 100% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* Tablet Portrait (600px - 899px) */
+@media (min-width: 600px) and (max-width: 899px) and (orientation: portrait) {
+  :root {
+    --home-sign-scale: 0.85;
+    --home-copy-scale: 0.9;
+    --home-actor-scale: 0.7;
+    --home-vn-typo-scale: 0.8;
+    --home-copy-y: 52%;
+    --home-cta-y: 80%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important; display: block !important;
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important; padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* Mobile Portrait (<= 599px) */
+@media (max-width: 599px) {
+  :root {
+    --home-sign-scale: 0.7;
+    --home-copy-scale: 0.85;
+    --home-actor-scale: 0.5;
+    --home-vn-typo-scale: 0.7;
+    --home-copy-y: 55%;
+    --home-cta-y: 85%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important; display: block !important;
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important; padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 50% !important; width: 100% !important; height: 50% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* Mobile Landscape (<= 899px, Landscape) */
+@media (max-width: 899px) and (orientation: landscape) {
+  :root {
+    --home-sign-scale: 0.6;
+    --home-copy-scale: 0.8;
+    --home-actor-scale: 0.35;
+    --home-vn-typo-scale: 0.55;
+    --home-copy-y: 55%;
+    --home-cta-y: 88%;
+      }
+  
+  .g3-home.is-single-screen .g3-home-hero {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .g3-home.is-single-screen .g3-hero-copy {
+    position: relative !important; display: block !important;
+    flex: 0 0 44% !important; width: 44% !important; height: 100% !important; padding: 0 !important;
+  }
+  .g3-home.is-single-screen .g3-home-carousel {
+    flex: 0 0 56% !important; width: 56% !important; height: 100% !important;
+  }
+  
+  .g3-home.is-single-screen .sign-wrap {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: scale(var(--home-sign-scale)) !important; transform-origin: top center !important;
+  }
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: var(--home-copy-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: var(--home-cta-y) !important;
+    left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    transform: translateY(-50%) scale(var(--home-copy-scale)) !important;
+    display: flex !important; justify-content: center !important;
+  }
+}
+
+/* --------------------------------------------------
+   4. TYPOGRAPHY SCALING UPGRADES (Global + Clamp)
+   -------------------------------------------------- */
+
+/* Supporting Copy */
+@media (min-width: 900px) {
+  .g3-home.is-single-screen .g3-home-copy-zone {
+    position: absolute !important;
+    top: 47.5% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+  }
+  .g3-home.is-single-screen .g3-home-cta-row {
+    position: absolute !important;
+    top: 67.5% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+  }
+}
+
+.g3-home.is-single-screen .g3-hero-copy .g3-home-lead {
+  font-size: clamp(23px, 1.65vw, 31px) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.005em !important;
+  font-family: "IBM Plex Sans Thai", sans-serif !important;
+}
+.g3-home.is-single-screen .g3-hero-copy .g3-home-expl {
+  font-size: clamp(17px, 1.2vw, 22px) !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+:root[data-theme="dark"] .g3-home.is-single-screen .g3-hero-copy .g3-home-expl {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.g3-home.is-single-screen .g3-hero-copy .g3-home-meta {
+  font-size: clamp(15px, 1.05vw, 19px) !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+}
+.g3-home.is-single-screen .g3-home-copy-zone {
+  width: min(100%, 520px) !important;
+  max-width: 520px !important;
+  text-align: center !important;
+  text-wrap: balance !important;
+}
+/* CTA Inner Alignment & Size */
+.g3-home-cta-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.6rem !important;
+  font-size: clamp(19px, 1.25vw, 23px) !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  padding: 0 2.5rem !important;
+  min-height: 4.2rem !important;
+}
+.g3-home-cta-primary i {
+  transform: translateY(1px) !important;
+}
+
+/* VN SUBTITLES (User Requested Readable Targets) */
+.g3-home.is-single-screen .g3-manga-subtitle-box {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 61px !important;
+  transform: translateX(-50%) !important;
+  width: min(78%, 760px) !important;
+  max-width: 760px !important;
+  margin: 0 !important;
+  z-index: 40 !important;
+}
+.g3-home.is-single-screen .g3-manga-hanzi {
+  font-family: var(--font-hanzi) !important;
+  font-size: calc(clamp(32px, 2.4vw, 42px) * var(--home-vn-typo-scale, 1)) !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.03em !important;
+  font-weight: 700 !important;
+  text-wrap: balance !important;
+}
+.g3-home.is-single-screen .g3-manga-pinyin {
+  font-family: var(--font-pinyin) !important;
+  font-size: calc(clamp(18px, 1.3vw, 23px) * var(--home-vn-typo-scale, 1)) !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+}
+.g3-home.is-single-screen .g3-manga-thai {
+  font-family: var(--font-thai) !important;
+  font-size: calc(clamp(16px, 1.1vw, 20px) * var(--home-vn-typo-scale, 1)) !important;
+  line-height: 1.6 !important;
+  word-break: break-word !important;
+  font-weight: 500 !important;
+}
+
+/* --------------------------------------------------
+   5. ACTOR SAFETY AND VN LAYER FIXES
+   -------------------------------------------------- */
+
+
+
+
+
+/* Prevent inactive wrapper filters from destroying child label readability */
+.g3-home.is-single-screen .g3-manga-actor.is-idle {
+  filter: none !important;
+  opacity: 1 !important;
+}
+.g3-home.is-single-screen .g3-manga-actor.is-idle .g3-manga-actor-sprite,
+.g3-home.is-single-screen .g3-manga-actor.is-idle .g3-manga-actor-frames {
+  opacity: 0.75 !important;
+  filter: brightness(0.85) grayscale(20%) !important;
+}
+.g3-home.is-single-screen .g3-manga-actor-label {
+  filter: none !important;
+}
+
+/* --------------------------------------------------
+   6. PAGINATION DOTS RESTORE
+   -------------------------------------------------- */
+/* Ensure pagination dots have sufficient z-index and are visible */
+
+
+
+/* ==========================================================================
+   BOUNDED RECOVERY: VN LAYOUT & PAGINATION
+   ========================================================================== */
+
+/* 1. Structural Flex Sizing (No hardcoded 100dvh math) */
+.g3-story-shell {
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+.g3-header {
+    flex: 0 0 auto !important;
+}
+
+#g3-main {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Ensure Hero consumes the available #g3-main height */
+.g3-home-hero {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* 2. Fix VN Viewport and Pagination Coordinates */
+.g3-manga-viewport {
+    position: relative !important;
+    height: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+/* Ensure pagination resolves against the VN viewport */
+.g3-home-carousel-dots {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 20px !important;
+    z-index: 50 !important;
+}
+
+/* 3. Speaker Label (Active vs Inactive) */
+.g3-manga-actor-label {
+    filter: none !important;
+}
+.g3-manga-actor.is-idle {
+    opacity: 1 !important;
+    filter: none !important;
+}
+.g3-manga-actor.is-idle .g3-manga-actor-sprite,
+.g3-manga-actor.is-idle .g3-manga-actor-frames {
+    opacity: 0.75 !important;
+    filter: brightness(0.85) grayscale(20%) !important;
+}
+
+
+
+:root[lang="th"] .g3-catalog h1, :root[lang="th"] .g3-catalog h2, :root[lang="th"] .g3-catalog h3, :root[lang="th"] .g3-catalog h4, :root[lang="th"] .g3-catalog h5, :root[lang="th"] .g3-catalog h6,
+:root[lang="th"] .g3-front-matter h1, :root[lang="th"] .g3-front-matter h2, :root[lang="th"] .g3-front-matter h3, :root[lang="th"] .g3-front-matter h4, :root[lang="th"] .g3-front-matter h5, :root[lang="th"] .g3-front-matter h6,
+:root[lang="th"] .g3-reader h1, :root[lang="th"] .g3-reader h2, :root[lang="th"] .g3-reader h3, :root[lang="th"] .g3-reader h4, :root[lang="th"] .g3-reader h5, :root[lang="th"] .g3-reader h6 {
+  word-break: normal !important;
+  line-height: 1.45 !important;
+}
+
+:root[lang="en"] .g3-catalog h1, :root[lang="en"] .g3-catalog h2, :root[lang="en"] .g3-catalog h3, :root[lang="en"] .g3-catalog h4, :root[lang="en"] .g3-catalog h5, :root[lang="en"] .g3-catalog h6,
+:root[lang="en"] .g3-front-matter h1, :root[lang="en"] .g3-front-matter h2, :root[lang="en"] .g3-front-matter h3, :root[lang="en"] .g3-front-matter h4, :root[lang="en"] .g3-front-matter h5, :root[lang="en"] .g3-front-matter h6,
+:root[lang="en"] .g3-reader h1, :root[lang="en"] .g3-reader h2, :root[lang="en"] .g3-reader h3, :root[lang="en"] .g3-reader h4, :root[lang="en"] .g3-reader h5, :root[lang="en"] .g3-reader h6 {
+  word-break: normal !important;
+}

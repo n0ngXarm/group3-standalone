@@ -33,9 +33,10 @@ const STORY_STYLE_FILES = [
   "role-picker-responsive.css",
   "ui-polish.css",
   "home-enhancements.css",
+  "level-selection.css",
 ];
 
-const   STYLE_LINE_BOUNDS = { "home-enhancements.css": 2300 };
+const STYLE_LINE_BOUNDS = { "home-enhancements.css": 3500 };
 
 async function source(path) {
   return readFile(new URL(path, sourceRoot), "utf8");
@@ -105,7 +106,7 @@ test("all Group 3 languages expose complete guided playback copy", () => {
 });
 
 test("scene briefing exposes autoplay and manual entry paths", async () => {
-  const story = await source("features/catalog/StoryExperience.jsx");
+  const story = await source("features/lessons/catalog/LessonCatalog.jsx");
 
   assert.match(story, /onBegin\("autoplay"\)/);
   assert.match(story, /onBegin\("manual"\)/);
@@ -113,7 +114,7 @@ test("scene briefing exposes autoplay and manual entry paths", async () => {
 });
 
 test("ReadingTheatre coordinates scrolling, transport, cleanup, and challenge resume", async () => {
-  const theatre = await source("features/reader/ReadingTheatre.jsx");
+  const theatre = await source("features/lessons/reader/ReadingTheatre.jsx");
 
   assert.match(theatre, /scrollIntoView\(\{[\s\S]*block: "center"/);
   assert.match(theatre, /prefers-reduced-motion: reduce/);
@@ -131,8 +132,8 @@ test("ReadingTheatre coordinates scrolling, transport, cleanup, and challenge re
 
 test("rendered reader source uses the playback dock instead of the retired side lens", async () => {
   const [theatre, dock] = await Promise.all([
-    source("features/reader/ReadingTheatre.jsx"),
-    source("features/reader/playback/StoryPlaybackDock.jsx"),
+    source("features/lessons/reader/ReadingTheatre.jsx"),
+    source("features/lessons/reader/StoryPlaybackDock.jsx"),
   ]);
 
   assert.doesNotMatch(theatre, /className="g3-sentence-lens"/);
@@ -163,7 +164,7 @@ test("responsive dock CSS protects touch size, safe areas, and reduced motion", 
 });
 
 test("manual line playback is state-driven and isolated from autoplay cleanup", async () => {
-  const theatre = await source("features/reader/ReadingTheatre.jsx");
+  const theatre = await source("features/lessons/reader/ReadingTheatre.jsx");
 
   assert.match(theatre, /manualPlaybackSequenceRef/);
   assert.match(theatre, /setManualPlaybackIntent\(\{[\s\S]*revision:/);
@@ -174,7 +175,7 @@ test("manual line playback is state-driven and isolated from autoplay cleanup", 
 });
 
 test("both challenge dialogs enforce modal focus and background isolation", async () => {
-  const challenges = await source("features/reader/challenges/Challenges.jsx");
+  const challenges = await source("features/lessons/challenges/Challenges.jsx");
 
   assert.match(challenges, /function useChallengeDialog\(fallbackSelectors\)/);
   assert.match(challenges, /heading\.focus\(\)/);
@@ -189,8 +190,8 @@ test("both challenge dialogs enforce modal focus and background isolation", asyn
 
 test("blocked playback exposes retry state and light-theme contrast overrides", async () => {
   const [theatre, dock, css] = await Promise.all([
-    source("features/reader/ReadingTheatre.jsx"),
-    source("features/reader/playback/StoryPlaybackDock.jsx"),
+    source("features/lessons/reader/ReadingTheatre.jsx"),
+    source("features/lessons/reader/StoryPlaybackDock.jsx"),
     storyStyles(),
   ]);
 

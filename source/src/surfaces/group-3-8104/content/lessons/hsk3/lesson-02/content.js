@@ -102,7 +102,7 @@ export const LESSON_HSK3_L2 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk3/lessons/lesson-02/overview/",
+    "route": "/home/hsk3/lessons/lesson-02/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk3.pdf#printed-pages=1&pdf-pages=1"
   },
   {
@@ -1497,6 +1497,7 @@ export const LESSON_HSK3_L2 = {
       "prompt": {
         "th": "杨同乐帮王一雪解决了什么问题?",
         "zh": "杨同乐帮王一雪解决了什么问题？",
+        "pinyin": "Yáng Tónglè bāng Wáng Yīxuě jiějué le shénme wèntí?",
         "en": "What problem did Yang Tongle help Wang Yixue solve?"
       },
       "options": [
@@ -1540,7 +1541,9 @@ export const LESSON_HSK3_L2 = {
       ],
       "gloss": {
         "太谢谢你了": "ขอบคุณมากเลย",
-        "问题解决了": "ปัญหาแก้ได้แล้ว"
+        "太谢谢你了，": "ขอบคุณมากเลย",
+        "问题解决了": "ปัญหาแก้ได้แล้ว",
+        "问题解决了！": "ปัญหาแก้ได้แล้ว"
       },
       "translationTh": "ขอบคุณคุณมากๆ เลย ปัญหาได้รับการแก้ไขแล้วค่ะ!",
       "translationEn": "Thank you so much, the problem is solved!",
@@ -1654,6 +1657,7 @@ export const LESSON_HSK3_L2 = {
       "prompt": {
         "th": "过年的时候大家一起做什么?",
         "zh": "过年的时候大家一起做什么？",
+        "pinyin": "Guònián de shíhou dàjiā yìqǐ zuò shénme?",
         "en": "What does everyone do together during New Year?"
       },
       "options": [
@@ -1697,7 +1701,8 @@ export const LESSON_HSK3_L2 = {
       ],
       "gloss": {
         "我学会了": "ฉันทำเป็นแล้ว",
-        "包饺子": "ห่อเกี๊ยว"
+        "包饺子": "ห่อเกี๊ยว",
+        "包饺子！": "ห่อเกี๊ยว"
       },
       "translationTh": "ฉันห่อเกี๊ยวเป็นแล้ว!",
       "translationEn": "I learned how to make dumplings!",

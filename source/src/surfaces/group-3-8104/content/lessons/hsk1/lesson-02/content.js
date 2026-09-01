@@ -75,7 +75,7 @@ export const LESSON_HSK1_L2 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk1/lessons/lesson-02/overview/",
+    "route": "/home/hsk1/lessons/lesson-02/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
   },
   {
@@ -1278,6 +1278,7 @@ export const LESSON_HSK1_L2 = {
       "prompt": {
         "th": "王一雪家有几口人?",
         "zh": "王一雪家有几口人？",
+        "pinyin": "Wáng Yīxuě jiā yǒu jǐ kǒu rén?",
         "en": "How many people in Wang Yixue's family?"
       },
       "options": [
@@ -1321,7 +1322,8 @@ export const LESSON_HSK1_L2 = {
       ],
       "gloss": {
         "我家有": "ครอบครัวฉันมี",
-        "四口人": "สี่คน"
+        "四口人": "สี่คน",
+        "四口人。": "สี่คน"
       },
       "translationTh": "ครอบครัวฉันมีสี่คน",
       "translationEn": "My family has four people.",
@@ -1428,6 +1430,7 @@ export const LESSON_HSK1_L2 = {
       "prompt": {
         "th": "王一雪晚上几点下班?",
         "zh": "王一雪晚上几点下班？",
+        "pinyin": "Wáng Yīxuě wǎnshang jǐ diǎn xiàbān?",
         "en": "When does Wang Yixue finish work?"
       },
       "options": [
@@ -1471,7 +1474,8 @@ export const LESSON_HSK1_L2 = {
       ],
       "gloss": {
         "我晚上": "ฉันตอนเย็น",
-        "六点半下班": "เลิกงานหกโมงครึ่ง"
+        "六点半下班": "เลิกงานหกโมงครึ่ง",
+        "六点半下班。": "เลิกงานหกโมงครึ่ง"
       },
       "translationTh": "ฉันเลิกงานตอนหกโมงครึ่งตอนเย็น",
       "translationEn": "I finish work at 6:30 in the evening.",

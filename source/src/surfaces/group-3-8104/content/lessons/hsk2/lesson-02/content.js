@@ -84,7 +84,7 @@ export const LESSON_HSK2_L2 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk2/lessons/lesson-02/overview/",
+    "route": "/home/hsk2/lessons/lesson-02/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk2.pdf#printed-pages=1&pdf-pages=1"
   },
   {
@@ -1167,6 +1167,7 @@ export const LESSON_HSK2_L2 = {
       "prompt": {
         "th": "刘明去买什么饮品?",
         "zh": "刘明去买什么饮品？",
+        "pinyin": "Liú Míng qù mǎi shénme yǐnpǐn?",
         "en": "What drink did Liu Ming go to buy?"
       },
       "options": [
@@ -1210,7 +1211,8 @@ export const LESSON_HSK2_L2 = {
       ],
       "gloss": {
         "你穿红色的": "เธอใส่สีแดง",
-        "很好看": "ดูดีมาก"
+        "很好看": "ดูดีมาก",
+        "很好看。": "ดูดีมาก"
       },
       "translationTh": "เธอใส่สีแดงแล้วดูดีมากเลย",
       "translationEn": "You look great in red.",
@@ -1324,6 +1326,7 @@ export const LESSON_HSK2_L2 = {
       "prompt": {
         "th": "爸爸妈妈送给小雪什么生日礼物?",
         "zh": "爸爸妈妈送给小雪什么生日礼物？",
+        "pinyin": "Bàba māma sòng gěi Xiǎoxuě shénme shēngrì lǐwù?",
         "en": "What birthday gift did parents give to Xiaoxue?"
       },
       "options": [
@@ -1367,7 +1370,9 @@ export const LESSON_HSK2_L2 = {
       ],
       "gloss": {
         "小雪": "เสี่ยวเสวี่ย",
-        "生日快乐": "สุขสันต์วันเกิด"
+        "小雪，": "เสี่ยวเสวี่ย",
+        "生日快乐": "สุขสันต์วันเกิด",
+        "生日快乐！": "สุขสันต์วันเกิด"
       },
       "translationTh": "เสี่ยวเสวี่ย สุขสันต์วันเกิดจ้ะ!",
       "translationEn": "Happy birthday, Xiaoxue!",

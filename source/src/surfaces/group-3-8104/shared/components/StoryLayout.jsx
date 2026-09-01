@@ -8,101 +8,17 @@ import {
   sunIcon,
 } from "../../../../shared/components/ui/iconPaths.js";
 import { COPY } from "../../content/copy.js";
-import { FEATURED_LESSON, GROUP3_LESSONS } from "../../content/registry.js";
-import { frontMatterRoutes, lessonPath } from "../../routing/routes.js";
+import { GROUP3_LESSONS } from "../../content/registry.js";
+import { frontMatterRoutes, lessonVocabularyPath } from "../../routing/routes.js";
 import { surfaceAssetPath } from "../../../../shared/lib/surface-url.js";
-
-export function SourceStamp({ compact = false, lesson = null, route = null }) {
-  if (route?.name === "home" || !lesson) {
-    return (
-      <span className={`g3-source-stamp${compact ? " is-compact" : ""}`}>
-        <i aria-hidden="true">PDF</i>
-        <span><b>新HSK教程 1–3</b><small>New HSK Course 1–3 · 48 Lessons</small></span>
-      </span>
-    );
-  }
-  const source = lesson.source || { title: "Loading...", lesson: "...", printedPages: "..." };
-  return (
-    <span className={`g3-source-stamp${compact ? " is-compact" : ""}`} data-source-ref={lesson.sourceRef || ""}>
-      <i aria-hidden="true">PDF</i>
-      <span><b>{source.title}</b><small>{source.lesson} · pp. {source.printedPages}</small></span>
-    </span>
-  );
-}
+import { getLearnerSession } from "../../shared/session.js";
+import { homeLogoMedia, mapHomeMedia } from "../../features/home/homeMedia.js";
 
 
-export function StoryHeader({ route, lesson, theme, language, onTheme, onLanguage, onHome, onAbout }) {
-  const text = COPY[language];
-  const isHome = route?.name === "home";
-  const routeLabel = route?.name === "reader"
-    ? `${text.stage} 0${(route.scene || 0) + 1}`
-    : route?.name && !isHome
-      ? text.routeLabels[route.name] || text.routeLabels.home
-      : null;
-
-  return (
-    <header className={`g3-header${isHome ? " is-home-header" : ""}`}>
-      <div className="group-title-dropdown-wrap">
-        <button
-          aria-label={text.routeLabels.home}
-          className="g3-brand"
-          onClick={onHome}
-          type="button"
-        >
-          <img src={surfaceAssetPath(3, "/assets/group3/shared/home/brand-logo.png")} className="g3-brand-mark" alt="" aria-hidden="true" width="58" height="58" decoding="async" />
-          <span>
-            <strong>{text.brand}</strong>
-            {text.group ? <small>{text.group}</small> : null}
-          </span>
-        </button>
-      </div>
-
-      {routeLabel ? (
-        <div className="g3-route-mark" aria-hidden="true">
-          <span>{routeLabel}</span>
-        </div>
-      ) : (
-        <div className="g3-route-mark-spacer" />
-      )}
-      {!isHome && <SourceStamp compact lesson={lesson} route={route} />}
-
-      <nav className="g3-header-actions" aria-label={text.navigation}>
-        <button type="button" onClick={onTheme} aria-label={theme === "dark" ? text.light : text.dark} title={theme === "dark" ? text.light : text.dark}>
-          <Icon paths={theme === "dark" ? sunIcon : moonIcon} />
-        </button>
-        <div className="g3-language-control" aria-label={text.switchLanguage} title={text.switchLanguage}>
-          <button
-            type="button"
-            className={language === "th" ? "is-active" : ""} 
-            onClick={() => onLanguage("th")} 
-            aria-pressed={language === "th"}
-          >🇹🇭 TH</button>
-          <button
-            type="button"
-            className={language === "zh" ? "is-active" : ""} 
-            onClick={() => onLanguage("zh")} 
-            aria-pressed={language === "zh"}
-          >🇨🇳 中</button>
-          <button
-            type="button"
-            className={language === "en" ? "is-active" : ""} 
-            onClick={() => onLanguage("en")} 
-            aria-pressed={language === "en"}
-          >🇬🇧 EN</button>
-        </div>
-        {onAbout && (
-          <button type="button" onClick={onAbout} aria-label={text.about} title={text.about}>
-            <Icon paths={circleInfoIcon} />
-          </button>
-        )}
-      </nav>
-    </header>
-  );
-}
 
 
- 
-export function LessonNavigationBar({ language, lesson, navigate, currentSection = "overview" }) {
+
+export function LessonNavigationBar({ language, lesson, navigate}) {
   const text = COPY[language];
   const levelLessons = GROUP3_LESSONS
     .filter((item) => item.level === lesson.level)
@@ -124,8 +40,7 @@ export function LessonNavigationBar({ language, lesson, navigate, currentSection
   }, [activeLessonIndex]);
 
   const selectLesson = (targetLesson) => {
-    const targetSection = currentSection === "reader" ? "overview" : currentSection;
-    navigate(lessonPath(targetLesson, targetSection));
+    navigate(lessonVocabularyPath(targetLesson));
   };
 
   return (
@@ -174,8 +89,6 @@ export function LessonNavigationBar({ language, lesson, navigate, currentSection
 export function FrontMatterIndex({ current, language, navigate, lesson }) {
   const text = COPY[language];
   const labels = {
-    preface: text.prefaceTitle,
-    contents: text.contentsTitle,
     vocabulary: text.vocabularyTitle,
   };
   return (
@@ -208,16 +121,15 @@ export function StoryFooter({ language, lesson = null, route = null }) {
       <footer className="g3-footer">
         <span>读 · {text.routeLabels.home}</span>
         <p>{text.sourceOnly}</p>
-        <small>新HSK教程 1–3 · New HSK Course 1–3 · 48 Lessons</small>
+        
       </footer>
     );
   }
-  const source = lesson.source || { title: "Loading...", lesson: "...", printedPages: "...", pdfPages: "..." };
   return (
     <footer className="g3-footer">
       <span>读 · {text.routeLabels.home}</span>
       <p>{text.sourceOnly}</p>
-      <small>{source.title} · {source.lesson} · pp. {source.printedPages} · PDF {source.pdfPages}</small>
+      
     </footer>
   );
 }

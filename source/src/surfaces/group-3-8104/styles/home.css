@@ -4,7 +4,7 @@
   overflow: hidden;
   grid-template-columns: minmax(24rem, 1fr) minmax(30rem, 1.25fr);
   grid-template-rows: minmax(0, 1fr) auto;
-  min-height: calc(100svh - 76px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 12px));
   padding: clamp(1.5rem, 4vh, 3rem) max(1.5rem, calc((100vw - 108rem) / 2)) clamp(1rem, 2vh, 2rem);
   isolation: isolate;
 }

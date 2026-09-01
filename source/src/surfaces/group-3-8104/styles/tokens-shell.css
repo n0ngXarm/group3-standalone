@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root[data-experience="group3-reading"] {
+:root[data-experience="group3-reading"],
+:root {
+  /* Typography Tokens */
+  --font-display: "Noto Serif SC", "Noto Serif Thai", "Songti SC", STSong, ui-serif, Georgia, serif;
+  --font-hanzi: "Noto Serif SC", "Noto Sans SC", "Songti SC", STSong, serif;
+  --font-zh: "Noto Serif SC", "Noto Sans SC", "Songti SC", serif;
+  --font-pinyin: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  --font-thai: "Noto Sans Thai", "Noto Serif Thai", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --font-reading: "Noto Sans Thai", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-base: "Noto Sans Thai", "Noto Sans SC", system-ui, -apple-system, sans-serif;
+  --font-mono: "Space Grotesk", ui-monospace, monospace;
+
   /* 60% Base / 30% Surfaces / 10% Accent */
   --color-bg-primary: #11161b; --color-bg-secondary: #182027; --color-bg-subtle: rgba(247, 240, 230, 0.05);
   --color-surface-primary: #1c242d; --color-surface-secondary: #161c22; --color-surface-elevated: rgba(28, 36, 45, 0.94);
@@ -408,7 +419,7 @@ body:has(.g3-front-matter) {
   flex-direction: column;
   width: min(100% - 2rem, 78rem);
   max-height: none;
-  min-height: calc(100svh - 88px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 24px));
   margin: 0 auto;
   padding: 1.25rem 0 3.5rem;
   overflow: visible;
@@ -621,14 +632,14 @@ body:has(.g3-front-matter) {
 }
 
 .g3-vocabulary-ledger > button:hover { color: #a43d31; transform: translateX(0.25rem); }
-.g3-vocab-index { color: #a94638; font-family: "Noto Serif SC", serif; font-size: 0.82rem; }
+.g3-vocab-index { color: #a94638; font-family: var(--font-mono); font-size: 0.88rem; font-weight: 700; }
 .g3-vocab-word strong, .g3-vocab-word em, .g3-vocab-meaning small, .g3-vocab-meaning b { display: block; }
-.g3-vocab-word strong { font-family: "Noto Serif SC", serif; font-size: 1.15rem; }
-.g3-vocab-word em { margin-top: 0.08rem; color: #9a493c; font-size: 0.66rem; font-style: normal; }
-.g3-vocab-meaning small { color: #827568; font-size: 0.58rem; line-height: 1.2; }
-.g3-vocab-meaning b { margin-top: 0.12rem; font-size: 0.7rem; }
-.g3-vocab-page { color: #8b7d6e; font-size: 0.58rem; white-space: nowrap; }
-.g3-vocabulary-ledger > button > i { color: #a84638; font-size: 0.64rem; }
+.g3-vocab-word strong { font-family: var(--font-hanzi); font-size: 1.35rem; line-height: 1.3; font-weight: 700; }
+.g3-vocab-word em { margin-top: 0.15rem; color: var(--g3-red); font-family: var(--font-pinyin); font-size: 0.85rem; font-style: normal; font-weight: 600; line-height: 1.35; }
+.g3-vocab-meaning small { color: var(--g3-muted); font-family: var(--font-reading); font-size: 0.78rem; line-height: 1.35; }
+.g3-vocab-meaning b { margin-top: 0.15rem; font-family: var(--font-thai); font-size: 0.95rem; line-height: 1.5; color: var(--g3-paper-ink); word-break: break-word; font-weight: 600; }
+.g3-vocab-page { color: var(--g3-muted); font-family: var(--font-mono); font-size: 0.75rem; white-space: nowrap; }
+.g3-vocabulary-ledger > button > i { color: #a84638; font-size: 0.85rem; }
 
 .g3-book-page-controls {
   display: flex;

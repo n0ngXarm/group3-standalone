@@ -3,7 +3,7 @@ export {
   BookPageControls,
   FrontMatterIndex,
   LessonNavigationBar,
-  SourceStamp,
   StoryFooter,
-  StoryHeader,
+ 
 } from "./StoryLayout.jsx";
+export * from "./Group3DetailModal.jsx";

@@ -93,7 +93,7 @@ export const LESSON_HSK1_L3 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk1/lessons/lesson-03/overview/",
+    "route": "/home/hsk1/lessons/lesson-03/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk1-2.pdf#printed-pages=1&pdf-pages=1"
   },
   {
@@ -1044,6 +1044,7 @@ export const LESSON_HSK1_L3 = {
       "prompt": {
         "th": "白家月买了什么颜色的衣服?",
         "zh": "白家月买了什么颜色的衣服？",
+        "pinyin": "Bái Jiāyuè mǎi le shénme yánsè de yīfu?",
         "en": "What color clothes did Bai Jiayue buy?"
       },
       "options": [
@@ -1087,7 +1088,9 @@ export const LESSON_HSK1_L3 = {
       ],
       "gloss": {
         "真漂亮": "สวยจริงๆ",
-        "我买这件": "ฉันซื้อตัวนี้"
+        "真漂亮，": "สวยจริงๆ",
+        "我买这件": "ฉันซื้อตัวนี้",
+        "我买这件！": "ฉันซื้อตัวนี้"
       },
       "translationTh": "สวยจริงๆ ค่ะ ฉันซื้อตัวนี้!",
       "translationEn": "Really pretty, I'll buy this one!",
@@ -1201,6 +1204,7 @@ export const LESSON_HSK1_L3 = {
       "prompt": {
         "th": "大家约好明天在哪里见?",
         "zh": "大家约好明天在哪里见？",
+        "pinyin": "Dàjiā yuē hǎo míngtiān zài nǎli jiàn?",
         "en": "Where did everyone agree to meet tomorrow?"
       },
       "options": [
@@ -1244,7 +1248,9 @@ export const LESSON_HSK1_L3 = {
       ],
       "gloss": {
         "明天上午": "พรุ่งนี้เช้า",
-        "大兴机场见": "พบกันที่สนามบินต้าซิง"
+        "明天上午，": "พรุ่งนี้เช้า",
+        "大兴机场见": "พบกันที่สนามบินต้าซิง",
+        "大兴机场见！": "พบกันที่สนามบินต้าซิง"
       },
       "translationTh": "พรุ่งนี้เช้า พบกันที่สนามบินต้าซิง!",
       "translationEn": "See you at Daxing Airport tomorrow morning!",

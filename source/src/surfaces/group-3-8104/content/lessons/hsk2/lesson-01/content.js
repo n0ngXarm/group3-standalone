@@ -102,7 +102,7 @@ export const LESSON_HSK2_L1 = {
     "titleTh": "เป้าหมายและภาพรวมบทเรียน",
     "detail": "Objectives · Warm-Up",
     "pages": "1",
-    "route": "/home/hsk2/lessons/lesson-01/overview/",
+    "route": "/home/hsk2/lessons/lesson-01/contents/",
     "sourceRef": "docs/references/hsk/sources/hsk2.pdf#printed-pages=1&pdf-pages=1"
   },
   {
@@ -901,7 +901,7 @@ export const LESSON_HSK2_L1 = {
       {
         "role": "A",
         "speaker": "王一飞",
-        "pinyin": "lùshang xīnkǔ le, huānyíng nǐmen lái běijīng",
+        "pinyin": "lùshang xīnkǔ le, huānyíng nǐmen lái Běijīng",
         "hanzi": "路上辛苦了，欢迎你们来北京！",
         "reading": "Lùshang xīnkǔ le, huānyíng nǐmen lái Běijīng!",
         "en": "Thanks for the trip, welcome to Beijing!",
@@ -916,7 +916,7 @@ export const LESSON_HSK2_L1 = {
       {
         "role": "B",
         "speaker": "白家月",
-        "pinyin": "xièxie wáng lǎoshī, běijīng zhēn piàoliang",
+        "pinyin": "xièxie Wáng lǎoshī, Běijīng zhēn piàoliang",
         "hanzi": "谢谢王老师，北京真漂亮！",
         "reading": "Xièxie Wáng lǎoshī, Běijīng zhēn piàoliang!",
         "en": "Thank you Teacher Wang, Beijing is pretty!",
@@ -931,7 +931,7 @@ export const LESSON_HSK2_L1 = {
       {
         "role": "C",
         "speaker": "李文",
-        "pinyin": "jīntiān wǒ qǐng nǐmen chī běijīng kǎoyā",
+        "pinyin": "jīntiān wǒ qǐng nǐmen chī Běijīng kǎoyā",
         "hanzi": "今天我请你们吃北京烤鸭。",
         "reading": "Jīntiān wǒ qǐng nǐmen chī Běijīng kǎoyā.",
         "en": "Today I'll treat you to Peking duck.",
@@ -962,8 +962,9 @@ export const LESSON_HSK2_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "李文今天请大家吃什么?",
+        "th": "วันนี้หลี่เหวินเลี้ยงอะไรทุกคน?",
         "zh": "李文今天请大家吃什么？",
+        "pinyin": "Lǐ Wén jīntiān qǐng dàjiā chī shénme?",
         "en": "What does Li Wen treat everyone to eat?"
       },
       "options": [
@@ -1007,7 +1008,8 @@ export const LESSON_HSK2_L1 = {
       ],
       "gloss": {
         "今天我请你们": "วันนี้ฉันเลี้ยงพวกเธอ",
-        "吃北京烤鸭": "กินเป็ดปักกิ่ง"
+        "吃北京烤鸭": "กินเป็ดปักกิ่ง",
+        "吃北京烤鸭。": "กินเป็ดปักกิ่ง"
       },
       "translationTh": "วันนี้ฉันจะเลี้ยงเป็ดปักกิ่งพวกเธอนะ",
       "translationEn": "Today I will treat you to Peking duck.",
@@ -1119,8 +1121,9 @@ export const LESSON_HSK2_L1 = {
     "qte": {
       "after": 2,
       "prompt": {
-        "th": "刘明准备了什么美味午饭?",
+        "th": "หลิวหมิงเตรียมอาหารกลางวันแสนอร่อยอะไรไว้?",
         "zh": "刘明准备了什么美味午饭？",
+        "pinyin": "Liú Míng zhǔnbèi le shénme měiwèi wǔfàn?",
         "en": "What lunch dishes did Liu Ming prepare?"
       },
       "options": [
@@ -1164,7 +1167,9 @@ export const LESSON_HSK2_L1 = {
       ],
       "gloss": {
         "欢迎来我家做客": "ยินดีต้อนรับมาบ้านฉัน",
-        "快请进": "เชิญเข้ามาเลย"
+        "欢迎来我家做客，": "ยินดีต้อนรับมาบ้านฉัน",
+        "快请进": "เชิญเข้ามาเลย",
+        "快请进！": "เชิญเข้ามาเลย"
       },
       "translationTh": "ยินดีต้อนรับมาบ้านฉัน เชิญเข้ามาเลยค่ะ!",
       "translationEn": "Welcome to my home, please come in!",

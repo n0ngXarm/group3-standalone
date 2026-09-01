@@ -1,0 +1,41 @@
+services:
+  group3-preview:
+    image: group3-standalone:preview-7a3e36e
+    build:
+      context: ./source
+      args:
+        VITE_GROUP_ID: "3"
+        VITE_BASE_PATH: /group3
+    container_name: group3-preview
+    expose:
+      - "80"
+    restart: "no"
+    mem_limit: 256m
+    cpus: 0.50
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    networks:
+      - group3-preview-net
+
+  cloudflared-preview:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-preview
+    command:
+      - tunnel
+      - --no-autoupdate
+      - --url
+      - http://group3-preview:80
+    depends_on:
+      - group3-preview
+    restart: "no"
+    networks:
+      - group3-preview-net
+
+networks:
+  group3-preview-net:
+    driver: bridge

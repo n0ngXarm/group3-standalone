@@ -1,3 +1,27 @@
+/* Strict visual reference match */
+
+.g3-story-shell:has(.g3-home.is-single-screen) {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+.g3-story-shell:has(.g3-home.is-single-screen) #g3-main {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+.g3-home.is-single-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
 /* ============================================================
    Home single-screen mode + Home views (About / Report)
    Group 3 · 中文练习 (Zhōngwén Liànxí)
@@ -9,7 +33,7 @@
 
 .g3-home-view {
   display: grid;
-  min-height: calc(100svh - 70px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 6px));
   place-items: center;
   padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 3vw, 2rem);
   animation: g3-home-view-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -220,7 +244,7 @@
 /* ---------- Single-viewport home layout (expanded, responsive) ---------- */
 
 .g3-home.is-single-screen {
-  min-height: calc(100svh - 88px);
+  min-height: calc(100svh - (var(--g3-topbar-height) + 24px));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -231,19 +255,21 @@
   width: 100%;
   margin: 0 auto;
   min-height: 0;
-  grid-template-rows: none;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 3.5rem);
-  align-items: center;
+  display: flex;
+  position: relative;
+  align-items: stretch;
   padding: 0;
 }
 
 .g3-home.is-single-screen .g3-hero-copy {
   align-self: center;
-  padding: 1rem 0;
+  flex: 0 0 50%;
+  padding: 2rem 4rem;
   display: flex;
   flex-direction: column;
   gap: clamp(0.6rem, 1.2vh, 1rem);
+  position: relative;
+  z-index: 2;
 }
 
 .g3-home.is-single-screen .g3-hero-copy::before {
@@ -332,13 +358,15 @@
 /* ---------- Home manga carousel ---------- */
 
 .g3-home-carousel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.5rem;
-  min-width: 0;
-  flex: 1 1 auto;
-  min-height: 0;
+  z-index: 1;
 }
 
 .g3-home-carousel-stage {
@@ -408,26 +436,27 @@
   }
 
   .g3-home.is-single-screen .g3-home-hero {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    gap: 1.4rem;
+    flex-direction: column;
     padding: 1.2rem 1rem;
   }
 
   .g3-home.is-single-screen .g3-hero-copy {
     padding: 0.5rem 0.25rem 0;
+    flex: 1 1 auto;
+    width: 100%;
   }
 
   .g3-home-carousel {
-    display: flex;
+    position: relative;
     width: 100%;
+    flex: 1 1 auto;
   }
 }
 
 @media (max-width: 640px) {
   .g3-manga-viewport {
     min-height: 360px;
-    border-radius: 1.2rem;
+    border-radius: 0;
   }
 
   .g3-manga-actors-layer {

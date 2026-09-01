@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { access, stat } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
 const modulePath = "../../src/surfaces/group-3-8104/features/home/homeMedia.js";
 const publicRoot = fileURLToPath(new URL("../../public/", import.meta.url));
+const distRoot = fileURLToPath(new URL("../../dist/", import.meta.url));
 
 async function loadHomeMedia() {
   try {
@@ -94,6 +95,16 @@ test("initial Home image variants stay below a 1 MiB source payload budget", asy
   assert.ok(total < 1024 * 1024, `initial Home image source payload is ${total} bytes`);
 });
 
+test("initial Home 768px backdrop stays within the PageSpeed transfer budget", async () => {
+  const file = path.join(
+    publicRoot,
+    "assets/group3/shared/characters/visual-novel-backgrounds/scene-01-market-tea-768w.webp",
+  );
+  const bytes = (await stat(file)).size;
+
+  assert.ok(bytes <= 50 * 1024, `initial Home 768px backdrop is ${bytes} bytes`);
+});
+
 test("route media policy keeps the Reader background off Home", async () => {
   let policy = {};
   try {
@@ -106,4 +117,19 @@ test("route media policy keeps the Reader background off Home", async () => {
   assert.equal(policy.shouldLoadReadingBackground({ routeName: "home", lowData: false }), false);
   assert.equal(policy.shouldLoadReadingBackground({ routeName: "reader", lowData: false }), true);
   assert.equal(policy.shouldLoadReadingBackground({ routeName: "reader", lowData: true }), false);
+});
+
+test("production Home entry excludes route-only JavaScript and CSS payloads", async () => {
+  const html = await readFile(path.join(distRoot, "index.html"), "utf8");
+  const scriptPath = html.match(/<script[^>]+src="([^"]+\/index-[^"]+\.js)"/)?.[1];
+  const stylesheetPath = html.match(/<link[^>]+href="([^"]+\/index-[^"]+\.css)"/)?.[1];
+
+  assert.ok(scriptPath, "production entry script must be discoverable");
+  assert.ok(stylesheetPath, "production entry stylesheet must be discoverable");
+
+  const scriptBytes = (await stat(path.join(distRoot, scriptPath.replace(/^\//, "")))).size;
+  const stylesheetBytes = (await stat(path.join(distRoot, stylesheetPath.replace(/^\//, "")))).size;
+
+  assert.ok(scriptBytes <= 460 * 1024, `initial Home JavaScript is ${scriptBytes} bytes`);
+  assert.ok(stylesheetBytes <= 250 * 1024, `initial Home CSS is ${stylesheetBytes} bytes`);
 });

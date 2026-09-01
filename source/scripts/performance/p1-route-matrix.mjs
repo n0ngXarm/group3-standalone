@@ -7,9 +7,9 @@ const routeFilter = process.argv[4] ?? "";
 const routes = [
   { name: "home", path: "/home/", root: ".g3-home", protected: false },
   { name: "levels", path: "/home/levels/", root: ".g3-level-selection", protected: true },
-  { name: "catalog", path: "/home/hsk1/", root: ".g3-catalog", protected: true },
-  { name: "contents", path: "/home/hsk1/lessons/lesson-01/contents/", root: ".g3-front-matter", protected: true },
-  { name: "reader", path: "/home/hsk1/lessons/lesson-01/scenes/scene-01/", root: ".g3-reader", protected: true },
+  { name: "catalog", path: "/home/hsk1/", root: ".g3-lesson-selector", protected: true },
+  { name: "vocabulary", path: "/home/hsk1/lessons/lesson-01/vocabulary/", root: ".g3-vocabulary-page", protected: true },
+  { name: "reader", path: "/home/hsk1/lessons/lesson-01/scenes/scene-01/", root: ".g3-reader-layout", protected: true },
   { name: "practice", path: "/home/hsk1/practice/", root: ".g3-practice-hub", protected: true },
   { name: "repeat", path: "/home/hsk1/practice/repeat-sentence/", root: ".g3-practice-exercise", protected: true },
 ];
@@ -66,6 +66,10 @@ try {
             timeout: 45_000,
           });
           await page.waitForSelector(route.root, { visible: true, timeout: 20_000 });
+          await page.waitForFunction(
+            () => document.fonts.size > 0,
+            { timeout: 30_000 },
+          ).catch(() => undefined);
           await page.evaluate(() => Promise.race([
             document.fonts.ready,
             new Promise((resolve) => setTimeout(resolve, 30_000)),

@@ -8,3 +8,4 @@ source/tmp/
 source/dist/
 dist-nongserver1/
 artifacts/
+.vercel

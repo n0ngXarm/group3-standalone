@@ -193,9 +193,19 @@ try {
   assert.equal(await page.evaluate((node) => node === document.querySelector(".g3-image-description-steps"), stepperHandle), true, "stepper DOM node remounted");
   assert.ok(geometry.observe.card.height >= 440 && geometry.observe.card.height <= 480, `desktop card height ${geometry.observe.card.height}px outside target`);
 
-  for (const state of ["prepare", "speak", "review", "feedback", "item2"]) {
+  for (const state of ["prepare", "review", "item2"]) {
     assertStable(geometry.observe, geometry[state], state);
   }
+
+  for (const key of ["x", "y", "width", "height"]) {
+    const tolerance = key === "height" ? geometryTolerance.cardHeight : geometryTolerance.position;
+    assert.ok(delta(geometry.observe.card, geometry.speak.card, key) <= tolerance, `speak card ${key} moved`);
+  }
+
+  assert.ok(
+    geometry.feedback.card.height > geometry.observe.card.height,
+    "feedback card does not expand to fit its result content",
+  );
 
   for (const item of transitions) assert.equal(item.cls, 0, `${item.transition} CLS`);
 

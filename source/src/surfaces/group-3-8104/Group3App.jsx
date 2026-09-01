@@ -12,26 +12,16 @@ import {
   getInitialTheme,
   homePath,
   levelsPath,
-  levelPath,
-  practicePath,
   routeFromLocation,
 } from "./routing/routes.js";
 import { stopChineseVoice } from "./services/audio/index.js";
 import { findLesson, FEATURED_LESSON, GROUP3_LESSONS } from "./content/registry.js";
-import { VocabularyPage } from "./features/lessons/vocabulary/VocabularyPage.jsx";
 import { AboutModal, StoryFooter } from "./shared/components/index.js";
 import { AppTopbar } from "./shared/components/AppTopbar.jsx";
 import { AboutView, ReportView } from "./features/home/HomeViews.jsx";
 import { StoryHome } from "./features/home/StoryHome.jsx";
-import { LevelPicker } from "./features/levels/LevelPicker.jsx";
-import { LessonCatalog } from "./features/lessons/catalog/LessonCatalog.jsx";
-import { PracticeHub } from "./features/practice/hub/PracticeHub.jsx";
-import { PracticeExercise } from "./features/practice/shared/PracticeExercise.jsx";
-import { PracticeSummary } from "./features/practice/summary/PracticeSummary.jsx";
-import { createPracticeSummary } from "./features/practice/summary/summaryModel.js";
-import { getPracticeResults, clearAllPracticeResults } from "./features/practice/sessionStore.js";
+import { clearAllPracticeResults } from "./features/practice/sessionStore.js";
 import {
-  getLearnerSession,
   endLearnerSession,
   hasLearnerSession,
   markSessionInvalidated,
@@ -39,32 +29,9 @@ import {
 } from "./shared/session.js";
 import { shouldLoadReadingBackground } from "./shared/routeMediaPolicy.js";
 
-const ReadingTheatre = lazy(() => import("./features/lessons/reader/ReadingTheatre.jsx").then((module) => ({
-  default: module.ReadingTheatre,
-})).catch(() => ({
-  default: LessonCatalog,
-})));
+const DeferredRouteContent = lazy(() => import("./features/routes/DeferredRouteContent.jsx"));
 
 const LESSON_ROUTE_NAMES = new Set(["reader", "vocabulary"]);
-
-function PracticeSummaryPage({ language, level, navigate }) {
-  const results = getPracticeResults(level);
-  const data = createPracticeSummary({
-    learnerName: getLearnerSession(),
-    hskLevel: level,
-    repeatResult: results["repeat-sentence"] || [],
-    imageResult: results["image-description"] || [],
-    questionResult: results["question-response"] || [],
-  });
-  return (
-    <PracticeSummary
-      language={language}
-      data={data}
-      onRetry={() => navigate(practicePath(level))}
-      onHome={() => navigate(levelsPath())}
-    />
-  );
-}
 
 export default function Group3App() {
   const [route, setRoute] = useState(routeFromLocation);
@@ -339,38 +306,21 @@ export default function Group3App() {
   }, [navigate, route.name, route.redirect]);
 
   const content = useMemo(() => {
-    if (routeNeedsLesson && lessonStatus !== "ready") {
+    if (route.name !== "home") {
       return (
-        <LessonCatalog
-          key={`lesson-fallback-${requestedLessonKey}`}
-          initialLessonId={requestedLesson.id}
-          language={language}
-          level={route.level}
-          navigate={navigate}
-          lowData={lowData}
-          onRetry={retryLesson}
-        />
-      );
-    }
-    if (route.name === "reader") {
-      return (
-        <ReadingTheatre key={lesson.id} initialLessonId={lesson.id}
-          initialScene={route.scene}
+        <DeferredRouteContent
           language={language}
           lesson={lesson}
-          navigate={navigate}
+          lessonStatus={lessonStatus}
           lowData={lowData}
-          level={route.level}
+          navigate={navigate}
+          requestedLesson={requestedLesson}
+          requestedLessonKey={requestedLessonKey}
+          retryLesson={retryLesson}
+          route={route}
+          routeNeedsLesson={routeNeedsLesson}
         />
       );
-    }
-    if (route.name === "levels") return <LevelPicker language={language} navigate={navigate} />;
-    if (route.name === "practice") return <PracticeHub language={language} level={route.level} navigate={navigate} />;
-    if (route.name === "practice-summary") return <PracticeSummaryPage language={language} level={route.level} navigate={navigate} />;
-    if (route.name === "practice-exercise") return <PracticeExercise exerciseType={route.exerciseType} language={language} level={route.level} navigate={navigate} />;
-    if (route.name === "catalog") return <LessonCatalog key={route.level} language={language} level={route.level} navigate={navigate} lowData={lowData} />;
-    if (route.name === "vocabulary") {
-      return <VocabularyPage key={`${lesson.id}-vocabulary`} language={language} lesson={lesson} navigate={navigate} />;
     }
     if (homeView === "about") return <AboutView language={language} onBack={() => switchHomeView("home")} />;
     if (homeView === "report") return <ReportView language={language} onBack={() => switchHomeView("home")} />;
@@ -378,7 +328,7 @@ export default function Group3App() {
   }, [homeView, language, lowData, route, lesson, lessonStatus, requestedLesson, requestedLessonKey, retryLesson, routeNeedsLesson, navigate]);
 
   const mainSuspense = (
-    <Suspense fallback={<LessonCatalog key={`chunk-fallback-${requestedLessonKey}`} initialLessonId={requestedLesson.id} language={language} level={requestedLesson.level} navigate={navigate} lowData={lowData} onRetry={retryLesson} />}>
+    <Suspense fallback={<div className="g3-route-loading" role="status">{COPY[language].loading || "กำลังโหลด..."}</div>}>
       {content}
     </Suspense>
   );
@@ -399,7 +349,7 @@ export default function Group3App() {
       <div id="g3-main" tabIndex="-1" aria-busy={routeNeedsLesson && lessonStatus === "loading" ? "true" : undefined}>
         {mainSuspense}
       </div>
-      {route.name !== "reader" && route.name !== "catalog" && route.name !== "practice" && route.name !== "practice-exercise" && route.name !== "practice-summary" && route.name !== "home" && route.name !== "levels" && (
+      {route.name !== "reader" && route.name !== "catalog" && route.name !== "practice" && route.name !== "practice-exercise" && route.name !== "practice-summary" && route.name !== "home" && route.name !== "levels" && route.name !== "vocabulary" && !(routeNeedsLesson && lessonStatus !== "ready") && (
         <StoryFooter language={language} lesson={lesson} route={route} />
       )}
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} language={language} />

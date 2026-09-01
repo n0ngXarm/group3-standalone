@@ -43,6 +43,7 @@ function createStorage(initial = {}, { blocked = false } = {}) {
 function createThemeHarness({
   href = "https://www.nongmodels.com/central/",
   osDark = false,
+  script = themeScript,
   storage = createStorage(),
 } = {}) {
   const attributes = new Map();
@@ -115,7 +116,7 @@ function createThemeHarness({
     }
   }
 
-  vm.runInNewContext(themeScript, {
+  vm.runInNewContext(script, {
     CustomEvent: FakeCustomEvent,
     URL,
     URLSearchParams,
@@ -246,13 +247,20 @@ test("cross-tab storage events update valid themes and reject invalid values", (
 
 test("source HTML establishes light before loading the synchronous controller and React", async () => {
   const html = await readFile(indexUrl, "utf8");
-  const themeScriptIndex = html.indexOf('<script src="%BASE_URL%theme-init.js"></script>');
+  const inlineThemeMatch = html.match(/<script data-huayun-theme-init>([\s\S]*?)<\/script>/);
+  const themeScriptIndex = inlineThemeMatch ? html.indexOf(inlineThemeMatch[0]) : -1;
   const reactModuleIndex = html.indexOf('<script type="module" src="/src/main.jsx"></script>');
 
   assert.match(html, /<html[^>]*data-theme="light"[^>]*color-scheme: light/);
   assert.match(html, /<meta name="color-scheme" content="light" \/>/);
   assert.match(html, /<meta name="theme-color" content="#FAF7F1" \/>/);
-  assert.ok(themeScriptIndex > -1, "theme controller script is present");
+  assert.ok(themeScriptIndex > -1, "theme controller is inlined into the initial document");
   assert.ok(themeScriptIndex < reactModuleIndex, "theme controller executes before the React module");
-  assert.doesNotMatch(html, /theme-init\.js[^>]*(?:async|defer)/i);
+  assert.doesNotMatch(html, /<script[^>]+src=["'][^"']*theme-init\.js/i);
+
+  const inlineHarness = createThemeHarness({
+    href: "https://group3.nongmodels.com/home/?theme=dark",
+    script: inlineThemeMatch?.[1] || "",
+  });
+  assertThemeSurface(inlineHarness, "dark");
 });

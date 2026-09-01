@@ -3258,3 +3258,37 @@
 :root[lang="en"] .g3-reader h1, :root[lang="en"] .g3-reader h2, :root[lang="en"] .g3-reader h3, :root[lang="en"] .g3-reader h4, :root[lang="en"] .g3-reader h5, :root[lang="en"] .g3-reader h6 {
   word-break: normal !important;
 }
+
+/* Keep pagination visually compact while exposing WCAG-sized tab targets. */
+.g3-home.is-single-screen .g3-home-carousel-dots {
+  gap: 0;
+}
+
+.g3-home.is-single-screen .g3-home-carousel-dot,
+.g3-home.is-single-screen .g3-home-carousel-dot.is-active {
+  position: relative;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.g3-home.is-single-screen .g3-home-carousel-dot::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 999px;
+  background: var(--g3-stage-pagination-inactive);
+  content: "";
+  transform: translate(-50%, -50%);
+  transition: width 180ms ease, background-color 180ms ease;
+}
+
+.g3-home.is-single-screen .g3-home-carousel-dot.is-active::before {
+  width: 1.5rem;
+  background: var(--g3-stage-pagination-active);
+}

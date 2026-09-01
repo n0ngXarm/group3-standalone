@@ -302,7 +302,7 @@ export function FreeSpeakingExercise({ exerciseType, language, level, navigate }
 
   if (exerciseType === "image-description") {
     return (
-      <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={status} text={text} title={title}>
+      <PracticeExerciseShell exerciseType={exerciseType} level={level} navigate={navigate} progress={{ current: index + 1, total: definitions.length }} status={phase === "recording" && !errorCode ? "" : status} text={text} title={title}>
         <ImageDescriptionPresentation
           capabilities={capabilities}
           coachingAdvice={coachingAdvice}

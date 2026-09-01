@@ -83,9 +83,9 @@ export function LevelPicker({ language, navigate }) {
       code: "HSK1", 
       title: text.hsk1Title, 
       body: text.hsk1Body, 
-      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-01-market-tea.png"),
-      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle.png"),
-      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk.png"),
+      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-01-market-tea-1200w.webp"),
+      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/02-david-idle-480w.webp"),
+      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/02-david-talk-480w.webp"),
       accent: "#ef5845"
     },
     { 
@@ -94,9 +94,9 @@ export function LevelPicker({ language, navigate }) {
       code: "HSK2", 
       title: text.hsk2Title, 
       body: text.hsk2Body, 
-      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-03-chinese-restaurant.png"),
-      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/06-liu-ming-idle.png"),
-      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/06-liu-ming-talk.png"),
+      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-03-chinese-restaurant-1200w.webp"),
+      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/06-liu-ming-idle-480w.webp"),
+      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/06-liu-ming-talk-480w.webp"),
       accent: "#64a85c"
     },
     { 
@@ -105,9 +105,9 @@ export function LevelPicker({ language, navigate }) {
       code: "HSK3", 
       title: text.hsk3Title, 
       body: text.hsk3Body, 
-      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-04-high-speed-rail-station.png"),
-      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/08-wang-yixue-idle.png"),
-      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/08-wang-yixue-talk.png"),
+      bgImg: group3AssetPath("/assets/group3/shared/characters/visual-novel-backgrounds/scene-04-high-speed-rail-station-1200w.webp"),
+      charIdle: group3AssetPath("/assets/group3/shared/characters/visual-novel-characters-idle/08-wang-yixue-idle-480w.webp"),
+      charTalk: group3AssetPath("/assets/group3/shared/characters/visual-novel-character-poses-talk/08-wang-yixue-talk-480w.webp"),
       accent: "#4f8fd5"
     },
   ];

@@ -1,6 +1,11 @@
 services:
   group3-standalone:
-    image: group3-standalone:20260819-2
+    image: group3-standalone:20260902
+    build:
+      context: ./source
+      args:
+        VITE_GROUP_ID: "3"
+        VITE_BASE_PATH: /group3
     container_name: group3-standalone-dev
     ports:
       - "127.0.0.1:8303:80"

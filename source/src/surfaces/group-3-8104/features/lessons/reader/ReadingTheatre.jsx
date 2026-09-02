@@ -347,7 +347,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
           </button>
 
           <div className="g3-reader-toc-header">
-            <h3>{language === "th" ? "ฉากในบทเรียน" : language === "zh" ? "本课场景" : "Scenes in lesson"}</h3>
+            <h3>{language === "th" ? "ตอนในบทเรียน" : language === "zh" ? "本课场景" : "Scenes in lesson"}</h3>
           </div>
 
           <ul className="g3-reader-scene-list">
@@ -374,7 +374,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
         </aside>
 
         {/* CENTER — SCENE IMAGE */}
-        <section className="g3-reader-visual" aria-label="ภาพประกอบฉาก">
+        <section className="g3-reader-visual" aria-label="ภาพประกอบตอน">
           <div className="g3-reader-image-frame">
             {!lowData && scene?.image && (
               <img
@@ -388,7 +388,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
             )}
             <div className="g3-reader-image-overlay">
               <span className="g3-reader-image-badge">
-                {language === "th" ? `ฉาก ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}` : `Scene ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}`}
+                {language === "th" ? `ตอนที่ ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}` : `Scene ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}`}
               </span>
               {scene?.title && <span className="g3-reader-image-hanzi">{scene.title}</span>}
             </div>
@@ -400,7 +400,7 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
           {/* Header */}
           <header className="g3-reader-stage-header">
             <div className="g3-reader-stage-badge">
-              {language === "th" ? `ฉาก ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}` : `Scene ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}`}
+              {language === "th" ? `ตอนที่ ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}` : `Scene ${String(scene?.number || sceneIndex + 1).padStart(2, "0")}`}
             </div>
             <h1 className="g3-reader-stage-title">{sceneTitle(scene, language)}</h1>
             <div className="g3-reader-stage-sub">
@@ -418,19 +418,19 @@ export function ReadingTheatre({ initialScene, language, lesson, navigate, lowDa
               <div className="g3-completion-check-icon" aria-hidden="true">✓</div>
               <h2>
                 {sceneIndex < scenes.length - 1
-                  ? (language === "th" ? `จบฉากที่ ${sceneIndex + 1} แล้ว` : `Completed Scene ${sceneIndex + 1}`)
+                  ? (language === "th" ? `จบตอนที่ ${sceneIndex + 1} แล้ว` : `Completed Scene ${sceneIndex + 1}`)
                   : (language === "th" ? "เรียนบทนี้จบแล้ว" : "Lesson Complete")}
               </h2>
               <p>
                 {sceneIndex < scenes.length - 1
-                  ? (language === "th" ? "พร้อมเรียนฉากถัดไปแล้วหรือยัง?" : "Ready for the next scene?")
-                  : (language === "th" ? "คุณเรียนจบทุกฉากในบทเรียนนี้แล้ว" : "You have completed all scenes in this lesson.")}
+                  ? (language === "th" ? "พร้อมเรียนตอนถัดไปแล้วหรือยัง?" : "Ready for the next scene?")
+                  : (language === "th" ? "คุณเรียนจบทุกตอนในบทเรียนนี้แล้ว" : "You have completed all scenes in this lesson.")}
               </p>
               <div className="g3-completion-actions">
                 {sceneIndex < scenes.length - 1 ? (
                   <>
                     <button className="g3-completion-btn-primary" type="button" onClick={() => selectScene(sceneIndex + 1)}>
-                      {language === "th" ? "เรียนฉากถัดไป →" : "Next Scene →"}
+                      {language === "th" ? "เรียนตอนถัดไป →" : "Next Scene →"}
                     </button>
                     <button className="g3-completion-btn-secondary" type="button" onClick={() => navigate(levelPath(lesson.level))}>
                       {language === "th" ? "กลับหน้าเลือกบท" : "Back to lessons"}
